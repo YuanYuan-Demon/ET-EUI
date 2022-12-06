@@ -9,6 +9,7 @@ namespace ET
             UnitCacheComponent unitCacheComponent = scene.GetComponent<UnitCacheComponent>();
             unitCacheComponent.Delete(request.UnitId);
             reply();
+
             await ETTask.CompletedTask;
         }
     }
