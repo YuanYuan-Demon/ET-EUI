@@ -49,5 +49,8 @@ namespace ET
 		 public const ushort G2C_LoginGameGate = 10046;
 		 public const ushort C2G_EnterGame = 10047;
 		 public const ushort G2C_EnterGame = 10048;
+		 public const ushort M2C_NoticeUnitNumeric = 10049;
+		 public const ushort C2M_AddAttributePoints = 10050;
+		 public const ushort M2C_AddAttributePoints = 10051;
 	}
 }

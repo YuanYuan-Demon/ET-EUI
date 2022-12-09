@@ -405,3 +405,25 @@ message G2C_EnterGame	//	IResponse
 }
 
 
+message M2C_NoticeUnitNumeric // IActorMessage
+{
+	int64 UnitId = 1;
+	int32 NumericType = 2;
+	int64 NewValue = 3;
+}
+
+
+//ResponseType M2C_AddAttributePoints
+message C2M_AddAttributePoints // IActorLocationRequest
+{
+	int32 RpcId = 1;
+	repeated int32 NumericTypes = 2;
+	repeated int64 AddValues = 3;
+}
+
+message M2C_AddAttributePoints // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
