@@ -9,7 +9,9 @@ namespace ET
         public class NumbericChange : DisposeObject
         {
             public static readonly NumbericChange Instance = new NumbericChange();
-
+#if UNITY_2021_2_OR_NEWER
+            public bool IsServer;
+#endif
             public Entity Parent;
             public int NumericType;
             public long Old;
@@ -85,6 +87,17 @@ namespace ET
             self.Insert(numericType, value, false);
         }
 
+#if UNITY_2021_2_OR_NEWER
+
+        public static void SetFromServer(this NumericComponent self, int numericType, long value)
+        {
+            EventType.NumbericChange.Instance.IsServer = true;
+            self.Insert(numericType, value, true);
+            EventType.NumbericChange.Instance.IsServer = false;
+        }
+
+#endif
+
         public static void Insert(this NumericComponent self, int numericType, long value, bool isPublicEvent = true)
         {
             long oldValue = self.GetByKey(numericType);
@@ -98,7 +111,7 @@ namespace ET
             if (numericType >= NumericType.Max)
             {
                 self.Update(numericType, isPublicEvent);
-                return;
+                //return;
             }
 
             if (isPublicEvent)
