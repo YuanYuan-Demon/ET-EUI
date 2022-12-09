@@ -7,32 +7,32 @@ namespace ET
 {
     [ProtoContract]
     [Config]
-    public partial class ServerInfoConfigCategory : ProtoObject, IMerge
+    public partial class TaskActionConfigCategory : ProtoObject, IMerge
     {
-        public static ServerInfoConfigCategory Instance;
+        public static TaskActionConfigCategory Instance;
 		
         [ProtoIgnore]
         [BsonIgnore]
-        private Dictionary<int, ServerInfoConfig> dict = new Dictionary<int, ServerInfoConfig>();
+        private Dictionary<int, TaskActionConfig> dict = new Dictionary<int, TaskActionConfig>();
 		
         [BsonElement]
         [ProtoMember(1)]
-        private List<ServerInfoConfig> list = new List<ServerInfoConfig>();
+        private List<TaskActionConfig> list = new List<TaskActionConfig>();
 		
-        public ServerInfoConfigCategory()
+        public TaskActionConfigCategory()
         {
             Instance = this;
         }
         
         public void Merge(object o)
         {
-            ServerInfoConfigCategory s = o as ServerInfoConfigCategory;
+            TaskActionConfigCategory s = o as TaskActionConfigCategory;
             this.list.AddRange(s.list);
         }
 		
         public override void EndInit()
         {
-            foreach (ServerInfoConfig config in list)
+            foreach (TaskActionConfig config in list)
             {
                 config.EndInit();
                 this.dict.Add(config.Id, config);
@@ -40,13 +40,13 @@ namespace ET
             this.AfterEndInit();
         }
 		
-        public ServerInfoConfig Get(int id)
+        public TaskActionConfig Get(int id)
         {
-            this.dict.TryGetValue(id, out ServerInfoConfig item);
+            this.dict.TryGetValue(id, out TaskActionConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (ServerInfoConfig)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof (TaskActionConfig)}，配置id: {id}");
             }
 
             return item;
@@ -57,12 +57,12 @@ namespace ET
             return this.dict.ContainsKey(id);
         }
 
-        public Dictionary<int, ServerInfoConfig> GetAll()
+        public Dictionary<int, TaskActionConfig> GetAll()
         {
             return this.dict;
         }
 
-        public ServerInfoConfig GetOne()
+        public TaskActionConfig GetOne()
         {
             if (this.dict == null || this.dict.Count <= 0)
             {
@@ -73,14 +73,14 @@ namespace ET
     }
 
     [ProtoContract]
-	public partial class ServerInfoConfig: ProtoObject, IConfig
+	public partial class TaskActionConfig: ProtoObject, IConfig
 	{
 		/// <summary>Id</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>区服名称</summary>
+		/// <summary>任务进度更新行为</summary>
 		[ProtoMember(2)]
-		public string ServerName { get; set; }
+		public int TaskProgressType { get; set; }
 
 	}
 }
