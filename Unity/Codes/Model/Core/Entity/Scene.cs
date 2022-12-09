@@ -1,24 +1,12 @@
 ﻿namespace ET
 {
+#if SERVER
+
+    [ChildType(typeof(Unit))]
+#endif
     [EnableMethod]
     public sealed class Scene : Entity
     {
-        public int Zone
-        {
-            get;
-        }
-
-        public SceneType SceneType
-        {
-            get;
-        }
-
-        public string Name
-        {
-            get;
-            set;
-        }
-
         public Scene(long instanceId, int zone, SceneType sceneType, string name, Entity parent)
         {
             this.Id = instanceId;
@@ -49,6 +37,47 @@
             Log.Info($"scene create: {this.SceneType} {this.Name} {this.Id} {this.InstanceId} {this.Zone}");
         }
 
+        public new Entity Domain
+        {
+            get => this.domain;
+            set => this.domain = value;
+        }
+
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public new Entity Parent
+        {
+            get
+            {
+                return this.parent;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    this.parent = this;
+                    return;
+                }
+
+                this.parent = value;
+                this.parent.Children.Add(this.Id, this);
+            }
+        }
+
+        public SceneType SceneType
+        {
+            get;
+        }
+
+        public int Zone
+        {
+            get;
+        }
+
         public override void Dispose()
         {
             base.Dispose();
@@ -69,31 +98,6 @@
             }
 
             return entity as Scene;
-        }
-
-        public new Entity Domain
-        {
-            get => this.domain;
-            set => this.domain = value;
-        }
-
-        public new Entity Parent
-        {
-            get
-            {
-                return this.parent;
-            }
-            set
-            {
-                if (value == null)
-                {
-                    this.parent = this;
-                    return;
-                }
-
-                this.parent = value;
-                this.parent.Children.Add(this.Id, this);
-            }
         }
     }
 }

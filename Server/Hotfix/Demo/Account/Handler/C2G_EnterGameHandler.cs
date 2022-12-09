@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ET
 {
     [FriendClass(typeof(SessionPlayerComponent))]
     [FriendClass(typeof(SessionStatusComponent))]
     [FriendClassAttribute(typeof(ET.GateMapComponent))]
+    [FriendClassAttribute(typeof(ET.Player))]
     public class C2G_EnterGameHandler : AMRpcHandler<C2G_EnterGame, G2C_EnterGame>
     {
         protected override async ETTask Run(Session session, C2G_EnterGame request, G2C_EnterGame response, Action reply)
@@ -107,17 +104,25 @@ namespace ET
                 try
                 {
                     //添加网关到游戏逻辑服的映射
-                    GateMapComponent gateMapComponent = player.AddComponent<GateMapComponent>();
-                    gateMapComponent.Scene = await SceneFactory.Create(gateMapComponent, "GateMap", SceneType.Map);
+                    player.AddComponent<GateMapComponent>();
+                    //gateMapComponent.Scene = await SceneFactory.Create(gateMapComponent, "GateMap", SceneType.Map);
+
+                    //从数据库或缓存中加载出Unit实体及其相关组件
+                    (bool isNewPlayer, Unit unit) = await UnitHelper.LoadUnit(player);
+                    unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
+
+                    //玩家Unit上线后的初始化操作
+                    await UnitHelper.InitUnit(unit, isNewPlayer);
 
                     //创建游戏对象(unit.Id = player.Id = roleId)
-                    Unit unit = UnitFactory.Create(gateMapComponent.Scene, player.Id, UnitType.Player);
-                    unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
-                    long unitId = unit.Id;
+                    //Unit unit = UnitFactory.Create(gateMapComponent.Scene, player.Id, UnitType.Player);
+                    //unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
 
                     //将游戏对象传送至游戏逻辑服
-                    StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(session.DomainZone(), "Map1");
+                    long unitId = unit.Id;
+                    StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(session.DomainZone(), "Game");
                     await TransferHelper.Transfer(unit, startSceneConfig.InstanceId, startSceneConfig.Name);
+
                     player.UnitId = unitId;
                     response.UnitId = unitId;
                     reply();

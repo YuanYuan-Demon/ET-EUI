@@ -8,13 +8,12 @@
             if (overwrite)
             {
                 self.sessionKey[accountId] = key;
-                self.TimeoutRemoveKey(accountId).Coroutine();
             }
             else if (self.sessionKey.ContainsKey(accountId))
             {
                 self.sessionKey.Add(accountId, key);
-                self.TimeoutRemoveKey(accountId).Coroutine();
             }
+            self.TimeoutRemoveKey(accountId).Coroutine();
         }
 
         public static string Get(this GateSessionKeyComponent self, long accountId)

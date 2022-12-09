@@ -1,12 +1,14 @@
+using ET.EventType;
+
 namespace ET
 {
-    public class AppStart_Init: AEvent<EventType.AppStart>
+    public class AppStart_Init : AEvent<EventType.AppStart>
     {
         protected override void Run(EventType.AppStart args)
         {
             RunAsync(args).Coroutine();
         }
-        
+
         private async ETTask RunAsync(EventType.AppStart args)
         {
             Game.Scene.AddComponent<TimerComponent>();
@@ -15,7 +17,7 @@ namespace ET
             // 加载配置
             Game.Scene.AddComponent<ConfigComponent>();
             await ConfigComponent.Instance.LoadAsync();
-            
+
             Game.Scene.AddComponent<OpcodeTypeComponent>();
             Game.Scene.AddComponent<MessageDispatcherComponent>();
             Game.Scene.AddComponent<SessionStreamDispatcher>();
@@ -25,13 +27,13 @@ namespace ET
             Game.Scene.AddComponent<RobotCaseDispatcherComponent>();
             Game.Scene.AddComponent<RobotCaseComponent>();
             Game.Scene.AddComponent<NumericWatcherComponent>();
-            
+
             var processScenes = StartSceneConfigCategory.Instance.GetByProcess(Game.Options.Process);
             foreach (StartSceneConfig startConfig in processScenes)
             {
                 await RobotSceneFactory.Create(Game.Scene, startConfig.Id, startConfig.InstanceId, startConfig.Zone, startConfig.Name, startConfig.Type, startConfig);
             }
-            
+
             if (Game.Options.Console == 1)
             {
                 Game.Scene.AddComponent<ConsoleComponent>();

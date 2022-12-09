@@ -1,8 +1,10 @@
-﻿namespace ET
+﻿using ET.EventType;
+
+namespace ET
 {
     // 离开视野
     [Event]
-    public class UnitLeaveSightRange_NotifyClient: AEvent<EventType.UnitLeaveSightRange>
+    public class UnitLeaveSightRange_NotifyClient : AEvent<EventType.UnitLeaveSightRange>
     {
         protected override void Run(EventType.UnitLeaveSightRange args)
         {

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ET
+﻿namespace ET
 {
+    [FriendClassAttribute(typeof(ET.Player))]
     public static class DisconnectHelper
     {
         public static async void Disconnect(this Session session)
@@ -23,7 +18,7 @@ namespace ET
             session.Dispose();
         }
 
-        internal static async ETTask KickPlayer(Player player, bool isException = false)
+        public static async ETTask KickPlayer(Player player, bool isException = false)
         {
             if (player is null || player.IsDisposed)
                 return;

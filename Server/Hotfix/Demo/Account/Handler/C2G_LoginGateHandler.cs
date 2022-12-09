@@ -4,7 +4,8 @@ namespace ET
 {
     [FriendClass(typeof(SessionStatusComponent))]
     [FriendClass(typeof(SessionPlayerComponent))]
-    public class C2G_LoginGameGateHandler : AMRpcHandler<C2G_LoginGameGate, G2C_LoginGameGate>
+    [FriendClassAttribute(typeof(ET.Player))]
+    public class C2G_LoginGateHandler : AMRpcHandler<C2G_LoginGameGate, G2C_LoginGameGate>
     {
         protected override async ETTask Run(Session session, C2G_LoginGameGate request, G2C_LoginGameGate response, Action reply)
         {
@@ -70,6 +71,7 @@ namespace ET
                     session.Disconnect();
                     return;
                 }
+                reply();
 
                 //添加当前会话状态组件
                 SessionStatusComponent sessionStatusComponent = session.GetComponent<SessionStatusComponent>();
@@ -82,6 +84,7 @@ namespace ET
                 {
                     // [player.Id] = [player.UnitId] = [RoleId]
                     player = scene.GetComponent<PlayerComponent>().AddChildWithId<Player, long, long>(request.RoleId, request.AccountId, request.RoleId);
+                    scene.GetComponent<PlayerComponent>().Add(player);
                     player.Status = PlayerStatus.Gate;
                     session.AddComponent<MailBoxComponent, MailboxType>(MailboxType.GateSession);
                 }
@@ -92,9 +95,8 @@ namespace ET
                 session.AddComponent<SessionPlayerComponent>().PlayerId = player.Id;
                 session.GetComponent<SessionPlayerComponent>().PlayerInstanceId = player.InstanceId;
                 session.GetComponent<SessionPlayerComponent>().AccountId = request.AccountId;
-                player.SessionInstanceId = session.InstanceId;
+                player.ClientSession = session;
             }
-            reply();
 
             #endregion 登陆游戏
         }

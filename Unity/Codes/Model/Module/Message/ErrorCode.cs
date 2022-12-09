@@ -10,9 +10,7 @@ namespace ET
 
         // 110000以下的错误请看ErrorCore.cs
 
-        // 这里配置逻辑层的错误码
-        // 110000 - 200000是抛异常的错误
-        // 200001以上不抛异常
+        // 这里配置逻辑层的错误码; 110000 - 200000是抛异常的错误 200001以上不抛异常
 
         public const int ERR_NetWorkError = 200002;
 
@@ -66,5 +64,8 @@ namespace ET
         public const int ERR_SessionStatusError = 200018;
         public const int ERR_EnterGameError = 200019;
         public const int ERR_ReEnterGameError2 = 200020;
+        public const int ERR_NumericTypeNotExist = 200021;
+        public const int ERR_NumericTypeNotAddPoint = 200022;
+        public const int ERR_AddPointNotEnough = 200023;
     }
 }

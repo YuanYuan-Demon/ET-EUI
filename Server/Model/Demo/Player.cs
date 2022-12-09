@@ -9,9 +9,9 @@
 
     public sealed class Player : Entity, IAwake<long, long>
     {
-        public long AccountId { get; set; }
-        public long SessionInstanceId { get; set; }
-        public long UnitId { get; set; }
-        public PlayerStatus Status { get; set; }
+        public long AccountId;
+        public long UnitId;
+        public PlayerStatus Status;
+        public Session ClientSession;
     }
 }

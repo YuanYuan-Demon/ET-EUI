@@ -150,18 +150,18 @@ namespace ET
             toggle.onValueChanged?.Invoke(isSelected);
         }
 
-        public static void RemoveUIScrollItems<K, T>(this K self, ref Dictionary<int, T> dictionary) where K : Entity, IUILogic where T : Entity, IUIScrollItem
+        public static void RemoveUIScrollItems<K, T>(this K self, ref List<T> list) where K : Entity, IUILogic where T : Entity, IUIScrollItem
         {
-            if (dictionary == null)
+            if (list == null)
             {
                 return;
             }
-            foreach (var item in dictionary)
+            foreach (var item in list)
             {
-                item.Value.Dispose();
+                item.Dispose();
             }
-            dictionary.Clear();
-            dictionary = null;
+            list.Clear();
+            list = null;
         }
 
         public static void GetUIComponent<T>(this ReferenceCollector rf, string key, ref T t) where T : class
@@ -285,8 +285,8 @@ namespace ET
         /// <summary>
         /// 注册窗口关闭事件
         /// </summary>
-        /// <OtherParam name="self"></OtherParam>
-        /// <OtherParam name="closeButton"></OtherParam>
+        /// <OtherParam name="self"> </OtherParam>
+        /// <OtherParam name="closeButton"> </OtherParam>
         public static void RegisterCloseEvent<T>(this Entity self, Button closeButton, bool isClose = false) where T : Entity, IAwake, IUILogic
         {
             closeButton.onClick.RemoveAllListeners();

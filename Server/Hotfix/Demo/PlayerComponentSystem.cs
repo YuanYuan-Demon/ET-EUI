@@ -3,6 +3,7 @@
 namespace ET
 {
     [FriendClass(typeof(PlayerComponent))]
+    [FriendClassAttribute(typeof(ET.Player))]
     public static class PlayerComponentSystem
     {
         public class AwakeSystem : AwakeSystem<PlayerComponent>

@@ -5,11 +5,17 @@
         public static async ETTask Transfer(Unit unit, long sceneInstanceId, string sceneName)
         {
             // 通知客户端开始切场景
-            M2C_StartSceneChange m2CStartSceneChange = new M2C_StartSceneChange() { SceneInstanceId = sceneInstanceId, SceneName = sceneName };
+            M2C_StartSceneChange m2CStartSceneChange = new M2C_StartSceneChange()
+            {
+                SceneInstanceId = sceneInstanceId,
+                SceneName = sceneName
+            };
             MessageHelper.SendToClient(unit, m2CStartSceneChange);
 
-            M2M_UnitTransferRequest request = new M2M_UnitTransferRequest();
-            request.Unit = unit;
+            M2M_UnitTransferRequest request = new M2M_UnitTransferRequest
+            {
+                Unit = unit
+            };
             foreach (Entity entity in unit.Components.Values)
             {
                 if (entity is ITransfer)

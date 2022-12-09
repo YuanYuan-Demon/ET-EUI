@@ -1,23 +1,24 @@
 namespace ET
 {
-    public class UnitComponentAwakeSystem: AwakeSystem<UnitComponent>
-    {
-        public override void Awake(UnitComponent self)
-        {
-        }
-    }
-    
-    public class UnitComponentDestroySystem: DestroySystem<UnitComponent>
-    {
-        public override void Destroy(UnitComponent self)
-        {
-        }
-    }
-    
     public static class UnitComponentSystem
     {
+        public class UnitComponentAwakeSystem : AwakeSystem<UnitComponent>
+        {
+            public override void Awake(UnitComponent self)
+            {
+            }
+        }
+
+        public class UnitComponentDestroySystem : DestroySystem<UnitComponent>
+        {
+            public override void Destroy(UnitComponent self)
+            {
+            }
+        }
+
         public static void Add(this UnitComponent self, Unit unit)
         {
+            self.AddChild(unit);
         }
 
         public static Unit Get(this UnitComponent self, long id)

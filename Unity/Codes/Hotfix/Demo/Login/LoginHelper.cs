@@ -39,8 +39,8 @@ namespace ET
         /// <summary>
         /// 获取服务器列表
         /// </summary>
-        /// <param name="zoneScene"></param>
-        /// <returns>状态码</returns>
+        /// <param name="zoneScene"> </param>
+        /// <returns> 状态码 </returns>
         public static async ETTask<int> GetServerInfos(Scene zoneScene)
         {
             A2C_GetServerInfos response;
@@ -74,46 +74,10 @@ namespace ET
         }
 
         /// <summary>
-        /// 创建角色
-        /// </summary>
-        /// <param name="zoneScene"></param>
-        /// <param name="roleName">角色名</param>
-        /// <returns>状态码</returns>
-        public static async ETTask<int> CreateRole(Scene zoneScene, string roleName)
-        {
-            A2C_CreateRole response = null;
-            try
-            {
-                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_CreateRole()
-                {
-                    AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
-                    Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
-                    Name = roleName,
-                    ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
-                }) as A2C_CreateRole;
-            }
-            catch (Exception e)
-            {
-                Log.Error(e);
-                return ErrorCode.ERR_NetWorkError;
-            }
-
-            if (response.Error != ErrorCode.ERR_Success)
-            {
-                return response.Error;
-            }
-
-            var newRoleInfo = zoneScene.GetComponent<RoleInfosComponent>().AddChild<RoleInfo>();
-            newRoleInfo.FromNServerInfo(response.NRoleInfo);
-            zoneScene.GetComponent<RoleInfosComponent>().RoleInfos.Add(newRoleInfo);
-            return ErrorCode.ERR_Success;
-        }
-
-        /// <summary>
         /// 获取当前服务器(区)角色列表
         /// </summary>
-        /// <param name="zoneScene"></param>
-        /// <returns></returns>
+        /// <param name="zoneScene"> </param>
+        /// <returns> </returns>
         public static async ETTask<int> GetRoles(Scene zoneScene)
         {
             A2C_GetRoles response = null;
@@ -145,6 +109,42 @@ namespace ET
                 zoneScene.GetComponent<RoleInfosComponent>().RoleInfos.Add(roleInfo);
             }
 
+            return ErrorCode.ERR_Success;
+        }
+
+        /// <summary>
+        /// 创建角色
+        /// </summary>
+        /// <param name="zoneScene"> </param>
+        /// <param name="roleName"> 角色名 </param>
+        /// <returns> 状态码 </returns>
+        public static async ETTask<int> CreateRole(Scene zoneScene, string roleName)
+        {
+            A2C_CreateRole response = null;
+            try
+            {
+                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_CreateRole()
+                {
+                    AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
+                    Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
+                    Name = roleName,
+                    ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
+                }) as A2C_CreateRole;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
+
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                return response.Error;
+            }
+
+            var newRoleInfo = zoneScene.GetComponent<RoleInfosComponent>().AddChild<RoleInfo>();
+            newRoleInfo.FromNServerInfo(response.NRoleInfo);
+            zoneScene.GetComponent<RoleInfosComponent>().RoleInfos.Add(newRoleInfo);
             return ErrorCode.ERR_Success;
         }
 
@@ -181,8 +181,8 @@ namespace ET
         /// <summary>
         /// 向 Account账号服务器 申请网关负载均衡服务器 的token
         /// </summary>
-        /// <param name="zoneScene"></param>
-        /// <returns></returns>
+        /// <param name="zoneScene"> </param>
+        /// <returns> </returns>
         public static async ETTask<int> GetRealmKey(Scene zoneScene)
         {
             A2C_GetRealmKey response = null;
@@ -215,8 +215,8 @@ namespace ET
         /// <summary>
         /// 连接网关负载均衡服务器, 请求进入游戏
         /// </summary>
-        /// <param name="zoneScene"></param>
-        /// <returns></returns>
+        /// <param name="zoneScene"> </param>
+        /// <returns> </returns>
         public static async Task<int> EnterGame(Scene zoneScene)
         {
             string realmAddress = zoneScene.GetComponent<AccountInfoComponent>().RealmAddress;
@@ -286,9 +286,11 @@ namespace ET
             #region 角色正式请求进入游戏逻辑服
 
             G2C_EnterGame g2cEnterGameResponse;
+            var requestTask = session.Call(new C2G_EnterGame());
             try
             {
-                g2cEnterGameResponse = await session.Call(new C2G_EnterGame() { }) as G2C_EnterGame;
+                await zoneScene.GetComponent<ObjectWait>().Wait<WaitType.Wait_SceneChangeFinish>();
+                g2cEnterGameResponse = await requestTask as G2C_EnterGame;
             }
             catch (Exception e)
             {
@@ -301,6 +303,7 @@ namespace ET
             {
                 return g2cEnterGameResponse.Error;
             }
+            zoneScene.GetComponent<PlayerComponent>().MyId = g2cEnterGameResponse.UnitId;
             Log.Debug("角色进入游戏成功");
 
             #endregion 角色正式请求进入游戏逻辑服

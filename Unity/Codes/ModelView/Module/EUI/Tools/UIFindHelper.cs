@@ -1,26 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Xml;
-using System.Reflection;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.UI;
-
-
-using UnityEngine.EventSystems;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
 public class UIFindHelper
 {
     /// <summary>
     /// 查找子节点
     /// </summary>
-    /// <OtherParam name="_target"></OtherParam>
-    /// <OtherParam name="_childName"></OtherParam>
-    /// <returns></returns>
+    /// <OtherParam name="_target"> </OtherParam>
+    /// <OtherParam name="_childName"> </OtherParam>
+    /// <returns> </returns>
     public static Transform FindDeepChild(GameObject _target, string _childName)
     {
         Transform resultTrs = null;
@@ -40,10 +27,10 @@ public class UIFindHelper
     /// <summary>
     /// 根据泛型查找子节点
     /// </summary>
-    /// <param name="_target"></param>
-    /// <param name="_childName"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
+    /// <param name="_target"> </param>
+    /// <param name="_childName"> </param>
+    /// <typeparam name="T"> </typeparam>
+    /// <returns> </returns>
     public static T FindDeepChild<T>(GameObject _target, string _childName) where T : Component
     {
         Transform resultTrs = UIFindHelper.FindDeepChild(_target, _childName);

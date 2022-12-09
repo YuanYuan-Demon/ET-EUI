@@ -4,14 +4,6 @@ using System.Linq;
 
 namespace ET
 {
-    public static class WaitTypeError
-    {
-        public const int Success = 0;
-        public const int Destroy = 1;
-        public const int Cancel = 2;
-        public const int Timeout = 3;
-    }
-    
     public interface IWaitType
     {
         int Error
@@ -21,11 +13,24 @@ namespace ET
         }
     }
 
+    public static class WaitTypeError
+    {
+        public const int Success = 0;
+        public const int Destroy = 1;
+        public const int Cancel = 2;
+        public const int Timeout = 3;
+    }
+
     [FriendClass(typeof(ObjectWait))]
     public static class ObjectWaitSystem
     {
+        private interface IDestroyRun
+        {
+            void SetResult();
+        }
+
         [ObjectSystem]
-        public class ObjectWaitAwakeSystem: AwakeSystem<ObjectWait>
+        public class ObjectWaitAwakeSystem : AwakeSystem<ObjectWait>
         {
             public override void Awake(ObjectWait self)
             {
@@ -34,23 +39,18 @@ namespace ET
         }
 
         [ObjectSystem]
-        public class ObjectWaitDestroySystem: DestroySystem<ObjectWait>
+        public class ObjectWaitDestroySystem : DestroySystem<ObjectWait>
         {
             public override void Destroy(ObjectWait self)
             {
                 foreach (object v in self.tcss.Values.ToArray())
                 {
-                    ((IDestroyRun) v).SetResult();
+                    ((IDestroyRun)v).SetResult();
                 }
             }
         }
 
-        private interface IDestroyRun
-        {
-            void SetResult();
-        }
-
-        private class ResultCallback<K>: IDestroyRun where K : struct, IWaitType
+        private class ResultCallback<K> : IDestroyRun where K : struct, IWaitType
         {
             private ETTask<K> tcs;
 
@@ -83,11 +83,12 @@ namespace ET
                 t.SetResult(new K() { Error = WaitTypeError.Destroy });
             }
         }
-        
+
         public static async ETTask<T> Wait<T>(this ObjectWait self, ETCancellationToken cancellationToken = null) where T : struct, IWaitType
         {
+            Log.Debug($"Wait: [{typeof(T)}]");
             ResultCallback<T> tcs = new ResultCallback<T>();
-            Type type = typeof (T);
+            Type type = typeof(T);
             self.tcss.Add(type, tcs);
 
             void CancelAction()
@@ -103,7 +104,7 @@ namespace ET
             }
             finally
             {
-                cancellationToken?.Remove(CancelAction);    
+                cancellationToken?.Remove(CancelAction);
             }
             return ret;
         }
@@ -124,16 +125,16 @@ namespace ET
                 }
                 self.Notify(new T() { Error = WaitTypeError.Timeout });
             }
-            
+
             WaitTimeout().Coroutine();
-            
-            self.tcss.Add(typeof (T), tcs);
-            
+
+            self.tcss.Add(typeof(T), tcs);
+
             void CancelAction()
             {
                 self.Notify(new T() { Error = WaitTypeError.Cancel });
             }
-            
+
             T ret;
             try
             {
@@ -142,26 +143,27 @@ namespace ET
             }
             finally
             {
-                cancellationToken?.Remove(CancelAction);    
+                cancellationToken?.Remove(CancelAction);
             }
             return ret;
         }
 
         public static void Notify<T>(this ObjectWait self, T obj) where T : struct, IWaitType
         {
-            Type type = typeof (T);
+            Log.Debug($"Notify: [{typeof(T)}]");
+            Type type = typeof(T);
             if (!self.tcss.TryGetValue(type, out object tcs))
             {
                 return;
             }
 
             self.tcss.Remove(type);
-            ((ResultCallback<T>) tcs).SetResult(obj);
+            ((ResultCallback<T>)tcs).SetResult(obj);
         }
     }
 
     [ComponentOf]
-    public class ObjectWait: Entity, IAwake, IDestroy
+    public class ObjectWait : Entity, IAwake, IDestroy
     {
         public Dictionary<Type, object> tcss = new Dictionary<Type, object>();
     }

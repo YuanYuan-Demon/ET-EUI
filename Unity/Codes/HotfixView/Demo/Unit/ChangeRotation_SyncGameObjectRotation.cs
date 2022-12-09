@@ -1,19 +1,19 @@
+using ET.EventType;
 using UnityEngine;
 
 namespace ET
 {
-    public class ChangeRotation_SyncGameObjectRotation: AEventClass<EventType.ChangeRotation>
+    public class ChangeRotation_SyncGameObjectRotation : AEventClass<EventType.ChangeRotation>
     {
-        protected override void Run(object changeRotation)
+        protected override void Run(EventType.ChangeRotation changeRotation)
         {
-            EventType.ChangeRotation args = changeRotation as EventType.ChangeRotation;
-            GameObjectComponent gameObjectComponent = args.Unit.GetComponent<GameObjectComponent>();
+            GameObjectComponent gameObjectComponent = changeRotation.Unit.GetComponent<GameObjectComponent>();
             if (gameObjectComponent == null)
             {
                 return;
             }
             Transform transform = gameObjectComponent.GameObject.transform;
-            transform.rotation = args.Unit.Rotation;
+            transform.rotation = (changeRotation as EventType.ChangeRotation).Unit.Rotation;
         }
     }
 }

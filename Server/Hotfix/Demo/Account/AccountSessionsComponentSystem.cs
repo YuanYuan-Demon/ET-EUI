@@ -1,19 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ET
+﻿namespace ET
 {
-    public class AccountSessionsComponentDestroySystem : DestroySystem<AccountSessionsComponent>
-    {
-        public override void Destroy(AccountSessionsComponent self)
-        {
-            self.AccountSessions.Clear();
-        }
-    }
-
     public static class AccountSessionsComponentSystem
     {
         public static long Get(this AccountSessionsComponent self, long accountId)
@@ -33,6 +19,14 @@ namespace ET
             {
                 self.AccountSessions.Remove(accountId);
             }
+        }
+    }
+
+    public class AccountSessionsComponentDestroySystem : DestroySystem<AccountSessionsComponent>
+    {
+        public override void Destroy(AccountSessionsComponent self)
+        {
+            self.AccountSessions.Clear();
         }
     }
 }

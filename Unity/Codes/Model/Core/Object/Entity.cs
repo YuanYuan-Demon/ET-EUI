@@ -21,11 +21,33 @@ namespace ET
     {
         [IgnoreDataMember]
         [BsonIgnore]
-        public long InstanceId
-        {
-            get;
-            protected set;
-        }
+        protected Entity parent;
+
+        [IgnoreDataMember]
+        [BsonIgnore]
+        protected Entity domain;
+
+        [IgnoreDataMember]
+        [BsonIgnore]
+        private EntityStatus status = EntityStatus.None;
+
+        [IgnoreDataMember]
+        [BsonElement("Children")]
+        [BsonIgnoreIfNull]
+        private HashSet<Entity> childrenDB;
+
+        [IgnoreDataMember]
+        [BsonIgnore]
+        private Dictionary<long, Entity> children;
+
+        [IgnoreDataMember]
+        [BsonElement("C")]
+        [BsonIgnoreIfNull]
+        private HashSet<Entity> componentsDB;
+
+        [IgnoreDataMember]
+        [BsonIgnore]
+        private Dictionary<Type, Entity> components;
 
         protected Entity()
         {
@@ -33,112 +55,15 @@ namespace ET
 
         [IgnoreDataMember]
         [BsonIgnore]
-        private EntityStatus status = EntityStatus.None;
-
-        [IgnoreDataMember]
-        [BsonIgnore]
-        private bool IsFromPool
+        public long InstanceId
         {
-            get => (this.status & EntityStatus.IsFromPool) == EntityStatus.IsFromPool;
-            set
-            {
-                if (value)
-                {
-                    this.status |= EntityStatus.IsFromPool;
-                }
-                else
-                {
-                    this.status &= ~EntityStatus.IsFromPool;
-                }
-            }
-        }
-
-        [IgnoreDataMember]
-        [BsonIgnore]
-        protected bool IsRegister
-        {
-            get => (this.status & EntityStatus.IsRegister) == EntityStatus.IsRegister;
-            set
-            {
-                if (this.IsRegister == value)
-                {
-                    return;
-                }
-
-                if (value)
-                {
-                    this.status |= EntityStatus.IsRegister;
-                }
-                else
-                {
-                    this.status &= ~EntityStatus.IsRegister;
-                }
-
-                EventSystem.Instance.RegisterSystem(this, value);
-            }
-        }
-
-        [IgnoreDataMember]
-        [BsonIgnore]
-        private bool IsComponent
-        {
-            get => (this.status & EntityStatus.IsComponent) == EntityStatus.IsComponent;
-            set
-            {
-                if (value)
-                {
-                    this.status |= EntityStatus.IsComponent;
-                }
-                else
-                {
-                    this.status &= ~EntityStatus.IsComponent;
-                }
-            }
-        }
-
-        [IgnoreDataMember]
-        [BsonIgnore]
-        protected bool IsCreated
-        {
-            get => (this.status & EntityStatus.IsCreated) == EntityStatus.IsCreated;
-            set
-            {
-                if (value)
-                {
-                    this.status |= EntityStatus.IsCreated;
-                }
-                else
-                {
-                    this.status &= ~EntityStatus.IsCreated;
-                }
-            }
-        }
-
-        [IgnoreDataMember]
-        [BsonIgnore]
-        protected bool IsNew
-        {
-            get => (this.status & EntityStatus.IsNew) == EntityStatus.IsNew;
-            set
-            {
-                if (value)
-                {
-                    this.status |= EntityStatus.IsNew;
-                }
-                else
-                {
-                    this.status &= ~EntityStatus.IsNew;
-                }
-            }
+            get;
+            protected set;
         }
 
         [IgnoreDataMember]
         [BsonIgnore]
         public bool IsDisposed => this.InstanceId == 0;
-
-        [IgnoreDataMember]
-        [BsonIgnore]
-        protected Entity parent;
 
         // 可以改变parent，但是不能设置为null
         [IgnoreDataMember]
@@ -169,7 +94,7 @@ namespace ET
                     // parent相同，不设置
                     if (this.parent == value)
                     {
-                        Log.Error($"重复设置了Parent: {this.GetType().Name} parent: {this.parent.GetType().Name}");
+                        Log.Warning($"重复设置了Parent: {this.GetType().Name} parent: {this.parent.GetType().Name}");
                         return;
                     }
                     this.parent.RemoveFromChildren(this);
@@ -182,52 +107,6 @@ namespace ET
             }
         }
 
-        [IgnoreDataMember]
-        // 该方法只能在AddComponent中调用，其他人不允许调用
-        [BsonIgnore]
-        private Entity ComponentParent
-        {
-            set
-            {
-                if (value == null)
-                {
-                    throw new Exception($"cant set parent null: {this.GetType().Name}");
-                }
-
-                if (value == this)
-                {
-                    throw new Exception($"cant set parent self: {this.GetType().Name}");
-                }
-
-                // 严格限制parent必须要有domain,也就是说parent必须在数据树上面
-                if (value.Domain == null)
-                {
-                    throw new Exception($"cant set parent because parent domain is null: {this.GetType().Name} {value.GetType().Name}");
-                }
-
-                if (this.parent != null) // 之前有parent
-                {
-                    // parent相同，不设置
-                    if (this.parent == value)
-                    {
-                        Log.Error($"重复设置了Parent: {this.GetType().Name} parent: {this.parent.GetType().Name}");
-                        return;
-                    }
-                    this.parent.RemoveFromComponents(this);
-                }
-
-                this.parent = value;
-                this.IsComponent = true;
-                this.parent.AddToComponents(this);
-                this.Domain = this.parent.domain;
-            }
-        }
-
-        public T GetParent<T>() where T : Entity
-        {
-            return this.Parent as T;
-        }
-
         [BsonIgnoreIfDefault]
         [BsonDefaultValue(0L)]
         [BsonElement]
@@ -237,10 +116,6 @@ namespace ET
             get;
             set;
         }
-
-        [IgnoreDataMember]
-        [BsonIgnore]
-        protected Entity domain;
 
         [IgnoreDataMember]
         [BsonIgnore]
@@ -344,15 +219,6 @@ namespace ET
         }
 
         [IgnoreDataMember]
-        [BsonElement("Children")]
-        [BsonIgnoreIfNull]
-        private HashSet<Entity> childrenDB;
-
-        [IgnoreDataMember]
-        [BsonIgnore]
-        private Dictionary<long, Entity> children;
-
-        [IgnoreDataMember]
         [BsonIgnore]
         public Dictionary<long, Entity> Children
         {
@@ -366,72 +232,6 @@ namespace ET
             }
         }
 
-        private void AddToChildren(Entity entity)
-        {
-            this.Children.Add(entity.Id, entity);
-            this.AddToChildrenDB(entity);
-        }
-
-        private void RemoveFromChildren(Entity entity)
-        {
-            if (this.children == null)
-            {
-                return;
-            }
-
-            this.children.Remove(entity.Id);
-
-            if (this.children.Count == 0)
-            {
-                MonoPool.Instance.Recycle(this.children);
-                this.children = null;
-            }
-
-            this.RemoveFromChildrenDB(entity);
-        }
-
-        private void AddToChildrenDB(Entity entity)
-        {
-            if (!(entity is ISerializeToEntity))
-            {
-                return;
-            }
-
-            this.childrenDB = this.childrenDB ?? MonoPool.Instance.Fetch<HashSet<Entity>>();
-
-            this.childrenDB.Add(entity);
-        }
-
-        private void RemoveFromChildrenDB(Entity entity)
-        {
-            if (!(entity is ISerializeToEntity))
-            {
-                return;
-            }
-
-            if (this.childrenDB == null)
-            {
-                return;
-            }
-
-            this.childrenDB.Remove(entity);
-
-            if (this.childrenDB.Count == 0 && this.IsNew)
-            {
-                MonoPool.Instance.Recycle(this.childrenDB);
-                this.childrenDB = null;
-            }
-        }
-
-        [IgnoreDataMember]
-        [BsonElement("C")]
-        [BsonIgnoreIfNull]
-        private HashSet<Entity> componentsDB;
-
-        [IgnoreDataMember]
-        [BsonIgnore]
-        private Dictionary<Type, Entity> components;
-
         [IgnoreDataMember]
         [BsonIgnore]
         public Dictionary<Type, Entity> Components
@@ -444,6 +244,149 @@ namespace ET
                 }
                 return this.components;
             }
+        }
+
+        [IgnoreDataMember]
+        [BsonIgnore]
+        protected bool IsRegister
+        {
+            get => (this.status & EntityStatus.IsRegister) == EntityStatus.IsRegister;
+            set
+            {
+                if (this.IsRegister == value)
+                {
+                    return;
+                }
+
+                if (value)
+                {
+                    this.status |= EntityStatus.IsRegister;
+                }
+                else
+                {
+                    this.status &= ~EntityStatus.IsRegister;
+                }
+
+                EventSystem.Instance.RegisterSystem(this, value);
+            }
+        }
+
+        [IgnoreDataMember]
+        [BsonIgnore]
+        protected bool IsCreated
+        {
+            get => (this.status & EntityStatus.IsCreated) == EntityStatus.IsCreated;
+            set
+            {
+                if (value)
+                {
+                    this.status |= EntityStatus.IsCreated;
+                }
+                else
+                {
+                    this.status &= ~EntityStatus.IsCreated;
+                }
+            }
+        }
+
+        [IgnoreDataMember]
+        [BsonIgnore]
+        protected bool IsNew
+        {
+            get => (this.status & EntityStatus.IsNew) == EntityStatus.IsNew;
+            set
+            {
+                if (value)
+                {
+                    this.status |= EntityStatus.IsNew;
+                }
+                else
+                {
+                    this.status &= ~EntityStatus.IsNew;
+                }
+            }
+        }
+
+        [IgnoreDataMember]
+        [BsonIgnore]
+        private bool IsFromPool
+        {
+            get => (this.status & EntityStatus.IsFromPool) == EntityStatus.IsFromPool;
+            set
+            {
+                if (value)
+                {
+                    this.status |= EntityStatus.IsFromPool;
+                }
+                else
+                {
+                    this.status &= ~EntityStatus.IsFromPool;
+                }
+            }
+        }
+
+        [IgnoreDataMember]
+        [BsonIgnore]
+        private bool IsComponent
+        {
+            get => (this.status & EntityStatus.IsComponent) == EntityStatus.IsComponent;
+            set
+            {
+                if (value)
+                {
+                    this.status |= EntityStatus.IsComponent;
+                }
+                else
+                {
+                    this.status &= ~EntityStatus.IsComponent;
+                }
+            }
+        }
+
+        [IgnoreDataMember]
+        // 该方法只能在AddComponent中调用，其他人不允许调用
+        [BsonIgnore]
+        private Entity ComponentParent
+        {
+            set
+            {
+                if (value == null)
+                {
+                    throw new Exception($"cant set parent null: {this.GetType().Name}");
+                }
+
+                if (value == this)
+                {
+                    throw new Exception($"cant set parent self: {this.GetType().Name}");
+                }
+
+                // 严格限制parent必须要有domain,也就是说parent必须在数据树上面
+                if (value.Domain == null)
+                {
+                    throw new Exception($"cant set parent because parent domain is null: {this.GetType().Name} {value.GetType().Name}");
+                }
+
+                if (this.parent != null) // 之前有parent
+                {
+                    // parent相同，不设置
+                    if (this.parent == value)
+                    {
+                        Log.Error($"重复设置了Parent: {this.GetType().Name} parent: {this.parent.GetType().Name}");
+                        return;
+                    }
+                    this.parent.RemoveFromComponents(this);
+                }
+
+                this.parent = value;
+                this.IsComponent = true;
+                this.parent.AddToComponents(this);
+                this.Domain = this.parent.domain;
+            }
+        }
+
+        public T GetParent<T>() where T : Entity
+        {
+            return this.Parent as T;
         }
 
         public override void Dispose()
@@ -541,65 +484,6 @@ namespace ET
                 ObjectPool.Instance.Recycle(this);
             }
             status = EntityStatus.None;
-        }
-
-        private void AddToComponentsDB(Entity component)
-        {
-            if (!(component is ISerializeToEntity))
-            {
-                return;
-            }
-
-            if (this.componentsDB == null)
-            {
-                this.componentsDB = MonoPool.Instance.Fetch<HashSet<Entity>>();
-            }
-
-            this.componentsDB.Add(component);
-        }
-
-        private void RemoveFromComponentsDB(Entity component)
-        {
-            if (!(component is ISerializeToEntity))
-            {
-                return;
-            }
-
-            if (this.componentsDB == null)
-            {
-                return;
-            }
-
-            this.componentsDB.Remove(component);
-            if (this.componentsDB.Count == 0 && this.IsNew)
-            {
-                MonoPool.Instance.Recycle(this.componentsDB);
-                this.componentsDB = null;
-            }
-        }
-
-        private void AddToComponents(Entity component)
-        {
-            this.Components.Add(component.GetType(), component);
-            this.AddToComponentsDB(component);
-        }
-
-        private void RemoveFromComponents(Entity component)
-        {
-            if (this.components == null)
-            {
-                return;
-            }
-
-            this.components.Remove(component.GetType());
-
-            if (this.components.Count == 0)
-            {
-                MonoPool.Instance.Recycle(this.components);
-                this.components = null;
-            }
-
-            this.RemoveFromComponentsDB(component);
         }
 
         public K GetChild<K>(long id) where K : Entity
@@ -721,24 +605,6 @@ namespace ET
                 EventSystem.Instance.GetComponent(this, component);
             }
 
-            return component;
-        }
-
-        private static Entity Create(Type type, bool isFromPool)
-        {
-            Entity component;
-            if (isFromPool)
-            {
-                component = ObjectPool.Instance.Fetch(type);
-            }
-            else
-            {
-                component = Activator.CreateInstance(type) as Entity;
-            }
-            component.IsFromPool = isFromPool;
-            component.IsCreated = true;
-            component.IsNew = true;
-            component.Id = 0;
             return component;
         }
 
@@ -960,6 +826,140 @@ namespace ET
 
             EventSystem.Instance.Awake(component, a, b, c);
             return component;
+        }
+
+        private static Entity Create(Type type, bool isFromPool)
+        {
+            Entity component;
+            if (isFromPool)
+            {
+                component = ObjectPool.Instance.Fetch(type);
+            }
+            else
+            {
+                component = Activator.CreateInstance(type) as Entity;
+            }
+            component.IsFromPool = isFromPool;
+            component.IsCreated = true;
+            component.IsNew = true;
+            component.Id = 0;
+            return component;
+        }
+
+        private void AddToChildren(Entity entity)
+        {
+            this.Children.Add(entity.Id, entity);
+            this.AddToChildrenDB(entity);
+        }
+
+        private void RemoveFromChildren(Entity entity)
+        {
+            if (this.children == null)
+            {
+                return;
+            }
+
+            this.children.Remove(entity.Id);
+
+            if (this.children.Count == 0)
+            {
+                MonoPool.Instance.Recycle(this.children);
+                this.children = null;
+            }
+
+            this.RemoveFromChildrenDB(entity);
+        }
+
+        private void AddToChildrenDB(Entity entity)
+        {
+            if (!(entity is ISerializeToEntity))
+            {
+                return;
+            }
+
+            this.childrenDB = this.childrenDB ?? MonoPool.Instance.Fetch<HashSet<Entity>>();
+
+            this.childrenDB.Add(entity);
+        }
+
+        private void RemoveFromChildrenDB(Entity entity)
+        {
+            if (!(entity is ISerializeToEntity))
+            {
+                return;
+            }
+
+            if (this.childrenDB == null)
+            {
+                return;
+            }
+
+            this.childrenDB.Remove(entity);
+
+            if (this.childrenDB.Count == 0 && this.IsNew)
+            {
+                MonoPool.Instance.Recycle(this.childrenDB);
+                this.childrenDB = null;
+            }
+        }
+
+        private void AddToComponentsDB(Entity component)
+        {
+            if (!(component is ISerializeToEntity))
+            {
+                return;
+            }
+
+            if (this.componentsDB == null)
+            {
+                this.componentsDB = MonoPool.Instance.Fetch<HashSet<Entity>>();
+            }
+
+            this.componentsDB.Add(component);
+        }
+
+        private void RemoveFromComponentsDB(Entity component)
+        {
+            if (!(component is ISerializeToEntity))
+            {
+                return;
+            }
+
+            if (this.componentsDB == null)
+            {
+                return;
+            }
+
+            this.componentsDB.Remove(component);
+            if (this.componentsDB.Count == 0 && this.IsNew)
+            {
+                MonoPool.Instance.Recycle(this.componentsDB);
+                this.componentsDB = null;
+            }
+        }
+
+        private void AddToComponents(Entity component)
+        {
+            this.Components.Add(component.GetType(), component);
+            this.AddToComponentsDB(component);
+        }
+
+        private void RemoveFromComponents(Entity component)
+        {
+            if (this.components == null)
+            {
+                return;
+            }
+
+            this.components.Remove(component.GetType());
+
+            if (this.components.Count == 0)
+            {
+                MonoPool.Instance.Recycle(this.components);
+                this.components = null;
+            }
+
+            this.RemoveFromComponentsDB(component);
         }
     }
 }

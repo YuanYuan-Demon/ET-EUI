@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace ET
 {
@@ -12,40 +12,11 @@ namespace ET
         {
             public Scene ZoneScene;
         }
-        
-        
+
         public struct SceneChangeFinish
         {
             public Scene ZoneScene;
             public Scene CurrentScene;
-        }
-
-        public class ChangePosition: DisposeObject
-        {
-            public static readonly ChangePosition Instance = new ChangePosition();
-
-            public Unit Unit;
-            public WrapVector3 OldPos = new WrapVector3();
-
-            // 因为是重复利用的，所以用完PublishClass会调用Dispose
-            public override void Dispose()
-            {
-                this.Unit = null;
-            }
-        }
-    
-
-        public class ChangeRotation: DisposeObject
-        {
-            public static readonly ChangeRotation Instance = new ChangeRotation();
-                   
-            public Unit Unit;
-                   
-            // 因为是重复利用的，所以用完PublishClass会调用Dispose
-            public override void Dispose()
-            {
-                this.Unit = null;
-            }
         }
 
         public struct PingChange
@@ -53,17 +24,17 @@ namespace ET
             public Scene ZoneScene;
             public long Ping;
         }
-        
+
         public struct AfterCreateZoneScene
         {
             public Scene ZoneScene;
         }
-        
+
         public struct AfterCreateCurrentScene
         {
             public Scene CurrentScene;
         }
-        
+
         public struct AfterCreateLoginScene
         {
             public Scene LoginScene;
@@ -98,7 +69,7 @@ namespace ET
         {
             public Unit Unit;
         }
-        
+
         public struct MoveStart
         {
             public Unit Unit;
@@ -107,6 +78,57 @@ namespace ET
         public struct MoveStop
         {
             public Unit Unit;
+        }
+
+        public struct AddAttributeConfirm
+        {
+            public Scene ZoneScene;
+            public bool ConfirmAdd;
+            public Dictionary<int, long> Attributes;
+        }
+
+        public struct AddAttribute
+        {
+            public Scene ZoneScene;
+            public int NumericType;
+            public int AddValue;
+        }
+
+        public struct GetPoint
+        {
+            public Scene ZoneScene;
+        }
+
+        public struct PointIsZero
+        {
+            public Scene ZoneScene;
+        }
+
+        public class ChangePosition : DisposeObject
+        {
+            public static readonly ChangePosition Instance = new ChangePosition();
+
+            public Unit Unit;
+            public WrapVector3 OldPos = new WrapVector3();
+
+            // 因为是重复利用的，所以用完PublishClass会调用Dispose
+            public override void Dispose()
+            {
+                this.Unit = null;
+            }
+        }
+
+        public class ChangeRotation : DisposeObject
+        {
+            public static readonly ChangeRotation Instance = new ChangeRotation();
+
+            public Unit Unit;
+
+            // 因为是重复利用的，所以用完PublishClass会调用Dispose
+            public override void Dispose()
+            {
+                this.Unit = null;
+            }
         }
     }
 }

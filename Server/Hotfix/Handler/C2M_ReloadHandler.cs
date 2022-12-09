@@ -18,7 +18,7 @@ namespace ET
 			//foreach (StartConfig startConfig in startConfigComponent.GetAll())
 			//{
 			//	InnerConfig innerConfig = startConfig.GetComponent<InnerConfig>();
-			//	Session serverSession = netInnerComponent.Get(innerConfig.IPEndPoint);
+			//	ClientSession serverSession = netInnerComponent.Get(innerConfig.IPEndPoint);
 			//	await serverSession.Call(new M2A_Reload());
 			//}
 			reply();

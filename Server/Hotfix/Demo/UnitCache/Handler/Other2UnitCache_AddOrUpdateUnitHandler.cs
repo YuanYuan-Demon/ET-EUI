@@ -6,12 +6,12 @@ namespace ET
     {
         protected override async ETTask Run(Scene scene, Other2UnitCache_AddOrUpdateUnit request, UnitCache2Other_AddOrUpdateUnit response, Action reply)
         {
-            UPdateUnitCacheAsync(scene, request, response);
+            UpdateUnitCacheAsync(scene, request, response);
             reply();
             await ETTask.CompletedTask;
         }
 
-        private static async void UPdateUnitCacheAsync(Scene scene, Other2UnitCache_AddOrUpdateUnit request, UnitCache2Other_AddOrUpdateUnit response)
+        private static async void UpdateUnitCacheAsync(Scene scene, Other2UnitCache_AddOrUpdateUnit request, UnitCache2Other_AddOrUpdateUnit response)
         {
             var unitCacheCompnent = scene.GetComponent<UnitCacheComponent>();
             using (ListComponent<Entity> entityList = ListComponent<Entity>.Create())

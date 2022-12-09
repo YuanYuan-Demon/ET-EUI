@@ -26,7 +26,7 @@ namespace ET
 			//// 传送到map
 			//StartConfig mapConfig = startConfigComponent.MapConfigs[mapIndex];
 			//IPEndPoint address = mapConfig.GetComponent<InnerConfig>().IPEndPoint;
-			//Session session = Game.Scene.GetComponent<NetInnerComponent>().Get(address);
+			//ClientSession session = Game.Scene.GetComponent<NetInnerComponent>().Get(address);
 //
 			//// 只删除不disponse否则M2M_TrasferUnitRequest无法序列化Unit
 			//Game.Scene.GetComponent<UnitComponent>().RemoveNoDispose(unitId);

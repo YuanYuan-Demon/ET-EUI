@@ -4,11 +4,14 @@
     {
         WindowID_Invaild = 0,
         WindowID_MessageBox,
-        WindowID_Lobby,    //房间界面
+        WindowID_Lobby,     //房间界面
         WindowID_Login,     //登录界面
-        WindowID_RedDot,   //红点测试界面
-        WindowID_Helper,   //提示界面
-        WindowID_Server,
-        WindowID_Roles,
+        WindowID_RedDot,    //红点测试界面
+        WindowID_Helper,    //提示界面
+        WindowID_Server,    //服务器选择界面
+        WindowID_Roles,     //角色选择界面
+        WindowID_Loading,   //加载界面
+        WindowID_Main,      //场景主界面
+        WindowID_RoleInfo,  //角色信息界面
     }
 }

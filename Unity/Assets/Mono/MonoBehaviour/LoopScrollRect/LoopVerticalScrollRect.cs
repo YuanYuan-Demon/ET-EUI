@@ -1,7 +1,3 @@
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-
 namespace UnityEngine.UI
 {
     [AddComponentMenu("UI/Loop Vertical Scroll Rect", 51)]
@@ -27,7 +23,7 @@ namespace UnityEngine.UI
         {
             return vector.y;
         }
-        
+
         protected override float GetAbsDimension(Vector2 vector)
         {
             return vector.y;
