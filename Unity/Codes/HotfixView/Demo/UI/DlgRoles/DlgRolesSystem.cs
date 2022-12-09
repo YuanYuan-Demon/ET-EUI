@@ -1,49 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
-using System.Runtime.CompilerServices;
 
 namespace ET
 {
     [FriendClass(typeof(DlgRoles))]
     public static class DlgRolesSystem
     {
-        public static void RegisterUIEvent(this DlgRoles self)
+        public static async void OnConfirmClickHandler(this DlgRoles self)
         {
-            self.View.EB_CreateRoleButton.onClick.AddListener(() => self.OnCreateRoleClickHandler());
-            self.View.EB_DeleteRoleButton.onClick.AddListener(() => self.OnDeleteRoleClickHandler());
-            self.View.EB_EnterGameButton.onClick.AddListener(() => self.OnConfirmClickHandler());
-            self.View.ELS_RoleListLoopHorizontalScrollRect.AddItemRefreshListener((transform, index) => self.OnRoleListRefreshHandler(transform, index)); ;
-        }
+            bool isSelect = self.ZoneScene().GetComponent<RoleInfosComponent>().CurRoleId != 0;
+            if (!isSelect)
+            {
+                Log.Error("请先选择角色");
+                return;
+            }
 
-        public static void ShowWindow(this DlgRoles self, Entity contextData = null)
-        {
-            self.RefreshRoleItems();
-        }
+            try
+            {
+                //申请网关负载均衡服务器的token
+                int errorCode = await LoginHelper.GetRealmKey(self.ZoneScene());
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    Log.Error(errorCode.ToString());
+                    return;
+                }
 
-        public static void RefreshRoleItems(this DlgRoles self)
-        {
-            int count = self.ZoneScene().GetComponent<RoleInfosComponent>().RoleInfos.Count;
-            self.AddUIScrollItems(ref self.ScrollItemRoleInfos, count);
-            self.View.ELS_RoleListLoopHorizontalScrollRect.SetVisible(true, count);
-        }
-
-        public static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
-        {
-            var itemRole = self.ScrollItemRoleInfos[index].BindTrans(transform);
-            var roleInfosComponent = self.ZoneScene().GetComponent<RoleInfosComponent>();
-            var roleInfo = roleInfosComponent.RoleInfos[index];
-            itemRole.EB_RoleSelectImage.color = roleInfo.Id == roleInfosComponent.CurRoleId ? Color.red : Color.cyan;
-            itemRole.EL_RoleText.text = roleInfo.Name;
-            itemRole.EB_RoleSelectButton.AddListener(() => self.OnSelectRoleHandler(roleInfo.Id));
-        }
-
-        public static void OnSelectRoleHandler(this DlgRoles self, long roleId)
-        {
-            self.ZoneScene().GetComponent<RoleInfosComponent>().CurRoleId = roleId;
-            self.View.ELS_RoleListLoopHorizontalScrollRect.RefillCells();
+                //连接网关负载均衡服务器, 请求进入游戏
+                errorCode = await LoginHelper.EnterGame(self.ZoneScene());
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    Log.Error(errorCode.ToString());
+                    return;
+                }
+                self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Main);
+                self.ZoneScene().GetComponent<UIComponent>().CloseWindow(WindowID.WindowID_Roles);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+            }
         }
 
         public static async void OnCreateRoleClickHandler(this DlgRoles self)
@@ -73,7 +68,7 @@ namespace ET
         /// <summary>
         /// 删除角色
         /// </summary>
-        /// <param name="self"></param>
+        /// <param name="self"> </param>
         public static async void OnDeleteRoleClickHandler(this DlgRoles self)
         {
             long roleId = self.ZoneScene().GetComponent<RoleInfosComponent>().CurRoleId;
@@ -98,39 +93,40 @@ namespace ET
             }
         }
 
-        public static async void OnConfirmClickHandler(this DlgRoles self)
+        public static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
         {
-            bool isSelect = self.ZoneScene().GetComponent<RoleInfosComponent>().CurRoleId != 0;
-            if (!isSelect)
-            {
-                Log.Error("请先选择角色");
-                return;
-            }
+            var itemRole = self.ScrollItemRoleInfos[index].BindTrans(transform);
+            var roleInfosComponent = self.ZoneScene().GetComponent<RoleInfosComponent>();
+            var roleInfo = roleInfosComponent.RoleInfos[index];
+            itemRole.EB_RoleSelectImage.color = roleInfo.Id == roleInfosComponent.CurRoleId ? Color.red : Color.cyan;
+            itemRole.EL_RoleText.text = roleInfo.Name;
+            itemRole.EB_RoleSelectButton.AddListener(() => self.OnSelectRoleHandler(roleInfo.Id));
+        }
 
-            try
-            {
-                //申请网关负载均衡服务器的token
-                int errorCode = await LoginHelper.GetRealmKey(self.ZoneScene());
-                if (errorCode != ErrorCode.ERR_Success)
-                {
-                    Log.Error(errorCode.ToString());
-                    return;
-                }
+        public static void OnSelectRoleHandler(this DlgRoles self, long roleId)
+        {
+            self.ZoneScene().GetComponent<RoleInfosComponent>().CurRoleId = roleId;
+            self.View.ELS_RoleListLoopVerticalScrollRect.RefillCells();
+        }
 
-                //连接网关负载均衡服务器, 请求进入游戏
-                errorCode = await LoginHelper.EnterGame(self.ZoneScene());
-                if (errorCode != ErrorCode.ERR_Success)
-                {
-                    Log.Error(errorCode.ToString());
-                    return;
-                }
-                self.ZoneScene().GetComponent<UIComponent>().CloseWindow(WindowID.WindowID_Roles);
-                //self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Roles);
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.ToString());
-            }
+        public static void RefreshRoleItems(this DlgRoles self)
+        {
+            int count = self.ZoneScene().GetComponent<RoleInfosComponent>().RoleInfos.Count;
+            self.AddUIScrollItems(ref self.ScrollItemRoleInfos, count);
+            self.View.ELS_RoleListLoopVerticalScrollRect.SetVisible(true, count);
+        }
+
+        public static void RegisterUIEvent(this DlgRoles self)
+        {
+            self.View.EB_CreateRoleButton.onClick.AddListener(() => self.OnCreateRoleClickHandler());
+            self.View.EB_DeleteRoleButton.onClick.AddListener(() => self.OnDeleteRoleClickHandler());
+            self.View.EB_EnterGameButton.onClick.AddListener(() => self.OnConfirmClickHandler());
+            self.View.ELS_RoleListLoopVerticalScrollRect.AddItemRefreshListener((transform, index) => self.OnRoleListRefreshHandler(transform, index)); ;
+        }
+
+        public static void ShowWindow(this DlgRoles self, Entity contextData = null)
+        {
+            self.RefreshRoleItems();
         }
     }
 }

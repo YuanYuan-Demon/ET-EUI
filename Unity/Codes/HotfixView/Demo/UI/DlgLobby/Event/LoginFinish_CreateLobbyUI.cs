@@ -1,6 +1,8 @@
-﻿namespace ET
+﻿using ET.EventType;
+
+namespace ET
 {
-    public class LoginFinish_CreateLobbyUI: AEventAsync<EventType.LoginFinish>
+    public class LoginFinish_CreateLobbyUI : AEventAsync<EventType.LoginFinish>
     {
         protected override async ETTask Run(EventType.LoginFinish args)
         {
