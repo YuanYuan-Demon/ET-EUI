@@ -13,5 +13,6 @@
         WindowID_Loading,   //加载界面
         WindowID_Main,      //场景主界面
         WindowID_RoleInfo,  //角色信息界面
+        WindowID_Adventure,
     }
 }
