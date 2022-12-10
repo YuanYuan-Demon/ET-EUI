@@ -104,6 +104,11 @@ namespace ET
             public Scene ZoneScene;
         }
 
+        public struct StartGameLevel
+        {
+            public Scene ZoneScene;
+        }
+
         public class ChangePosition : DisposeObject
         {
             public static readonly ChangePosition Instance = new ChangePosition();
