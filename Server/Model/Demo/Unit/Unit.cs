@@ -1,12 +1,15 @@
-﻿using System;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using UnityEngine;
 
 namespace ET
 {
-    public sealed class Unit: Entity, IAwake<int>
+    public sealed class Unit : Entity, IAwake<int>, IAddComponent, IGetComponent
     {
         public int ConfigId; //配置表id
+
+        private Vector3 position;
+
+        private Quaternion rotation;
 
         [BsonIgnore]
         public UnitType Type => (UnitType)this.Config.Type;
@@ -14,7 +17,7 @@ namespace ET
         [BsonIgnore]
         public UnitConfig Config => UnitConfigCategory.Instance.Get(this.ConfigId);
 
-        private Vector3 position; //坐标
+        //坐标
 
         public Vector3 Position
         {
@@ -35,7 +38,6 @@ namespace ET
             set => this.Rotation = Quaternion.LookRotation(value, Vector3.up);
         }
 
-        private Quaternion rotation;
         public Quaternion Rotation
         {
             get => this.rotation;
