@@ -7,7 +7,7 @@ namespace ET
     {
         public readonly Dictionary<int, long> AddingAttributes = new();
 
-        public List<Scroll_Item_Attribute> ScrollItemAttributes;
+        public List<Scroll_Item_Attribute> ScrollItem_Attribute;
         public DlgRoleInfoViewComponent View { get => this.Parent.GetComponent<DlgRoleInfoViewComponent>(); }
     }
 }

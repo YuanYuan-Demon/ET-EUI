@@ -44,13 +44,13 @@ namespace ET
             self.SetVisibleAddPointConfirmButton(self.AddingAttributes.Count != 0);
 
             int count = PlayerNumericConfigCategory.Instance.GetShowConfigCount();
-            self.AddUIScrollItems(ref self.ScrollItemAttributes, count);
+            self.AddUIScrollItems(ref self.ScrollItem_Attribute, count);
             self.View.EL_AttributeInfoLoopVerticalScrollRect.SetVisible(true, count);
         }
 
         public static void OnAttributeItemRefreshHandler(this DlgRoleInfo self, Transform transform, int index)
         {
-            var scrollItemAttribute = self.ScrollItemAttributes[index].BindTrans(transform);
+            var scrollItemAttribute = self.ScrollItem_Attribute[index].BindTrans(transform);
             PlayerNumericConfig config = PlayerNumericConfigCategory.Instance.GetConfigByIndex(index);
             scrollItemAttribute.ET_AttributeNameText.text = $"{config.Name}: ";
             NumericComponent numericComponent = UnitHelper.GetMyUnitNumericComponentFromCurScene(self.ZoneScene().CurrentScene());

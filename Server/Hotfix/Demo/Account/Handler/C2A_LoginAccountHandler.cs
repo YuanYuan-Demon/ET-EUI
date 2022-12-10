@@ -1,10 +1,5 @@
-﻿using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ET
 {
@@ -52,13 +47,6 @@ namespace ET
                 session.Disconnect();
                 return;
             }
-            //if (!Regex.IsMatch(request.Password.Trim(), @"^[a-zA-Z0-9_-]{4,20}$"))
-            //{
-            //    response.Error = ErrorCode.ERR_PasswordFormError;
-            //    reply();
-            //    session.Disconnect();
-            //    return;
-            //}
 
             #endregion 校验
 
@@ -79,6 +67,13 @@ namespace ET
                         if (account.AccountType == (int)AccountType.BlackList)
                         {
                             response.Error = ErrorCode.ERR_AccountStatusAbnormal;
+                            reply();
+                            session.Disconnect();
+                            return;
+                        }
+                        if (account.Password != accountResult[0].Password)
+                        {
+                            response.Error = ErrorCode.ERR_AccountInfoError;
                             reply();
                             session.Disconnect();
                             return;

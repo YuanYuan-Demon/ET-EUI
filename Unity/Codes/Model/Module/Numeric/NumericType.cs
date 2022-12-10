@@ -99,7 +99,7 @@
 
         public const int Exp = 3009;
 
-        public const int AdventureState = 3010;   //关卡冒险状态
+        public const int AdventureStatus = 3010;   //关卡冒险状态
 
         public const int DyingState = 3011;      //垂死状态
 
