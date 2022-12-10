@@ -11,15 +11,21 @@ namespace ET
             UnitComponent unitComponent = scene.GetComponent<UnitComponent>();
             Unit unit = request.Unit;
 
-            //unitComponent.AddChild(unit);
+            unitComponent.AddChild(unit);
             unitComponent.Add(unit);
+
+            //添加自动保存数据组件
+            unit.AddComponent<UnitDBSaveComponent>();
+            //添加数值监听组件
+            unit.AddComponent<NumericNoticeComponent>();
+
+            //添加Actor通信组件
+            unit.AddComponent<MailBoxComponent>();
 
             foreach (Entity entity in request.Entitys)
             {
                 unit.AddComponent(entity);
             }
-
-            unit.AddComponent<MailBoxComponent>();
 
             // 通知客户端创建My Unit
             M2C_CreateMyUnit m2CCreateUnits = new M2C_CreateMyUnit();
@@ -28,9 +34,6 @@ namespace ET
 
             // 加入aoi
             //unit.AddComponent<AOIEntity, int, Vector3>(9 * 1000, unit.Position);
-
-            //添加数值监听组件
-            unit.AddComponent<NumericNoticeComponent>();
 
             response.NewInstanceId = unit.InstanceId;
 
