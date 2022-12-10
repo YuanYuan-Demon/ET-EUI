@@ -13,7 +13,7 @@
             NumericComponent numericComponent = unit.AddComponent<NumericComponent>();
             for (int i = 0; i < unitInfo.Ks.Count; ++i)
             {
-                numericComponent.Set(unitInfo.Ks[i], unitInfo.Vs[i]);
+                numericComponent.SetNoEvent(unitInfo.Ks[i], unitInfo.Vs[i]);
             }
 
             unit.AddComponent<ObjectWait>();
