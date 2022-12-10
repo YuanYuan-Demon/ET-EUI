@@ -29,6 +29,11 @@ namespace ET
             return this.ZoneScenesByName[zone][name];
         }
 
+        /// <summary>
+        /// 获取Unit对应的缓存服务器配置
+        /// </summary>
+        /// <param name="unitId">Unit对象的Id</param>
+        /// <returns></returns>
         public StartSceneConfig GetUnitCacheConfig(long unitId)
         {
             return UnitCaches[UnitIdStruct.GetUnitZone(unitId)];
@@ -82,6 +87,11 @@ namespace ET
 
         public SceneType Type;
 
+        // 内网地址外网端口，通过防火墙映射端口过来
+        private IPEndPoint innerIPOutPort;
+
+        private IPEndPoint outerIPPort;
+
         public StartProcessConfig StartProcessConfig
         {
             get
@@ -98,9 +108,6 @@ namespace ET
             }
         }
 
-        // 内网地址外网端口，通过防火墙映射端口过来
-        private IPEndPoint innerIPOutPort;
-
         public IPEndPoint InnerIPOutPort
         {
             get
@@ -113,8 +120,6 @@ namespace ET
                 return this.innerIPOutPort;
             }
         }
-
-        private IPEndPoint outerIPPort;
 
         // 外网地址外网端口
         public IPEndPoint OuterIPPort
