@@ -7,16 +7,15 @@
             self.EB_AddAttributeButton.AddListener(() => self.OnAddAttribute(numericType));
         }
 
-        public static void Refresh(this ES_AddAttribute self, int numericType, long modify = 0)
+        public static void Refresh(this ES_AddAttribute self, int numericType, bool dirty = false)
         {
             var numericComponent = UnitHelper.GetMyUnitNumericComponentFromCurScene(self.ZoneScene().CurrentScene());
             var value = numericComponent.GetAsLong(numericType);
             PlayerNumericConfig config = PlayerNumericConfigCategory.Instance.Get(numericType);
             self.ET_AttributeNameTextMeshProUGUI.text = $"{config.Name}: ";
-            if (modify != 0)
-                self.ET_AttributeValueTextMeshProUGUI.text = $"<color=green>{value + modify:d4}</color>";
-            else
-                self.ET_AttributeValueTextMeshProUGUI.text = $"{value:d4}";
+            self.ET_AttributeValueTextMeshProUGUI.text = dirty ?
+                $"<color=#29BA29>{value}</color>" :
+                $"{value}";
         }
 
         private static void OnAddAttribute(this ES_AddAttribute self, int numericType)

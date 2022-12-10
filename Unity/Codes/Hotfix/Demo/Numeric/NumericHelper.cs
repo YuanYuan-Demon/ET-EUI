@@ -54,5 +54,26 @@ namespace ET
                     return default;
             }
         }
+
+        public static int GetRelativeAttribute(int numericType)
+        {
+            switch (numericType)
+            {
+                case NumericType.DamageValue:
+                    return NumericType.Power;
+
+                case NumericType.MaxHp:
+                    return NumericType.PhysicalStrength;
+
+                case NumericType.Dodge:
+                    return NumericType.Agile;
+
+                case NumericType.MaxMp:
+                    return NumericType.Spirit;
+
+                default:
+                    return 0;
+            }
+        }
     }
 }

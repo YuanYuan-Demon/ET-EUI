@@ -30,10 +30,10 @@ namespace ET
         public static void Refresh(this DlgRoleInfo self)
         {
             //刷新基础属性
-            self.View.ES_AddAttribute1.Refresh(NumericType.Power);
-            self.View.ES_AddAttribute2.Refresh(NumericType.PhysicalStrength);
-            self.View.ES_AddAttribute3.Refresh(NumericType.Agile);
-            self.View.ES_AddAttribute4.Refresh(NumericType.Spirit);
+            self.View.ES_AddAttribute1.Refresh(NumericType.Power, self.IsDirtyAttribute(NumericType.Power));
+            self.View.ES_AddAttribute2.Refresh(NumericType.PhysicalStrength, self.IsDirtyAttribute(NumericType.PhysicalStrength));
+            self.View.ES_AddAttribute3.Refresh(NumericType.Agile, self.IsDirtyAttribute(NumericType.Agile));
+            self.View.ES_AddAttribute4.Refresh(NumericType.Spirit, self.IsDirtyAttribute(NumericType.Spirit));
 
             //刷新可用属性点
             NumericComponent numericComponent = UnitHelper.GetMyUnitNumericComponentFromCurScene(self.ZoneScene().CurrentScene());
@@ -54,9 +54,12 @@ namespace ET
             PlayerNumericConfig config = PlayerNumericConfigCategory.Instance.GetConfigByIndex(index);
             scrollItemAttribute.ET_AttributeNameText.text = $"{config.Name}: ";
             NumericComponent numericComponent = UnitHelper.GetMyUnitNumericComponentFromCurScene(self.ZoneScene().CurrentScene());
-            scrollItemAttribute.ET_AttributeValueText.text = config.isPrecent == 0 ?
-                                                            numericComponent.GetAsLong(config.Id).ToString() :
-                                                            $"{numericComponent.GetAsFloat(config.Id):0.00}%";
+            string value = config.isPrecent == 0 ?
+                numericComponent.GetAsLong(config.Id).ToString() :
+                $"{numericComponent.GetAsFloat(config.Id):0.00}%";
+            if (self.IsDirtyAttribute(config.Id))
+                value = $"<color=#29BA29>{value}</color>";
+            scrollItemAttribute.ET_AttributeValueText.text = value;
         }
 
         public static void SetVisibleAddPointButton(this DlgRoleInfo self, bool isShow)
@@ -85,6 +88,27 @@ namespace ET
             self.AddingAttributes.Clear();
             self.Refresh();
             //self.SetVisibleAddPointConfirmButton(false);
+        }
+
+        private static bool IsDirtyAttribute(this DlgRoleInfo self, int numericType)
+        {
+            switch (numericType)
+            {
+                case NumericType.Power:
+                case NumericType.PhysicalStrength:
+                case NumericType.Agile:
+                case NumericType.Spirit:
+                    return self.AddingAttributes.ContainsKey(numericType);
+
+                case NumericType.DamageValue:
+                case NumericType.MaxHp:
+                case NumericType.Dodge:
+                case NumericType.MaxMp:
+                    return self.AddingAttributes.ContainsKey(NumericHelper.GetRelativeAttribute(numericType));
+
+                default:
+                    return false;
+            }
         }
     }
 }
