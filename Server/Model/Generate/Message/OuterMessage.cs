@@ -67,7 +67,7 @@ namespace ET
 	[ProtoContract]
 	public partial class C2G_EnterMap: Object, IRequest
 	{
-		[ProtoMember(1)]
+		[ProtoMember(90)]
 		public int RpcId { get; set; }
 
 	}
@@ -76,7 +76,7 @@ namespace ET
 	[ProtoContract]
 	public partial class G2C_EnterMap: Object, IResponse
 	{
-		[ProtoMember(1)]
+		[ProtoMember(90)]
 		public int RpcId { get; set; }
 
 		[ProtoMember(2)]
@@ -399,7 +399,7 @@ namespace ET
 	[ProtoContract]
 	public partial class C2M_TransferMap: Object, IActorLocationRequest
 	{
-		[ProtoMember(1)]
+		[ProtoMember(90)]
 		public int RpcId { get; set; }
 
 	}
@@ -820,13 +820,13 @@ namespace ET
 	[ProtoContract]
 	public partial class C2M_AddAttributePoints: Object, IActorLocationRequest
 	{
-		[ProtoMember(1)]
+		[ProtoMember(90)]
 		public int RpcId { get; set; }
 
-		[ProtoMember(2)]
+		[ProtoMember(1)]
 		public List<int> NumericTypes = new List<int>();
 
-		[ProtoMember(3)]
+		[ProtoMember(2)]
 		public List<long> AddValues = new List<long>();
 
 	}
@@ -834,6 +834,34 @@ namespace ET
 	[Message(OuterOpcode.M2C_AddAttributePoints)]
 	[ProtoContract]
 	public partial class M2C_AddAttributePoints: Object, IActorLocationResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
+	[ResponseType(nameof(M2C_StartGameLevel))]
+	[Message(OuterOpcode.C2M_StartGameLevel)]
+	[ProtoContract]
+	public partial class C2M_StartGameLevel: Object, IActorLocationRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public int LevelId { get; set; }
+
+	}
+
+	[Message(OuterOpcode.M2C_StartGameLevel)]
+	[ProtoContract]
+	public partial class M2C_StartGameLevel: Object, IActorLocationResponse
 	{
 		[ProtoMember(90)]
 		public int RpcId { get; set; }

@@ -35,12 +35,12 @@ message Actor_TransferResponse // IActorLocationResponse
 //ResponseType G2C_EnterMap
 message C2G_EnterMap // IRequest
 {
-	int32 RpcId = 1;
+	int32 RpcId = 90;
 }
 
 message G2C_EnterMap // IResponse
 {
-	int32 RpcId = 1;
+	int32 RpcId = 90;
 	int32 Error = 2;
 	string Message = 3;
 	// 自己unitId
@@ -201,7 +201,7 @@ message M2C_TestRobotCase // IActorLocationResponse
 //ResponseType M2C_TransferMap
 message C2M_TransferMap // IActorLocationRequest
 {
-	int32 RpcId = 1;
+	int32 RpcId = 90;
 }
 
 message M2C_TransferMap // IActorLocationResponse
@@ -416,12 +416,28 @@ message M2C_NoticeUnitNumeric // IActorMessage
 //ResponseType M2C_AddAttributePoints
 message C2M_AddAttributePoints // IActorLocationRequest
 {
-	int32 RpcId = 1;
-	repeated int32 NumericTypes = 2;
-	repeated int64 AddValues = 3;
+	int32 RpcId = 90;
+
+	repeated int32 NumericTypes = 1;
+	repeated int64 AddValues = 2;
 }
 
 message M2C_AddAttributePoints // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//ResponseType M2C_StartGameLevel
+message C2M_StartGameLevel // IActorLocationRequest
+{
+	int32 RpcId = 90;
+
+	int32 LevelId = 1;
+}
+
+message M2C_StartGameLevel // IActorLocationResponse
 {
 	int32 RpcId = 90;
 	int32 Error = 91;
