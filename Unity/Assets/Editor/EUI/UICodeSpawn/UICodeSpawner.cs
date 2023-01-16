@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using UnityEditor;
-using UnityEngine;
-
-public partial class UICodeSpawner
+﻿public partial class UICodeSpawner
 {
     private const string CommonUIPrefix = "ES";
 
@@ -102,7 +95,48 @@ public partial class UICodeSpawner
         sw.Close();
     }
 
-    private static void SpawnCodeForDlgEventHandle(GameObject gameObject)
+    /// <summary>
+    /// 自动生成WindowId代码
+    /// </summary>
+    /// <param name="gameObject"></param>
+    static void SpawnWindowIdCode(GameObject gameObject)
+    {
+        string strDlgName = gameObject.name;
+        string strFilePath = Application.dataPath + "/../Codes/ModelView/Module/EUI/WindowId.cs";
+
+        if (!File.Exists(strFilePath))
+        {
+            Debug.LogError(" 当前不存在WindowId.cs!!!");
+            return;
+        }
+
+        string originWindowIdContent = File.ReadAllText(strFilePath);
+        if (originWindowIdContent.Contains(strDlgName.Substring(3)))
+        {
+            return;
+        }
+        int windowIdEndIndex = GetWindowIdEndIndex(originWindowIdContent);
+        originWindowIdContent = originWindowIdContent.Insert(windowIdEndIndex, "\tWindowID_" + strDlgName.Substring(3) + ",\n\t");
+        File.WriteAllText(strFilePath, originWindowIdContent);
+    }
+
+    public static int GetWindowIdEndIndex(string content)
+    {
+        Regex regex = new Regex("WindowID");
+        Match match = regex.Match(content);
+        Regex regex1 = new Regex("}");
+        MatchCollection matchCollection = regex1.Matches(content);
+        for (int i = 0; i < matchCollection.Count; i++)
+        {
+            if (matchCollection[i].Index > match.Index)
+            {
+                return matchCollection[i].Index;
+            }
+        }
+        return -1;
+    }
+
+    static void SpawnCodeForDlgEventHandle(GameObject gameObject)
     {
         string strDlgName = gameObject.name;
         string strFilePath = Application.dataPath + "/../Codes/HotfixView/Demo/UI/" + strDlgName + "/Event";
@@ -118,7 +152,7 @@ public partial class UICodeSpawner
             Debug.LogError("已存在 " + strDlgName + ".cs,将不会再次生成。");
             return;
         }
-
+        SpawnWindowIdCode(gameObject);
         StreamWriter sw = new StreamWriter(strFilePath, false, Encoding.UTF8);
         StringBuilder strBuilder = new StringBuilder();
 
