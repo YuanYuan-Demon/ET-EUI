@@ -81,6 +81,6 @@ namespace ET.EventType
             }
         }
 
-        protected abstract ETTask Run(A a);
+        protected abstract ETTask Run(A args);
     }
 }

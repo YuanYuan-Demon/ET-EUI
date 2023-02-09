@@ -1,4 +1,7 @@
-﻿namespace ET
+﻿using System;
+using System.Threading.Tasks;
+
+namespace ET
 {
     public static class AdventureHelper
     {
@@ -29,6 +32,19 @@
                 return request.Error;
             }
             return ErrorCode.ERR_Success;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="zoneScene"></param>
+        /// <param name="battleRoundResult"></param>
+        /// <param name="round"></param>
+        /// <returns></returns>
+        public static async ETTask<int> RequestEndGameLevel(Scene zoneScene, BattleRoundResult battleRoundResult, int round)
+        {
+            await ETTask.CompletedTask;
+            return 0;
         }
     }
 }

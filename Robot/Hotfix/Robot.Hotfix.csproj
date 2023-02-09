@@ -11,26 +11,26 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <OutputPath>../../Bin/</OutputPath>
-      <DefineConstants>TRACECOREAPP;NOT_UNITY</DefineConstants>
+        <OutputPath>../../Bin/</OutputPath>
+        <DefineConstants>TRACECOREAPP;NOT_UNITY</DefineConstants>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <OutputPath>../../Bin/</OutputPath>
-      <DefineConstants>TRACECOREAPP;NOT_UNITY</DefineConstants>
+        <OutputPath>../../Bin/</OutputPath>
+        <DefineConstants>TRACECOREAPP;NOT_UNITY</DefineConstants>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Tools\Analyzer\Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-      <ProjectReference Include="..\Model\Robot.Model.csproj" />
+        <ProjectReference Include="..\..\Tools\Analyzer\Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\Model\Robot.Model.csproj" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <Compile Include="..\..\Server\Hotfix\Demo\Session\InnerMessageDispatcherHelper.cs">
-          <Link>Server\Session\InnerMessageDispatcherHelper.cs</Link>
+            <Link>Server\Session\InnerMessageDispatcherHelper.cs</Link>
         </Compile>
         <Compile Include="..\..\Server\Hotfix\Demo\Session\SessionStreamDispatcherServerInner.cs">
-          <Link>Server\Session\SessionStreamDispatcherServerInner.cs</Link>
+            <Link>Server\Session\SessionStreamDispatcherServerInner.cs</Link>
         </Compile>
         <Compile Include="..\..\Unity\Codes\Hotfix\Module\AI\**\*.cs">
             <Link>Module\AI\%(RecursiveDir)%(FileName)%(Extension)</Link>
@@ -59,12 +59,12 @@
         <Compile Include="..\..\Server\Hotfix\Module\MessageInner\**\*.cs">
             <Link>Module\MessageInner\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
-        
+
         <Compile Include="..\..\Server\Hotfix\Module\NetworkTCP\**\*.cs">
             <Link>Module\NetworkTCP\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
 
-        <Compile Include="..\..\Unity\Codes\Hotfix\Demo\**\*.cs"> 
+        <Compile Include="..\..\Unity\Codes\Hotfix\Demo\**\*.cs">
             <Link>Demo\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
 
@@ -92,9 +92,9 @@
             <Link>Config\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <Folder Include="Server" />
+        <Folder Include="Server" />
     </ItemGroup>
 
 </Project>

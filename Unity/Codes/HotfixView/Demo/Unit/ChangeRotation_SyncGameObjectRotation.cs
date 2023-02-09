@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace ET
 {
+    [FriendClassAttribute(typeof(ET.GameObjectComponent))]
     public class ChangeRotation_SyncGameObjectRotation : AEventClass<EventType.ChangeRotation>
     {
         protected override void Run(EventType.ChangeRotation changeRotation)

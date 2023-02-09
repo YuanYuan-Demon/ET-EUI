@@ -13,5 +13,6 @@ namespace ET
         public int Round = 0;
         public List<long> EnemyIdList = new();
         public List<long> AliveEnemyIdList = new();
+        public SRandom Random;
     }
 }

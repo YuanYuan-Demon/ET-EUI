@@ -25,7 +25,7 @@
             //等待加载界面显示,可取消
             //await TimerComponent.Instance.WaitAsync(1000);
 
-            Game.EventSystem.PublishAsync(new EventType.SceneChangeFinish()
+            Game.EventSystem.PublishAsync(new EventType.SceneChangeFinishAsync()
             {
                 ZoneScene = zoneScene,
                 CurrentScene = currentScene

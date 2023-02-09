@@ -22,7 +22,7 @@ namespace ET.EventType
         public Scene ZoneScene;
     }
 
-    public struct SceneChangeFinish
+    public struct SceneChangeFinishAsync
     {
         public Scene ZoneScene;
         public Scene CurrentScene;
@@ -159,6 +159,40 @@ namespace ET.EventType
     public struct AdventureRoundReset
     {
         public Scene ZoneScene;
+    }
+
+    public struct AdventureBattleRoundViewAsync
+    {
+        public Scene ZoneScene;
+        public Unit AttackUnit;
+        public Unit TargetUnit;
+    }
+
+    public struct AdventureBattleRoundAsync
+    {
+        public Scene ZoneScene;
+        public Unit AttackUnit;
+        public Unit TargetUnit;
+    }
+
+    public struct ShowDamageValueViewAsync
+    {
+        public Scene ZoneScene;
+        public Unit TargetUnit;
+        public int DamageValue;
+    }
+
+    public struct AdventureBattleOverAsync
+    {
+        public Scene ZoneScene;
+        public Unit WinUnit;
+    }
+
+    public struct AdventureBattleReportAsync
+    {
+        public Scene ZoneScene;
+        public int Round;
+        public BattleRoundResult BattleRoundResult;
     }
 
     #endregion 关卡系统
