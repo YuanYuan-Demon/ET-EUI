@@ -6,33 +6,33 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath> 
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <OutputPath>../../Bin/</OutputPath>
-      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-      <DefineConstants>TRACECOREAPP;NOT_UNITY</DefineConstants>
+        <OutputPath>../../Bin/</OutputPath>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <DefineConstants>TRACECOREAPP;NOT_UNITY</DefineConstants>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <OutputPath>../../Bin/</OutputPath>
-      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-      <DefineConstants>TRACECOREAPP;NOT_UNITY</DefineConstants>
+        <OutputPath>../../Bin/</OutputPath>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <DefineConstants>TRACECOREAPP;NOT_UNITY</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="..\..\Server\Model\Base\MongoHelper.cs">
-          <Link>Base\MongoHelper.cs</Link>
+            <Link>Base\MongoHelper.cs</Link>
         </Compile>
         <Compile Include="..\..\Server\Model\Base\MongoRegister.cs">
-          <Link>Base\MongoRegister.cs</Link>
+            <Link>Base\MongoRegister.cs</Link>
         </Compile>
         <Compile Include="..\..\Server\Model\Base\StructBsonSerialize.cs">
-          <Link>Base\StructBsonSerialize.cs</Link>
+            <Link>Base\StructBsonSerialize.cs</Link>
         </Compile>
         <Compile Include="..\..\Server\Model\Config\ConfigLoader.cs">
-          <Link>Config\ConfigLoader.cs</Link>
+            <Link>Config\ConfigLoader.cs</Link>
         </Compile>
         <Compile Include="..\..\Unity\Codes\Model\Module\Config\**\*.cs">
             <Link>Module\Config\%(RecursiveDir)%(FileName)%(Extension)</Link>
@@ -42,7 +42,7 @@
             <Link>Core\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
 
-        <Compile Include="..\..\Unity\Assets\Mono\Core\**\*.cs"> 
+        <Compile Include="..\..\Unity\Assets\Mono\Core\**\*.cs">
             <Link>Core\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
 
@@ -118,13 +118,13 @@
             <Link>Module\Console\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
     </ItemGroup>
-    
-  
+
+
     <ItemGroup>
-      <ProjectReference Include="..\..\ThirdParty\ETTask\ETTask.csproj" />
-      <ProjectReference Include="..\..\ThirdParty\ShareLib\ShareLib.csproj" />
-      <ProjectReference Include="..\..\ThirdParty\UnityEngine\UnityEngine.csproj" />
-      <ProjectReference Include="..\..\Tools\Analyzer\Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\..\ThirdParty\ETTask\ETTask.csproj" />
+        <ProjectReference Include="..\..\ThirdParty\ShareLib\ShareLib.csproj" />
+        <ProjectReference Include="..\..\ThirdParty\UnityEngine\UnityEngine.csproj" />
+        <ProjectReference Include="..\..\Tools\Analyzer\Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
 </Project>

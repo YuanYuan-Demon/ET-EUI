@@ -4,9 +4,12 @@ using UnityEngine;
 
 namespace ET
 {
-    public class Unit: Entity, IAwake<int>
+    public class Unit : Entity, IAwake<int>
     {
         public int ConfigId; //配置表id
+
+        [BsonIgnore]
+        public UnitType Type => (UnitType)Config.Type;
 
         [BsonIgnore]
         public UnitConfig Config => UnitConfigCategory.Instance.Get(this.ConfigId);
@@ -34,6 +37,7 @@ namespace ET
         }
 
         private WrapQuaternion rotation = new WrapQuaternion();
+
         public Quaternion Rotation
         {
             get => this.rotation.Value;

@@ -22,8 +22,6 @@
             Unit unit = UnitFactory.CreatePlayer(currentScene, m2CCreateMyUnit.Unit);
             unitComponent.Add(unit);
 
-            zoneScene.RemoveComponent<AIComponent>();
-
             //等待加载界面显示,可取消
             //await TimerComponent.Instance.WaitAsync(1000);
 
