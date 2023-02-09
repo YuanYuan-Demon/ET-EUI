@@ -2,6 +2,12 @@
 {
     public static class AdventureHelper
     {
+        /// <summary>
+        /// 发送开始闯关请求
+        /// </summary>
+        /// <param name="zoneScene"></param>
+        /// <param name="levelId"></param>
+        /// <returns></returns>
         public static async ETTask<int> RequestStartGameLevel(Scene zoneScene, int levelId)
         {
             M2C_StartGameLevel request;

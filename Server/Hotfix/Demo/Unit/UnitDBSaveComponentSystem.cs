@@ -67,7 +67,7 @@ namespace ET
                 request.EntityBytes.Add(MongoHelper.ToBson(component));
             }
             self.EntityChangeTypes.Clear();
-            int unitCacheSeverId = StartSceneConfigCategory.Instance.GetUnitCacheConfig(unit.Id).Id;
+            var unitCacheSeverId = StartSceneConfigCategory.Instance.GetUnitCacheConfig(unit.Id).InstanceId;
             MessageHelper.CallActor(unitCacheSeverId, request).Coroutine();
         }
     }

@@ -6,6 +6,7 @@
         public static void RegisterUIEvent(this DlgMain self)
         {
             self.View.EB_RoleInfoButton.AddListener(() => self.ShowDlgRoleInfo());
+            self.View.EB_AdventureButton.AddListener(() => self.ShowDlgAdventure());
         }
 
         public static void ShowWindow(this DlgMain self, Entity contextData = null)
@@ -26,6 +27,11 @@
         public static void ShowDlgRoleInfo(this DlgMain self)
         {
             self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_RoleInfo);
+        }
+
+        public static void ShowDlgAdventure(this DlgMain self)
+        {
+            self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Adventure);
         }
     }
 }
