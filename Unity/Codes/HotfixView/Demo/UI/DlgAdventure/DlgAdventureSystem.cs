@@ -88,10 +88,10 @@ namespace ET
                 int errorCode = await AdventureHelper.RequestStartGameLevel(self.ZoneScene(), levelId);
                 if (errorCode == ErrorCode.ERR_Success)
                 {
-                    self.Refresh();
-                    Game.EventSystem.Publish(new EventType.StartGameLevel { ZoneScene = self.ZoneScene() });
-                    //self.ZoneScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_Adventure);
-                    //self.ZoneScene().CurrentScene().GetComponent<ad>
+                    //self.Refresh();
+                    //Game.EventSystem.Publish(new EventType.StartGameLevel { ZoneScene = self.ZoneScene() });
+                    self.ZoneScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_Adventure);
+                    self.ZoneScene().CurrentScene().GetComponent<AdventureComponent>().StartAdventure().Coroutine();
                 }
             }
             catch (Exception e)
