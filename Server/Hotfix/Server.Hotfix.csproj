@@ -19,11 +19,13 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Unity\Codes\Hotfix\Demo\Adventure\DamageCalcuateHelper.cs" Link="Demo\Adventure\DamageCalcuateHelper.cs" />
     <Compile Include="..\..\Unity\Codes\Hotfix\Demo\Move\MoveComponentSystem.cs">
       <Link>Demo\Move\MoveComponentSystem.cs</Link>
     </Compile>
     <Compile Include="..\..\Unity\Codes\Hotfix\Demo\Role\RoleInfoSystem.cs" Link="Demo\Role\RoleInfoSystem.cs" />
     <Compile Include="..\..\Unity\Codes\Hotfix\Demo\ServerInfo\ServerInfoSystem.cs" Link="Demo\ServerInfo\ServerInfoSystem.cs" />
+    <Compile Include="..\..\Unity\Codes\Hotfix\Demo\Unit\UnitNumericHelper.cs" Link="Demo\Unit\UnitNumericHelper.cs" />
     <Compile Include="..\..\Unity\Codes\Hotfix\Module\Config\ConfigComponentSystem.cs">
       <Link>Module\Config\ConfigComponentSystem.cs</Link>
     </Compile>

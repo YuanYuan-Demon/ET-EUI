@@ -30,6 +30,11 @@ namespace ET
             Game.EventSystem.PublishAsync(new EventType.AdventureRoundReset() { ZoneScene = self.ZoneScene() }).Coroutine();
         }
 
+        /// <summary>
+        /// 开始冒险
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static async ETTask StartAdventure(this AdventureComponent self)
         {
             self.ResetAdventure();
@@ -38,6 +43,11 @@ namespace ET
             self.BattleTimer = TimerComponent.Instance.NewOnceTimer(TimeHelper.ServerNow() + 500, TimerType.BattleRound, self);
         }
 
+        /// <summary>
+        /// 创建关卡敌人
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static async ETTask CreateAdventureEnemy(this AdventureComponent self)
         {
             //获取玩家所在关卡配置
@@ -54,6 +64,11 @@ namespace ET
             }
         }
 
+        /// <summary>
+        /// 开始战斗回合演算
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static async ETTask PlayOneBattleRound(this AdventureComponent self)
         {
             UnitComponent unitComponent = self.ZoneScene().CurrentScene().GetComponent<UnitComponent>();
@@ -107,6 +122,10 @@ namespace ET
             self.BattleRoundOver();
         }
 
+        /// <summary>
+        /// 战斗回合结束
+        /// </summary>
+        /// <param name="self"></param>
         public static void BattleRoundOver(this AdventureComponent self)
         {
             ++self.Round;
@@ -175,6 +194,11 @@ namespace ET
             return BattleRoundResult.Keep;
         }
 
+        /// <summary>
+        /// 获取可攻击敌人
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static Unit GetTargetMonsterUnit(this AdventureComponent self)
         {
             self.AliveEnemyIdList.Clear();
@@ -192,11 +216,19 @@ namespace ET
                 : null;
         }
 
+        /// <summary>
+        /// 显示血条UI
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="show"></param>
         public static void ShowAdventureHpBarInfo(this AdventureComponent self, bool show)
         {
         }
     }
 
+    /// <summary>
+    /// 战斗回合触发器
+    /// </summary>
     [Timer(TimerType.BattleRound)]
     public class AdventureBattleRoundTimer : ATimer<AdventureComponent>
     {

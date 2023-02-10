@@ -54,5 +54,7 @@ namespace ET
 		 public const ushort M2C_AddAttributePoints = 10051;
 		 public const ushort C2M_StartGameLevel = 10052;
 		 public const ushort M2C_StartGameLevel = 10053;
+		 public const ushort C2M_EndGameLevel = 10054;
+		 public const ushort M2C_EndGameLevel = 10055;
 	}
 }

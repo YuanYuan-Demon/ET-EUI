@@ -71,5 +71,8 @@ namespace ET
         public const int ERR_AdventureInDying = 200025;
         public const int ERR_AdventureLevelError = 200026;
         public const int ERR_AdventureLevelNotEnough = 200027;
+        public const int ERR_AdventureRoundError = 200028;
+        public const int ERR_AdventureResultError = 200029;
+        public const int ERR_AdventureWinResultError = 200030;
     }
 }

@@ -444,6 +444,15 @@ message M2C_StartGameLevel // IActorLocationResponse
 	string Message = 92;
 }
 
+//ResponseType M2C_EndGameLevel
+message C2M_EndGameLevel // IActorLocationRequest
+{
+	int32 RpcId = 90;
+
+	int32 Round = 1;
+	int32 BattleResult = 2;
+}
+
 message M2C_EndGameLevel // IActorLocationResponse
 {
 	int32 RpcId = 90;

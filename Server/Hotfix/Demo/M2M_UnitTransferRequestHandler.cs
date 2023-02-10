@@ -18,6 +18,8 @@ namespace ET
             unit.AddComponent<UnitDBSaveComponent>();
             //添加数值监听组件
             unit.AddComponent<NumericNoticeComponent>();
+            //添加冒险闯关校验组件
+            unit.AddComponent<AdventureCheckComponent>();
 
             //添加Actor通信组件
             unit.AddComponent<MailBoxComponent>();

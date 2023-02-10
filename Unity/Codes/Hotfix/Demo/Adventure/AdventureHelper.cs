@@ -35,7 +35,7 @@ namespace ET
         }
 
         /// <summary>
-        ///
+        /// 发送关卡结束请求[EndGameLevel]
         /// </summary>
         /// <param name="zoneScene"></param>
         /// <param name="battleRoundResult"></param>
@@ -43,8 +43,26 @@ namespace ET
         /// <returns></returns>
         public static async ETTask<int> RequestEndGameLevel(Scene zoneScene, BattleRoundResult battleRoundResult, int round)
         {
-            await ETTask.CompletedTask;
-            return 0;
+            M2C_EndGameLevel request;
+            try
+            {
+                request = await zoneScene.GetSession().Call(new C2M_EndGameLevel()
+                {
+                    Round = round,
+                    BattleResult = (int)battleRoundResult,
+                }) as M2C_EndGameLevel;
+            }
+            catch (System.Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
+            if (request.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error(request.Error.ToString());
+                return request.Error;
+            }
+            return ErrorCode.ERR_Success;
         }
     }
 }
