@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace ET
 {
+    [FriendClassAttribute(typeof(ET.FlyDamageValueViewComponent))]
     public static class FlyDamageValueViewComponentSystem
     {
         public class FlyDamageValueViewComponentAwakeSystem : AwakeSystem<FlyDamageValueViewComponent>

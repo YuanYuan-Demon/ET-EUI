@@ -14,7 +14,7 @@ namespace ET
             {
                 accountSession = zoneScene.GetComponent<NetKcpComponent>().Create(NetworkHelper.ToIPEndPoint(address));
                 var passwordMd5 = MD5Helper.StringMD5(password);
-                response = await zoneScene.GetSession().Call(new C2A_LoginAccount() { AccountName = account, Password = passwordMd5 }) as A2C_LoginAccount;
+                response = await accountSession.Call(new C2A_LoginAccount() { AccountName = account, Password = passwordMd5 }) as A2C_LoginAccount;
             }
             catch (Exception e)
             {
@@ -220,17 +220,17 @@ namespace ET
         public static async Task<int> EnterGame(Scene zoneScene)
         {
             string realmAddress = zoneScene.GetComponent<AccountInfoComponent>().RealmAddress;
-            Session session;
+            Session gateSession;
 
             #region 连接Realm服务器,获取分配的Gate服务器
 
-            session = zoneScene.GetComponent<NetKcpComponent>().Create(NetworkHelper.ToIPEndPoint(realmAddress));
+            gateSession = zoneScene.GetComponent<NetKcpComponent>().Create(NetworkHelper.ToIPEndPoint(realmAddress));
 
             R2C_LoginRealm realmResponse = null;
             AccountInfoComponent accountInfoComponent = zoneScene.GetComponent<AccountInfoComponent>();
             try
             {
-                realmResponse = await zoneScene.GetSession().Call(new C2R_LoginRealm()
+                realmResponse = await gateSession.Call(new C2R_LoginRealm()
                 {
                     RealmToken = accountInfoComponent.RealmToken,
                     AccountId = accountInfoComponent.AccountId,
@@ -239,10 +239,10 @@ namespace ET
             catch (Exception e)
             {
                 Log.Error(e);
-                session?.Dispose();
+                gateSession?.Dispose();
                 return ErrorCode.ERR_NetWorkError;
             }
-            session?.Dispose();
+            gateSession?.Dispose();
 
             if (realmResponse.Error != ErrorCode.ERR_Success)
             {
@@ -254,13 +254,13 @@ namespace ET
 
             #region 连接Gate网关服务器
 
-            session = zoneScene.GetComponent<NetKcpComponent>().Create(NetworkHelper.ToIPEndPoint(realmResponse.GateAddress));
-            session.AddComponent<PingComponent>();
-            zoneScene.GetComponent<SessionComponent>().Session = session;
+            gateSession = zoneScene.GetComponent<NetKcpComponent>().Create(NetworkHelper.ToIPEndPoint(realmResponse.GateAddress));
+            gateSession.AddComponent<PingComponent>();
+            zoneScene.GetComponent<SessionComponent>().Session = gateSession;
             G2C_LoginGameGate gateResponse;
             try
             {
-                gateResponse = await zoneScene.GetSession().Call(new C2G_LoginGameGate()
+                gateResponse = await gateSession.Call(new C2G_LoginGameGate()
                 {
                     AccountId = accountInfoComponent.AccountId,
                     Key = realmResponse.GateSessionToken,
@@ -270,13 +270,13 @@ namespace ET
             catch (Exception e)
             {
                 Log.Error(e);
-                session?.Dispose();
+                gateSession?.Dispose();
                 return ErrorCode.ERR_NetWorkError;
             }
 
             if (gateResponse.Error != ErrorCode.ERR_Success)
             {
-                session?.Dispose();
+                gateSession?.Dispose();
                 return gateResponse.Error;
             }
             Log.Debug("登录Gate服务器成功");
@@ -286,16 +286,15 @@ namespace ET
             #region 角色正式请求进入游戏逻辑服
 
             G2C_EnterGame g2cEnterGameResponse;
-            var requestTask = zoneScene.GetSession().Call(new C2G_EnterGame());
+            var requestTask = gateSession.Call(new C2G_EnterGame());
             try
             {
-                await zoneScene.GetComponent<ObjectWait>().Wait<WaitType.Wait_SceneChangeFinish>();
                 g2cEnterGameResponse = await requestTask as G2C_EnterGame;
             }
             catch (Exception e)
             {
                 Log.Error(e);
-                session?.Dispose();
+                gateSession?.Dispose();
                 return ErrorCode.ERR_NetWorkError;
             }
 
@@ -303,7 +302,10 @@ namespace ET
             {
                 return g2cEnterGameResponse.Error;
             }
+
             zoneScene.GetComponent<PlayerComponent>().MyId = g2cEnterGameResponse.UnitId;
+
+            await zoneScene.GetComponent<ObjectWait>().Wait<WaitType.Wait_SceneChangeFinish>();
             Log.Debug("角色进入游戏成功");
 
             #endregion 角色正式请求进入游戏逻辑服

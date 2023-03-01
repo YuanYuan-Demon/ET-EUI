@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ET
+﻿namespace ET
 {
     public static class UnitHelper
     {
@@ -13,7 +11,7 @@ namespace ET
 
         public static Unit GetMyUnitFromCurrentScene(Scene currentScene)
         {
-            PlayerComponent playerComponent = currentScene?.ZoneScene()?.GetComponent<PlayerComponent>();
+            PlayerComponent playerComponent = currentScene.ZoneScene().GetComponent<PlayerComponent>();
             return currentScene.GetComponent<UnitComponent>().Get(playerComponent.MyId);
         }
 

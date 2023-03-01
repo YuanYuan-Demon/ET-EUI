@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace ET
 {
+    [FriendClassAttribute(typeof(ET.HeadHpViewComponent))]
     public static class HeadHpViewComponentSystem
     {
+        [FriendClassAttribute(typeof(ET.GameObjectComponent))]
         public class HeadHpViewComponentAwakeSystem : AwakeSystem<HeadHpViewComponent>
         {
             public override void Awake(HeadHpViewComponent self)
@@ -12,8 +14,8 @@ namespace ET
                 GameObject go = self.GetParent<Unit>().GetComponent<GameObjectComponent>().GameObject;
                 ReferenceCollector referenceCollector = go.GetComponent<ReferenceCollector>();
                 self.HpBarGroup = referenceCollector.Get<GameObject>("HpBarGroup");
-                self.HpBar = referenceCollector.Get<SpriteRenderer>("HpBar");
-                self.HpText = referenceCollector.Get<TextMeshPro>("HpText");
+                self.HpBar = referenceCollector.Get<GameObject>("HpBar").GetComponent<SpriteRenderer>();
+                self.HpText = referenceCollector.Get<GameObject>("HpText").GetComponent<TextMeshPro>();
             }
         }
 

@@ -21,6 +21,18 @@ namespace ET
             self.View.EB_ConfirmAddAttributeButton.AddListenerAsync(() => OnClickConfirmAddPoint(self, true));
             self.View.EB_CancelAddAttributeButton.AddListenerAsync(() => OnClickConfirmAddPoint(self, false));
             self.View.EB_CloseButton.onClick.AddListener(async () => await OnClickConfirmAddPoint(self, false));
+
+            RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.UpLevelButton, self.View.EB_UpLevelButton.gameObject, Vector3.one, new Vector3(80, 30, 0));
+            RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.AddAttribute, self.View.ET_AttributePointsText.gameObject, Vector3.one, new Vector3(150, 22, 0));
+        }
+
+        public static void OnUnLoadWindow(this DlgRoleInfo self)
+        {
+            RedDotMonoView redDotMonoView = self.View.EB_UpLevelButton.GetComponent<RedDotMonoView>();
+            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.UpLevelButton, out redDotMonoView);
+
+            redDotMonoView = self.View.ET_AttributePointsText.GetComponent<RedDotMonoView>();
+            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.AddAttribute, out redDotMonoView);
         }
 
         public static void ShowWindow(this DlgRoleInfo self, Entity contextData = null)

@@ -84,7 +84,7 @@ namespace ET
         public static async ETTask PlayOneBattleRound(this AdventureComponent self)
         {
             UnitComponent unitComponent = self.ZoneScene().CurrentScene().GetComponent<UnitComponent>();
-            Unit unit = UnitHelper.GetMyUnitFromZoneScene(self.ZoneScene());
+            Unit playerUnit = UnitHelper.GetMyUnitFromZoneScene(self.ZoneScene());
             Unit monsterUnit;
 
             if (self.Round % 2 == 0)
@@ -94,13 +94,13 @@ namespace ET
                 Game.EventSystem.PublishAsync(new EventType.AdventureBattleRoundViewAsync()
                 {
                     ZoneScene = self.ZoneScene(),
-                    AttackUnit = unit,
+                    AttackUnit = playerUnit,
                     TargetUnit = monsterUnit
                 }).Coroutine();
                 await Game.EventSystem.PublishAsync(new EventType.AdventureBattleRoundAsync()
                 {
                     ZoneScene = self.ZoneScene(),
-                    AttackUnit = unit,
+                    AttackUnit = playerUnit,
                     TargetUnit = monsterUnit
                 });
                 await TimerComponent.Instance.WaitAsync(1000);
@@ -108,7 +108,7 @@ namespace ET
             else
             {
                 //敌人回合
-                for (int i = 0; i < self.EnemyIdList.Count && unit.IsAlive(); i++)
+                for (int i = 0; i < self.EnemyIdList.Count && playerUnit.IsAlive(); i++)
                 {
                     monsterUnit = unitComponent.Get(self.EnemyIdList[i]);
                     if (!monsterUnit.IsAlive())
@@ -118,14 +118,14 @@ namespace ET
                     Game.EventSystem.PublishAsync(new EventType.AdventureBattleRoundViewAsync()
                     {
                         ZoneScene = self.ZoneScene(),
-                        AttackUnit = unit,
-                        TargetUnit = monsterUnit
+                        AttackUnit = monsterUnit,
+                        TargetUnit = playerUnit,
                     }).Coroutine();
                     await Game.EventSystem.PublishAsync(new EventType.AdventureBattleRoundAsync()
                     {
                         ZoneScene = self.ZoneScene(),
-                        AttackUnit = unit,
-                        TargetUnit = monsterUnit
+                        AttackUnit = monsterUnit,
+                        TargetUnit = playerUnit
                     });
                     await TimerComponent.Instance.WaitAsync(1000);
                 }

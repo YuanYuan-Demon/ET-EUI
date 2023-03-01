@@ -21,7 +21,7 @@ namespace ET
             }
 
             args.TargetUnit.GetComponent<NumericComponent>().Set(NumericType.Hp, hp);
-            Log.Debug($"*************  {args.AttackUnit}造成伤害:{hp}  *************");
+            Log.Debug($"*************  {args.AttackUnit}造成伤害:{damage}  *************");
             Log.Debug($"*************  {args.TargetUnit.Type}剩余血量:{hp}  *************");
             Game.EventSystem.PublishAsync(new EventType.ShowDamageValueViewAsync()
             {

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OfficeOpenXml.Drawing.Style.Effect;
 
 namespace ET
 {
@@ -15,6 +10,7 @@ namespace ET
         {
             public override void Destroy(AdventureCheckComponent self)
             {
+                //销毁缓存的Unit
                 foreach (var monsterId in self.CacheEnemyIdList)
                 {
                     self.DomainScene().GetComponent<UnitComponent>().Remove(monsterId);
@@ -149,6 +145,7 @@ namespace ET
         public static bool SimulationBattle(this AdventureCheckComponent self, int battleRound)
         {
             //开始模拟对战
+            Unit playerUnit = self.GetParent<Unit>();
             for (int i = 0; i < battleRound; i++)
             {
                 //玩家回合
@@ -161,12 +158,12 @@ namespace ET
                         return false;
                     }
                     self.AnimationTotalTime += 1000;
-                    self.CalcuateDamageHpValue(self.GetParent<Unit>(), monsterUnit);
+                    self.CalcuateDamageHpValue(playerUnit, monsterUnit);
                 }
                 //敌人回合
                 else
                 {
-                    if (!self.GetParent<Unit>().IsAlive())
+                    if (!playerUnit.IsAlive())
                     {
                         return false;
                     }
@@ -178,7 +175,7 @@ namespace ET
                             continue;
                         }
                         self.AnimationTotalTime += 1000;
-                        self.CalcuateDamageHpValue(monsterUnit, self.GetParent<Unit>());
+                        self.CalcuateDamageHpValue(monsterUnit, playerUnit);
                     }
                 }
             }

@@ -113,7 +113,8 @@ namespace ET
 
                     //玩家Unit上线后的初始化操作
                     await UnitHelper.InitUnit(unit, isNewPlayer);
-
+                    response.UnitId = unit.Id;
+                    reply();
                     //创建游戏对象(unit.Id = player.Id = roleId)
                     //Unit unit = UnitFactory.Create(gateMapComponent.Scene, player.Id, UnitType.Player);
                     //unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
@@ -124,8 +125,8 @@ namespace ET
                     await TransferHelper.Transfer(unit, startSceneConfig.InstanceId, startSceneConfig.Name);
 
                     player.UnitId = unitId;
-                    response.UnitId = unitId;
-                    reply();
+                    //response.UnitId = unitId;
+                    //reply();
 
                     //添加当前会话状态组件-更改当前会话状态
                     sessionStatusComponent = session.GetComponent<SessionStatusComponent>();

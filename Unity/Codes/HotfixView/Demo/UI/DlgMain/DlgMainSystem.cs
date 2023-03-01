@@ -1,4 +1,6 @@
-﻿namespace ET
+﻿using UnityEngine;
+
+namespace ET
 {
     [FriendClass(typeof(DlgMain))]
     public static class DlgMainSystem
@@ -7,6 +9,14 @@
         {
             self.View.EB_RoleInfoButton.AddListener(() => self.ShowDlgRoleInfo());
             self.View.EB_AdventureButton.AddListener(() => self.ShowDlgAdventure());
+
+            RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.Role, self.View.EB_RoleInfoButton.gameObject, Vector3.one, new Vector3(80, 30, 0));
+        }
+
+        public static void OnUnLoadWindow(this DlgMain self)
+        {
+            RedDotMonoView redDotMonoView = self.View.EB_RoleInfoButton.GetComponent<RedDotMonoView>();
+            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.Role, out redDotMonoView);
         }
 
         public static void ShowWindow(this DlgMain self, Entity contextData = null)
