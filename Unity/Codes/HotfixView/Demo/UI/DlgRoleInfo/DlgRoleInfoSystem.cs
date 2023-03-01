@@ -17,9 +17,10 @@ namespace ET
             self.View.EL_AttributeInfoLoopVerticalScrollRect.AddItemRefreshListener(
                 (transform, index) => self.OnAttributeItemRefreshHandler(transform, index));
 
-            self.View.EB_ConfirmAddAttributeButton.AddListenerAsync(() => OnConfirmAddPoint(self, true));
-            self.View.EB_CancelAddAttributeButton.AddListenerAsync(() => OnConfirmAddPoint(self, false));
-            self.View.EB_CloseButton.onClick.AddListener(async () => await OnConfirmAddPoint(self, false));
+            self.View.EB_UpLevelButton.AddListenerAsync(self.OnClickUpRoleLevel);
+            self.View.EB_ConfirmAddAttributeButton.AddListenerAsync(() => OnClickConfirmAddPoint(self, true));
+            self.View.EB_CancelAddAttributeButton.AddListenerAsync(() => OnClickConfirmAddPoint(self, false));
+            self.View.EB_CloseButton.onClick.AddListener(async () => await OnClickConfirmAddPoint(self, false));
         }
 
         public static void ShowWindow(this DlgRoleInfo self, Entity contextData = null)
@@ -53,12 +54,13 @@ namespace ET
             var scrollItemAttribute = self.ScrollItem_Attribute[index].BindTrans(transform);
             PlayerNumericConfig config = PlayerNumericConfigCategory.Instance.GetConfigByIndex(index);
             scrollItemAttribute.ET_AttributeNameText.text = $"{config.Name}: ";
+
             NumericComponent numericComponent = UnitHelper.GetMyUnitNumericComponentFromCurScene(self.ZoneScene().CurrentScene());
             string value = config.isPrecent == 0 ?
                 numericComponent.GetAsLong(config.Id).ToString() :
                 $"{numericComponent.GetAsFloat(config.Id):0.00}%";
-            if (self.IsDirtyAttribute(config.Id))
-                value = $"<color=#29BA29>{value}</color>";
+            //判断数值是否通过加点发生变动
+            if (self.IsDirtyAttribute(config.Id)) value = $"<color=#29BA29>{value}</color>";
             scrollItemAttribute.ET_AttributeValueText.text = value;
         }
 
@@ -76,7 +78,23 @@ namespace ET
             self.View.EB_CancelAddAttributeButton.SetVisible(isShow);
         }
 
-        private static async ETTask OnConfirmAddPoint(this DlgRoleInfo self, bool isConfirm)
+        public static async ETTask OnClickUpRoleLevel(this DlgRoleInfo self)
+        {
+            try
+            {
+                int errorCode = await NumericHelper.ReqeustUpRoleLevel(self.ZoneScene());
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    return;
+                }
+            }
+            catch (System.Exception e)
+            {
+                Log.Error(e);
+            }
+        }
+
+        private static async ETTask OnClickConfirmAddPoint(this DlgRoleInfo self, bool isConfirm)
         {
             var addAttributeEvent = new EventType.AddAttributeConfirm()
             {

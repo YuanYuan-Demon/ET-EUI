@@ -149,6 +149,23 @@ namespace ET
      		}
      	}
 
+		public UnityEngine.UI.Button EB_UpLevelButton
+     	{
+     		get
+     		{
+     			if (this.uiTransform == null)
+     			{
+     				Log.Error("uiTransform is null.");
+     				return null;
+     			}
+     			if( this.m_EB_UpLevelButton == null )
+     			{
+		    		this.m_EB_UpLevelButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Panel/RoleView/EB_UpLevel");
+     			}
+     			return this.m_EB_UpLevelButton;
+     		}
+     	}
+
 		public UnityEngine.UI.Text ET_AttributePointsText
      	{
      		get
@@ -305,6 +322,7 @@ namespace ET
 			this.m_es_equip_offhand = null;
 			this.m_es_equip_weapon?.Dispose();
 			this.m_es_equip_weapon = null;
+			this.m_EB_UpLevelButton = null;
 			this.m_ET_AttributePointsText = null;
 			this.m_EB_ConfirmAddAttributeButton = null;
 			this.m_EB_CancelAddAttributeButton = null;
@@ -328,6 +346,7 @@ namespace ET
 		private ES_Equip m_es_equip_glove = null;
 		private ES_Equip m_es_equip_offhand = null;
 		private ES_Equip m_es_equip_weapon = null;
+		private UnityEngine.UI.Button m_EB_UpLevelButton = null;
 		private UnityEngine.UI.Text m_ET_AttributePointsText = null;
 		private UnityEngine.UI.Button m_EB_ConfirmAddAttributeButton = null;
 		private UnityEngine.UI.Button m_EB_CancelAddAttributeButton = null;

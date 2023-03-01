@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace ET
+﻿namespace ET
 {
     public static class DamageCalcuateHelper
     {
@@ -27,6 +20,7 @@ namespace ET
             {
                 //计算护甲减免
                 damage -= aromr;
+                //最低造成1点伤害
                 damage = damage <= 0 ? 1 : damage;
             }
             return damage;

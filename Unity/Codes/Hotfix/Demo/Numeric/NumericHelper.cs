@@ -15,7 +15,7 @@ namespace ET
             M2C_AddAttributePoints response;
             try
             {
-                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(request) as M2C_AddAttributePoints;
+                response = await zoneScene.GetSession().Call(request) as M2C_AddAttributePoints;
             }
             catch (System.Exception e)
             {
@@ -74,6 +74,27 @@ namespace ET
                 default:
                     return 0;
             }
+        }
+
+        public static async ETTask<int> ReqeustUpRoleLevel(Scene zoneScene)
+        {
+            M2C_UpRoleLevel response;
+            try
+            {
+                response = await zoneScene.GetSession().Call(new C2M_UpRoleLevel() { }) as M2C_UpRoleLevel;
+            }
+            catch (System.Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
+
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error(response.Error.ToString());
+                return response.Error;
+            }
+            return ErrorCode.ERR_Success;
         }
     }
 }

@@ -5,6 +5,23 @@ namespace ET
     [FriendClassAttribute(typeof(ET.AdventureComponent))]
     public static class AdventureComponentSystem
     {
+        public static void SetBattleRandomSeed(this AdventureComponent self)
+        {
+            uint seed = (uint)UnitHelper.GetMyUnitNumericComponentFromCurScene(self.ZoneScene().CurrentScene()).GetAsInt(NumericType.BattleRandomSeed);
+            if (self.Random == null)
+            {
+                self.Random = new SRandom(seed);
+            }
+            else
+            {
+                self.Random.SetRandomSeed(seed);
+            }
+        }
+
+        /// <summary>
+        /// 重置冒险
+        /// </summary>
+        /// <param name="self"></param>
         public static void ResetAdventure(this AdventureComponent self)
         {
             for (int i = 0; i < self.EnemyIdList.Count; i++)

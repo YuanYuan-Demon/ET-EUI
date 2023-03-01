@@ -14,7 +14,7 @@ namespace ET
             {
                 accountSession = zoneScene.GetComponent<NetKcpComponent>().Create(NetworkHelper.ToIPEndPoint(address));
                 var passwordMd5 = MD5Helper.StringMD5(password);
-                response = await accountSession.Call(new C2A_LoginAccount() { AccountName = account, Password = passwordMd5 }) as A2C_LoginAccount;
+                response = await zoneScene.GetSession().Call(new C2A_LoginAccount() { AccountName = account, Password = passwordMd5 }) as A2C_LoginAccount;
             }
             catch (Exception e)
             {
@@ -46,7 +46,7 @@ namespace ET
             A2C_GetServerInfos response;
             try
             {
-                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_GetServerInfos()
+                response = await zoneScene.GetSession().Call(new C2A_GetServerInfos()
                 {
                     AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
                     Token = zoneScene.GetComponent<AccountInfoComponent>().Token
@@ -83,7 +83,7 @@ namespace ET
             A2C_GetRoles response = null;
             try
             {
-                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_GetRoles()
+                response = await zoneScene.GetSession().Call(new C2A_GetRoles()
                 {
                     Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
                     ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
@@ -123,7 +123,7 @@ namespace ET
             A2C_CreateRole response = null;
             try
             {
-                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_CreateRole()
+                response = await zoneScene.GetSession().Call(new C2A_CreateRole()
                 {
                     AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
                     Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
@@ -153,7 +153,7 @@ namespace ET
             A2C_DelteRole response = null;
             try
             {
-                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_DelteRole()
+                response = await zoneScene.GetSession().Call(new C2A_DelteRole()
                 {
                     Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
                     ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
@@ -189,7 +189,7 @@ namespace ET
             AccountInfoComponent accountInfoComponent = zoneScene.GetComponent<AccountInfoComponent>();
             try
             {
-                response = await zoneScene.GetComponent<SessionComponent>().Session.Call(new C2A_GetRealmKey()
+                response = await zoneScene.GetSession().Call(new C2A_GetRealmKey()
                 {
                     Token = accountInfoComponent.Token,
                     ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
@@ -230,7 +230,7 @@ namespace ET
             AccountInfoComponent accountInfoComponent = zoneScene.GetComponent<AccountInfoComponent>();
             try
             {
-                realmResponse = await session.Call(new C2R_LoginRealm()
+                realmResponse = await zoneScene.GetSession().Call(new C2R_LoginRealm()
                 {
                     RealmToken = accountInfoComponent.RealmToken,
                     AccountId = accountInfoComponent.AccountId,
@@ -260,7 +260,7 @@ namespace ET
             G2C_LoginGameGate gateResponse;
             try
             {
-                gateResponse = await session.Call(new C2G_LoginGameGate()
+                gateResponse = await zoneScene.GetSession().Call(new C2G_LoginGameGate()
                 {
                     AccountId = accountInfoComponent.AccountId,
                     Key = realmResponse.GateSessionToken,
@@ -286,7 +286,7 @@ namespace ET
             #region 角色正式请求进入游戏逻辑服
 
             G2C_EnterGame g2cEnterGameResponse;
-            var requestTask = session.Call(new C2G_EnterGame());
+            var requestTask = zoneScene.GetSession().Call(new C2G_EnterGame());
             try
             {
                 await zoneScene.GetComponent<ObjectWait>().Wait<WaitType.Wait_SceneChangeFinish>();
