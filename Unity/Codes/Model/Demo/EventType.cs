@@ -195,5 +195,17 @@ namespace ET.EventType
         public BattleRoundResult BattleRoundResult;
     }
 
+    public class ShowAdventureHpBar : DisposeObject
+    {
+        public static readonly ShowAdventureHpBar Instance = new();
+        public Unit Unit;
+        public bool isShow;
+
+        public override void Dispose()
+        {
+            this.Unit = null;
+        }
+    }
+
     #endregion 关卡系统
 }

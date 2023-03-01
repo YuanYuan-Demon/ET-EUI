@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ET.EventType;
 
 namespace ET
 {
@@ -223,6 +218,17 @@ namespace ET
         /// <param name="show"></param>
         public static void ShowAdventureHpBarInfo(this AdventureComponent self, bool show)
         {
+            Unit myUnit = UnitHelper.GetMyUnitFromZoneScene(self.ZoneScene());
+            ShowAdventureHpBar.Instance.Unit = myUnit;
+            ShowAdventureHpBar.Instance.isShow = show;
+            Game.EventSystem.PublishClass(ShowAdventureHpBar.Instance);
+            var unitComponent = self.ZoneScene().CurrentScene().GetComponent<UnitComponent>();
+            for (int i = 0; i < self.EnemyIdList.Count; i++)
+            {
+                Unit monsterUnit = unitComponent.Get(self.EnemyIdList[i]);
+                ShowAdventureHpBar.Instance.Unit = monsterUnit;
+                Game.EventSystem.PublishClass(ShowAdventureHpBar.Instance);
+            }
         }
     }
 

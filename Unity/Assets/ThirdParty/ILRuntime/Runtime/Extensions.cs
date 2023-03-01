@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-
-using ILRuntime.Runtime.Stack;
 
 namespace ILRuntime.Runtime
 {
@@ -26,11 +22,12 @@ namespace ILRuntime.Runtime
             else
                 return false;
         }
+
         public static void GetClassName(this Type type, out string clsName, out string realClsName, out bool isByRef, bool simpleClassName = false)
         {
             isByRef = type.IsByRef;
             int arrayRank = 1;
-            
+
             if (isByRef)
             {
                 type = type.GetElementType();
@@ -76,7 +73,7 @@ namespace ILRuntime.Runtime
                 string bClsName, bRealClsName;
                 bool tmp;
                 var rt = type.ReflectedType;
-                if(rt.IsGenericType && rt.IsGenericTypeDefinition)
+                if (rt.IsGenericType && rt.IsGenericTypeDefinition)
                 {
                     if (type.IsGenericType)
                     {
@@ -176,7 +173,7 @@ namespace ILRuntime.Runtime
                     StringBuilder sb = new StringBuilder();
                     sb.Append(realClsName);
                     sb.Append('[');
-                    for(int i=0;i<arrayRank - 1; i++)
+                    for (int i = 0; i < arrayRank - 1; i++)
                     {
                         sb.Append(',');
                     }
@@ -184,8 +181,8 @@ namespace ILRuntime.Runtime
                     realClsName = sb.ToString();
                 }
             }
-
         }
+
         public static int ToInt32(this object obj)
         {
             if (obj is int)
@@ -210,6 +207,7 @@ namespace ILRuntime.Runtime
                 return (int)(sbyte)obj;
             return Convert.ToInt32(obj);
         }
+
         public static long ToInt64(this object obj)
         {
             if (obj is long)
@@ -232,6 +230,7 @@ namespace ILRuntime.Runtime
                 return (long)(sbyte)obj;
             throw new InvalidCastException();
         }
+
         public static short ToInt16(this object obj)
         {
             if (obj is short)
@@ -254,6 +253,7 @@ namespace ILRuntime.Runtime
                 return (short)(sbyte)obj;
             throw new InvalidCastException();
         }
+
         public static float ToFloat(this object obj)
         {
             if (obj is float)
