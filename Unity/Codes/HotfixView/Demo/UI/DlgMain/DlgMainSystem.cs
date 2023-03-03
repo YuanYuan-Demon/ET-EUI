@@ -9,6 +9,9 @@ namespace ET
         {
             self.View.EB_RoleInfoButton.AddListener(() => self.ShowDlgRoleInfo());
             self.View.EB_AdventureButton.AddListener(() => self.ShowDlgAdventure());
+            self.View.EB_BagButton.AddListener(() => self.ShowDlgBag());
+            self.View.EB_ForgeButton.AddListener(() => self.ShowDlgForge());
+            self.View.EB_TaskButton.AddListener(() => self.ShowDlgTask());
 
             RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.Role, self.View.EB_RoleInfoButton.gameObject, Vector3.one, new Vector3(80, 30, 0));
         }
@@ -42,6 +45,21 @@ namespace ET
         public static void ShowDlgAdventure(this DlgMain self)
         {
             self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Adventure);
+        }
+
+        public static void ShowDlgBag(this DlgMain self)
+        {
+            self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Bag);
+        }
+
+        public static void ShowDlgForge(this DlgMain self)
+        {
+            self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Forge);
+        }
+
+        public static void ShowDlgTask(this DlgMain self)
+        {
+            self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Task);
         }
     }
 }

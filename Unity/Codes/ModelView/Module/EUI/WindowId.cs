@@ -13,6 +13,10 @@
         WindowID_Loading,   //加载界面
         WindowID_Main,      //场景主界面
         WindowID_RoleInfo,  //角色信息界面
-        WindowID_Adventure,
+        WindowID_Adventure, //关卡选择界面
+        WindowID_Bag,       //背包界面
+        WindowID_Forge,     //打造界面
+        WindowID_Task,      //任务面板
+        WindowID_ItemPopUp, //道具操作弹窗
     }
 }

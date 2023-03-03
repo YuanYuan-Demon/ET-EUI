@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 3848779254559385330}
   - component: {fileID: 3848779254559385329}
   m_Layer: 0
-  m_Name: EB_Store
+  m_Name: EB_Task
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 3848779254737809119}
   - component: {fileID: 3848779254737809118}
   m_Layer: 0
-  m_Name: EB_Forge
+  m_Name: EB_Bag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -800,7 +800,7 @@ GameObject:
   - component: {fileID: 3848779254922372578}
   - component: {fileID: 3848779254922372577}
   m_Layer: 0
-  m_Name: Label_Task
+  m_Name: Label_Forge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -867,7 +867,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u4EFB\u52A1"
+  m_Text: "\u6253\u9020"
 --- !u!1 &3848779254941109373
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,7 +1251,7 @@ GameObject:
   - component: {fileID: 3848779255312165917}
   - component: {fileID: 3848779255312165916}
   m_Layer: 0
-  m_Name: Label_Store
+  m_Name: Label_Task
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1318,7 +1318,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u5546\u5E97"
+  m_Text: "\u4EFB\u52A1"
 --- !u!1 &3848779255339666359
 GameObject:
   m_ObjectHideFlags: 0
@@ -1644,7 +1644,7 @@ GameObject:
   - component: {fileID: 3848779255716704879}
   - component: {fileID: 3848779255716704878}
   m_Layer: 0
-  m_Name: EB_Task
+  m_Name: EB_Forge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1765,7 +1765,7 @@ GameObject:
   - component: {fileID: 3848779255954798605}
   - component: {fileID: 3848779255954798604}
   m_Layer: 0
-  m_Name: Label_Forge
+  m_Name: Label_Bag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1832,7 +1832,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u6253\u9020"
+  m_Text: "\u80CC\u5305"
 --- !u!1 &4743080431473512429
 GameObject:
   m_ObjectHideFlags: 0

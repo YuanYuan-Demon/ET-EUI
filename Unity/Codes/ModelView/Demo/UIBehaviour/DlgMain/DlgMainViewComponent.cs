@@ -109,7 +109,7 @@ namespace ET
      		}
      	}
 
-		public UnityEngine.UI.Button EB_ForgeButton
+		public UnityEngine.UI.Button EB_BagButton
      	{
      		get
      		{
@@ -118,15 +118,15 @@ namespace ET
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_EB_ForgeButton == null )
+     			if( this.m_EB_BagButton == null )
      			{
-		    		this.m_EB_ForgeButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"BottomArea/EB_Forge");
+		    		this.m_EB_BagButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"BottomArea/EB_Bag");
      			}
-     			return this.m_EB_ForgeButton;
+     			return this.m_EB_BagButton;
      		}
      	}
 
-		public UnityEngine.UI.Image EB_ForgeImage
+		public UnityEngine.UI.Image EB_BagImage
      	{
      		get
      		{
@@ -135,11 +135,11 @@ namespace ET
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_EB_ForgeImage == null )
+     			if( this.m_EB_BagImage == null )
      			{
-		    		this.m_EB_ForgeImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"BottomArea/EB_Forge");
+		    		this.m_EB_BagImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"BottomArea/EB_Bag");
      			}
-     			return this.m_EB_ForgeImage;
+     			return this.m_EB_BagImage;
      		}
      	}
 
@@ -177,6 +177,40 @@ namespace ET
      		}
      	}
 
+		public UnityEngine.UI.Button EB_ForgeButton
+     	{
+     		get
+     		{
+     			if (this.uiTransform == null)
+     			{
+     				Log.Error("uiTransform is null.");
+     				return null;
+     			}
+     			if( this.m_EB_ForgeButton == null )
+     			{
+		    		this.m_EB_ForgeButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"BottomArea/EB_Forge");
+     			}
+     			return this.m_EB_ForgeButton;
+     		}
+     	}
+
+		public UnityEngine.UI.Image EB_ForgeImage
+     	{
+     		get
+     		{
+     			if (this.uiTransform == null)
+     			{
+     				Log.Error("uiTransform is null.");
+     				return null;
+     			}
+     			if( this.m_EB_ForgeImage == null )
+     			{
+		    		this.m_EB_ForgeImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"BottomArea/EB_Forge");
+     			}
+     			return this.m_EB_ForgeImage;
+     		}
+     	}
+
 		public UnityEngine.UI.Button EB_TaskButton
      	{
      		get
@@ -211,40 +245,6 @@ namespace ET
      		}
      	}
 
-		public UnityEngine.UI.Button EB_StoreButton
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_StoreButton == null )
-     			{
-		    		this.m_EB_StoreButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"BottomArea/EB_Store");
-     			}
-     			return this.m_EB_StoreButton;
-     		}
-     	}
-
-		public UnityEngine.UI.Image EB_StoreImage
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_StoreImage == null )
-     			{
-		    		this.m_EB_StoreImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"BottomArea/EB_Store");
-     			}
-     			return this.m_EB_StoreImage;
-     		}
-     	}
-
 		public void DestroyWidget()
 		{
 			this.m_EI_AvatarImage = null;
@@ -253,14 +253,14 @@ namespace ET
 			this.m_ET_ExpText = null;
 			this.m_EB_RoleInfoButton = null;
 			this.m_EB_RoleInfoImage = null;
-			this.m_EB_ForgeButton = null;
-			this.m_EB_ForgeImage = null;
+			this.m_EB_BagButton = null;
+			this.m_EB_BagImage = null;
 			this.m_EB_AdventureButton = null;
 			this.m_EB_AdventureImage = null;
+			this.m_EB_ForgeButton = null;
+			this.m_EB_ForgeImage = null;
 			this.m_EB_TaskButton = null;
 			this.m_EB_TaskImage = null;
-			this.m_EB_StoreButton = null;
-			this.m_EB_StoreImage = null;
 			this.uiTransform = null;
 		}
 
@@ -270,14 +270,14 @@ namespace ET
 		private UnityEngine.UI.Text m_ET_ExpText = null;
 		private UnityEngine.UI.Button m_EB_RoleInfoButton = null;
 		private UnityEngine.UI.Image m_EB_RoleInfoImage = null;
-		private UnityEngine.UI.Button m_EB_ForgeButton = null;
-		private UnityEngine.UI.Image m_EB_ForgeImage = null;
+		private UnityEngine.UI.Button m_EB_BagButton = null;
+		private UnityEngine.UI.Image m_EB_BagImage = null;
 		private UnityEngine.UI.Button m_EB_AdventureButton = null;
 		private UnityEngine.UI.Image m_EB_AdventureImage = null;
+		private UnityEngine.UI.Button m_EB_ForgeButton = null;
+		private UnityEngine.UI.Image m_EB_ForgeImage = null;
 		private UnityEngine.UI.Button m_EB_TaskButton = null;
 		private UnityEngine.UI.Image m_EB_TaskImage = null;
-		private UnityEngine.UI.Button m_EB_StoreButton = null;
-		private UnityEngine.UI.Image m_EB_StoreImage = null;
 		public Transform uiTransform = null;
 	}
 }
