@@ -1,6 +1,6 @@
 ﻿namespace ET
 {
-    //[FriendClass(typeof(EquipmentsComponent))]
+    [FriendClass(typeof(EquipmentsComponent))]
     [FriendClass(typeof(BagComponent))]
     [FriendClass(typeof(Item))]
     public static class ItemUpdateNoticeHelper
@@ -31,15 +31,15 @@
             MessageHelper.SendToClient(unit, m2CAllItemsList);
         }
 
-        //public static void SyncAllEquipItems(Unit unit)
-        //{
-        //    M2C_AllItemsList m2CAllItemsList = new M2C_AllItemsList() { ContainerType = (int)ItemContainerType.RoleInfo }; ;
-        //    EquipmentsComponent equipmentsComponent = unit.GetComponent<EquipmentsComponent>();
-        //    foreach (var item in equipmentsComponent.EquipItems.Values)
-        //    {
-        //        m2CAllItemsList.ItemInfoList.Add(item.ToMessage());
-        //    }
-        //    MessageHelper.SendToClient(unit, m2CAllItemsList);
-        //}
+        public static void SyncAllEquipItems(Unit unit)
+        {
+            M2C_AllItemsList m2CAllItemsList = new M2C_AllItemsList() { ContainerType = (int)ItemContainerType.RoleInfo }; ;
+            EquipmentsComponent equipmentsComponent = unit.GetComponent<EquipmentsComponent>();
+            foreach (var item in equipmentsComponent.EquipItems.Values)
+            {
+                m2CAllItemsList.ItemInfoList.Add(item.ToMessage());
+            }
+            MessageHelper.SendToClient(unit, m2CAllItemsList);
+        }
     }
 }

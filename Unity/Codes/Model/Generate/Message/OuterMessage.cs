@@ -465,6 +465,7 @@ namespace ET
 
 	}
 
+//============================================  服务器选择流程  ============================================
 	[Message(OuterOpcode.NServerInfo)]
 	[ProtoContract]
 	public partial class NServerInfo: Object
@@ -514,6 +515,7 @@ namespace ET
 
 	}
 
+//============================================  角色创建/选择流程  ============================================
 	[Message(OuterOpcode.NRoleInfo)]
 	[ProtoContract]
 	public partial class NRoleInfo: Object
@@ -658,6 +660,7 @@ namespace ET
 
 	}
 
+//============================================  登录流程  ============================================
 	[ResponseType(nameof(A2C_GetRealmKey))]
 	[Message(OuterOpcode.C2A_GetRealmKey)]
 	[ProtoContract]
@@ -800,6 +803,7 @@ namespace ET
 
 	}
 
+//============================================  数值系统  ============================================
 	[Message(OuterOpcode.M2C_NoticeUnitNumeric)]
 	[ProtoContract]
 	public partial class M2C_NoticeUnitNumeric: Object, IActorMessage
@@ -815,6 +819,7 @@ namespace ET
 
 	}
 
+//============================================  属性点  ============================================
 	[ResponseType(nameof(M2C_AddAttributePoints))]
 	[Message(OuterOpcode.C2M_AddAttributePoints)]
 	[ProtoContract]
@@ -846,6 +851,7 @@ namespace ET
 
 	}
 
+//============================================  闯关系统  ============================================
 	[ResponseType(nameof(M2C_StartGameLevel))]
 	[Message(OuterOpcode.C2M_StartGameLevel)]
 	[ProtoContract]
@@ -930,6 +936,7 @@ namespace ET
 
 	}
 
+//============================================  道具系统  ============================================
 	[Message(OuterOpcode.ItemInfo)]
 	[ProtoContract]
 	public partial class ItemInfo: Object
@@ -978,6 +985,39 @@ namespace ET
 
 		[ProtoMember(3)]
 		public int ContainerType { get; set; }
+
+	}
+
+	[Message(OuterOpcode.AttributeEntryProto)]
+	[ProtoContract]
+	public partial class AttributeEntryProto: Object
+	{
+		[ProtoMember(1)]
+		public long Id { get; set; }
+
+		[ProtoMember(2)]
+		public int Key { get; set; }
+
+		[ProtoMember(3)]
+		public long Value { get; set; }
+
+		[ProtoMember(4)]
+		public int EntryType { get; set; }
+
+	}
+
+	[Message(OuterOpcode.EquipInfoProto)]
+	[ProtoContract]
+	public partial class EquipInfoProto: Object
+	{
+		[ProtoMember(1)]
+		public long Id { get; set; }
+
+		[ProtoMember(2)]
+		public int Score { get; set; }
+
+		[ProtoMember(3)]
+		public List<AttributeEntryProto> AttributeEntryProtoList = new List<AttributeEntryProto>();
 
 	}
 

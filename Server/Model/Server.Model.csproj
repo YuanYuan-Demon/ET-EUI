@@ -39,10 +39,12 @@
     <Compile Include="..\..\Unity\Codes\Model\Demo\Unit\UnitType.cs">
       <Link>Demo\Unit\UnitType.cs</Link>
     </Compile>
-	  <Compile Include="..\..\Unity\Codes\Model\Demo\Item\*.cs">
-		  <Link>Demo\Item\%(FileName)%(Extension)</Link>
+	<Compile Include="..\..\Unity\Codes\Model\Demo\Item\*.cs">
+        <Link>Demo\Item\%(FileName)%(Extension)</Link>
+    </Compile>
+	<Compile Include="..\..\Unity\Codes\Model\Demo\Equipment\*.cs">
+		  <Link>Demo\Equipment\%(FileName)%(Extension)</Link>
 	  </Compile>
-	  
     <Compile Include="..\..\Unity\Codes\Model\Module\Recast\**\*.cs">
       <Link>Module\Recast\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
@@ -128,12 +130,9 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\ThirdParty\ETTask\ETTask.csproj" />
-    <ProjectReference Include="..\..\ThirdParty\ShareLib\ShareLib.csproj" />
-    <ProjectReference Include="..\..\ThirdParty\UnityEngine\UnityEngine.csproj" />
+	<ProjectReference Include="..\..\ThirdParty\ShareLib\ShareLib.csproj" />
+	<ProjectReference Include="..\..\ThirdParty\UnityEngine\UnityEngine.csproj" />
     <ProjectReference Include="..\..\Tools\Analyzer\Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
   
-  
-
-
 </Project>

@@ -34,6 +34,10 @@ namespace ET
             m2CCreateUnits.Unit = UnitHelper.CreateUnitInfo(unit);
             MessageHelper.SendToClient(unit, m2CCreateUnits);
 
+            //通知客户端同步背包信息
+            ItemUpdateNoticeHelper.SyncAllBagItems(unit);
+            ItemUpdateNoticeHelper.SyncAllEquipItems(unit);
+
             // 加入aoi
             //unit.AddComponent<AOIEntity, int, Vector3>(9 * 1000, unit.Position);
 

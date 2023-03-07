@@ -20,25 +20,17 @@
             }
         }
 
-        public static ItemInfo ToMessage(this Item self, bool isAllInfo = true)
+        public static void FromMessage(this Item self, ItemInfo itemInfo)
         {
-            ItemInfo itemInfo = new ItemInfo();
-            itemInfo.ItemUid = self.Id;
-            itemInfo.ItemConfigId = self.ConfigId;
-            itemInfo.ItemQuality = self.Quality;
+            self.Id = itemInfo.ItemUid;
+            self.ConfigId = itemInfo.ItemConfigId;
+            self.Quality = itemInfo.ItemQuality;
 
-            if (!isAllInfo)
+            if (itemInfo.EquipInfo != null)
             {
-                return itemInfo;
+                EquipInfoComponent equipInfoComponent = self.GetComponent<EquipInfoComponent>() ?? self.AddComponent<EquipInfoComponent>();
+                equipInfoComponent.FromMessage(itemInfo.EquipInfo);
             }
-
-            EquipInfoComponent equipInfoComponent = self.GetComponent<EquipInfoComponent>();
-            if (equipInfoComponent != null)
-            {
-                itemInfo.EquipInfo = equipInfoComponent.ToMessage();
-            }
-
-            return itemInfo;
         }
     }
 }

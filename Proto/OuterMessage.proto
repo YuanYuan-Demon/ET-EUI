@@ -235,6 +235,7 @@ message A2C_Disconnect // IMessage
 	int32 Error = 1;
 }
 
+//============================================  服务器选择流程  ============================================
 
 message NServerInfo
 {
@@ -260,6 +261,8 @@ message A2C_GetServerInfos	//	IResponse
 
 	repeated NServerInfo NServerInfos = 1;
 }
+
+//============================================  角色创建/选择流程  ============================================
 
 message NRoleInfo
 {
@@ -330,6 +333,8 @@ message A2C_DelteRole	//	IResponse
 
 	int64 RoleId = 1;
 }
+
+//============================================  登录流程  ============================================
 
 //ResponseType A2C_GetRealmKey
 message C2A_GetRealmKey	//	IRequest
@@ -404,6 +409,7 @@ message G2C_EnterGame	//	IResponse
 	int64 UnitId  = 1;
 }
 
+//============================================  数值系统  ============================================
 
 message M2C_NoticeUnitNumeric // IActorMessage
 {
@@ -412,6 +418,7 @@ message M2C_NoticeUnitNumeric // IActorMessage
 	int64 NewValue = 3;
 }
 
+//============================================  属性点  ============================================
 
 //ResponseType M2C_AddAttributePoints
 message C2M_AddAttributePoints // IActorLocationRequest
@@ -428,6 +435,9 @@ message M2C_AddAttributePoints // IActorLocationResponse
 	int32 Error = 91;
 	string Message = 92;
 }
+
+
+//============================================  闯关系统  ============================================
 
 //ResponseType M2C_StartGameLevel
 message C2M_StartGameLevel // IActorLocationRequest
@@ -473,6 +483,8 @@ message M2C_UpRoleLevel // IActorLocationResponse
 	string Message = 92;
 }
 
+//============================================  道具系统  ============================================
+
 message ItemInfo
 {
 	int64 ItemUid      = 1;
@@ -499,3 +511,18 @@ message M2C_ItemUpdateOpInfo // IActorMessage
 	int32    ContainerType = 3;
 }
 
+message AttributeEntryProto
+{
+	int64 Id = 1;
+	int32 Key = 2;
+	int64 Value = 3;
+	int32 EntryType = 4; 
+}
+
+
+message EquipInfoProto
+{
+	int64 Id    = 1;
+	int32 Score = 2;
+	repeated AttributeEntryProto AttributeEntryProtoList = 3;
+}

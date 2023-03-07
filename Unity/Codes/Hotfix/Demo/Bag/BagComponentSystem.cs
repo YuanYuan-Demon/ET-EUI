@@ -24,10 +24,11 @@
 
         public static void Clear(this BagComponent self)
         {
-            ForeachHelper.Foreach(self.ItemsDict, (long id, Item item) =>
+            foreach ((long id, Item item) in self.ItemsDict)
             {
                 item?.Dispose();
-            });
+            }
+
             self.ItemsDict.Clear();
             self.ItemsMap.Clear();
         }
