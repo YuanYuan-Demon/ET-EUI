@@ -75,5 +75,6 @@ namespace ET
         public const int ERR_AdventureResultError = 200029;
         public const int ERR_AdventureWinResultError = 200030;
         public const int ERR_ExpNotEnough = 200031;
+        public const int ERR_ItemNotExist = 200032;
     }
 }

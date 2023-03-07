@@ -122,29 +122,17 @@ namespace ET
 
         #region 删除道具
 
-        public static void RemoveContainer(this BagComponent self, Item item)
-        {
-            self.ItemsDict.Remove(item.Id);
-            self.ItemsMap.Remove(item.Config.Type, item);
-        }
-
-        public static void GetItemListByConfigId(this BagComponent self, int configID, List<Item> list)
-        {
-            ItemConfig itemConfig = ItemConfigCategory.Instance.Get(configID);
-            foreach (Item goods in self.ItemsMap[itemConfig.Type])
-            {
-                if (goods.ConfigId == configID)
-                {
-                    list.Add(goods);
-                }
-            }
-        }
-
         public static void RemoveItem(this BagComponent self, Item item)
         {
             self.RemoveContainer(item);
             ItemUpdateNoticeHelper.SyncRemoveItem(self.GetParent<Unit>(), item, self.message);
             item.Dispose();
+        }
+
+        public static void RemoveContainer(this BagComponent self, Item item)
+        {
+            self.ItemsDict.Remove(item.Id);
+            self.ItemsMap.Remove(item.Config.Type, item);
         }
 
         public static Item RemoveItemNoDispose(this BagComponent self, Item item)
@@ -164,9 +152,21 @@ namespace ET
             return item;
         }
 
+        public static void GetItemListByConfigId(this BagComponent self, int configID, List<Item> list)
+        {
+            ItemConfig itemConfig = ItemConfigCategory.Instance.Get(configID);
+            foreach (Item goods in self.ItemsMap[itemConfig.Type])
+            {
+                if (goods.ConfigId == configID)
+                {
+                    list.Add(goods);
+                }
+            }
+        }
+
         #endregion 获取道具
 
-        #region 判断
+        #region 查询
 
         public static bool IsCanAddItemByConfigId(this BagComponent self, int configID)
         {
@@ -250,6 +250,6 @@ namespace ET
             return item != null && !item.IsDisposed;
         }
 
-        #endregion 判断
+        #endregion 查询
     }
 }
