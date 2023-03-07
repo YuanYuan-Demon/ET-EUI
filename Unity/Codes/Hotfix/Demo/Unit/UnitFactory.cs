@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using ET.EventType;
+﻿using ET.EventType;
 
 namespace ET
 {
@@ -27,6 +25,7 @@ namespace ET
             }
 
             unit.AddComponent<ObjectWait>();
+            unit.AddComponent<BagComponent>();
 
             Game.EventSystem.PublishAsync(new EventType.AfterUnitCreateAsync() { Unit = unit }).Coroutine();
             return unit;

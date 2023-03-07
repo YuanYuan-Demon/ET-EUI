@@ -23,7 +23,7 @@
         /// <summary>
         /// 道具
         /// </summary>
-        Item,
+        Prop,
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace ET
 {
@@ -64,6 +63,18 @@ namespace ET
                 Unit = unit,
                 LevelId = levelId,
             });
+
+            #region 背包测试奖励
+
+            for (int i = 0; i < 30; i++)
+            {
+                if (!BagHelper.AddItemByConfigId(unit, RandomHelper.RandomNumber(1002, 1018)))
+                {
+                    Log.Error("增加背包物品失败");
+                }
+            }
+
+            #endregion 背包测试奖励
 
             numericComponent[NumericType.Exp] += BattleLevelConfigCategory.Instance.Get(levelId).RewardExp;
             numericComponent[NumericType.IronStone] += 3600; ;

@@ -1,17 +1,22 @@
 ﻿#if SERVER
+
 using MongoDB.Bson.Serialization.Attributes;
+
 #endif
 
 namespace ET
 {
 #if SERVER
-    public class Item : Entity,IAwake<int>,IDestroy,ISerializeToEntity
+
+    public class Item : Entity, IAwake<int>, IDestroy, ISerializeToEntity
 #else
 
     public class Item : Entity, IAwake<int>, IDestroy
 #endif
     {
-        //物品配置ID
+        /// <summary>
+        /// 物品配置ID
+        /// </summary>
         public int ConfigId = 0;
 
         /// <summary>
@@ -20,10 +25,13 @@ namespace ET
         public int Quality = 0;
 
 #if SERVER
+
         [BsonIgnore]
 #endif
 
-        //物品配置数据
+        /// <summary>
+        /// 物品配置数据
+        /// </summary>
         public ItemConfig Config => ItemConfigCategory.Instance.Get(ConfigId);
     }
 }

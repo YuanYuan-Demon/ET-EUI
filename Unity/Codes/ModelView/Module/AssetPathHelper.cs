@@ -65,7 +65,7 @@ namespace ET
         
         public static string ToUIItemPath(this string fileName)
         {
-            return $"Assets/Bundles/UI/Item/{fileName}.prefab";
+            return $"Assets/Bundles/UI/Prop/{fileName}.prefab";
         }
         
         public static string ToUnitModelPath(this string fileName)

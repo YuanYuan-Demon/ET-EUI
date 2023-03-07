@@ -30,6 +30,7 @@ namespace ET
 #if SERVER
         [BsonIgnore]
         public M2C_ItemUpdateOpInfo message = new M2C_ItemUpdateOpInfo() {ContainerType = (int)ItemContainerType.Bag};
+
 #endif
     }
 }
