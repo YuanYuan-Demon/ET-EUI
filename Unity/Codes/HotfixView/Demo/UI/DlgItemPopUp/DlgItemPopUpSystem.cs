@@ -34,7 +34,7 @@ namespace ET
             self.View.EI_IconImage.overrideSprite = IconHelper.LoadIconSprite("Icons", item.Config.Icon);
             self.View.EI_QualityImage.color = item.ItemQualityColor();
             self.View.ET_NameText.text = item.Config.Name;
-            self.View.ET_DescriptionText.text = item.Config.Desc;
+            self.View.ET_DescText.text = item.Config.Desc;
             int sellPrice = item.Config.SellBasePrice;
             int score = 0;
 

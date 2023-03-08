@@ -4,6 +4,10 @@ namespace ET
 {
     public partial class EntryConfigCategory
     {
+        /// <summary>
+        /// Key: EntryType
+        /// Value: Key: EntryLevel, Value: EntryConfig
+        /// </summary>
         private Dictionary<int, MultiMap<int, EntryConfig>> EntryConfigsDict = new Dictionary<int, MultiMap<int, EntryConfig>>();
 
         public override void AfterEndInit()
@@ -12,14 +16,21 @@ namespace ET
 
             foreach (var config in this.dict.Values)
             {
-                if (!this.EntryConfigsDict.ContainsKey(config.EntryType))
+                if (!EntryConfigsDict.TryGetValue(config.EntryType, out var map))
                 {
-                    this.EntryConfigsDict.Add(config.EntryType, new MultiMap<int, EntryConfig>());
+                    map = new MultiMap<int, EntryConfig>();
+                    this.EntryConfigsDict.Add(config.EntryType, map);
                 }
-                this.EntryConfigsDict[config.EntryType].Add(config.EntryLevel, config);
+                map.Add(config.EntryLevel, config);
             }
         }
 
+        /// <summary>
+        /// 根据 词条类型和词条等级 随机生成词条
+        /// </summary>
+        /// <param name="entryType">词条类型: 普通/特殊词条</param>
+        /// <param name="level">词条等级</param>
+        /// <returns></returns>
         public EntryConfig GetRandomEntryConfigByLevel(int entryType, int level)
         {
             if (!this.EntryConfigsDict.ContainsKey(entryType))
@@ -34,8 +45,7 @@ namespace ET
             }
 
             var configList = entryConfigsMap[level];
-            int index = RandomHelper.RandomNumber(0, configList.Count);
-            return configList[index];
+            return configList[RandomHelper.RandomNumber(0, configList.Count)];
         }
     }
 }

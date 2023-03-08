@@ -50,6 +50,10 @@
             self.CreateEntry();
         }
 
+        /// <summary>
+        /// 创建随机词条
+        /// </summary>
+        /// <param name="self"></param>
         public static void CreateEntry(this EquipInfoComponent self)
         {
             ItemConfig itemConfig = self.GetParent<Item>().Config;

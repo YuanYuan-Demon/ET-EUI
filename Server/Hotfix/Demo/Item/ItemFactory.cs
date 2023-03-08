@@ -24,14 +24,10 @@
                 case ItemType.Weapon:
                 case ItemType.Armor:
                 case ItemType.Ring:
-                    {
-                        item.AddComponent<EquipInfoComponent>();
-                    }
+                    item.AddComponent<EquipInfoComponent>();
                     break;
 
                 case ItemType.Prop:
-                    {
-                    }
                     break;
             }
         }
