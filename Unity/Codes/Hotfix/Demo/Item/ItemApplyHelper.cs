@@ -23,7 +23,7 @@ namespace ET
 
             try
             {
-                m2CEquipItem = (M2C_EquipItem)await ZoneScene.GetComponent<SessionComponent>().Session.Call(new C2M_EquipItem() { ItemUid = itemId });
+                m2CEquipItem = (M2C_EquipItem)await ZoneScene.Call(new C2M_EquipItem() { ItemUid = itemId });
             }
             catch (Exception e)
             {

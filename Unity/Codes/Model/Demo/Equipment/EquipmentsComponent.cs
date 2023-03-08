@@ -11,10 +11,14 @@ namespace ET
     public class EquipmentsComponent : Entity, IAwake, IDestroy
 #endif
     {
+        /// <summary>
+        /// Key: 装备位置
+        /// Item: 装备道具
+        /// </summary>
 #if SERVER
-
         [BsonIgnore]
 #endif
+
         public Dictionary<int, Item> EquipItems = new Dictionary<int, Item>();
 
 #if SERVER

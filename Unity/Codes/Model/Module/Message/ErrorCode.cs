@@ -56,6 +56,7 @@ namespace ET
 
         public const int ERR_RoleNameSame = 200011;
         public const int ERR_RoleNotExist = 200012;
+
         public const int ERR_RequestSceneTypeError = 200013;
         public const int ERR_ConnectGateKeyError = 200014;
         public const int ERR_OtherAccountLogin = 200015;
@@ -63,10 +64,12 @@ namespace ET
         public const int ERR_NonePlayerError = 200017;
         public const int ERR_SessionStatusError = 200018;
         public const int ERR_EnterGameError = 200019;
+
         public const int ERR_ReEnterGameError2 = 200020;
         public const int ERR_NumericTypeNotExist = 200021;
         public const int ERR_NumericTypeNotAddPoint = 200022;
         public const int ERR_AddPointNotEnough = 200023;
+
         public const int ERR_AlreadyAdventureStatus = 200024;
         public const int ERR_AdventureInDying = 200025;
         public const int ERR_AdventureLevelError = 200026;
@@ -74,7 +77,10 @@ namespace ET
         public const int ERR_AdventureRoundError = 200028;
         public const int ERR_AdventureResultError = 200029;
         public const int ERR_AdventureWinResultError = 200030;
+
         public const int ERR_ExpNotEnough = 200031;
         public const int ERR_ItemNotExist = 200032;
+        public const int ERR_AddBagItemError = 200033;
+        public const int ERR_EquipItemError = 200034;
     }
 }

@@ -129,17 +129,17 @@ namespace ET
             item.Dispose();
         }
 
-        public static void RemoveContainer(this BagComponent self, Item item)
-        {
-            self.ItemsDict.Remove(item.Id);
-            self.ItemsMap.Remove(item.Config.Type, item);
-        }
-
         public static Item RemoveItemNoDispose(this BagComponent self, Item item)
         {
             self.RemoveContainer(item);
             ItemUpdateNoticeHelper.SyncRemoveItem(self.GetParent<Unit>(), item, self.message);
             return item;
+        }
+
+        public static void RemoveContainer(this BagComponent self, Item item)
+        {
+            self.ItemsDict.Remove(item.Id);
+            self.ItemsMap.Remove(item.Config.Type, item);
         }
 
         #endregion 删除道具

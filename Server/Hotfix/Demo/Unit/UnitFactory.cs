@@ -10,28 +10,31 @@ namespace ET
             switch (unitType)
             {
                 case UnitType.Player:
+                {
+                    Unit unit = unitComponent.AddChildWithId<Unit, int>(id, 1001);
+                    NumericComponent numericComponent = unit.AddComponent<NumericComponent>();
+                    foreach (var config in PlayerNumericConfigCategory.Instance.GetAll().Values)
                     {
-                        Unit unit = unitComponent.AddChildWithId<Unit, int>(id, 1001);
-                        NumericComponent numericComponent = unit.AddComponent<NumericComponent>();
-                        foreach (var config in PlayerNumericConfigCategory.Instance.GetAll().Values)
+                        if (config.BaseValue == 0)
+                            continue;
+                        if (config.Id < 3000)   //小于3000的值都用加成属性推导
                         {
-                            if (config.BaseValue == 0)
-                                continue;
-                            if (config.Id < 3000)   //小于3000的值都用加成属性推导
-                            {
-                                int baseKey = config.Id * 10 + 1;
-                                numericComponent.SetNoEvent(baseKey, config.BaseValue);
-                            }
-                            else
-                            {
-                                //大于3000的值 直接使用
-                                numericComponent.SetNoEvent(config.Id, config.BaseValue);
-                            }
+                            int baseKey = config.Id * 10 + 1;
+                            numericComponent.SetNoEvent(baseKey, config.BaseValue);
                         }
-
-                        unitComponent.Add(unit);
-                        return unit;
+                        else
+                        {
+                            //大于3000的值 直接使用
+                            numericComponent.SetNoEvent(config.Id, config.BaseValue);
+                        }
                     }
+
+                    unit.AddComponent<BagComponent>();
+                    unit.AddComponent<EquipmentsComponent>();
+
+                    unitComponent.Add(unit);
+                    return unit;
+                }
                 default:
                     throw new Exception($"not such unit type: {unitType}");
             }
