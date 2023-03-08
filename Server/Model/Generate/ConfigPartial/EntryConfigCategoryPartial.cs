@@ -5,8 +5,8 @@ namespace ET
     public partial class EntryConfigCategory
     {
         /// <summary>
-        /// Key: EntryType
-        /// Value: Key: EntryLevel, Value: EntryConfig
+        /// AttributeName: EntryType
+        /// AttributeValue: AttributeName: EntryLevel, AttributeValue: EntryConfig
         /// </summary>
         private Dictionary<int, MultiMap<int, EntryConfig>> EntryConfigsDict = new Dictionary<int, MultiMap<int, EntryConfig>>();
 

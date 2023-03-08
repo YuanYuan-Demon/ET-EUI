@@ -67,9 +67,9 @@ namespace ET
             Scroll_Item_Entry scrollItemEntry = self.ScrollItemEntries[index].BindTrans(transform);
             Item item = ItemHelper.GetItem(self.ZoneScene(), self.ItemId, self.ItemContainerType);
             AttributeEntry entry = item.GetComponent<EquipInfoComponent>().EntryList[index];
-            scrollItemEntry.ET_EntryNameText.text = PlayerNumericConfigCategory.Instance.Get(entry.Key).Name + ":";
-            bool isPrcent = PlayerNumericConfigCategory.Instance.Get(entry.Key).isPrecent > 0;
-            scrollItemEntry.ET_EntryValueText.text = $"+{(isPrcent ? $"{entry.Value / 10000.0f:0.00}%" : entry.Value.ToString())}";
+            scrollItemEntry.ET_EntryNameText.text = PlayerNumericConfigCategory.Instance.Get(entry.AttributeName).Name + ":";
+            bool isPrcent = PlayerNumericConfigCategory.Instance.Get(entry.AttributeName).isPrecent > 0;
+            scrollItemEntry.ET_EntryValueText.text = $"+{(isPrcent ? $"{entry.AttributeValue / 10000.0f:0.00}%" : entry.AttributeValue.ToString())}";
         }
 
         public static async ETTask OnClickEquip(this DlgItemPopUp self)

@@ -7,20 +7,21 @@
         {
             public override void Destroy(AttributeEntry self)
             {
-                self.Key = 0;
-                self.Value = 0;
-                self.Type = EntryType.Common;
+                self.AttributeName = 0;
+                self.AttributeValue = 0;
+                self.EntryType = EntryType.Common;
             }
         }
 
         public static AttributeEntryProto ToMessage(this AttributeEntry self)
         {
-            AttributeEntryProto attributeEntryProto = new AttributeEntryProto();
-            attributeEntryProto.Id = self.Id;
-            attributeEntryProto.Key = self.Key;
-            attributeEntryProto.Value = self.Value;
-            attributeEntryProto.EntryType = (int)self.Type;
-            return attributeEntryProto;
+           return new AttributeEntryProto
+            {
+                Id = self.Id,
+                AttributeName = self.AttributeName,
+                AttributeValue = self.AttributeValue,
+                EntryType = (int)self.EntryType
+            };
         }
     }
 }

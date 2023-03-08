@@ -9,8 +9,8 @@ namespace ET
     public class UnitCache : Entity, IAwake, IDestroy
     {
         /// <summary>
-        /// <para> Key: UnitId </para>
-        /// <para> Value: Entity </para>
+        /// <para> AttributeName: UnitId </para>
+        /// <para> AttributeValue: Entity </para>
         /// </summary>
         public Dictionary<long, Entity> CacheComponents = new Dictionary<long, Entity>();
 

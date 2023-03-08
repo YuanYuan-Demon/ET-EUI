@@ -15,7 +15,7 @@ namespace ET
         {
         }
         
-        public static object FromBytes(Type type, byte[] bytes, int index, int count)
+        public static object FromBytes(EntryType type, byte[] bytes, int index, int count)
         {
             ReadOnlyMemory<byte> memory = new ReadOnlyMemory<byte>(bytes, index, count);
             return MessagePack.MessagePackSerializer.Deserialize(type, memory);
@@ -31,7 +31,7 @@ namespace ET
             MessagePack.MessagePackSerializer.Serialize(stream, message);
         }
 
-        public static object FromStream(Type type, MemoryStream stream)
+        public static object FromStream(EntryType type, MemoryStream stream)
         {
             return MessagePack.MessagePackSerializer.Deserialize(type, stream);
         }
@@ -41,7 +41,7 @@ namespace ET
             return LitJson.JsonMapper.ToJson(message);
         }
         
-        public static object FromJson(Type type, string json)
+        public static object FromJson(EntryType type, string json)
         {
             return LitJson.JsonMapper.ToObject(json, type);
         }

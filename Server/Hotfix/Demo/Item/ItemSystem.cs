@@ -22,10 +22,12 @@
 
         public static ItemInfo ToMessage(this Item self, bool isAllInfo = true)
         {
-            ItemInfo itemInfo = new ItemInfo();
-            itemInfo.ItemUid = self.Id;
-            itemInfo.ItemConfigId = self.ConfigId;
-            itemInfo.ItemQuality = self.Quality;
+            ItemInfo itemInfo = new ItemInfo
+            {
+                ItemUid = self.Id,
+                ItemConfigId = self.ConfigId,
+                ItemQuality = self.Quality
+            };
 
             if (!isAllInfo)
             {

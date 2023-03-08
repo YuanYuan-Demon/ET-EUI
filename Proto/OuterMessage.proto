@@ -514,9 +514,9 @@ message M2C_ItemUpdateOpInfo // IActorMessage
 message AttributeEntryProto
 {
 	int64 Id = 1;
-	int32 Key = 2;
-	int64 Value = 3;
-	int32 EntryType = 4; 
+	int32 EntryType = 2; 
+	int32 AttributeName = 3;
+	int64 AttributeValue = 4;
 }
 
 
@@ -524,7 +524,7 @@ message EquipInfoProto
 {
 	int64 Id    = 1;
 	int32 Score = 2;
-	repeated AttributeEntryProto AttributeEntryProtoList = 3;
+	repeated AttributeEntryProto AttributeEntryList = 3;
 }
 
 //ResponseType M2C_EquipItem

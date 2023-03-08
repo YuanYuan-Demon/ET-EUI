@@ -71,9 +71,9 @@
                 }
 
                 AttributeEntry attributeEntry = self.AddChild<AttributeEntry>();
-                attributeEntry.Type = EntryType.Common;
-                attributeEntry.Key = entryConfig.AttributeType;
-                attributeEntry.Value = RandomHelper.RandomNumber(entryConfig.AttributeMinValue, entryConfig.AttributeMaxValue + self.GetParent<Item>().Quality);
+                attributeEntry.EntryType = EntryType.Common;
+                attributeEntry.AttributeName = entryConfig.AttributeType;
+                attributeEntry.AttributeValue = RandomHelper.RandomNumber(entryConfig.AttributeMinValue, entryConfig.AttributeMaxValue + self.GetParent<Item>().Quality);
                 self.EntryList.Add(attributeEntry);
                 self.Score += entryConfig.EntryScore;
             }
@@ -88,9 +88,9 @@
                     continue;
                 }
                 AttributeEntry attributeEntry = self.AddChild<AttributeEntry>();
-                attributeEntry.Type = EntryType.Special;
-                attributeEntry.Key = entryConfig.AttributeType;
-                attributeEntry.Value = RandomHelper.RandomNumber(entryConfig.AttributeMinValue, entryConfig.AttributeMaxValue);
+                attributeEntry.EntryType = EntryType.Special;
+                attributeEntry.AttributeName = entryConfig.AttributeType;
+                attributeEntry.AttributeValue = RandomHelper.RandomNumber(entryConfig.AttributeMinValue, entryConfig.AttributeMaxValue);
                 self.EntryList.Add(attributeEntry);
                 self.Score += entryConfig.EntryScore;
             }
@@ -98,12 +98,14 @@
 
         public static EquipInfoProto ToMessage(this EquipInfoComponent self)
         {
-            EquipInfoProto equipInfoProto = new EquipInfoProto();
-            equipInfoProto.Id = self.Id;
-            equipInfoProto.Score = self.Score;
+            EquipInfoProto equipInfoProto = new EquipInfoProto
+            {
+                Id = self.Id,
+                Score = self.Score
+            };
             for (int i = 0; i < self.EntryList.Count; i++)
             {
-                equipInfoProto.AttributeEntryProtoList.Add(self.EntryList[i].ToMessage());
+                equipInfoProto.AttributeEntryList.Add(self.EntryList[i].ToMessage());
             }
             return equipInfoProto;
         }

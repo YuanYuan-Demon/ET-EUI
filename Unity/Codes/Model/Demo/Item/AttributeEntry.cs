@@ -2,8 +2,15 @@
 {
     public enum EntryType
     {
-        Common = 1, //普通词条
-        Special = 2 //特殊词条
+        /// <summary>
+        /// 普通词条
+        /// </summary>
+        Common = 1,
+
+        /// <summary>
+        /// 特殊词条
+        /// </summary>
+        Special = 2,
     }
 
 #if SERVER
@@ -16,16 +23,16 @@
         /// <summary>
         ///     词条数值属性类型
         /// </summary>
-        public int Key;
+        public int AttributeName;
 
         /// <summary>
         ///     词条类型
         /// </summary>
-        public EntryType Type;
+        public EntryType EntryType;
 
         /// <summary>
         ///     词条数值属性值
         /// </summary>
-        public long Value;
+        public long AttributeValue;
     }
 }

@@ -996,13 +996,13 @@ namespace ET
 		public long Id { get; set; }
 
 		[ProtoMember(2)]
-		public int Key { get; set; }
+		public int EntryType { get; set; }
 
 		[ProtoMember(3)]
-		public long Value { get; set; }
+		public int AttributeName { get; set; }
 
 		[ProtoMember(4)]
-		public int EntryType { get; set; }
+		public long AttributeValue { get; set; }
 
 	}
 
@@ -1017,7 +1017,7 @@ namespace ET
 		public int Score { get; set; }
 
 		[ProtoMember(3)]
-		public List<AttributeEntryProto> AttributeEntryProtoList = new List<AttributeEntryProto>();
+		public List<AttributeEntryProto> AttributeEntryList = new List<AttributeEntryProto>();
 
 	}
 
