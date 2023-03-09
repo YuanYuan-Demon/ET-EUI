@@ -49,11 +49,11 @@ namespace ET
                 return ErrorCode.ERR_ItemNotExist;
             }
 
-            M2C_UnloadEquipItem m2CUnloadEquipItem = null;
+            M2C_UnloadEquipItem response = null;
 
             try
             {
-                m2CUnloadEquipItem = (M2C_UnloadEquipItem)await ZoneScene.GetComponent<SessionComponent>().Session.Call(new C2M_UnloadEquipItem() { EquipPosition = item.Config.EquipPosition });
+                response = (M2C_UnloadEquipItem)await ZoneScene.GetComponent<SessionComponent>().Session.Call(new C2M_UnloadEquipItem() { EquipPosition = item.Config.EquipPosition });
             }
             catch (Exception e)
             {
@@ -61,7 +61,7 @@ namespace ET
                 return ErrorCode.ERR_NetWorkError;
             }
 
-            return m2CUnloadEquipItem.Error;
+            return response.Error;
         }
 
         /// <summary>

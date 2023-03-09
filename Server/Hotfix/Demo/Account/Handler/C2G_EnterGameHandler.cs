@@ -104,7 +104,7 @@ namespace ET
                 try
                 {
                     //添加网关到游戏逻辑服的映射
-                    player.AddComponent<GateMapComponent>();
+                    //player.AddComponent<GateMapComponent>();
                     //gateMapComponent.Scene = await SceneFactory.Create(gateMapComponent, "GateMap", SceneType.Map);
 
                     //从数据库或缓存中加载出Unit实体及其相关组件

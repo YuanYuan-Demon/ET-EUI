@@ -64,7 +64,7 @@ namespace ET
 
         public static async ETTask<(bool, Unit)> LoadUnit(Player player)
         {
-            GateMapComponent gateMapComponent = player.GetComponent<GateMapComponent>();
+            GateMapComponent gateMapComponent = player.AddComponent<GateMapComponent>();
             gateMapComponent.Scene = await SceneFactory.Create(gateMapComponent, "GateMap", SceneType.Map);
             // 获取玩家缓存
             Unit unit = await UnitCacheHelper.GetUnitCache(gateMapComponent.Scene, player.UnitId);

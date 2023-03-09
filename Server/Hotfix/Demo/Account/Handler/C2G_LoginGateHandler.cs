@@ -37,7 +37,7 @@ namespace ET
             if (key is null || key != request.Key)
             {
                 response.Error = ErrorCode.ERR_ConnectGateKeyError;
-                response.Message = "Gate AttributeName 校验失败";
+                response.Message = "Gate AttributeType 校验失败";
                 reply();
                 session.Disconnect();
                 return;

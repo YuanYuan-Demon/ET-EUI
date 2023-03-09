@@ -22,6 +22,13 @@ namespace ET
             self.View.EB_CancelAddAttributeButton.AddListenerAsync(() => OnClickConfirmAddPoint(self, false));
             self.View.EB_CloseButton.onClick.AddListener(async () => await OnClickConfirmAddPoint(self, false));
 
+            self.View.ES_Equip_Helmet.RegisterEventHandler(EquipPosition.Head);
+            self.View.ES_Equip_Armor.RegisterEventHandler(EquipPosition.Clothes);
+            self.View.ES_Equip_Shoe.RegisterEventHandler(EquipPosition.Shoes);
+            self.View.ES_Equip_Ring.RegisterEventHandler(EquipPosition.Ring);
+            self.View.ES_Equip_Offhand.RegisterEventHandler(EquipPosition.Shield);
+            self.View.ES_Equip_Weapon.RegisterEventHandler(EquipPosition.Weapon);
+
             RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.UpLevelButton, self.View.EB_UpLevelButton.gameObject, Vector3.one, new Vector3(80, 30, 0));
             RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.AddAttribute, self.View.ET_AttributePointsText.gameObject, Vector3.one, new Vector3(150, 22, 0));
         }
@@ -43,12 +50,12 @@ namespace ET
 
         public static void RefreshEquipShowItems(this DlgRoleInfo self)
         {
-            //self.View.ES_EquipItem_Head.RefreshShowItem(EquipPosition.Head);
-            //self.View.ES_EquipItem_Clothes.RefreshShowItem(EquipPosition.Clothes);
-            //self.View.ES_EquipItem_Shoes.RefreshShowItem(EquipPosition.Shoes);
-            //self.View.ES_EquipItem_Ring.RefreshShowItem(EquipPosition.Ring);
-            //self.View.ES_EquipItem_Weapon.RefreshShowItem(EquipPosition.Weapon);
-            //self.View.ES_EquipItem_Shield.RefreshShowItem(EquipPosition.Shield);
+            self.View.ES_Equip_Helmet.RefreshShowItem(EquipPosition.Head);
+            self.View.ES_Equip_Armor.RefreshShowItem(EquipPosition.Clothes);
+            self.View.ES_Equip_Shoe.RefreshShowItem(EquipPosition.Shoes);
+            self.View.ES_Equip_Ring.RefreshShowItem(EquipPosition.Ring);
+            self.View.ES_Equip_Weapon.RefreshShowItem(EquipPosition.Weapon);
+            self.View.ES_Equip_Offhand.RefreshShowItem(EquipPosition.Shield);
         }
 
         public static void Refresh(this DlgRoleInfo self)

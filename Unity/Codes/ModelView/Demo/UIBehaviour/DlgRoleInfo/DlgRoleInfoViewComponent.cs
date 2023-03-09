@@ -41,7 +41,7 @@ namespace ET
      		}
      	}
 
-		public ES_Equip ES_Equip_Helmet
+		public ES_EquipItem ES_Equip_Helmet
      	{
      		get
      		{
@@ -53,13 +53,13 @@ namespace ET
      			if( this.m_es_equip_helmet == null )
      			{
 		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Helmet");
-		    	   this.m_es_equip_helmet = this.AddChild<ES_Equip,Transform>(subTrans);
+		    	   this.m_es_equip_helmet = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_helmet;
      		}
      	}
 
-		public ES_Equip ES_Equip_Armor
+		public ES_EquipItem ES_Equip_Armor
      	{
      		get
      		{
@@ -71,13 +71,13 @@ namespace ET
      			if( this.m_es_equip_armor == null )
      			{
 		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Armor");
-		    	   this.m_es_equip_armor = this.AddChild<ES_Equip,Transform>(subTrans);
+		    	   this.m_es_equip_armor = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_armor;
      		}
      	}
 
-		public ES_Equip ES_Equip_Shoe
+		public ES_EquipItem ES_Equip_Shoe
      	{
      		get
      		{
@@ -89,13 +89,13 @@ namespace ET
      			if( this.m_es_equip_shoe == null )
      			{
 		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Shoe");
-		    	   this.m_es_equip_shoe = this.AddChild<ES_Equip,Transform>(subTrans);
+		    	   this.m_es_equip_shoe = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_shoe;
      		}
      	}
 
-		public ES_Equip ES_Equip_Glove
+		public ES_EquipItem ES_Equip_Ring
      	{
      		get
      		{
@@ -104,16 +104,16 @@ namespace ET
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_es_equip_glove == null )
+     			if( this.m_es_equip_ring == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Glove");
-		    	   this.m_es_equip_glove = this.AddChild<ES_Equip,Transform>(subTrans);
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Ring");
+		    	   this.m_es_equip_ring = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
-     			return this.m_es_equip_glove;
+     			return this.m_es_equip_ring;
      		}
      	}
 
-		public ES_Equip ES_Equip_Offhand
+		public ES_EquipItem ES_Equip_Offhand
      	{
      		get
      		{
@@ -125,13 +125,13 @@ namespace ET
      			if( this.m_es_equip_offhand == null )
      			{
 		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Offhand");
-		    	   this.m_es_equip_offhand = this.AddChild<ES_Equip,Transform>(subTrans);
+		    	   this.m_es_equip_offhand = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_offhand;
      		}
      	}
 
-		public ES_Equip ES_Equip_Weapon
+		public ES_EquipItem ES_Equip_Weapon
      	{
      		get
      		{
@@ -143,7 +143,7 @@ namespace ET
      			if( this.m_es_equip_weapon == null )
      			{
 		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Weapon");
-		    	   this.m_es_equip_weapon = this.AddChild<ES_Equip,Transform>(subTrans);
+		    	   this.m_es_equip_weapon = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_weapon;
      		}
@@ -316,8 +316,8 @@ namespace ET
 			this.m_es_equip_armor = null;
 			this.m_es_equip_shoe?.Dispose();
 			this.m_es_equip_shoe = null;
-			this.m_es_equip_glove?.Dispose();
-			this.m_es_equip_glove = null;
+			this.m_es_equip_ring?.Dispose();
+			this.m_es_equip_ring = null;
 			this.m_es_equip_offhand?.Dispose();
 			this.m_es_equip_offhand = null;
 			this.m_es_equip_weapon?.Dispose();
@@ -340,12 +340,12 @@ namespace ET
 
 		private UnityEngine.UI.Button m_EB_CloseButton = null;
 		private UnityEngine.RectTransform m_EG_EquipsRectTransform = null;
-		private ES_Equip m_es_equip_helmet = null;
-		private ES_Equip m_es_equip_armor = null;
-		private ES_Equip m_es_equip_shoe = null;
-		private ES_Equip m_es_equip_glove = null;
-		private ES_Equip m_es_equip_offhand = null;
-		private ES_Equip m_es_equip_weapon = null;
+		private ES_EquipItem m_es_equip_helmet = null;
+		private ES_EquipItem m_es_equip_armor = null;
+		private ES_EquipItem m_es_equip_shoe = null;
+		private ES_EquipItem m_es_equip_ring = null;
+		private ES_EquipItem m_es_equip_offhand = null;
+		private ES_EquipItem m_es_equip_weapon = null;
 		private UnityEngine.UI.Button m_EB_UpLevelButton = null;
 		private UnityEngine.UI.Text m_ET_AttributePointsText = null;
 		private UnityEngine.UI.Button m_EB_ConfirmAddAttributeButton = null;

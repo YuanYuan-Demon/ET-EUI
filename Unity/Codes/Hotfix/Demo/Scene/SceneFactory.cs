@@ -15,6 +15,7 @@ namespace ET
             zoneScene.AddComponent<RoleInfosComponent>();
 
             zoneScene.AddComponent<BagComponent>();
+            zoneScene.AddComponent<EquipmentsComponent>();
 
             Game.EventSystem.Publish(new EventType.AfterCreateZoneScene() { ZoneScene = zoneScene });
             return zoneScene;

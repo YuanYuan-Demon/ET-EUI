@@ -28,10 +28,10 @@
             }
             self.EntryList.Clear();
 
-            for (int i = 0; i < equipInfoProto.AttributeEntryProtoList.Count; i++)
+            for (int i = 0; i < equipInfoProto.AttributeEntryList.Count; i++)
             {
                 AttributeEntry attributeEntry = self.AddChild<AttributeEntry>();
-                attributeEntry.FromMessage(equipInfoProto.AttributeEntryProtoList[i]);
+                attributeEntry.FromMessage(equipInfoProto.AttributeEntryList[i]);
                 self.EntryList.Add(attributeEntry);
             }
 

@@ -72,7 +72,7 @@
 
                 AttributeEntry attributeEntry = self.AddChild<AttributeEntry>();
                 attributeEntry.EntryType = EntryType.Common;
-                attributeEntry.AttributeName = entryConfig.AttributeType;
+                attributeEntry.AttributeType = entryConfig.AttributeType;
                 attributeEntry.AttributeValue = RandomHelper.RandomNumber(entryConfig.AttributeMinValue, entryConfig.AttributeMaxValue + self.GetParent<Item>().Quality);
                 self.EntryList.Add(attributeEntry);
                 self.Score += entryConfig.EntryScore;
@@ -89,7 +89,7 @@
                 }
                 AttributeEntry attributeEntry = self.AddChild<AttributeEntry>();
                 attributeEntry.EntryType = EntryType.Special;
-                attributeEntry.AttributeName = entryConfig.AttributeType;
+                attributeEntry.AttributeType = entryConfig.AttributeType;
                 attributeEntry.AttributeValue = RandomHelper.RandomNumber(entryConfig.AttributeMinValue, entryConfig.AttributeMaxValue);
                 self.EntryList.Add(attributeEntry);
                 self.Score += entryConfig.EntryScore;

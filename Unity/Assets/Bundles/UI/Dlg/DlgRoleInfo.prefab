@@ -376,7 +376,7 @@ Canvas:
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
-  m_OverrideSorting: 1
+  m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
@@ -1993,6 +1993,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 581576334790542655}
     m_Modifications:
+    - target: {fileID: 751291582355384143, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u76D4\u7532"
+      objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
       propertyPath: m_Name
@@ -2538,6 +2543,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 581576334790542655}
     m_Modifications:
+    - target: {fileID: 751291582355384143, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u526F\u624B"
+      objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
       propertyPath: m_Name
@@ -2663,6 +2673,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 581576334790542655}
     m_Modifications:
+    - target: {fileID: 751291582355384143, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u6B66\u5668"
+      objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
       propertyPath: m_Name
@@ -2788,10 +2803,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 581576334790542655}
     m_Modifications:
+    - target: {fileID: 751291582355384143, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u9970\u54C1"
+      objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
       propertyPath: m_Name
-      value: ES_Equip_Glove
+      value: ES_Equip_Ring
       objectReference: {fileID: 0}
     - target: {fileID: 4938398111442661663, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
@@ -2913,6 +2933,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 581576334790542655}
     m_Modifications:
+    - target: {fileID: 751291582355384143, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u5934\u76D4"
+      objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
       propertyPath: m_Name
@@ -3038,6 +3063,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 581576334790542655}
     m_Modifications:
+    - target: {fileID: 751291582355384143, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_Text
+      value: "\u9774\u5B50"
+      objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
       propertyPath: m_Name

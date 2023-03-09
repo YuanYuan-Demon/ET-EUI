@@ -21,17 +21,17 @@
 #endif
     {
         /// <summary>
-        ///     词条数值属性类型
+        /// 词条数值属性类型
         /// </summary>
-        public int AttributeName;
+        public int AttributeType;
 
         /// <summary>
-        ///     词条类型
+        /// 词条类型
         /// </summary>
         public EntryType EntryType;
 
         /// <summary>
-        ///     词条数值属性值
+        /// 词条数值属性值
         /// </summary>
         public long AttributeValue;
     }

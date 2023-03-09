@@ -7,7 +7,7 @@
         {
             public override void Destroy(AttributeEntry self)
             {
-                self.AttributeName = 0;
+                self.AttributeType = 0;
                 self.AttributeValue = 0;
                 self.EntryType = EntryType.Common;
             }
@@ -18,7 +18,7 @@
            return new AttributeEntryProto
             {
                 Id = self.Id,
-                AttributeName = self.AttributeName,
+                AttributeName = self.AttributeType,
                 AttributeValue = self.AttributeValue,
                 EntryType = (int)self.EntryType
             };

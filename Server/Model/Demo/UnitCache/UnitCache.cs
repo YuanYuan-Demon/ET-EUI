@@ -9,7 +9,7 @@ namespace ET
     public class UnitCache : Entity, IAwake, IDestroy
     {
         /// <summary>
-        /// <para> AttributeName: UnitId </para>
+        /// <para> AttributeType: UnitId </para>
         /// <para> AttributeValue: Entity </para>
         /// </summary>
         public Dictionary<long, Entity> CacheComponents = new Dictionary<long, Entity>();
