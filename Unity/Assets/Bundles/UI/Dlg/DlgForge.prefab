@@ -39,8 +39,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 440, y: 0}
+  m_SizeDelta: {x: 880, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &8058510413350989752
 MonoBehaviour:
@@ -727,7 +727,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u7CBE\u94C1: 1000           \u76AE\u9769: 1000"
+  m_text: "\u7CBE\u94C1: 123456789 \u76AE\u9769: 123456789"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 484eafd07ad9a7043afcb35115fcf924, type: 2}
   m_sharedMaterial: {fileID: 3939921280251170745, guid: 484eafd07ad9a7043afcb35115fcf924,
@@ -762,7 +762,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 4096
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1010,7 +1010,7 @@ PrefabInstance:
     - target: {fileID: 935810060903118211, guid: a11f6d0318da48b48854530b7732d451,
         type: 3}
       propertyPath: m_Name
-      value: ES_MakeQueue
+      value: ES_MakeQueue1
       objectReference: {fileID: 0}
     - target: {fileID: 8286737989044560688, guid: a11f6d0318da48b48854530b7732d451,
         type: 3}
@@ -1146,7 +1146,7 @@ PrefabInstance:
     - target: {fileID: 935810060903118211, guid: a11f6d0318da48b48854530b7732d451,
         type: 3}
       propertyPath: m_Name
-      value: ES_MakeQueue (1)
+      value: ES_MakeQueue2
       objectReference: {fileID: 0}
     - target: {fileID: 8286737989044560688, guid: a11f6d0318da48b48854530b7732d451,
         type: 3}

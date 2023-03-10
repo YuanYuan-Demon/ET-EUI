@@ -9,78 +9,78 @@ namespace ET.EventType
 
     public interface IEventClass : IEvent
     {
-        void Handle(object a);
+        void Handle(object args);
     }
 
     [Event]
-    public abstract class AEventClass<A> : IEventClass where A : class
+    public abstract class AEventClass<Event> : IEventClass where Event : class
     {
+        protected abstract void Run(Event args);
+
         public Type GetEventType()
         {
-            return typeof(A);
+            return typeof(Event);
         }
 
-        public void Handle(object a)
+        public void Handle(object args)
         {
             try
             {
-                Log.Debug($"HandleEvent: [{typeof(A)}]");
-                Run(a as A);
+                Log.Debug($"HandleEvent: [{typeof(Event)}]");
+                Run(args as Event);
             }
             catch (Exception e)
             {
                 Log.Error(e);
             }
         }
-
-        protected abstract void Run(A a);
     }
 
     [Event]
-    public abstract class AEvent<A> : IEvent where A : struct
+    public abstract class AEvent<Event> : IEvent where Event : struct
     {
+        protected abstract void Run(Event args);
+
         public Type GetEventType()
         {
-            return typeof(A);
+            return typeof(Event);
         }
 
-        public void Handle(A a)
+        public void Handle(Event args)
         {
             try
             {
-                Log.Debug($"HandleEvent: [{typeof(A)}]");
-                Run(a);
+                Log.Debug($"HandleEvent: [{typeof(Event)}]");
+                Run(args);
             }
             catch (Exception e)
             {
                 Log.Error(e);
             }
         }
-
-        protected abstract void Run(A args);
     }
 
     [Event]
-    public abstract class AEventAsync<A> : IEvent where A : struct
+    public abstract class AEventAsync<Event> : IEvent where Event : struct
     {
+        protected abstract ETTask Run(Event args);
+
         public Type GetEventType()
         {
-            return typeof(A);
+            return typeof(Event);
         }
 
-        public async ETTask Handle(A a)
+        public async ETTask Handle(Event args)
         {
             try
             {
-                Log.Debug($"HandleEvent: [{typeof(A)}]");
-                await Run(a);
+                Log.Debug($"HandleEvent: [{typeof(Event)}]");
+                await Run(args);
             }
             catch (Exception e)
             {
                 Log.Error(e);
             }
         }
-
-        protected abstract ETTask Run(A args);
     }
 }

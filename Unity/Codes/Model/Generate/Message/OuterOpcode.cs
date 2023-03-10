@@ -61,13 +61,19 @@ namespace ET
 		 public const ushort ItemInfo = 10058;
 		 public const ushort M2C_AllItemsList = 10059;
 		 public const ushort M2C_ItemUpdateOpInfo = 10060;
-		 public const ushort AttributeEntryProto = 10061;
-		 public const ushort EquipInfoProto = 10062;
-		 public const ushort C2M_EquipItem = 10063;
-		 public const ushort M2C_EquipItem = 10064;
-		 public const ushort C2M_UnloadEquipItem = 10065;
-		 public const ushort M2C_UnloadEquipItem = 10066;
-		 public const ushort C2M_SellItem = 10067;
-		 public const ushort M2C_SellItem = 10068;
+		 public const ushort C2M_SellItem = 10061;
+		 public const ushort M2C_SellItem = 10062;
+		 public const ushort AttributeEntryProto = 10063;
+		 public const ushort EquipInfoProto = 10064;
+		 public const ushort C2M_EquipItem = 10065;
+		 public const ushort M2C_EquipItem = 10066;
+		 public const ushort C2M_UnloadEquipItem = 10067;
+		 public const ushort M2C_UnloadEquipItem = 10068;
+		 public const ushort ProductionProto = 10069;
+		 public const ushort C2M_StartProduction = 10070;
+		 public const ushort M2C_StartProduction = 10071;
+		 public const ushort C2M_ReceiveProduction = 10072;
+		 public const ushort M2C_ReceiveProduction = 10073;
+		 public const ushort M2C_AllProductionList = 10074;
 	}
 }

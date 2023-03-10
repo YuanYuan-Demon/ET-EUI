@@ -51,7 +51,7 @@ namespace ET
 			return cross.y > 0? angle : 360 - angle;
 		}
         /// <summary>
-        ///  求点到直线的距离，采用数学公式Ax+By+C = 0; d = A*p.x + B * p.y + C / sqrt(A^2 + B ^ 2)
+        ///  求点到直线的距离，采用数学公式Ax+By+C = 0; d = Event*p.x + B * p.y + C / sqrt(Event^2 + B ^ 2)
         /// </summary>
         /// <param name="startPoint"></param>
         /// <param name="endPoint"></param>

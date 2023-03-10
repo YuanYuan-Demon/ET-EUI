@@ -988,6 +988,35 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(M2C_SellItem))]
+	[Message(OuterOpcode.C2M_SellItem)]
+	[ProtoContract]
+	public partial class C2M_SellItem: Object, IActorLocationRequest
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public long ItemUid { get; set; }
+
+	}
+
+	[Message(OuterOpcode.M2C_SellItem)]
+	[ProtoContract]
+	public partial class M2C_SellItem: Object, IActorLocationResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
+//============================================  装备系统  ============================================
 	[Message(OuterOpcode.AttributeEntryProto)]
 	[ProtoContract]
 	public partial class AttributeEntryProto: Object
@@ -1077,22 +1106,44 @@ namespace ET
 
 	}
 
-	[ResponseType(nameof(M2C_SellItem))]
-	[Message(OuterOpcode.C2M_SellItem)]
+//============================================  打造系统  ============================================
+	[Message(OuterOpcode.ProductionProto)]
 	[ProtoContract]
-	public partial class C2M_SellItem: Object, IActorLocationRequest
+	public partial class ProductionProto: Object
 	{
 		[ProtoMember(1)]
-		public int RpcId { get; set; }
+		public long Id { get; set; }
 
 		[ProtoMember(2)]
-		public long ItemUid { get; set; }
+		public int ConfigId { get; set; }
+
+		[ProtoMember(3)]
+		public long TargetTime { get; set; }
+
+		[ProtoMember(4)]
+		public long StartTime { get; set; }
+
+		[ProtoMember(5)]
+		public int ProductionState { get; set; }
 
 	}
 
-	[Message(OuterOpcode.M2C_SellItem)]
+	[ResponseType(nameof(M2C_StartProduction))]
+	[Message(OuterOpcode.C2M_StartProduction)]
 	[ProtoContract]
-	public partial class M2C_SellItem: Object, IActorLocationResponse
+	public partial class C2M_StartProduction: Object, IActorLocationRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public int ConfigId { get; set; }
+
+	}
+
+	[Message(OuterOpcode.M2C_StartProduction)]
+	[ProtoContract]
+	public partial class M2C_StartProduction: Object, IActorLocationResponse
 	{
 		[ProtoMember(90)]
 		public int RpcId { get; set; }
@@ -1102,6 +1153,49 @@ namespace ET
 
 		[ProtoMember(92)]
 		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public ProductionProto ProductionProto { get; set; }
+
+	}
+
+	[ResponseType(nameof(M2C_ReceiveProduction))]
+	[Message(OuterOpcode.C2M_ReceiveProduction)]
+	[ProtoContract]
+	public partial class C2M_ReceiveProduction: Object, IActorLocationRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public long ProducitonId { get; set; }
+
+	}
+
+	[Message(OuterOpcode.M2C_ReceiveProduction)]
+	[ProtoContract]
+	public partial class M2C_ReceiveProduction: Object, IActorLocationResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public ProductionProto ProductionProto { get; set; }
+
+	}
+
+	[Message(OuterOpcode.M2C_AllProductionList)]
+	[ProtoContract]
+	public partial class M2C_AllProductionList: Object, IActorMessage
+	{
+		[ProtoMember(1)]
+		public List<ProductionProto> ProductionProtoList = new List<ProductionProto>();
 
 	}
 

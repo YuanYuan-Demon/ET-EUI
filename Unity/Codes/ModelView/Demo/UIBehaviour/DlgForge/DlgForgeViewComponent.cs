@@ -41,7 +41,7 @@ namespace ET
      		}
      	}
 
-		public ES_MakeQueue ES_MakeQueue
+		public ES_MakeQueue ES_MakeQueue1
      	{
      		get
      		{
@@ -50,16 +50,16 @@ namespace ET
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_es_makequeue == null )
+     			if( this.m_es_makequeue1 == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"EG_Panel/Panel/MakeQueue/ES_MakeQueue");
-		    	   this.m_es_makequeue = this.AddChild<ES_MakeQueue,Transform>(subTrans);
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"EG_Panel/Panel/MakeQueue/ES_MakeQueue1");
+		    	   this.m_es_makequeue1 = this.AddChild<ES_MakeQueue,Transform>(subTrans);
      			}
-     			return this.m_es_makequeue;
+     			return this.m_es_makequeue1;
      		}
      	}
 
-		public ES_MakeQueue ES_MakeQueue (1)
+		public ES_MakeQueue ES_MakeQueue2
      	{
      		get
      		{
@@ -68,12 +68,12 @@ namespace ET
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_es_makequeue (1) == null )
+     			if( this.m_es_makequeue2 == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"EG_Panel/Panel/MakeQueue/ES_MakeQueue (1)");
-		    	   this.m_es_makequeue (1) = this.AddChild<ES_MakeQueue,Transform>(subTrans);
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"EG_Panel/Panel/MakeQueue/ES_MakeQueue2");
+		    	   this.m_es_makequeue2 = this.AddChild<ES_MakeQueue,Transform>(subTrans);
      			}
-     			return this.m_es_makequeue (1);
+     			return this.m_es_makequeue2;
      		}
      	}
 
@@ -132,10 +132,10 @@ namespace ET
 		{
 			this.m_EG_PanelRectTransform = null;
 			this.m_EB_CloseButton = null;
-			this.m_es_makequeue?.Dispose();
-			this.m_es_makequeue = null;
-			this.m_es_makequeue (1)?.Dispose();
-			this.m_es_makequeue (1) = null;
+			this.m_es_makequeue1?.Dispose();
+			this.m_es_makequeue1 = null;
+			this.m_es_makequeue2?.Dispose();
+			this.m_es_makequeue2 = null;
 			this.m_EL_ProductionsImage = null;
 			this.m_EL_ProductionsLoopVerticalScrollRect = null;
 			this.m_ET_MaterialTextMeshProUGUI = null;
@@ -144,8 +144,8 @@ namespace ET
 
 		private UnityEngine.RectTransform m_EG_PanelRectTransform = null;
 		private UnityEngine.UI.Button m_EB_CloseButton = null;
-		private ES_MakeQueue m_es_makequeue = null;
-		private ES_MakeQueue m_es_makequeue (1) = null;
+		private ES_MakeQueue m_es_makequeue1 = null;
+		private ES_MakeQueue m_es_makequeue2 = null;
 		private UnityEngine.UI.Image m_EL_ProductionsImage = null;
 		private UnityEngine.UI.LoopVerticalScrollRect m_EL_ProductionsLoopVerticalScrollRect = null;
 		private TMPro.TextMeshProUGUI m_ET_MaterialTextMeshProUGUI = null;

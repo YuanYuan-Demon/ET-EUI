@@ -511,6 +511,23 @@ message M2C_ItemUpdateOpInfo // IActorMessage
 	int32    ContainerType = 3;
 }
 
+//ResponseType M2C_SellItem
+message C2M_SellItem // IActorLocationRequest
+{
+	int32 RpcId = 1;
+	int64 ItemUid = 2;
+}
+
+message M2C_SellItem // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+
+//============================================  装备系统  ============================================
+
 message AttributeEntryProto
 {
 	int64 Id = 1;
@@ -558,16 +575,54 @@ message M2C_UnloadEquipItem // IActorLocationResponse
 }
 
 
-//ResponseType M2C_SellItem
-message C2M_SellItem // IActorLocationRequest
+
+//============================================  打造系统  ============================================
+
+message ProductionProto
 {
-	int32 RpcId = 1;
-	int64 ItemUid = 2;
+	int64 Id           = 1;
+	int32 ConfigId     = 2;
+	int64 TargetTime   = 3;
+	int64 StartTime    = 4;
+	int32 ProductionState = 5;
 }
 
-message M2C_SellItem // IActorLocationResponse
+//ResponseType M2C_StartProduction
+message C2M_StartProduction // IActorLocationRequest
 {
-	int32 RpcId = 90;
-	int32 Error = 91;
+	int32 RpcId    = 90;
+	
+	int32 ConfigId = 1;
+}
+
+message M2C_StartProduction // IActorLocationResponse
+{
+	int32 RpcId    = 90;
+	int32 Error    = 91;
 	string Message = 92;
+
+	ProductionProto  ProductionProto = 1;
+}
+
+
+//ResponseType M2C_ReceiveProduction
+message C2M_ReceiveProduction // IActorLocationRequest
+{
+	int32 RpcId        = 90;
+
+	int64 ProducitonId = 1;
+}
+
+message M2C_ReceiveProduction // IActorLocationResponse
+{
+	int32 RpcId    = 90;
+	int32 Error    = 91;
+	string Message = 92;
+
+	ProductionProto  ProductionProto = 1;
+}
+
+message M2C_AllProductionList // IActorMessage
+{
+	repeated ProductionProto ProductionProtoList = 1;
 }

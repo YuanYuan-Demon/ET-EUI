@@ -6,16 +6,21 @@
 
         public const int MoveTimer = 1001;
         public const int AITimer = 1002;
+
         public const int SessionAcceptTimeout = 1003;
-
         public const int AccountSessionCheckOutTime = 1004;
-
         public const int PlayerOfflineOutTime = 1005;
 
         public const int UnitDBSave = 1006;
 
         public const int BattleRound = 1007;
 
+        public const int NoticeUnitNumericTime = 1008;
+
+        public const int MakeQueueOver = 1009;
+        public const int MakeQueueUI = 1010;
+
+        public const int RankUI = 1011;
         // 不能超过10000
     }
 }

@@ -208,4 +208,20 @@ namespace ET.EventType
     }
 
     #endregion 关卡系统
+
+    #region 打造系统
+
+    public class MakeQueueOver : DisposeObject
+    {
+        public static readonly MakeQueueOver Instance = new MakeQueueOver();
+
+        public Scene ZoneScene;
+
+        public override void Dispose()
+        {
+            this.ZoneScene = null;
+        }
+    }
+
+    #endregion 打造系统
 }

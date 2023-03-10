@@ -28,13 +28,13 @@ namespace ET
                 self.EI_IconImage.sprite = null;
                 self.EI_IconImage.overrideSprite = null;
                 self.EI_QualityImage.color = Color.grey;
-                self.ET_LabelText.enabled = true;
+                self.ET_LabelTextMeshProUGUI.enabled = true;
             }
             else
             {
                 self.EI_IconImage.overrideSprite = IconHelper.LoadIconSprite("Icons", item.Config.Icon);
                 self.EI_QualityImage.color = item.ItemQualityColor();
-                self.ET_LabelText.enabled = false;
+                self.ET_LabelTextMeshProUGUI.enabled = false;
             }
         }
 
