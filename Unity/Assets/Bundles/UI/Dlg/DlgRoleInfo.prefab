@@ -1998,6 +1998,16 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u76D4\u7532"
       objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_text
+      value: "\u76D4\u7532"
+      objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 53.35
+      objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
       propertyPath: m_Name
@@ -2548,6 +2558,16 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u526F\u624B"
       objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_text
+      value: "\u526F\u624B"
+      objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 53.35
+      objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
       propertyPath: m_Name
@@ -2677,6 +2697,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: "\u6B66\u5668"
+      objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_text
+      value: "\u6B66\u5668"
+      objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 53.35
       objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
@@ -2808,6 +2838,16 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u9970\u54C1"
       objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_text
+      value: "\u6212\u6307"
+      objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 53.35
+      objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
       propertyPath: m_Name
@@ -2938,6 +2978,16 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u5934\u76D4"
       objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_text
+      value: "\u5934\u76D4"
+      objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 53.35
+      objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}
       propertyPath: m_Name
@@ -3067,6 +3117,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: "\u9774\u5B50"
+      objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_text
+      value: "\u9774\u5B50"
+      objectReference: {fileID: 0}
+    - target: {fileID: 804513635717274498, guid: bb1ecd2c43fca6240b354f223e3a357c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 53.35
       objectReference: {fileID: 0}
     - target: {fileID: 4822611724958076364, guid: bb1ecd2c43fca6240b354f223e3a357c,
         type: 3}

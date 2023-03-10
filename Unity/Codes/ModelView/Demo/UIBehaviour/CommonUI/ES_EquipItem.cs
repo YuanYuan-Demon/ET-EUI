@@ -74,7 +74,7 @@ namespace ET
      		}
      	}
 
-		public UnityEngine.UI.Text ET_LabelText
+		public TMPro.TextMeshProUGUI ET_LabelTextMeshProUGUI
      	{
      		get
      		{
@@ -83,11 +83,11 @@ namespace ET
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_ET_LabelText == null )
+     			if( this.m_ET_LabelTextMeshProUGUI == null )
      			{
-		    		this.m_ET_LabelText = UIFindHelper.FindDeepChild<UnityEngine.UI.Text>(this.uiTransform.gameObject,"ET_Label");
+		    		this.m_ET_LabelTextMeshProUGUI = UIFindHelper.FindDeepChild<TMPro.TextMeshProUGUI>(this.uiTransform.gameObject,"ET_Label");
      			}
-     			return this.m_ET_LabelText;
+     			return this.m_ET_LabelTextMeshProUGUI;
      		}
      	}
 
@@ -97,7 +97,7 @@ namespace ET
 			this.m_EI_IconImage = null;
 			this.m_EB_SelectButton = null;
 			this.m_EB_SelectImage = null;
-			this.m_ET_LabelText = null;
+			this.m_ET_LabelTextMeshProUGUI = null;
 			this.uiTransform = null;
 		}
 
@@ -105,7 +105,7 @@ namespace ET
 		private UnityEngine.UI.Image m_EI_IconImage = null;
 		private UnityEngine.UI.Button m_EB_SelectButton = null;
 		private UnityEngine.UI.Image m_EB_SelectImage = null;
-		private UnityEngine.UI.Text m_ET_LabelText = null;
+		private TMPro.TextMeshProUGUI m_ET_LabelTextMeshProUGUI = null;
 		public Transform uiTransform = null;
 	}
 }

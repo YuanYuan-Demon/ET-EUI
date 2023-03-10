@@ -3,6 +3,8 @@
     [FriendClass(typeof(EquipmentsComponent))]
     public static class EquipmentsComponentSystem
     {
+        #region 生命周期
+
         public class EquipmentsComponentDestrory : DestroySystem<EquipmentsComponent>
         {
             public override void Destroy(EquipmentsComponent self)
@@ -10,6 +12,8 @@
                 self.Clear();
             }
         }
+
+        #endregion 生命周期
 
         public static void Clear(this EquipmentsComponent self)
         {
@@ -44,7 +48,7 @@
         {
             if (self.EquipItems.TryGetValue(item.Config.EquipPosition, out Item equipItem))
             {
-                Log.Error($"Already EquipItem in Postion{(EquipPosition)item.Config.EquipPosition}");
+                Log.Error($"当前位置[{(EquipPosition)item.Config.EquipPosition}]已有装备");
                 return;
             }
 

@@ -1,9 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 
 namespace UnityEngine.UI
 {
@@ -12,12 +7,23 @@ namespace UnityEngine.UI
         [HideInInspector]
         [NonSerialized]
         public LoopScrollDataSourceInstance dataSource = new LoopScrollDataSourceInstance();
-        
+
+        public void AddItemRefreshListener(Action<Transform, int> scrollMoveEvent)
+        {
+            if (null == this.dataSource || scrollMoveEvent == null)
+            {
+                ET.Log.Error("dataSource or scrollMoveEvent is error!");
+                Debug.LogError("dataSource or scrollMoveEvent is error!");
+            }
+            this.dataSource.scrollMoveEvent = null;
+            this.dataSource.scrollMoveEvent = scrollMoveEvent;
+        }
+
         protected override void ProvideData(Transform transform, int index)
         {
             dataSource.ProvideData(transform, index);
         }
-        
+
         protected override RectTransform GetFromTempPool(int itemIdx)
         {
             RectTransform nextItem = null;
@@ -71,17 +77,6 @@ namespace UnityEngine.UI
                 }
                 deletedItemTypeEnd = 0;
             }
-        }
-        
-        public void AddItemRefreshListener(Action<Transform,int> scrollMoveEvent)
-        {
-            if ( null == this.dataSource || scrollMoveEvent == null )
-            {
-                ET.Log.Error("dataSource or scrollMoveEvent is error!");
-                Debug.LogError("dataSource or scrollMoveEvent is error!");
-            }
-            this.dataSource.scrollMoveEvent = null;
-            this.dataSource.scrollMoveEvent = scrollMoveEvent;
         }
     }
 }
