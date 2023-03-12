@@ -31,6 +31,7 @@ namespace ET
 
                     unit.AddComponent<BagComponent>();
                     unit.AddComponent<EquipmentsComponent>();
+                    unit.AddComponent<ForgeComponent>();
 
                     unitComponent.Add(unit);
                     return unit;
