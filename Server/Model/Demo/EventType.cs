@@ -87,5 +87,15 @@
         }
 
         #endregion 背包系统
+
+        #region 打造系统
+
+        public struct MakeProdutionOver
+        {
+            public Unit Unit;
+            public int ProductionConfigId;
+        }
+
+        #endregion 打造系统
     }
 }

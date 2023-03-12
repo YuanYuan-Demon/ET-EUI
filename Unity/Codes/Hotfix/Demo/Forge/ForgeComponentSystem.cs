@@ -1,4 +1,5 @@
-﻿using ET.EventType;
+﻿using System.Linq;
+using ET.EventType;
 
 namespace ET
 {
@@ -54,17 +55,17 @@ namespace ET
         /// <returns></returns>
         public static bool IsExistMakeQueueOver(this ForgeComponent self)
         {
-            bool isCanRecive = false;
-
-            foreach (Production production in self.ProductionsList)
-            {
-                if (production.IsMakingState() && production.IsMakeTimeOver())
-                {
-                    isCanRecive = true;
-                    break;
-                }
-            }
-            return isCanRecive;
+            return self.ProductionsList.Any(p => p.IsMakingState() && p.IsMakeTimeOver());
+            //bool isCanRecive = false;
+            //foreach (Production production in self.ProductionsList)
+            //{
+            //    if (production.IsMakingState() && production.IsMakeTimeOver())
+            //    {
+            //        isCanRecive = true;
+            //        break;
+            //    }
+            //}
+            //return isCanRecive;
         }
 
         /// <summary>

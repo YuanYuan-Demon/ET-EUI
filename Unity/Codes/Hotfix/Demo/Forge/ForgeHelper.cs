@@ -26,11 +26,10 @@ namespace ET
                 return ErrorCode.ERR_MakeConsumeError;
             }
 
-            M2C_StartProduction m2CStartProduction = null;
-
+            M2C_StartProduction response;
             try
             {
-                m2CStartProduction = (M2C_StartProduction)await ZoneScene.GetComponent<SessionComponent>().Session.Call(new C2M_StartProduction() { ConfigId = productionConfigId });
+                response = await ZoneScene.Call(new C2M_StartProduction() { ConfigId = productionConfigId }) as M2C_StartProduction;
             }
             catch (Exception e)
             {
@@ -38,16 +37,21 @@ namespace ET
                 return ErrorCode.ERR_NetWorkError;
             }
 
-            if (m2CStartProduction.Error != ErrorCode.ERR_Success)
+            if (response.Error != ErrorCode.ERR_Success)
             {
-                return m2CStartProduction.Error;
+                return response.Error;
             }
 
-            ZoneScene.GetComponent<ForgeComponent>().AddOrUpdateProductionQueue(m2CStartProduction.ProductionProto);
+            ZoneScene.GetComponent<ForgeComponent>().AddOrUpdateProductionQueue(response.ProductionProto);
             return ErrorCode.ERR_Success;
         }
 
-        //请求获取生产好的物品
+        /// <summary>
+        /// 请求获取生产好的物品
+        /// </summary>
+        /// <param name="ZoneScene"></param>
+        /// <param name="productionId"></param>
+        /// <returns></returns>
         public static async ETTask<int> ReceivedProductionItem(Scene ZoneScene, long productionId)
         {
             //背包已满
@@ -56,11 +60,10 @@ namespace ET
                 return ErrorCode.ERR_BagMaxLoad;
             }
 
-            M2C_ReceiveProduction m2CReciveProduction = null;
-
+            M2C_ReceiveProduction response;
             try
             {
-                m2CReciveProduction = (M2C_ReceiveProduction)await ZoneScene.GetComponent<SessionComponent>().Session.Call(new C2M_ReceiveProduction() { ProducitonId = productionId });
+                response = await ZoneScene.Call(new C2M_ReceiveProduction() { ProducitonId = productionId }) as M2C_ReceiveProduction;
             }
             catch (Exception e)
             {
@@ -68,12 +71,12 @@ namespace ET
                 return ErrorCode.ERR_NetWorkError;
             }
 
-            if (m2CReciveProduction.Error != ErrorCode.ERR_Success)
+            if (response.Error != ErrorCode.ERR_Success)
             {
-                return m2CReciveProduction.Error;
+                return response.Error;
             }
 
-            ZoneScene.GetComponent<ForgeComponent>().AddOrUpdateProductionQueue(m2CReciveProduction.ProductionProto);
+            ZoneScene.GetComponent<ForgeComponent>().AddOrUpdateProductionQueue(response.ProductionProto);
             return ErrorCode.ERR_Success;
         }
     }

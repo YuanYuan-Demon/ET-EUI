@@ -1,4 +1,6 @@
-﻿namespace ET
+﻿using System.Linq;
+
+namespace ET
 {
     [FriendClass(typeof(ForgeComponent))]
     [FriendClassAttribute(typeof(ET.Production))]
@@ -21,28 +23,15 @@
 
         public static Production GetProductionById(this ForgeComponent self, long productionId)
         {
-            for (int i = 0; i < self.ProductionsList.Count; i++)
-            {
-                if (self.ProductionsList[i].Id == productionId)
-                {
-                    return self.ProductionsList[i];
-                }
-            }
-            return null;
+            return self.ProductionsList.FirstOrDefault(product => product.Id == productionId);
         }
 
         public static bool IsExistProductionOverQueue(this ForgeComponent self, long productionId)
         {
-            for (int i = 0; i < self.ProductionsList.Count; i++)
-            {
-                if (self.ProductionsList[i].Id == productionId
-                    && self.ProductionsList[i].ProductionState == ProductionState.Making
-                    && self.ProductionsList[i].TargetTime <= TimeHelper.ServerNow())
-                {
-                    return true;
-                }
-            }
-            return false;
+            return self.ProductionsList.Any(p =>
+            p.Id == productionId
+            && p.ProductionState == ProductionState.Making
+            && p.TargetTime <= TimeHelper.ServerNow());
         }
 
         /// <summary>
@@ -81,14 +70,8 @@
 
         public static Production GetFreeProduction(this ForgeComponent self)
         {
-            for (int i = 0; i < self.ProductionsList.Count; i++)
-            {
-                if (self.ProductionsList[i].ProductionState == ProductionState.Received)
-                {
-                    return self.ProductionsList[i];
-                }
-            }
-            return null;
+            return self.ProductionsList.FirstOrDefault(p =>
+            p.ProductionState == ProductionState.Received);
         }
     }
 }
