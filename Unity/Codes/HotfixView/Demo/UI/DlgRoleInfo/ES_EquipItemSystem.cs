@@ -2,7 +2,7 @@
 
 namespace ET
 {
-    public static class ES_EquipItemItemSystem
+    public static class ES_EquipItemSystem
     {
         public static void RegisterEventHandler(this ES_EquipItem self, EquipPosition equipPosition)
         {
@@ -42,6 +42,7 @@ namespace ET
         {
             self.EI_QualityImage.color = Color.grey;
             self.EI_IconImage.overrideSprite = IconHelper.LoadIconSprite("Icons", ItemConfigCategory.Instance.Get(itemConfigId).Icon);
+            self.ET_LabelTextMeshProUGUI.enabled = false;
         }
     }
 }

@@ -150,7 +150,21 @@ namespace ET
             toggle.onValueChanged?.Invoke(isSelected);
         }
 
-        public static void RemoveUIScrollItems<K, T>(this K self, ref List<T> list) where K : Entity, IUILogic where T : Entity, IUIScrollItem
+        public static void RemoveUIScrollItems<Dlg, Item>(this Dlg self, ref Dictionary<int, Item> list) where Dlg : Entity, IUILogic where Item : Entity, IUIScrollItem
+        {
+            if (list == null)
+            {
+                return;
+            }
+            foreach (var item in list)
+            {
+                item.Value.Dispose();
+            }
+            list.Clear();
+            list = null;
+        }
+
+        public static void RemoveUIScrollItems<Dlg, Item>(this Dlg self, ref List<Item> list) where Dlg : Entity, IUILogic where Item : Entity, IUIScrollItem
         {
             if (list == null)
             {

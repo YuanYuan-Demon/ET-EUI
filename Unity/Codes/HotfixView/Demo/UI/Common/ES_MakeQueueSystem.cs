@@ -22,7 +22,7 @@ namespace ET
             bool isCanReceive = production.IsMakeTimeOver() && production.IsMakingState();
 
             self.ET_MakeTimeTextMeshProUGUI.SetText(production.GetRemainingTimeStr());
-            self.ED_ProcessBarSlider.value = production.GetRemainTimeValue();
+            self.ED_ProcessBarSlider.value = production.GetProcess();
 
             self.ED_ProcessBarSlider.SetVisible(!isCanReceive);
             self.ET_MakeTimeTextMeshProUGUI.SetVisible(!isCanReceive);

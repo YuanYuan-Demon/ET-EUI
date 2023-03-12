@@ -48,7 +48,7 @@ namespace ET
                 Log.Debug("hot reload success!");
             }
 
-            // KeyCode.T
+            // KeyCode.Item
             if (InputHelper.GetKeyDown(116))
             {
                 C2M_TransferMap c2MTransferMap = new C2M_TransferMap();

@@ -24,17 +24,16 @@ namespace ET
             return self.TargetTime <= TimeHelper.ServerNow();
         }
 
-        public static float GetRemainTimeValue(this Production self)
+        /// <summary>
+        /// 获取制作进度([0,1] --> 完成)
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static float GetProcess(this Production self)
         {
-            long RemainTime = self.TargetTime - TimeHelper.ServerNow();
-            if (RemainTime <= 0)
-            {
-                return 0.0f;
-            }
-
+            long makedTime = TimeHelper.ServerNow() - self.StartTime;
             long totalTIme = self.TargetTime - self.StartTime;
-
-            return RemainTime / (float)totalTIme;
+            return makedTime >= totalTIme ? 1 : makedTime / (float)totalTIme;
         }
 
         public static string GetRemainingTimeStr(this Production self)
@@ -48,9 +47,9 @@ namespace ET
 
             RemainTime /= 1000;
 
-            float h = Mathf.FloorToInt(RemainTime / 3600f);
-            float m = Mathf.FloorToInt(RemainTime / 60f - h * 60f);
-            float s = Mathf.FloorToInt(RemainTime - m * 60f - h * 3600f);
+            float h = Mathf.CeilToInt(RemainTime / 3600f);
+            float m = Mathf.CeilToInt(RemainTime / 60f - h * 60f);
+            float s = Mathf.CeilToInt(RemainTime - m * 60f - h * 3600f);
             return $"{h:00}小时{m:00}分{s:00}秒";
         }
     }
