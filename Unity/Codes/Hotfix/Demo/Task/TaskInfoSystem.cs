@@ -36,7 +36,7 @@
 
         public static TaskInfoProto ToMessage(this TaskInfo self)
         {
-            TaskInfoProto TaskInfoProto = new()
+            TaskInfoProto TaskInfoProto = new TaskInfoProto()
             {
                 ConfigId = self.ConfigId,
                 TaskPogress = self.TaskPogress,
