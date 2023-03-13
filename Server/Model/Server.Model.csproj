@@ -146,10 +146,5 @@
 	<ProjectReference Include="..\..\ThirdParty\UnityEngine\UnityEngine.csproj" />
     <ProjectReference Include="..\..\Tools\Analyzer\Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
-
-  
-  <ItemGroup>
-    <Folder Include="Demo\Rank\" />
-  </ItemGroup>
   
 </Project>

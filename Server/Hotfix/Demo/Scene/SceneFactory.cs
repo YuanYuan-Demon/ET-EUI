@@ -54,6 +54,10 @@ namespace ET
                 case SceneType.UnitCache:
                     scene.AddComponent<UnitCacheComponent>();
                     break;
+
+                case SceneType.Rank:
+                    await scene.AddComponent<RankInfosComponent>().LoadRankInfo();
+                    break;
             }
 
             return scene;

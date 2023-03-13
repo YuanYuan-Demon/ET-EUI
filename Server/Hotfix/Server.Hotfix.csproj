@@ -23,6 +23,7 @@
     <Compile Include="..\..\Unity\Codes\Hotfix\Demo\Move\MoveComponentSystem.cs">
       <Link>Demo\Move\MoveComponentSystem.cs</Link>
     </Compile>
+    <Compile Include="..\..\Unity\Codes\Hotfix\Demo\Rank\RankInfoSystem.cs" Link="Demo\Rank\RankInfoSystem.cs" />
     <Compile Include="..\..\Unity\Codes\Hotfix\Demo\Role\RoleInfoSystem.cs" Link="Demo\Role\RoleInfoSystem.cs" />
     <Compile Include="..\..\Unity\Codes\Hotfix\Demo\ServerInfo\ServerInfoSystem.cs" Link="Demo\ServerInfo\ServerInfoSystem.cs" />
     <Compile Include="..\..\Unity\Codes\Hotfix\Demo\Task\TaskInfoSystem.cs" Link="Demo\Task\TaskInfoSystem.cs" />
