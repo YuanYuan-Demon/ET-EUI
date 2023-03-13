@@ -5,6 +5,41 @@ namespace ET
     [FriendClass(typeof(DlgRoleInfo))]
     public static class DlgRoleInfoSystem
     {
+        private static async ETTask OnClickConfirmAddPoint(this DlgRoleInfo self, bool isConfirm)
+        {
+            var addAttributeEvent = new EventType.AddAttributeConfirm()
+            {
+                ZoneScene = self.ZoneScene(),
+                ConfirmAdd = isConfirm,
+                Attributes = self.AddingAttributes
+            };
+            await Game.EventSystem.PublishAsync(addAttributeEvent);
+            self.AddingAttributes.Clear();
+            self.Refresh();
+            //self.SetVisibleAddPointConfirmButton(false);
+        }
+
+        private static bool IsDirtyAttribute(this DlgRoleInfo self, int numericType)
+        {
+            switch (numericType)
+            {
+                case NumericType.Power:
+                case NumericType.PhysicalStrength:
+                case NumericType.Agile:
+                case NumericType.Spirit:
+                    return self.AddingAttributes.ContainsKey(numericType);
+
+                case NumericType.DamageValue:
+                case NumericType.MaxHp:
+                case NumericType.Dodge:
+                case NumericType.MaxMp:
+                    return self.AddingAttributes.ContainsKey(NumericHelper.GetRelativeAttribute(numericType));
+
+                default:
+                    return false;
+            }
+        }
+
         public static void RegisterUIEvent(this DlgRoleInfo self)
         {
             self.RegisterCloseEvent<DlgRoleInfo>(self.View.EB_CloseButton);
@@ -29,17 +64,14 @@ namespace ET
             self.View.ES_Equip_Offhand.RegisterEventHandler(EquipPosition.Shield);
             self.View.ES_Equip_Weapon.RegisterEventHandler(EquipPosition.Weapon);
 
-            RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.UpLevelButton, self.View.EB_UpLevelButton.gameObject, Vector3.one, new Vector3(80, 30, 0));
+            RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.UpLevelButton, self.View.EB_UpLevelButton.gameObject, Vector3.one, new Vector3(90, 30, 0));
             RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.AddAttribute, self.View.ET_AttributePointsText.gameObject, Vector3.one, new Vector3(150, 22, 0));
         }
 
         public static void OnUnLoadWindow(this DlgRoleInfo self)
         {
-            RedDotMonoView redDotMonoView = self.View.EB_UpLevelButton.GetComponent<RedDotMonoView>();
-            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.UpLevelButton, out redDotMonoView);
-
-            redDotMonoView = self.View.ET_AttributePointsText.GetComponent<RedDotMonoView>();
-            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.AddAttribute, out redDotMonoView);
+            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.UpLevelButton, out _);
+            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.AddAttribute, out _);
         }
 
         public static void ShowWindow(this DlgRoleInfo self, Entity contextData = null)
@@ -70,7 +102,7 @@ namespace ET
             NumericComponent numericComponent = UnitHelper.GetMyUnitNumericComponentFromCurScene(self.ZoneScene().CurrentScene());
             //dlg.View..text = "战力值:" + numericComponent.GetAsLong(NumericType.CombatEffectiveness).ToString();
             int points = numericComponent.GetAsInt(NumericType.AttributePoints);
-            self.View.ET_AttributePointsText.text = $"剩余点数: {points:d3}";
+            self.View.ET_AttributePointsText.text = $"剩余点数: {points,3}";
             self.SetVisibleAddPointButton(points > 0);
             self.SetVisibleAddPointConfirmButton(self.AddingAttributes.Count != 0);
 
@@ -121,41 +153,6 @@ namespace ET
             catch (System.Exception e)
             {
                 Log.Error(e);
-            }
-        }
-
-        private static async ETTask OnClickConfirmAddPoint(this DlgRoleInfo self, bool isConfirm)
-        {
-            var addAttributeEvent = new EventType.AddAttributeConfirm()
-            {
-                ZoneScene = self.ZoneScene(),
-                ConfirmAdd = isConfirm,
-                Attributes = self.AddingAttributes
-            };
-            await Game.EventSystem.PublishAsync(addAttributeEvent);
-            self.AddingAttributes.Clear();
-            self.Refresh();
-            //self.SetVisibleAddPointConfirmButton(false);
-        }
-
-        private static bool IsDirtyAttribute(this DlgRoleInfo self, int numericType)
-        {
-            switch (numericType)
-            {
-                case NumericType.Power:
-                case NumericType.PhysicalStrength:
-                case NumericType.Agile:
-                case NumericType.Spirit:
-                    return self.AddingAttributes.ContainsKey(numericType);
-
-                case NumericType.DamageValue:
-                case NumericType.MaxHp:
-                case NumericType.Dodge:
-                case NumericType.MaxMp:
-                    return self.AddingAttributes.ContainsKey(NumericHelper.GetRelativeAttribute(numericType));
-
-                default:
-                    return false;
             }
         }
     }

@@ -9,13 +9,13 @@ namespace ET
             bool isExist = args.ZoneScene.GetComponent<ForgeComponent>().IsExistMakeQueueOver();
             if (isExist)
             {
-                RedDotHelper.ShowRedDotNode(args.ZoneScene, "Forge");
+                RedDotHelper.ShowRedDotNode(args.ZoneScene, RedDotType.Forge);
             }
             else
             {
-                if (RedDotHelper.IsLogicAlreadyShow(args.ZoneScene, "Forge"))
+                if (RedDotHelper.IsLogicAlreadyShow(args.ZoneScene, RedDotType.Forge))
                 {
-                    RedDotHelper.HideRedDotNode(args.ZoneScene, "Forge");
+                    RedDotHelper.HideRedDotNode(args.ZoneScene, RedDotType.Forge);
                 }
             }
         }

@@ -13,13 +13,16 @@ namespace ET
             self.View.EB_ForgeButton.AddListener(() => self.ShowDlgForge());
             self.View.EB_TaskButton.AddListener(() => self.ShowDlgTask());
 
-            RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.Role, self.View.EB_RoleInfoButton.gameObject, Vector3.one, new Vector3(80, 30, 0));
+            RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.Role, self.View.EB_RoleInfoButton.gameObject, Vector3.one, new Vector3(92, 50, 0));
+            RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.Forge, self.View.EB_ForgeButton.gameObject, Vector3.one, new Vector3(92, 50, 0));
+            RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.Task, self.View.EB_TaskButton.gameObject, Vector3.one, new Vector3(92, 50, 0));
         }
 
         public static void OnUnLoadWindow(this DlgMain self)
         {
-            RedDotMonoView redDotMonoView = self.View.EB_RoleInfoButton.GetComponent<RedDotMonoView>();
-            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.Role, out redDotMonoView);
+            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.Role, out _);
+            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.Forge, out _);
+            RedDotHelper.RemoveRedDotView(self.ZoneScene(), RedDotType.Task, out _);
         }
 
         public static void ShowWindow(this DlgMain self, Entity contextData = null)

@@ -47,8 +47,8 @@ namespace ET
 
             RemainTime /= 1000;
 
-            float h = Mathf.CeilToInt(RemainTime / 3600f);
-            float m = Mathf.CeilToInt(RemainTime / 60f - h * 60f);
+            float h = Mathf.FloorToInt(RemainTime / 3600f);
+            float m = Mathf.FloorToInt(RemainTime / 60f - h * 60f);
             float s = Mathf.CeilToInt(RemainTime - m * 60f - h * 3600f);
             return $"{h:00}小时{m:00}分{s:00}秒";
         }
