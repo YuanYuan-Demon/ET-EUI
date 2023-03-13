@@ -19,5 +19,6 @@
         WindowID_Task,      //任务面板
         WindowID_ItemPopUp, //道具操作弹窗
         WindowID_Rank,      //排行榜界面
+        WindowID_Chat,      //聊天界面
     }
 }

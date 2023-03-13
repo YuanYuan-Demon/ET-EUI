@@ -12,6 +12,8 @@ namespace ET
             self.View.EB_BagButton.AddListener(() => self.ShowDlgBag());
             self.View.EB_ForgeButton.AddListener(() => self.ShowDlgForge());
             self.View.EB_TaskButton.AddListener(() => self.ShowDlgTask());
+            self.View.EB_RankButton.AddListener(() => self.ShowDlgRank());
+            self.View.EB_ChatButton.AddListener(() => self.ShowDlgChat());
 
             RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.Role, self.View.EB_RoleInfoButton.gameObject, Vector3.one, new Vector3(92, 50, 0));
             RedDotHelper.AddRedDotNodeView(self.ZoneScene(), RedDotType.Forge, self.View.EB_ForgeButton.gameObject, Vector3.one, new Vector3(92, 50, 0));
@@ -40,6 +42,8 @@ namespace ET
             self.View.ET_ExpText.SetText($"经验: {numericComponent.GetAsInt(NumericType.Exp)}");
         }
 
+        #region 界面入口
+
         public static void ShowDlgRoleInfo(this DlgMain self)
         {
             self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_RoleInfo);
@@ -64,5 +68,17 @@ namespace ET
         {
             self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Task);
         }
+
+        public static void ShowDlgRank(this DlgMain self)
+        {
+            self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Rank);
+        }
+
+        public static void ShowDlgChat(this DlgMain self)
+        {
+            self.ZoneScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Chat);
+        }
+
+        #endregion 界面入口
     }
 }
