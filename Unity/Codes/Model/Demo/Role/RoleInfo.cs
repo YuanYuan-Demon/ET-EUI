@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ET
+﻿namespace ET
 {
     public enum RoleInfoStatus
     {
@@ -12,13 +6,18 @@ namespace ET
         Freeze
     }
 
-    public class RoleInfo : Entity, IAwake
+    [ComponentOf(typeof(Unit))]
+#if SERVER
+    public class RoleInfo : Entity, IAwake, ITransfer, IUnitCache
+#else
+    public class RoleInfo : Entity,IAwake
+#endif
     {
-        public string Name { get; set; }
-        public int ServerId { get; set; }
-        public int Status { get; set; }
-        public long AccountId { get; set; }
-        public long LastLoginTIme { get; set; }
-        public long CreateTime { get; set; }
+        public string Name;
+        public int ServerId;
+        public int Status;
+        public long AccountId;
+        public long LastLoginTIme;
+        public long CreateTime;
     }
 }

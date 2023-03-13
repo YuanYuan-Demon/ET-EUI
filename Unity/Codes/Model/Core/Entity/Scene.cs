@@ -2,7 +2,7 @@
 {
 #if SERVER
 
-    [ChildType(typeof(Unit))]
+    [ChildType]
 #endif
     [EnableMethod]
     public sealed class Scene : Entity

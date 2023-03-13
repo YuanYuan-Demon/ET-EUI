@@ -10,9 +10,8 @@ namespace ET
             if (args.Parent is Unit unit)
             {
                 unit.GetComponent<TasksComponent>().TriggerTaskAction(TaskActionType.UpLevel, (int)args.New);
+                RankHelper.AddOrUpdateLevelRank(unit);
             }
-
-            //RankHelper.AddOrUpdateLevelRank(unit);
         }
     }
 }

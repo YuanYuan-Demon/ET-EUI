@@ -35,9 +35,8 @@
 
         public static void AddOrUpdate(this RankInfosComponent self, RankInfo newRankInfo)
         {
-            if (self.RankInfosDictionary.ContainsKey(newRankInfo.UnitId))
+            if (self.RankInfosDictionary.TryGetValue(newRankInfo.UnitId, out RankInfo oldRankInfo))
             {
-                RankInfo oldRankInfo = self.RankInfosDictionary[newRankInfo.UnitId];
                 if (oldRankInfo.Level == newRankInfo.Level)
                 {
                     return;

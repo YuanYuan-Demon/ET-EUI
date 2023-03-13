@@ -4,6 +4,7 @@ using UnityEngine;
 namespace ET
 {
     [FriendClass(typeof(DlgRoles))]
+    [FriendClassAttribute(typeof(ET.RoleInfo))]
     public static class DlgRolesSystem
     {
         public static async void OnConfirmClickHandler(this DlgRoles self)

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ET
 {
+    [FriendClassAttribute(typeof(ET.RoleInfo))]
     public class C2A_DeleteRoleHandler : AMRpcHandler<C2A_DelteRole, A2C_DelteRole>
     {
         protected override async ETTask Run(Session session, C2A_DelteRole request, A2C_DelteRole response, Action reply)

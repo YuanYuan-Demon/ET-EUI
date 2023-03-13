@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ET
+﻿namespace ET
 {
+    [FriendClassAttribute(typeof(ET.RoleInfo))]
     public static class RoleInfoSystem
     {
         public static void FromNServerInfo(this RoleInfo self, NRoleInfo nServerInfo)
