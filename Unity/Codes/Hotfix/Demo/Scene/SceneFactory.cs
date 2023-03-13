@@ -18,6 +18,7 @@ namespace ET
             zoneScene.AddComponent<EquipmentsComponent>();
             zoneScene.AddComponent<ForgeComponent>();
             zoneScene.AddComponent<TasksComponent>();
+            zoneScene.AddComponent<RankComponent>();
 
             Game.EventSystem.Publish(new EventType.AfterCreateZoneScene() { ZoneScene = zoneScene });
             return zoneScene;

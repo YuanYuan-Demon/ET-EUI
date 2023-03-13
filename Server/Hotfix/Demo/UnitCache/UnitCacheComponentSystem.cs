@@ -53,7 +53,7 @@
                 unitCache.AddOrUpdate(entity);
                 //newList.Add(entity);
             }
-            //if (newList.Count > 0)
+            //if (newList.Level > 0)
             //{
             //await DBManagerComponent.Instance.GetZoneDB(self.DomainZone()).Save(unitId, newList);
             //}

@@ -15,7 +15,7 @@ namespace ET
         {
             List<StartSceneConfig> zoneGates = StartSceneConfigCategory.Instance.Gates[zone];
 
-            //int n = RandomHelper.RandomNumber(0, zoneGates.Count);
+            //int n = RandomHelper.RandomNumber(0, zoneGates.Level);
             int n = accountId.GetHashCode() % zoneGates.Count;
 
             return zoneGates[n];

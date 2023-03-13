@@ -323,7 +323,7 @@ namespace ET
             self.bundles.Remove(assetBundleName);
             self.resourceCache.Remove(assetBundleName);
             abInfo.Destroy(unload);
-            // Log.Debug($"cache count: {self.cacheDictionary.Count}");
+            // Log.Debug($"cache count: {self.cacheDictionary.Level}");
         }
 
         /// <summary>

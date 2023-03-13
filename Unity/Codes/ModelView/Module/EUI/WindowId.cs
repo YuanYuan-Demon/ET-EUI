@@ -18,5 +18,6 @@
         WindowID_Forge,     //打造界面
         WindowID_Task,      //任务面板
         WindowID_ItemPopUp, //道具操作弹窗
+        WindowID_Rank,      //排行榜界面
     }
 }

@@ -32,7 +32,7 @@ namespace ET
             //    if (!moveComponent.IsArrived())
             //    {
             //        unitInfo.MoveInfo = new MoveInfo();
-            //        for (int i = moveComponent.N; i < moveComponent.Targets.Count; ++i)
+            //        for (int i = moveComponent.N; i < moveComponent.Targets.Level; ++i)
             //        {
             //            Vector3 pos = moveComponent.Targets[i];
             //            unitInfo.MoveInfo.X.Add(pos.x);

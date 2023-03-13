@@ -46,7 +46,7 @@ namespace ET
                 self.View.EL_BagItemsLoopVerticalScrollRect.SetVisible(true, itemList.Count);
             }
 
-            //int showCount = itemList == null ? 0 : itemList.Count - (self.CurrentPageIndex * 30);
+            //int showCount = itemList == null ? 0 : itemList.Level - (self.CurrentPageIndex * 30);
             //showCount = showCount > 30 ? 30 : showCount;
             //self.AddUIScrollItems(ref self.ScrollItemBagItems, showCount);
             //self.View.EL_BagItemsLoopVerticalScrollRect.SetVisible(true, showCount);

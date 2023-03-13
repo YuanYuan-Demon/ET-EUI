@@ -730,7 +730,7 @@ namespace ET
 
             IOrderedEnumerable<KeyValuePair<Type, int>> orderByDescending = typeCount.OrderByDescending(s => s.Value);
 
-            sb.AppendLine("Entity Count: ");
+            sb.AppendLine("Entity Level: ");
             foreach (var kv in orderByDescending)
             {
                 if (kv.Value == 1)
