@@ -47,6 +47,10 @@
         <Link>Demo\Forge\%(FileName)%(Extension)</Link>
 	</Compile>
 	  
+	<Compile Include="..\..\Unity\Codes\Model\Demo\Task\*.cs">
+	    <Link>Demo\Task\%(FileName)%(Extension)</Link>
+	</Compile>
+	  
 	<Compile Include="..\..\Unity\Codes\Model\Demo\Equipment\*.cs">
 		  <Link>Demo\Equipment\%(FileName)%(Extension)</Link>
 	  </Compile>

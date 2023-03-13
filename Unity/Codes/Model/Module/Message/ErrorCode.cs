@@ -88,5 +88,8 @@ namespace ET
         public const int ERR_MakeConsumeError = 200037;
         public const int ERR_NoMakeFreeQueue = 200038;
         public const int ERR_NoMakeQueueOver = 200039;
+
+        public const int ERR_NoTaskInfoExist = 200040;
+        public const int ERR_TaskNoCompleted = 200041;
     }
 }

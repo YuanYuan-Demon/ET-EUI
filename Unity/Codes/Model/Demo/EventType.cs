@@ -224,4 +224,13 @@ namespace ET.EventType
     }
 
     #endregion 打造系统
+
+    #region 任务系统
+
+    public struct UpdateTaskInfo
+    {
+        public Scene ZoneScene;
+    }
+
+    #endregion 任务系统
 }
