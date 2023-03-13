@@ -6,7 +6,7 @@ namespace ET
     {
         protected override void Run(MakeProdutionOver args)
         {
-            //args.Unit.GetComponent<TasksComponent>().TriggerTaskAction(TaskActionType.MakeItem, count: 1, targetId: args.ProductionConfigId);
+            args.Unit.GetComponent<TasksComponent>().TriggerTaskAction(TaskActionType.MakeItem, count: 1, targetId: args.ProductionConfigId);
         }
     }
 }

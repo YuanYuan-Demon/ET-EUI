@@ -41,6 +41,9 @@ namespace ET
             //通知客户端同步打造信息
             ForgeHelper.SyncAllProduction(unit);
 
+            //通知客户端同步任务信息
+            TaskNoticeHelper.SyncAllTaskInfo(unit);
+
             // 加入aoi
             //unit.AddComponent<AOIEntity, int, Vector3>(9 * 1000, unit.Position);
 
