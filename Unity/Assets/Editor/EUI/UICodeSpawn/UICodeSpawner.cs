@@ -27,6 +27,7 @@ public partial class UICodeSpawner
             "Button",
             "Text",
             "TMPro.TextMeshProUGUI",
+            "TMPro.TMP_InputField",
             "Input",
             "InputField",
             "Scrollbar",
@@ -43,242 +44,6 @@ public partial class UICodeSpawner
             "LoopHorizontalScrollRect",
             "UnityEngine.EventSystems.EventTrigger"
         };
-    }
-
-    public static void SpawnEUICode(GameObject gameObject)
-    {
-        if (null == gameObject)
-        {
-            Debug.LogError("UICode Select GameObject is null!");
-            return;
-        }
-
-        try
-        {
-            string uiName = gameObject.name;
-            if (uiName.StartsWith(UIPanelPrefix))
-            {
-                Debug.LogWarning($"----------开始生成Dlg{uiName} 相关代码 ----------");
-                SpawnDlgCode(gameObject);
-                Debug.LogWarning($"生成Dlg{uiName} 完毕!!!");
-                return;
-            }
-            else if (uiName.StartsWith(CommonUIPrefix))
-            {
-                Debug.LogWarning($"-------- 开始生成子UI: {uiName} 相关代码 -------------");
-                SpawnSubUICode(gameObject);
-                Debug.LogWarning($"生成子UI: {uiName} 完毕!!!");
-                return;
-            }
-            else if (uiName.StartsWith(UIItemPrefix))
-            {
-                Debug.LogWarning($"-------- 开始生成滚动列表项: {uiName} 相关代码 -------------");
-                SpawnLoopItemCode(gameObject);
-                Debug.LogWarning($" 开始生成滚动列表项: {uiName} 完毕！！！");
-                return;
-            }
-            Debug.LogError($"选择的预设物不属于 Dlg, 子UI，滚动列表项，请检查 {uiName}！！！！！！");
-        }
-        finally
-        {
-            Path2WidgetCachedDict?.Clear();
-            Path2WidgetCachedDict = null;
-        }
-    }
-
-    public static void SpawnDlgCode(GameObject gameObject)
-    {
-        Path2WidgetCachedDict?.Clear();
-        Path2WidgetCachedDict = new Dictionary<string, List<Component>>();
-
-        FindAllWidgets(gameObject.transform, "");
-
-        SpawnCodeForDlg(gameObject);
-        SpawnCodeForDlgEventHandle(gameObject);
-        SpawnCodeForDlgModel(gameObject);
-
-        SpawnCodeForDlgBehaviour(gameObject);
-        SpawnCodeForDlgComponentBehaviour(gameObject);
-
-        AssetDatabase.Refresh();
-    }
-
-    public static void CreateDestroyWidgetCode(ref StringBuilder strBuilder, bool isScrollItem = false)
-    {
-        strBuilder.AppendFormat("\t\tpublic void DestroyWidget()");
-        strBuilder.AppendLine("\n\t\t{");
-        CreateDlgWidgetDisposeCode(ref strBuilder);
-        strBuilder.AppendFormat("\t\t\tthis.uiTransform = null;\r\n");
-        if (isScrollItem)
-        {
-            strBuilder.AppendLine("\t\t\tthis.DataId = 0;");
-        }
-        strBuilder.AppendLine("\t\t}\n");
-    }
-
-    public static void CreateDlgWidgetDisposeCode(ref StringBuilder strBuilder, bool isSelf = false)
-    {
-        string pointStr = isSelf ? "self" : "this";
-        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
-        {
-            foreach (var info in pair.Value)
-            {
-                Component widget = info;
-                string strClassType = widget.GetType().ToString();
-
-                if (pair.Key.StartsWith(CommonUIPrefix))
-                {
-                    strBuilder.AppendFormat("\t\t	{0}.m_{1}?.Dispose();\r\n", pointStr, pair.Key.ToLower());
-                    strBuilder.AppendFormat("\t\t	{0}.m_{1} = null;\r\n", pointStr, pair.Key.ToLower());
-                    continue;
-                }
-
-                string widgetName = widget.name + strClassType.Split('.').ToList().Last();
-                strBuilder.AppendFormat("\t\t	{0}.m_{1} = null;\r\n", pointStr, widgetName);
-            }
-        }
-    }
-
-    public static void CreateWidgetBindCode(ref StringBuilder strBuilder, Transform transRoot)
-    {
-        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
-        {
-            foreach (var info in pair.Value)
-            {
-                Component widget = info;
-                string strPath = GetWidgetPath(widget.transform, transRoot);
-                string strClassType = widget.GetType().ToString();
-                string strInterfaceType = strClassType;
-
-                if (pair.Key.StartsWith(CommonUIPrefix))
-                {
-                    var subUIClassPrefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(widget);
-                    if (subUIClassPrefab == null)
-                    {
-                        Debug.LogError($"公共UI找不到所属的Prefab! {pair.Key}");
-                        return;
-                    }
-                    GetSubUIBaseWindowCode(ref strBuilder, pair.Key, strPath, subUIClassPrefab.name);
-                    continue;
-                }
-                string widgetName = widget.name + strClassType.Split('.').ToList().Last();
-
-                strBuilder.AppendFormat("		public {0} {1}\r\n", strInterfaceType, widgetName);
-                strBuilder.AppendLine("     	{");
-                strBuilder.AppendLine("     		get");
-                strBuilder.AppendLine("     		{");
-
-                strBuilder.AppendLine("     			if (this.uiTransform == null)");
-                strBuilder.AppendLine("     			{");
-                strBuilder.AppendLine("     				Log.Error(\"uiTransform is null.\");");
-                strBuilder.AppendLine("     				return null;");
-                strBuilder.AppendLine("     			}");
-
-                if (transRoot.gameObject.name.StartsWith(UIItemPrefix))
-                {
-                    strBuilder.AppendLine("     			if (this.isCacheNode)");
-                    strBuilder.AppendLine("     			{");
-                    strBuilder.AppendFormat("     				if( this.m_{0} == null )\n", widgetName);
-                    strBuilder.AppendLine("     				{");
-                    strBuilder.AppendFormat("		    			this.m_{0} = UIFindHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n", widgetName, strPath, strInterfaceType);
-                    strBuilder.AppendLine("     				}");
-                    strBuilder.AppendFormat("     				return this.m_{0};\n", widgetName);
-                    strBuilder.AppendLine("     			}");
-                    strBuilder.AppendLine("     			else");
-                    strBuilder.AppendLine("     			{");
-                    strBuilder.AppendFormat("		    		return UIFindHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n", widgetName, strPath, strInterfaceType);
-                    strBuilder.AppendLine("     			}");
-                }
-                else
-                {
-                    strBuilder.AppendFormat("     			if( this.m_{0} == null )\n", widgetName);
-                    strBuilder.AppendLine("     			{");
-                    strBuilder.AppendFormat("		    		this.m_{0} = UIFindHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n", widgetName, strPath, strInterfaceType);
-                    strBuilder.AppendLine("     			}");
-                    strBuilder.AppendFormat("     			return this.m_{0};\n", widgetName);
-                }
-
-                strBuilder.AppendLine("     		}");
-                strBuilder.AppendLine("     	}\n");
-            }
-        }
-    }
-
-    public static void CreateDeclareCode(ref StringBuilder strBuilder)
-    {
-        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
-        {
-            foreach (var info in pair.Value)
-            {
-                Component widget = info;
-                string strClassType = widget.GetType().ToString();
-
-                if (pair.Key.StartsWith(CommonUIPrefix))
-                {
-                    var subUIClassPrefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(widget);
-                    if (subUIClassPrefab == null)
-                    {
-                        Debug.LogError($"公共UI找不到所属的Prefab! {pair.Key}");
-                        return;
-                    }
-                    string subUIClassType = subUIClassPrefab.name;
-                    strBuilder.AppendFormat("\t\tprivate {0} m_{1} = null;\r\n", subUIClassType, pair.Key.ToLower());
-                    continue;
-                }
-
-                string widgetName = widget.name + strClassType.Split('.').ToList().Last();
-                strBuilder.AppendFormat("\t\tprivate {0} m_{1} = null;\r\n", strClassType, widgetName);
-            }
-        }
-    }
-
-    public static void FindAllWidgets(Transform trans, string strPath)
-    {
-        if (null == trans)
-        {
-            return;
-        }
-        for (int nIndex = 0; nIndex < trans.childCount; ++nIndex)
-        {
-            Transform child = trans.GetChild(nIndex);
-            string strTemp = strPath + "/" + child.name;
-
-            bool isSubUI = child.name.StartsWith(CommonUIPrefix);
-            if (isSubUI || child.name.StartsWith(UIGameObjectPrefix))
-            {
-                List<Component> rectTransfomrComponents = new List<Component>();
-                rectTransfomrComponents.Add(child.GetComponent<RectTransform>());
-                Path2WidgetCachedDict.Add(child.name, rectTransfomrComponents);
-            }
-            else if (child.name.StartsWith(UIWidgetPrefix))
-            {
-                foreach (var uiComponent in WidgetInterfaceList)
-                {
-                    Component component = child.GetComponent(uiComponent);
-                    if (null == component)
-                    {
-                        continue;
-                    }
-
-                    if (Path2WidgetCachedDict.ContainsKey(child.name))
-                    {
-                        Path2WidgetCachedDict[child.name].Add(component);
-                        continue;
-                    }
-
-                    List<Component> componentsList = new List<Component>();
-                    componentsList.Add(component);
-                    Path2WidgetCachedDict.Add(child.name, componentsList);
-                }
-            }
-
-            if (isSubUI)
-            {
-                Debug.Log($"遇到子UI：{child.name},不生成子UI项代码");
-                continue;
-            }
-            FindAllWidgets(child, strTemp);
-        }
     }
 
     private static void SpawnCodeForDlg(GameObject gameObject)
@@ -580,5 +345,241 @@ public partial class UICodeSpawner
         strBuilder.AppendLine("     		}");
 
         strBuilder.AppendLine("     	}\n");
+    }
+
+    public static void SpawnEUICode(GameObject gameObject)
+    {
+        if (null == gameObject)
+        {
+            Debug.LogError("UICode Select GameObject is null!");
+            return;
+        }
+
+        try
+        {
+            string uiName = gameObject.name;
+            if (uiName.StartsWith(UIPanelPrefix))
+            {
+                Debug.LogWarning($"----------开始生成Dlg{uiName} 相关代码 ----------");
+                SpawnDlgCode(gameObject);
+                Debug.LogWarning($"生成Dlg{uiName} 完毕!!!");
+                return;
+            }
+            else if (uiName.StartsWith(CommonUIPrefix))
+            {
+                Debug.LogWarning($"-------- 开始生成子UI: {uiName} 相关代码 -------------");
+                SpawnSubUICode(gameObject);
+                Debug.LogWarning($"生成子UI: {uiName} 完毕!!!");
+                return;
+            }
+            else if (uiName.StartsWith(UIItemPrefix))
+            {
+                Debug.LogWarning($"-------- 开始生成滚动列表项: {uiName} 相关代码 -------------");
+                SpawnLoopItemCode(gameObject);
+                Debug.LogWarning($" 开始生成滚动列表项: {uiName} 完毕！！！");
+                return;
+            }
+            Debug.LogError($"选择的预设物不属于 Dlg, 子UI，滚动列表项，请检查 {uiName}！！！！！！");
+        }
+        finally
+        {
+            Path2WidgetCachedDict?.Clear();
+            Path2WidgetCachedDict = null;
+        }
+    }
+
+    public static void SpawnDlgCode(GameObject gameObject)
+    {
+        Path2WidgetCachedDict?.Clear();
+        Path2WidgetCachedDict = new Dictionary<string, List<Component>>();
+
+        FindAllWidgets(gameObject.transform, "");
+
+        SpawnCodeForDlg(gameObject);
+        SpawnCodeForDlgEventHandle(gameObject);
+        SpawnCodeForDlgModel(gameObject);
+
+        SpawnCodeForDlgBehaviour(gameObject);
+        SpawnCodeForDlgComponentBehaviour(gameObject);
+
+        AssetDatabase.Refresh();
+    }
+
+    public static void CreateDestroyWidgetCode(ref StringBuilder strBuilder, bool isScrollItem = false)
+    {
+        strBuilder.AppendFormat("\t\tpublic void DestroyWidget()");
+        strBuilder.AppendLine("\n\t\t{");
+        CreateDlgWidgetDisposeCode(ref strBuilder);
+        strBuilder.AppendFormat("\t\t\tthis.uiTransform = null;\r\n");
+        if (isScrollItem)
+        {
+            strBuilder.AppendLine("\t\t\tthis.DataId = 0;");
+        }
+        strBuilder.AppendLine("\t\t}\n");
+    }
+
+    public static void CreateDlgWidgetDisposeCode(ref StringBuilder strBuilder, bool isSelf = false)
+    {
+        string pointStr = isSelf ? "self" : "this";
+        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
+        {
+            foreach (var info in pair.Value)
+            {
+                Component widget = info;
+                string strClassType = widget.GetType().ToString();
+
+                if (pair.Key.StartsWith(CommonUIPrefix))
+                {
+                    strBuilder.AppendFormat("\t\t	{0}.m_{1}?.Dispose();\r\n", pointStr, pair.Key.ToLower());
+                    strBuilder.AppendFormat("\t\t	{0}.m_{1} = null;\r\n", pointStr, pair.Key.ToLower());
+                    continue;
+                }
+
+                string widgetName = widget.name + strClassType.Split('.').ToList().Last();
+                strBuilder.AppendFormat("\t\t	{0}.m_{1} = null;\r\n", pointStr, widgetName);
+            }
+        }
+    }
+
+    public static void CreateWidgetBindCode(ref StringBuilder strBuilder, Transform transRoot)
+    {
+        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
+        {
+            foreach (var info in pair.Value)
+            {
+                Component widget = info;
+                string strPath = GetWidgetPath(widget.transform, transRoot);
+                string strClassType = widget.GetType().ToString();
+                string strInterfaceType = strClassType;
+
+                if (pair.Key.StartsWith(CommonUIPrefix))
+                {
+                    var subUIClassPrefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(widget);
+                    if (subUIClassPrefab == null)
+                    {
+                        Debug.LogError($"公共UI找不到所属的Prefab! {pair.Key}");
+                        return;
+                    }
+                    GetSubUIBaseWindowCode(ref strBuilder, pair.Key, strPath, subUIClassPrefab.name);
+                    continue;
+                }
+                string widgetName = widget.name + strClassType.Split('.').ToList().Last();
+
+                strBuilder.AppendFormat("		public {0} {1}\r\n", strInterfaceType, widgetName);
+                strBuilder.AppendLine("     	{");
+                strBuilder.AppendLine("     		get");
+                strBuilder.AppendLine("     		{");
+
+                strBuilder.AppendLine("     			if (this.uiTransform == null)");
+                strBuilder.AppendLine("     			{");
+                strBuilder.AppendLine("     				Log.Error(\"uiTransform is null.\");");
+                strBuilder.AppendLine("     				return null;");
+                strBuilder.AppendLine("     			}");
+
+                if (transRoot.gameObject.name.StartsWith(UIItemPrefix))
+                {
+                    strBuilder.AppendLine("     			if (this.isCacheNode)");
+                    strBuilder.AppendLine("     			{");
+                    strBuilder.AppendFormat("     				if( this.m_{0} == null )\n", widgetName);
+                    strBuilder.AppendLine("     				{");
+                    strBuilder.AppendFormat("		    			this.m_{0} = UIFindHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n", widgetName, strPath, strInterfaceType);
+                    strBuilder.AppendLine("     				}");
+                    strBuilder.AppendFormat("     				return this.m_{0};\n", widgetName);
+                    strBuilder.AppendLine("     			}");
+                    strBuilder.AppendLine("     			else");
+                    strBuilder.AppendLine("     			{");
+                    strBuilder.AppendFormat("		    		return UIFindHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n", widgetName, strPath, strInterfaceType);
+                    strBuilder.AppendLine("     			}");
+                }
+                else
+                {
+                    strBuilder.AppendFormat("     			if( this.m_{0} == null )\n", widgetName);
+                    strBuilder.AppendLine("     			{");
+                    strBuilder.AppendFormat("		    		this.m_{0} = UIFindHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n", widgetName, strPath, strInterfaceType);
+                    strBuilder.AppendLine("     			}");
+                    strBuilder.AppendFormat("     			return this.m_{0};\n", widgetName);
+                }
+
+                strBuilder.AppendLine("     		}");
+                strBuilder.AppendLine("     	}\n");
+            }
+        }
+    }
+
+    public static void CreateDeclareCode(ref StringBuilder strBuilder)
+    {
+        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
+        {
+            foreach (var info in pair.Value)
+            {
+                Component widget = info;
+                string strClassType = widget.GetType().ToString();
+
+                if (pair.Key.StartsWith(CommonUIPrefix))
+                {
+                    var subUIClassPrefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(widget);
+                    if (subUIClassPrefab == null)
+                    {
+                        Debug.LogError($"公共UI找不到所属的Prefab! {pair.Key}");
+                        return;
+                    }
+                    string subUIClassType = subUIClassPrefab.name;
+                    strBuilder.AppendFormat("\t\tprivate {0} m_{1} = null;\r\n", subUIClassType, pair.Key.ToLower());
+                    continue;
+                }
+
+                string widgetName = widget.name + strClassType.Split('.').ToList().Last();
+                strBuilder.AppendFormat("\t\tprivate {0} m_{1} = null;\r\n", strClassType, widgetName);
+            }
+        }
+    }
+
+    public static void FindAllWidgets(Transform trans, string strPath)
+    {
+        if (null == trans)
+        {
+            return;
+        }
+        for (int nIndex = 0; nIndex < trans.childCount; ++nIndex)
+        {
+            Transform child = trans.GetChild(nIndex);
+            string strTemp = strPath + "/" + child.name;
+
+            bool isSubUI = child.name.StartsWith(CommonUIPrefix);
+            if (isSubUI || child.name.StartsWith(UIGameObjectPrefix))
+            {
+                List<Component> rectTransfomrComponents = new List<Component>();
+                rectTransfomrComponents.Add(child.GetComponent<RectTransform>());
+                Path2WidgetCachedDict.Add(child.name, rectTransfomrComponents);
+            }
+            else if (child.name.StartsWith(UIWidgetPrefix))
+            {
+                foreach (var uiComponent in WidgetInterfaceList)
+                {
+                    Component component = child.GetComponent(uiComponent);
+                    if (null == component)
+                    {
+                        continue;
+                    }
+
+                    if (Path2WidgetCachedDict.ContainsKey(child.name))
+                    {
+                        Path2WidgetCachedDict[child.name].Add(component);
+                        continue;
+                    }
+
+                    List<Component> componentsList = new List<Component>();
+                    componentsList.Add(component);
+                    Path2WidgetCachedDict.Add(child.name, componentsList);
+                }
+            }
+
+            if (isSubUI)
+            {
+                Debug.Log($"遇到子UI：{child.name},不生成子UI项代码");
+                continue;
+            }
+            FindAllWidgets(child, strTemp);
+        }
     }
 }
