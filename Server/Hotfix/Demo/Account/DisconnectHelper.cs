@@ -38,12 +38,15 @@
                             break;
 
                         case PlayerState.Game:
-                            //TODO: 通知游戏逻辑服下线Unit角色逻辑,并将数据存入数据库
-                            var mapResponse = await MessageHelper.CallLocationActor(player.UnitId,
-                                new G2M_RequestExitGame()) as M2G_RequestExitGame;
+                            //通知游戏逻辑服下线Unit角色逻辑，并将数据存入数据库
+                            _ = await MessageHelper.CallLocationActor(player.UnitId, new G2M_RequestExitGame()) as M2G_RequestExitGame;
+
+                            //通知聊天服下线聊天Unit
+                            _ = await MessageHelper.CallActor(player.ChatInfoInstanceId, new G2Chat_RequestExitChat()) as Chat2G_RequestExitChat;
+
                             //通知移除账号角色登录信息
-                            long loginCenterConfigSceneId = StartSceneConfigCategory.Instance.LoginCenterConfig.InstanceId;
-                            var loginCenterResponse = await MessageHelper.CallActor(loginCenterConfigSceneId,
+                            long loginCenterSceneId = StartSceneConfigCategory.Instance.LoginCenterConfig.InstanceId;
+                            _ = await MessageHelper.CallActor(loginCenterSceneId,
                                 new G2L_RemoveLoginRecord()
                                 {
                                     AccountId = instanceId,

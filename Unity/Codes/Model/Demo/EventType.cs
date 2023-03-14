@@ -233,4 +233,13 @@ namespace ET.EventType
     }
 
     #endregion 任务系统
+
+    #region 聊天系统
+
+    public struct UpdateChatInfo
+    {
+        public Scene ZoneScene;
+    }
+
+    #endregion 聊天系统
 }
