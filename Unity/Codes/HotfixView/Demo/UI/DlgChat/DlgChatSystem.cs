@@ -10,6 +10,7 @@ namespace ET
         public static void RegisterUIEvent(this DlgChat self)
         {
             self.RegisterCloseEvent<DlgChat>(self.View.EB_CloseButton);
+            self.View.EInput_InputMessageTMP_InputField.onSubmit.AddListener(content => self.OnClickSend().Coroutine());
             self.View.EB_SendButton.AddListenerAsync(self.OnClickSend);
             self.View.EL_ChatMessageLoopVerticalScrollRect.AddItemRefreshListener(self.OnChatItemLoopHandler);
         }
