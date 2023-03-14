@@ -58,6 +58,10 @@ namespace ET
                 case SceneType.Rank:
                     await scene.AddComponent<RankInfosComponent>().LoadRankInfo();
                     break;
+
+                case SceneType.ChatInfo:
+                    scene.AddComponent<ChatInfoUnitsComponent>();
+                    break;
             }
 
             return scene;

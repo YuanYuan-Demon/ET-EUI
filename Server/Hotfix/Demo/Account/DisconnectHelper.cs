@@ -29,7 +29,7 @@
                     return;
                 if (!isException)
                 {
-                    switch (player.Status)
+                    switch (player.PlayerState)
                     {
                         case PlayerState.Disconnect:
                             break;
@@ -52,7 +52,7 @@
                             break;
                     }
                 }
-                player.Status = PlayerState.Disconnect;
+                player.PlayerState = PlayerState.Disconnect;
                 player.DomainScene().GetComponent<PlayerComponent>()?.Remove(player.AccountId);
                 player.Dispose();
             }

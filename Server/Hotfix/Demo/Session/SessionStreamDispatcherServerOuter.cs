@@ -84,6 +84,41 @@ namespace ET
 
                 #endregion Rank服务器
 
+                #region Chat服务器
+
+                case IActorChatInfoRequest actorChatInfoRequest:
+                {
+                    Player player = Game.EventSystem.Get(session.GetComponent<SessionPlayerComponent>().PlayerInstanceId) as Player;
+                    if (player is null || player.IsDisposed || player.ChatInfoInstanceId == 0)
+                    {
+                        break;
+                    }
+
+                    int rpcId = actorChatInfoRequest.RpcId; // 这里要保存客户端的rpcId
+                    long instanceId = session.InstanceId;
+                    IResponse response = await ActorMessageSenderComponent.Instance.Call(player.ChatInfoInstanceId, actorChatInfoRequest);
+                    response.RpcId = rpcId;
+                    // session可能已经断开了，所以这里需要判断
+                    if (session.InstanceId == instanceId)
+                    {
+                        session.Reply(response);
+                    }
+                    break;
+                }
+                case IActorChatInfoMessage actorChatInfoMessage:
+                {
+                    Player player = Game.EventSystem.Get(session.GetComponent<SessionPlayerComponent>().PlayerInstanceId) as Player;
+                    if (player is null || player.IsDisposed || player.ChatInfoInstanceId == 0)
+                    {
+                        break;
+                    }
+
+                    ActorMessageSenderComponent.Instance.Send(player.ChatInfoInstanceId, actorChatInfoMessage);
+                    break;
+                }
+
+                #endregion Chat服务器
+
                 case IActorRequest actorRequest:  // 分发IActorRequest消息，目前没有用到，需要的自己添加
                 {
                     break;
