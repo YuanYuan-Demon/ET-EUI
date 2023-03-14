@@ -126,6 +126,8 @@ message ObjectGetResponse // IActorResponse
 	int64 InstanceId = 1;
 }
 
+//============================================  登录流程  ============================================
+
 //ResponseType G2R_GetLoginKey
 message R2G_GetLoginKey // IActorRequest
 {
@@ -277,7 +279,9 @@ message L2G_RemoveLoginRecord	//	IActorResponse
 	string Message = 92;
 }
 
-//------------------------------------  玩家缓存相关  ------------------------------------
+
+
+//============================================  缓存系统  ============================================
 
 //增加或者更新Unit缓存
 //ResponseType UnitCache2Other_AddOrUpdateUnit
@@ -321,4 +325,40 @@ message UnitCache2Other_DeleteUnit	//	IActorResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
+}
+
+
+//============================================  聊天系统  ============================================
+
+//ResponseType Chat2G_EnterChat
+message G2Chat_EnterChat // IActorRequest
+{
+    int32 RpcId = 90;
+
+	string Name  = 1;
+	int64 UnitId = 2;
+	int64 GateSessionActorId = 3;
+	
+}
+
+message Chat2G_EnterChat // IActorResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+	
+	int64 ChatInfoUnitInstanceId = 1;
+}
+
+//ResponseType Chat2G_RequestExitChat
+message G2Chat_RequestExitChat // IActorRequest
+{
+    int32 RpcId = 90;
+}
+
+message Chat2G_RequestExitChat // IActorResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
 }

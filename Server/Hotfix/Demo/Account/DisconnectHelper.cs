@@ -31,13 +31,13 @@
                 {
                     switch (player.Status)
                     {
-                        case PlayerStatus.Disconnect:
+                        case PlayerState.Disconnect:
                             break;
 
-                        case PlayerStatus.Gate:
+                        case PlayerState.Gate:
                             break;
 
-                        case PlayerStatus.Game:
+                        case PlayerState.Game:
                             //TODO: 通知游戏逻辑服下线Unit角色逻辑,并将数据存入数据库
                             var mapResponse = await MessageHelper.CallLocationActor(player.UnitId,
                                 new G2M_RequestExitGame()) as M2G_RequestExitGame;
@@ -52,7 +52,7 @@
                             break;
                     }
                 }
-                player.Status = PlayerStatus.Disconnect;
+                player.Status = PlayerState.Disconnect;
                 player.DomainScene().GetComponent<PlayerComponent>()?.Remove(player.AccountId);
                 player.Dispose();
             }

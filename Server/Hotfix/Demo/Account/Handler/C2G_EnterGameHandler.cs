@@ -4,10 +4,23 @@ namespace ET
 {
     [FriendClass(typeof(SessionPlayerComponent))]
     [FriendClass(typeof(SessionStatusComponent))]
-    [FriendClassAttribute(typeof(ET.GateMapComponent))]
-    [FriendClassAttribute(typeof(ET.Player))]
+    [FriendClassAttribute(typeof(ET.RoleInfo))]
+    [FriendClassAttribute(typeof(ET.UnitGateComponent))]
     public class C2G_EnterGameHandler : AMRpcHandler<C2G_EnterGame, G2C_EnterGame>
     {
+        private static async ETTask<long> EnterWorldChatServer(Unit unit)
+        {
+            StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(unit.DomainZone(), "ChatInfo");
+            Chat2G_EnterChat response = await MessageHelper.CallActor(startSceneConfig.InstanceId, new G2Chat_EnterChat()
+            {
+                UnitId = unit.Id,
+                Name = unit.GetComponent<RoleInfo>().Name,
+                GateSessionActorId = unit.GetComponent<UnitGateComponent>().GateSessionActorId
+            }) as Chat2G_EnterChat;
+
+            return response.ChatInfoUnitInstanceId;
+        }
+
         protected override async ETTask Run(Session session, C2G_EnterGame request, G2C_EnterGame response, Action reply)
         {
             Scene scene = session.DomainScene();
@@ -72,7 +85,7 @@ namespace ET
                 }
 
                 //当前帐号已有角色在线
-                if (player.Status == PlayerStatus.Game)
+                if (player.PlayerState == PlayerState.Game)
                 {
                     try
                     {
@@ -109,7 +122,10 @@ namespace ET
 
                     //从数据库或缓存中加载出Unit实体及其相关组件
                     (bool isNewPlayer, Unit unit) = await UnitHelper.LoadUnit(player);
-                    unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
+                    //unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
+                    unit.AddComponent<UnitGateComponent, long>(player.InstanceId);
+
+                    player.ChatInfoInstanceId = await EnterWorldChatServer(unit); //登录聊天服
 
                     //玩家Unit上线后的初始化操作
                     await UnitHelper.InitUnit(unit, isNewPlayer);
@@ -132,7 +148,7 @@ namespace ET
                     sessionStatusComponent = session.GetComponent<SessionStatusComponent>();
                     sessionStatusComponent ??= session.AddComponent<SessionStatusComponent>();
                     sessionStatusComponent.Status = SessionStatus.Game;
-                    player.Status = PlayerStatus.Game;
+                    player.PlayerState = PlayerState.Game;
                 }
                 catch (Exception e)
                 {

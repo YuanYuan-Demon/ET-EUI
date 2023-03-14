@@ -14,7 +14,10 @@ namespace ET
             Chat2C_SendChatInfo response;
             try
             {
-                response = (Chat2C_SendChatInfo)await ZoneScene.Call(new C2Chat_SendChatInfo() { ChatMessage = message });
+                response = await ZoneScene.Call(new C2Chat_SendChatInfo()
+                {
+                    ChatMessage = message
+                }) as Chat2C_SendChatInfo;
             }
             catch (Exception e)
             {

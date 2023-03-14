@@ -9,7 +9,7 @@
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     </PropertyGroup>
-
+	
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <OutputPath>../../Bin/</OutputPath>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
