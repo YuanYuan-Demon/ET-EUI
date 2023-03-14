@@ -5,7 +5,6 @@ using System.Net;
 using ILRuntime.Runtime.Intepreter;
 using ProtoBuf;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace ET
 {
@@ -41,9 +40,7 @@ namespace ET
             list.Add(typeof(ListComponent<ILTypeInstance>));
             list.Add(typeof(ListComponent<ETTask>));
             list.Add(typeof(ListComponent<Vector3>));
-            
-            
-            
+
             // 注册重定向函数
 
             // 注册委托
@@ -56,11 +53,16 @@ namespace ET
             appdomain.DelegateManager.RegisterMethodDelegate<long, MemoryStream>();
             appdomain.DelegateManager.RegisterMethodDelegate<long, IPEndPoint>();
             appdomain.DelegateManager.RegisterMethodDelegate<ILTypeInstance>();
-            appdomain.DelegateManager.RegisterMethodDelegate<Transform,int>();
+            appdomain.DelegateManager.RegisterMethodDelegate<Transform, int>();
             appdomain.DelegateManager.RegisterMethodDelegate<AsyncOperation>();
             appdomain.DelegateManager.RegisterMethodDelegate<System.Type, ILRuntime.Runtime.Intepreter.ILTypeInstance>();
             appdomain.DelegateManager.RegisterMethodDelegate<System.Int64, ILRuntime.Runtime.Intepreter.ILTypeInstance>();
-            
+            appdomain.DelegateManager.RegisterMethodDelegate<System.Int64, System.Collections.Generic.List<System.Int64>>();
+            appdomain.DelegateManager.RegisterMethodDelegate<System.Int64, System.Collections.Generic.List<ILRuntime.Runtime.Intepreter.ILTypeInstance>>();
+            appdomain.DelegateManager.RegisterMethodDelegate<System.Int32, ILRuntime.Runtime.Intepreter.ILTypeInstance>();
+            appdomain.DelegateManager.RegisterMethodDelegate<System.Int64, System.Int64>();
+            appdomain.DelegateManager.RegisterMethodDelegate<ET.AService>();
+
             appdomain.DelegateManager.RegisterFunctionDelegate<UnityEngine.Events.UnityAction>();
             appdomain.DelegateManager.RegisterFunctionDelegate<System.Object, ET.ETTask>();
             appdomain.DelegateManager.RegisterFunctionDelegate<ILTypeInstance, bool>();
@@ -73,13 +75,17 @@ namespace ET
             appdomain.DelegateManager.RegisterFunctionDelegate<int, int, int>();//Linq
             appdomain.DelegateManager.RegisterFunctionDelegate<KeyValuePair<int, List<int>>, bool>();
             appdomain.DelegateManager.RegisterFunctionDelegate<KeyValuePair<int, int>, KeyValuePair<int, int>, int>();
-            appdomain.DelegateManager.RegisterMethodDelegate<System.Int64, System.Collections.Generic.List<System.Int64>>();
-            appdomain.DelegateManager.RegisterMethodDelegate<System.Int64, System.Collections.Generic.List<ILRuntime.Runtime.Intepreter.ILTypeInstance>>();
             appdomain.DelegateManager.RegisterFunctionDelegate<System.Int64, System.Collections.Generic.List<System.Int64>, System.Boolean>();
             appdomain.DelegateManager.RegisterFunctionDelegate<System.Int64, System.Collections.Generic.List<ILRuntime.Runtime.Intepreter.ILTypeInstance>, System.Boolean>();
+            appdomain.DelegateManager.RegisterFunctionDelegate<ILRuntime.Runtime.Intepreter.ILTypeInstance, ILRuntime.Runtime.Intepreter.ILTypeInstance, System.Int32>();
 
-            appdomain.DelegateManager.RegisterMethodDelegate<ET.AService>();
-
+            appdomain.DelegateManager.RegisterDelegateConvertor<DG.Tweening.TweenCallback>((act) =>
+            {
+                return new DG.Tweening.TweenCallback(() =>
+                {
+                    ((Action)act)();
+                });
+            });
             appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction>((act) =>
             {
                 return new UnityEngine.Events.UnityAction(() =>
@@ -87,7 +93,7 @@ namespace ET
                     ((Action)act)();
                 });
             });
-            
+
             appdomain.DelegateManager.RegisterDelegateConvertor<Comparison<KeyValuePair<int, int>>>((act) =>
             {
                 return new Comparison<KeyValuePair<int, int>>((x, y) =>
@@ -95,7 +101,7 @@ namespace ET
                     return ((Func<KeyValuePair<int, int>, KeyValuePair<int, int>, int>)act)(x, y);
                 });
             });
-            
+
             appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction>((act) =>
             {
                 return new UnityEngine.Events.UnityAction(() =>
@@ -103,17 +109,30 @@ namespace ET
                     ((Action)act)();
                 });
             });
+            appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<System.Boolean>>((act) =>
+            {
+                return new UnityEngine.Events.UnityAction<System.Boolean>((arg0) =>
+                {
+                    (act as Action<bool>)(arg0);
+                });
+            });
+            appdomain.DelegateManager.RegisterDelegateConvertor<System.Comparison<ILRuntime.Runtime.Intepreter.ILTypeInstance>>((act) =>
+            {
+                return new System.Comparison<ILRuntime.Runtime.Intepreter.ILTypeInstance>((x, y) =>
+                {
+                    return ((Func<ILRuntime.Runtime.Intepreter.ILTypeInstance, ILRuntime.Runtime.Intepreter.ILTypeInstance, System.Int32>)act)(x, y);
+                });
+            });
 
             // 注册适配器
             RegisterAdaptor(appdomain);
-            
+
             //注册Json的CLR
             LitJson.JsonMapper.RegisterILRuntimeCLRRedirection(appdomain);
-            
+
             //注册ProtoBuf的CLR
             PType.RegisterILRuntime(appdomain, typeFullName => CodeLoader.Instance.GetHotfixType(typeFullName));
-           
-            
+
             ////////////////////////////////////
             // CLR绑定的注册，一定要记得将CLR绑定的注册写在CLR重定向的注册后面，因为同一个方法只能被重定向一次，只有先注册的那个才能生效
             ////////////////////////////////////
@@ -124,7 +143,7 @@ namespace ET
             }
             //ILRuntime.Runtime.Generated.CLRBindings.Initialize(appdomain);
         }
-        
+
         public static void RegisterAdaptor(ILRuntime.Runtime.Enviorment.AppDomain appdomain)
         {
             //注册自己写的适配器

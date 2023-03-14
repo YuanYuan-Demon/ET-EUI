@@ -17,10 +17,10 @@
 
         public static void Clear(this EquipmentsComponent self)
         {
-            ForeachHelper.Foreach(self.EquipItems, (index, item) =>
+            foreach (var (_, item) in self.EquipItems)
             {
                 item?.Dispose();
-            });
+            }
             self.EquipItems.Clear();
         }
 

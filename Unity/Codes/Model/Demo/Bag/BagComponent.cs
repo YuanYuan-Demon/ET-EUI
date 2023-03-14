@@ -1,19 +1,15 @@
 ﻿using System.Collections.Generic;
-
 #if SERVER
 using MongoDB.Bson.Serialization.Attributes;
 #endif
 
 namespace ET
 {
+    [ComponentOf]
+    [ChildType(typeof(Item))]
 #if SERVER
-    [ComponentOf]
-    [ChildType(typeof(Item))]
-    public class BagComponent : Entity, IAwake, IDestroy, IDeserialize, ITransfer, IUnitCache
+    public class BagComponent : Entity,IAwake,IDestroy,IDeserialize,ITransfer,IUnitCache
 #else
-
-    [ComponentOf]
-    [ChildType(typeof(Item))]
     public class BagComponent : Entity, IAwake, IDestroy
 #endif
     {
@@ -30,7 +26,6 @@ namespace ET
 #if SERVER
         [BsonIgnore]
         public M2C_ItemUpdateOpInfo message = new M2C_ItemUpdateOpInfo() {ContainerType = (int)ItemContainerType.Bag};
-
 #endif
     }
 }

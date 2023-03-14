@@ -7,7 +7,6 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace ET
 {
 #if SERVER
-
     public class Item : Entity, IAwake<int>, IDestroy, ISerializeToEntity
 #else
 
@@ -25,7 +24,6 @@ namespace ET
         public int Quality = 0;
 
 #if SERVER
-
         [BsonIgnore]
 #endif
 
