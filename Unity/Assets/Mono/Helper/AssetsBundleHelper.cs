@@ -10,14 +10,13 @@ namespace ET
         {
             assetBundleName = assetBundleName.ToLower();
             UnityEngine.AssetBundle assetBundle = null;
-            
+
             Dictionary<string, UnityEngine.Object> objects = new Dictionary<string, UnityEngine.Object>();
             if (!Define.IsAsync)
             {
                 if (Define.IsEditor)
                 {
-                    string[] realPath = null;
-                    realPath = Define.GetAssetPathsFromAssetBundle(assetBundleName);
+                    string[] realPath = Define.GetAssetPathsFromAssetBundle(assetBundleName);
                     foreach (string s in realPath)
                     {
                         //string assetName = Path.GetFileNameWithoutExtension(s);
@@ -42,7 +41,7 @@ namespace ET
             if (assetBundle == null)
             {
                 // 获取资源的时候会抛异常，这个地方不直接抛异常，因为有些地方需要Load之后判断是否Load成功
-                UnityEngine.Debug.LogWarning($"assets bundle not found: {assetBundleName}");
+                UnityEngine.Debug.LogWarning($"在[{p}]找不到 assets bundle : {assetBundleName}");
                 return (null, objects);
             }
 

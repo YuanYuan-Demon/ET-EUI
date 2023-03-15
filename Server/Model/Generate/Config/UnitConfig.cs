@@ -78,7 +78,7 @@ namespace ET
 		/// <summary>Id</summary>
 		[ProtoMember(1)]
 		public int Id { get; set; }
-		/// <summary>EntryType</summary>
+		/// <summary>Type</summary>
 		[ProtoMember(2)]
 		public int Type { get; set; }
 		/// <summary>名字</summary>

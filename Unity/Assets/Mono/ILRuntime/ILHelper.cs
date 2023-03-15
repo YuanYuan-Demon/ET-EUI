@@ -123,6 +123,13 @@ namespace ET
                     return ((Func<ILRuntime.Runtime.Intepreter.ILTypeInstance, ILRuntime.Runtime.Intepreter.ILTypeInstance, System.Int32>)act)(x, y);
                 });
             });
+            appdomain.DelegateManager.RegisterDelegateConvertor<UnityEngine.Events.UnityAction<System.String>>((act) =>
+            {
+                return new UnityEngine.Events.UnityAction<System.String>((arg0) =>
+                {
+                    ((Action<System.String>)act)(arg0);
+                });
+            });
 
             // 注册适配器
             RegisterAdaptor(appdomain);

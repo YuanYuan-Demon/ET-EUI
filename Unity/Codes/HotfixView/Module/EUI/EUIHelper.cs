@@ -63,10 +63,11 @@ namespace ET
             uiBehaviour.gameObject.SetActive(isVisible);
         }
 
-        public static void SetVisible(this LoopScrollRect loopScrollRect, bool isVisible, int count = 0)
+        public static async void SetVisible(this LoopScrollRect loopScrollRect, bool isVisible, int count = 0)
         {
             loopScrollRect.gameObject.SetActive(isVisible);
             loopScrollRect.totalCount = count;
+            await TimerComponent.Instance.WaitAsync(10);
             loopScrollRect.RefillCells();
         }
 

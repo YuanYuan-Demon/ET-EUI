@@ -35,7 +35,7 @@ namespace ET
      			}
      			if( this.m_EG_EquipsRectTransform == null )
      			{
-		    		this.m_EG_EquipsRectTransform = UIFindHelper.FindDeepChild<UnityEngine.RectTransform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips");
+		    		this.m_EG_EquipsRectTransform = UIFindHelper.FindDeepChild<UnityEngine.RectTransform>(this.uiTransform.gameObject,"Panel/Content/RoleView/EG_Equips");
      			}
      			return this.m_EG_EquipsRectTransform;
      		}
@@ -52,7 +52,7 @@ namespace ET
      			}
      			if( this.m_es_equip_helmet == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Helmet");
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/Content/RoleView/EG_Equips/ES_Equip_Helmet");
 		    	   this.m_es_equip_helmet = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_helmet;
@@ -70,7 +70,7 @@ namespace ET
      			}
      			if( this.m_es_equip_armor == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Armor");
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/Content/RoleView/EG_Equips/ES_Equip_Armor");
 		    	   this.m_es_equip_armor = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_armor;
@@ -88,7 +88,7 @@ namespace ET
      			}
      			if( this.m_es_equip_shoe == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Shoe");
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/Content/RoleView/EG_Equips/ES_Equip_Shoe");
 		    	   this.m_es_equip_shoe = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_shoe;
@@ -106,7 +106,7 @@ namespace ET
      			}
      			if( this.m_es_equip_ring == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Ring");
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/Content/RoleView/EG_Equips/ES_Equip_Ring");
 		    	   this.m_es_equip_ring = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_ring;
@@ -124,7 +124,7 @@ namespace ET
      			}
      			if( this.m_es_equip_offhand == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Offhand");
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/Content/RoleView/EG_Equips/ES_Equip_Offhand");
 		    	   this.m_es_equip_offhand = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_offhand;
@@ -142,7 +142,7 @@ namespace ET
      			}
      			if( this.m_es_equip_weapon == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/RoleView/EG_Equips/ES_Equip_Weapon");
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/Content/RoleView/EG_Equips/ES_Equip_Weapon");
 		    	   this.m_es_equip_weapon = this.AddChild<ES_EquipItem,Transform>(subTrans);
      			}
      			return this.m_es_equip_weapon;
@@ -160,7 +160,7 @@ namespace ET
      			}
      			if( this.m_EB_UpLevelButton == null )
      			{
-		    		this.m_EB_UpLevelButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Panel/RoleView/EB_UpLevel");
+		    		this.m_EB_UpLevelButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Panel/Content/RoleView/EB_UpLevel");
      			}
      			return this.m_EB_UpLevelButton;
      		}
@@ -177,26 +177,9 @@ namespace ET
      			}
      			if( this.m_ET_AttributePointsText == null )
      			{
-		    		this.m_ET_AttributePointsText = UIFindHelper.FindDeepChild<UnityEngine.UI.Text>(this.uiTransform.gameObject,"Panel/AttributePointsPannel/ET_AttributePoints");
+		    		this.m_ET_AttributePointsText = UIFindHelper.FindDeepChild<UnityEngine.UI.Text>(this.uiTransform.gameObject,"Panel/Content/AttributePointsPannel/ET_AttributePoints");
      			}
      			return this.m_ET_AttributePointsText;
-     		}
-     	}
-
-		public UnityEngine.UI.Button EB_ConfirmAddAttributeButton
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_ConfirmAddAttributeButton == null )
-     			{
-		    		this.m_EB_ConfirmAddAttributeButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Panel/AttributePointsPannel/EB_ConfirmAddAttribute");
-     			}
-     			return this.m_EB_ConfirmAddAttributeButton;
      		}
      	}
 
@@ -211,9 +194,26 @@ namespace ET
      			}
      			if( this.m_EB_CancelAddAttributeButton == null )
      			{
-		    		this.m_EB_CancelAddAttributeButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Panel/AttributePointsPannel/EB_CancelAddAttribute");
+		    		this.m_EB_CancelAddAttributeButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Panel/Content/AttributePointsPannel/ET_AttributePoints/EB_CancelAddAttribute");
      			}
      			return this.m_EB_CancelAddAttributeButton;
+     		}
+     	}
+
+		public UnityEngine.UI.Button EB_ConfirmAddAttributeButton
+     	{
+     		get
+     		{
+     			if (this.uiTransform == null)
+     			{
+     				Log.Error("uiTransform is null.");
+     				return null;
+     			}
+     			if( this.m_EB_ConfirmAddAttributeButton == null )
+     			{
+		    		this.m_EB_ConfirmAddAttributeButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Panel/Content/AttributePointsPannel/ET_AttributePoints/EB_ConfirmAddAttribute");
+     			}
+     			return this.m_EB_ConfirmAddAttributeButton;
      		}
      	}
 
@@ -228,7 +228,7 @@ namespace ET
      			}
      			if( this.m_es_addattribute1 == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/AttributePointsPannel/AttributePoints/ES_AddAttribute1");
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/Content/AttributePointsPannel/AttributePoints/ES_AddAttribute1");
 		    	   this.m_es_addattribute1 = this.AddChild<ES_AddAttribute,Transform>(subTrans);
      			}
      			return this.m_es_addattribute1;
@@ -246,7 +246,7 @@ namespace ET
      			}
      			if( this.m_es_addattribute2 == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/AttributePointsPannel/AttributePoints/ES_AddAttribute2");
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/Content/AttributePointsPannel/AttributePoints/ES_AddAttribute2");
 		    	   this.m_es_addattribute2 = this.AddChild<ES_AddAttribute,Transform>(subTrans);
      			}
      			return this.m_es_addattribute2;
@@ -264,7 +264,7 @@ namespace ET
      			}
      			if( this.m_es_addattribute3 == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/AttributePointsPannel/AttributePoints/ES_AddAttribute3");
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/Content/AttributePointsPannel/AttributePoints/ES_AddAttribute3");
 		    	   this.m_es_addattribute3 = this.AddChild<ES_AddAttribute,Transform>(subTrans);
      			}
      			return this.m_es_addattribute3;
@@ -282,7 +282,7 @@ namespace ET
      			}
      			if( this.m_es_addattribute4 == null )
      			{
-		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/AttributePointsPannel/AttributePoints/ES_AddAttribute4");
+		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,"Panel/Content/AttributePointsPannel/AttributePoints/ES_AddAttribute4");
 		    	   this.m_es_addattribute4 = this.AddChild<ES_AddAttribute,Transform>(subTrans);
      			}
      			return this.m_es_addattribute4;
@@ -300,7 +300,7 @@ namespace ET
      			}
      			if( this.m_EL_AttributeInfoLoopVerticalScrollRect == null )
      			{
-		    		this.m_EL_AttributeInfoLoopVerticalScrollRect = UIFindHelper.FindDeepChild<UnityEngine.UI.LoopVerticalScrollRect>(this.uiTransform.gameObject,"Panel/EL_AttributeInfo");
+		    		this.m_EL_AttributeInfoLoopVerticalScrollRect = UIFindHelper.FindDeepChild<UnityEngine.UI.LoopVerticalScrollRect>(this.uiTransform.gameObject,"Panel/Content/EL_AttributeInfo");
      			}
      			return this.m_EL_AttributeInfoLoopVerticalScrollRect;
      		}
@@ -324,8 +324,8 @@ namespace ET
 			this.m_es_equip_weapon = null;
 			this.m_EB_UpLevelButton = null;
 			this.m_ET_AttributePointsText = null;
-			this.m_EB_ConfirmAddAttributeButton = null;
 			this.m_EB_CancelAddAttributeButton = null;
+			this.m_EB_ConfirmAddAttributeButton = null;
 			this.m_es_addattribute1?.Dispose();
 			this.m_es_addattribute1 = null;
 			this.m_es_addattribute2?.Dispose();
@@ -348,8 +348,8 @@ namespace ET
 		private ES_EquipItem m_es_equip_weapon = null;
 		private UnityEngine.UI.Button m_EB_UpLevelButton = null;
 		private UnityEngine.UI.Text m_ET_AttributePointsText = null;
-		private UnityEngine.UI.Button m_EB_ConfirmAddAttributeButton = null;
 		private UnityEngine.UI.Button m_EB_CancelAddAttributeButton = null;
+		private UnityEngine.UI.Button m_EB_ConfirmAddAttributeButton = null;
 		private ES_AddAttribute m_es_addattribute1 = null;
 		private ES_AddAttribute m_es_addattribute2 = null;
 		private ES_AddAttribute m_es_addattribute3 = null;

@@ -171,7 +171,7 @@ namespace ET
      			}
      			if( this.m_EB_EquipButton == null )
      			{
-		    		this.m_EB_EquipButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"EG_Panel/ButtonGroup/EB_Equip");
+		    		this.m_EB_EquipButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"ButtonGroup/EB_Equip");
      			}
      			return this.m_EB_EquipButton;
      		}
@@ -188,7 +188,7 @@ namespace ET
      			}
      			if( this.m_EB_EquipImage == null )
      			{
-		    		this.m_EB_EquipImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/ButtonGroup/EB_Equip");
+		    		this.m_EB_EquipImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"ButtonGroup/EB_Equip");
      			}
      			return this.m_EB_EquipImage;
      		}
@@ -205,7 +205,7 @@ namespace ET
      			}
      			if( this.m_EB_UnEquipButton == null )
      			{
-		    		this.m_EB_UnEquipButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"EG_Panel/ButtonGroup/EB_UnEquip");
+		    		this.m_EB_UnEquipButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"ButtonGroup/EB_UnEquip");
      			}
      			return this.m_EB_UnEquipButton;
      		}
@@ -222,7 +222,7 @@ namespace ET
      			}
      			if( this.m_EB_UnEquipImage == null )
      			{
-		    		this.m_EB_UnEquipImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/ButtonGroup/EB_UnEquip");
+		    		this.m_EB_UnEquipImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"ButtonGroup/EB_UnEquip");
      			}
      			return this.m_EB_UnEquipImage;
      		}
@@ -239,7 +239,7 @@ namespace ET
      			}
      			if( this.m_EB_SellButton == null )
      			{
-		    		this.m_EB_SellButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"EG_Panel/ButtonGroup/EB_Sell");
+		    		this.m_EB_SellButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"ButtonGroup/EB_Sell");
      			}
      			return this.m_EB_SellButton;
      		}
@@ -256,7 +256,7 @@ namespace ET
      			}
      			if( this.m_EB_SellImage == null )
      			{
-		    		this.m_EB_SellImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/ButtonGroup/EB_Sell");
+		    		this.m_EB_SellImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"ButtonGroup/EB_Sell");
      			}
      			return this.m_EB_SellImage;
      		}

@@ -55,10 +55,12 @@ namespace ILRuntime.Runtime.Generated
             System_Collections_Generic_Queue_1_ILTypeInstance_Binding.Register(app);
             System_Collections_Generic_Queue_1_ILTypeInstance_Binding_Enumerator_Binding.Register(app);
             System_Object_Binding.Register(app);
-            ET_ForeachHelper_Binding.Register(app);
+            System_Collections_Generic_Dictionary_2_Int32_ILTypeInstance_Binding_Enumerator_Binding.Register(app);
+            System_Collections_Generic_KeyValuePair_2_Int32_ILTypeInstance_Binding.Register(app);
             System_Linq_Enumerable_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_Int64_Int64_Binding.Register(app);
             System_Collections_Generic_List_1_ILTypeInstance_Binding_Enumerator_Binding.Register(app);
+            ET_ForeachHelper_Binding.Register(app);
             UnityEngine_Mathf_Binding.Register(app);
             System_Runtime_CompilerServices_AsyncTaskMethodBuilder_1_Int32_Binding.Register(app);
             ET_NetworkHelper_Binding.Register(app);
@@ -132,8 +134,9 @@ namespace ILRuntime.Runtime.Generated
             UnityEngine_UI_Text_Binding.Register(app);
             UnityEngine_UI_Image_Binding.Register(app);
             UnityEngine_UI_Graphic_Binding.Register(app);
-            UnityEngine_UI_LoopScrollRectBase_Binding.Register(app);
             TMPro_TMP_InputField_Binding.Register(app);
+            UnityEngine_Events_UnityEvent_1_String_Binding.Register(app);
+            UnityEngine_UI_LoopScrollRectBase_Binding.Register(app);
             UnityEngine_UI_Selectable_Binding.Register(app);
             System_Int64_Binding.Register(app);
             UnityEngine_UI_InputField_Binding.Register(app);
@@ -183,8 +186,6 @@ namespace ILRuntime.Runtime.Generated
             System_Collections_Generic_List_1_String_Binding_Enumerator_Binding.Register(app);
             System_Collections_Generic_Queue_1_Int32_Binding.Register(app);
             UnityEngine_Debug_Binding.Register(app);
-            System_Collections_Generic_Dictionary_2_Int32_ILTypeInstance_Binding_Enumerator_Binding.Register(app);
-            System_Collections_Generic_KeyValuePair_2_Int32_ILTypeInstance_Binding.Register(app);
             System_Collections_Generic_Dictionary_2_Int32_String_Binding.Register(app);
             System_Enum_Binding.Register(app);
             System_Array_Binding.Register(app);
