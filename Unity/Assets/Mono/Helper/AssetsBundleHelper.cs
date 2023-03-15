@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using UnityEngine;
 
 namespace ET
 {
@@ -36,6 +38,11 @@ namespace ET
             {
                 p = Path.Combine(PathHelper.AppResPath, assetBundleName);
                 assetBundle = UnityEngine.AssetBundle.LoadFromFile(p);
+            }
+            if (assetBundle == null)
+            {
+                var exists = AssetBundle.GetAllLoadedAssetBundles();
+                assetBundle = exists.FirstOrDefault(b => b.name == assetBundleName);
             }
 
             if (assetBundle == null)
