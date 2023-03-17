@@ -170,3 +170,233 @@ message M2M_UnitTransferResponse // IActorResponse
 	int32 Error = 2;
 	string Message = 3;
 }
+
+
+//============================================  登录流程  ============================================
+
+//ResponseType L2A_LoginAccountResponse
+message A2L_LoginAccountRequest	// IActorRequest
+{
+	int32 RpcId = 90;
+
+	int64 AccountId = 1;
+}
+
+message L2A_LoginAccountResponse	// IActorResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+//ResponseType G2L_DisconnectGateUnit
+message L2G_DisconnectGateUnit	// IActorRequest
+{
+	int32 RpcId = 90;
+
+	int64 AccountId = 1;
+}
+
+message G2L_DisconnectGateUnit	// IActorResponse
+{
+	int32 RpcId = 1;
+	int32 Error = 2;
+	string Message = 3;
+}
+
+//ResponseType R2A_GetRealmKey
+message A2R_GetRealmKey	//	IActorRequest
+{
+	int32 RpcId = 90;
+	int64 AccountId = 1;
+}
+
+message R2A_GetRealmKey	//	IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	string RealmToken = 1;
+}
+
+//ResponseType G2R_GetLoginGateKey
+message R2G_GetLoginGateKey	//	IActorRequest
+{
+	int32 RpcId = 90;
+
+	int64 AccountId = 1;
+}
+
+message G2R_GetLoginGateKey	//	IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	string GateSessionToken = 1;
+}
+
+//ResponseType L2G_AddLoginRecord
+message G2L_AddLoginRecord	//	IActorRequest
+{
+	int32 RpcId = 90;
+
+	int64 AccountId = 1;
+	int32 ServerId = 2;
+}
+
+message L2G_AddLoginRecord	//	IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//ResponseType M2G_RequestEnterGameStatus
+message G2M_RequestEnterGameStatus	//	IActorLocationRequest
+{
+	int32 RpcId = 90;
+}
+
+message M2G_RequestEnterGameStatus	//	IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//ResponseType M2G_RequestExitGame
+message G2M_RequestExitGame	//	IActorLocationRequest
+{
+	int32 RpcId = 90;
+}
+
+message M2G_RequestExitGame	//	IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//ResponseType L2G_RemoveLoginRecord
+message G2L_RemoveLoginRecord	//	IActorRequest
+{
+	int32 RpcId = 90;
+
+	int64 AccountId = 1;
+	int32 ServerId = 2;
+}
+
+message L2G_RemoveLoginRecord	//	IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+
+
+//============================================  缓存系统  ============================================
+
+//增加或者更新Unit缓存
+//ResponseType UnitCache2Other_AddOrUpdateUnit
+message Other2UnitCache_AddOrUpdateUnit	//	IActorRequest
+{
+	int32 RpcId = 90;
+
+	int64 UnitId = 1;	//需要缓存的UnitID
+	repeated string EntityTypes = 2;	//实体类型
+	repeated bytes EntityBytes = 3;		//实体序列化后的Bytes
+}
+
+message UnitCache2Other_AddOrUpdateUnit	//	IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//获取Unit缓存
+//ResponseType UnitCache2Other_GetUnit
+message Other2UnitCache_GetUnit	//	IActorRequest
+{
+	int32 RpcId = 90;
+
+	int64 UnitId = 1;
+	repeated string ComponentNames = 2;	//需要获取的组件名
+}
+
+message UnitCache2Other_GetUnit // IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	repeated Entity Entities = 4;
+	repeated string ComponentNames = 5;
+}
+
+
+//删除Unit缓存
+//ResponseType UnitCache2Other_DeleteUnit
+message Other2UnitCache_DeleteUnit	//	IActorRequest
+{
+	int32 RpcId = 90;
+	
+	int64 UnitId = 1;
+}
+
+message UnitCache2Other_DeleteUnit	//	IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+
+// //============================================  排行榜系统  ============================================
+
+// message Map2Rank_AddOrUpdateRankInfo //IActorMessage
+// {
+// 	int32 RpcId = 90;
+	
+// 	RankInfo RankInfo = 1;
+// }
+
+
+
+// //============================================  聊天系统  ============================================
+
+// //ResponseType Chat2G_EnterChat
+// message G2Chat_EnterChat // IActorRequest
+// {
+//     int32 RpcId = 90;
+
+// 	string Name  = 1;
+// 	int64 UnitId = 2;
+// 	int64 GateSessionActorId = 3;
+	
+// }
+
+// message Chat2G_EnterChat // IActorResponse
+// {
+//     int32 RpcId = 90;
+//     int32 Error = 91;
+//     string Message = 92;
+	
+// 	int64 ChatInfoUnitInstanceId = 1;
+// }
+
+// //ResponseType Chat2G_RequestExitChat
+// message G2Chat_RequestExitChat // IActorRequest
+// {
+//     int32 RpcId = 90;
+// }
+
+// message Chat2G_RequestExitChat // IActorResponse
+// {
+//     int32 RpcId = 90;
+//     int32 Error = 91;
+//     string Message = 92;
+// }

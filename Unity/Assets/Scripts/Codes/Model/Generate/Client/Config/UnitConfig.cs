@@ -80,12 +80,18 @@ namespace ET
 		/// <summary>名字</summary>
 		[ProtoMember(3)]
 		public string Name { get; set; }
-		/// <summary>位置</summary>
+		/// <summary>描述</summary>
 		[ProtoMember(4)]
-		public int Position { get; set; }
-		/// <summary>身高</summary>
+		public string Desc { get; set; }
+		/// <summary>最大生命值</summary>
 		[ProtoMember(5)]
-		public int Height { get; set; }
+		public int MaxHP { get; set; }
+		/// <summary>攻击伤害值</summary>
+		[ProtoMember(6)]
+		public int DamageValue { get; set; }
+		/// <summary>预设物名</summary>
+		[ProtoMember(7)]
+		public string PrefabName { get; set; }
 
 	}
 }

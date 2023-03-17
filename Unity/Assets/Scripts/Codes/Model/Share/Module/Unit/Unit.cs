@@ -4,10 +4,24 @@ using Unity.Mathematics;
 
 namespace ET
 {
-    [ChildOf(typeof(UnitComponent))]
+    [ChildOf(null)]
     [DebuggerDisplay("ViewName,nq")]
-    public class Unit: Entity, IAwake<int>
+    public class Unit : Entity, IAwake<int>, IAddComponent, IGetComponent
     {
+        [BsonElement]
+        private float3 position;
+
+        [BsonElement]
+        private quaternion rotation;
+
+        protected override string ViewName
+        {
+            get
+            {
+                return $"{this.GetType().Name} ({this.Id})";
+            }
+        }
+
         public int ConfigId { get; set; } //配置表id
 
         [BsonIgnore]
@@ -15,8 +29,7 @@ namespace ET
 
         public UnitType Type => (UnitType)UnitConfigCategory.Instance.Get(this.ConfigId).Type;
 
-        [BsonElement]
-        private float3 position; //坐标
+        //坐标
 
         [BsonIgnore]
         public float3 Position
@@ -36,10 +49,7 @@ namespace ET
             get => math.mul(this.Rotation, math.forward());
             set => this.Rotation = quaternion.LookRotation(value, math.up());
         }
-        
-        [BsonElement]
-        private quaternion rotation;
-        
+
         [BsonIgnore]
         public quaternion Rotation
         {
@@ -48,14 +58,6 @@ namespace ET
             {
                 this.rotation = value;
                 EventSystem.Instance.Publish(this.DomainScene(), new EventType.ChangeRotation() { Unit = this });
-            }
-        }
-
-        protected override string ViewName
-        {
-            get
-            {
-                return $"{this.GetType().Name} ({this.Id})";
             }
         }
     }

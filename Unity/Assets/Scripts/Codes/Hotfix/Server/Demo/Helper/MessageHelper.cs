@@ -1,7 +1,4 @@
-﻿
-
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 
 namespace ET.Server
 {
@@ -11,16 +8,16 @@ namespace ET.Server
         {
             M2C_CreateUnits createUnits = new M2C_CreateUnits() { Units = new List<UnitInfo>() };
             createUnits.Units.Add(UnitHelper.CreateUnitInfo(sendUnit));
-            MessageHelper.SendToClient(unit, createUnits);
+            SendToClient(unit, createUnits);
         }
-        
+
         public static void NoticeUnitRemove(Unit unit, Unit sendUnit)
         {
-            M2C_RemoveUnits removeUnits = new M2C_RemoveUnits() {Units = new List<long>()};
+            M2C_RemoveUnits removeUnits = new M2C_RemoveUnits() { Units = new List<long>() };
             removeUnits.Units.Add(sendUnit.Id);
-            MessageHelper.SendToClient(unit, removeUnits);
+            SendToClient(unit, removeUnits);
         }
-        
+
         public static void Broadcast(Unit unit, IActorMessage message)
         {
             Dictionary<long, AOIEntity> dict = unit.GetBeSeePlayers();
@@ -30,13 +27,12 @@ namespace ET.Server
                 ActorMessageSenderComponent.Instance.Send(u.Unit.GetComponent<UnitGateComponent>().GateSessionActorId, message);
             }
         }
-        
+
         public static void SendToClient(Unit unit, IActorMessage message)
         {
             SendActor(unit.GetComponent<UnitGateComponent>().GateSessionActorId, message);
         }
-        
-        
+
         /// <summary>
         /// 发送协议给ActorLocation
         /// </summary>
@@ -46,7 +42,7 @@ namespace ET.Server
         {
             ActorLocationSenderComponent.Instance.Send(id, message);
         }
-        
+
         /// <summary>
         /// 发送协议给Actor
         /// </summary>
@@ -56,7 +52,7 @@ namespace ET.Server
         {
             ActorMessageSenderComponent.Instance.Send(actorId, message);
         }
-        
+
         /// <summary>
         /// 发送RPC协议给Actor
         /// </summary>
@@ -67,7 +63,7 @@ namespace ET.Server
         {
             return await ActorMessageSenderComponent.Instance.Call(actorId, message);
         }
-        
+
         /// <summary>
         /// 发送RPC协议给ActorLocation
         /// </summary>

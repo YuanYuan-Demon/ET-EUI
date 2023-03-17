@@ -7,29 +7,41 @@ namespace ET
     public partial class StartSceneConfigCategory
     {
         public MultiMap<int, StartSceneConfig> Gates = new MultiMap<int, StartSceneConfig>();
-        
+
         public MultiMap<int, StartSceneConfig> ProcessScenes = new MultiMap<int, StartSceneConfig>();
-        
+        public Dictionary<int, StartSceneConfig> UnitCaches = new Dictionary<int, StartSceneConfig>();
+
         public Dictionary<long, Dictionary<string, StartSceneConfig>> ClientScenesByName = new Dictionary<long, Dictionary<string, StartSceneConfig>>();
 
         public StartSceneConfig LocationConfig;
+        public StartSceneConfig LoginCenterConfig;
 
         public List<StartSceneConfig> Realms = new List<StartSceneConfig>();
-        
+
         public List<StartSceneConfig> Routers = new List<StartSceneConfig>();
-        
+
         public List<StartSceneConfig> Robots = new List<StartSceneConfig>();
 
         public StartSceneConfig BenchmarkServer;
-        
+
         public List<StartSceneConfig> GetByProcess(int process)
         {
             return this.ProcessScenes[process];
         }
-        
+
         public StartSceneConfig GetBySceneName(int zone, string name)
         {
             return this.ClientScenesByName[zone][name];
+        }
+
+        /// <summary>
+        /// 获取Unit对应的缓存服务器配置
+        /// </summary>
+        /// <param name="unitId">Unit对象的Id</param>
+        /// <returns></returns>
+        public StartSceneConfig GetUnitCacheConfig(long unitId)
+        {
+            return UnitCaches[UnitIdStruct.GetUnitZone(unitId)];
         }
 
         public override void AfterEndInit()
@@ -37,42 +49,55 @@ namespace ET
             foreach (StartSceneConfig startSceneConfig in this.GetAll().Values)
             {
                 this.ProcessScenes.Add(startSceneConfig.Process, startSceneConfig);
-                
+
                 if (!this.ClientScenesByName.ContainsKey(startSceneConfig.Zone))
                 {
                     this.ClientScenesByName.Add(startSceneConfig.Zone, new Dictionary<string, StartSceneConfig>());
                 }
                 this.ClientScenesByName[startSceneConfig.Zone].Add(startSceneConfig.Name, startSceneConfig);
-                
+
                 switch (startSceneConfig.Type)
                 {
                     case SceneType.Realm:
                         this.Realms.Add(startSceneConfig);
                         break;
+
                     case SceneType.Gate:
                         this.Gates.Add(startSceneConfig.Zone, startSceneConfig);
                         break;
+
                     case SceneType.Location:
                         this.LocationConfig = startSceneConfig;
                         break;
+
                     case SceneType.Robot:
                         this.Robots.Add(startSceneConfig);
                         break;
+
                     case SceneType.Router:
                         this.Routers.Add(startSceneConfig);
                         break;
+
                     case SceneType.BenchmarkServer:
                         this.BenchmarkServer = startSceneConfig;
+                        break;
+
+                    case SceneType.UnitCache:
+                        this.UnitCaches[startSceneConfig.Zone] = startSceneConfig;
                         break;
                 }
             }
         }
     }
-    
-    public partial class StartSceneConfig: ISupportInitialize
+
+    public partial class StartSceneConfig : ISupportInitialize
     {
+        // 内网地址外网端口，通过防火墙映射端口过来
+        private IPEndPoint innerIPOutPort;
+
+        private IPEndPoint outerIPPort;
         public long InstanceId;
-        
+
         public SceneType Type;
 
         public StartProcessConfig StartProcessConfig
@@ -82,7 +107,7 @@ namespace ET
                 return StartProcessConfigCategory.Instance.Get(this.Process);
             }
         }
-        
+
         public StartZoneConfig StartZoneConfig
         {
             get
@@ -90,9 +115,6 @@ namespace ET
                 return StartZoneConfigCategory.Instance.Get(this.Zone);
             }
         }
-
-        // 内网地址外网端口，通过防火墙映射端口过来
-        private IPEndPoint innerIPOutPort;
 
         public IPEndPoint InnerIPOutPort
         {
@@ -106,8 +128,6 @@ namespace ET
                 return this.innerIPOutPort;
             }
         }
-
-        private IPEndPoint outerIPPort;
 
         // 外网地址外网端口
         public IPEndPoint OuterIPPort
@@ -126,7 +146,7 @@ namespace ET
         public override void AfterEndInit()
         {
             this.Type = EnumHelper.FromString<SceneType>(this.SceneType);
-            InstanceIdStruct instanceIdStruct = new InstanceIdStruct(this.Process, (uint) this.Id);
+            InstanceIdStruct instanceIdStruct = new InstanceIdStruct(this.Process, (uint)this.Id);
             this.InstanceId = instanceIdStruct.ToLong();
         }
     }

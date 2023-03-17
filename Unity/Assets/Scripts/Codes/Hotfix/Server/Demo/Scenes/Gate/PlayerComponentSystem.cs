@@ -5,6 +5,25 @@ namespace ET.Server
     [FriendOf(typeof(PlayerComponent))]
     public static class PlayerComponentSystem
     {
+        #region 生命周期
+
+        public class AwakeSystem : AwakeSystem<PlayerComponent>
+        {
+            protected override void Awake(PlayerComponent self)
+            {
+            }
+        }
+
+        [ObjectSystem]
+        public class PlayerComponentDestroySystem : DestroySystem<PlayerComponent>
+        {
+            protected override void Destroy(PlayerComponent self)
+            {
+            }
+        }
+
+        #endregion 生命周期
+
         public static void Add(this PlayerComponent self, Player player)
         {
             self.idPlayers.Add(player.Id, player);
