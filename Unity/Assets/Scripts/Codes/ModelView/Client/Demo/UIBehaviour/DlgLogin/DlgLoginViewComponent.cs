@@ -7,7 +7,7 @@ namespace ET.Client
 	[EnableMethod]
 	public  class DlgLoginViewComponent : Entity,IAwake,IDestroy 
 	{
-		public UnityEngine.UI.Button E_LoginButton
+		public UnityEngine.UI.InputField EInput_AccountInputField
      	{
      		get
      		{
@@ -16,15 +16,15 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_E_LoginButton == null )
+     			if( this.m_EInput_AccountInputField == null )
      			{
-		    		this.m_E_LoginButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Sprite_BackGround/E_Login");
+		    		this.m_EInput_AccountInputField = UIFindHelper.FindDeepChild<UnityEngine.UI.InputField>(this.uiTransform.gameObject,"I_Bg/Account/EInput_Account");
      			}
-     			return this.m_E_LoginButton;
+     			return this.m_EInput_AccountInputField;
      		}
      	}
 
-		public UnityEngine.UI.Image E_LoginImage
+		public UnityEngine.UI.Image EInput_AccountImage
      	{
      		get
      		{
@@ -33,15 +33,15 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_E_LoginImage == null )
+     			if( this.m_EInput_AccountImage == null )
      			{
-		    		this.m_E_LoginImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Sprite_BackGround/E_Login");
+		    		this.m_EInput_AccountImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"I_Bg/Account/EInput_Account");
      			}
-     			return this.m_E_LoginImage;
+     			return this.m_EInput_AccountImage;
      		}
      	}
 
-		public UnityEngine.UI.InputField E_AccountInputField
+		public UnityEngine.UI.InputField EInput_PasswordInputField
      	{
      		get
      		{
@@ -50,15 +50,15 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_E_AccountInputField == null )
+     			if( this.m_EInput_PasswordInputField == null )
      			{
-		    		this.m_E_AccountInputField = UIFindHelper.FindDeepChild<UnityEngine.UI.InputField>(this.uiTransform.gameObject,"Sprite_BackGround/E_Account");
+		    		this.m_EInput_PasswordInputField = UIFindHelper.FindDeepChild<UnityEngine.UI.InputField>(this.uiTransform.gameObject,"I_Bg/Password/EInput_Password");
      			}
-     			return this.m_E_AccountInputField;
+     			return this.m_EInput_PasswordInputField;
      		}
      	}
 
-		public UnityEngine.UI.Image E_AccountImage
+		public UnityEngine.UI.Image EInput_PasswordImage
      	{
      		get
      		{
@@ -67,15 +67,15 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_E_AccountImage == null )
+     			if( this.m_EInput_PasswordImage == null )
      			{
-		    		this.m_E_AccountImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Sprite_BackGround/E_Account");
+		    		this.m_EInput_PasswordImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"I_Bg/Password/EInput_Password");
      			}
-     			return this.m_E_AccountImage;
+     			return this.m_EInput_PasswordImage;
      		}
      	}
 
-		public UnityEngine.UI.InputField E_PasswordInputField
+		public UnityEngine.UI.Button EB_LoginButton
      	{
      		get
      		{
@@ -84,15 +84,15 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_E_PasswordInputField == null )
+     			if( this.m_EB_LoginButton == null )
      			{
-		    		this.m_E_PasswordInputField = UIFindHelper.FindDeepChild<UnityEngine.UI.InputField>(this.uiTransform.gameObject,"Sprite_BackGround/E_Password");
+		    		this.m_EB_LoginButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"I_Bg/EB_Login");
      			}
-     			return this.m_E_PasswordInputField;
+     			return this.m_EB_LoginButton;
      		}
      	}
 
-		public UnityEngine.UI.Image E_PasswordImage
+		public UnityEngine.UI.Image EB_LoginImage
      	{
      		get
      		{
@@ -101,31 +101,31 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_E_PasswordImage == null )
+     			if( this.m_EB_LoginImage == null )
      			{
-		    		this.m_E_PasswordImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Sprite_BackGround/E_Password");
+		    		this.m_EB_LoginImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"I_Bg/EB_Login");
      			}
-     			return this.m_E_PasswordImage;
+     			return this.m_EB_LoginImage;
      		}
      	}
 
 		public void DestroyWidget()
 		{
-			this.m_E_LoginButton = null;
-			this.m_E_LoginImage = null;
-			this.m_E_AccountInputField = null;
-			this.m_E_AccountImage = null;
-			this.m_E_PasswordInputField = null;
-			this.m_E_PasswordImage = null;
+			this.m_EInput_AccountInputField = null;
+			this.m_EInput_AccountImage = null;
+			this.m_EInput_PasswordInputField = null;
+			this.m_EInput_PasswordImage = null;
+			this.m_EB_LoginButton = null;
+			this.m_EB_LoginImage = null;
 			this.uiTransform = null;
 		}
 
-		private UnityEngine.UI.Button m_E_LoginButton = null;
-		private UnityEngine.UI.Image m_E_LoginImage = null;
-		private UnityEngine.UI.InputField m_E_AccountInputField = null;
-		private UnityEngine.UI.Image m_E_AccountImage = null;
-		private UnityEngine.UI.InputField m_E_PasswordInputField = null;
-		private UnityEngine.UI.Image m_E_PasswordImage = null;
+		private UnityEngine.UI.InputField m_EInput_AccountInputField = null;
+		private UnityEngine.UI.Image m_EInput_AccountImage = null;
+		private UnityEngine.UI.InputField m_EInput_PasswordInputField = null;
+		private UnityEngine.UI.Image m_EInput_PasswordImage = null;
+		private UnityEngine.UI.Button m_EB_LoginButton = null;
+		private UnityEngine.UI.Image m_EB_LoginImage = null;
 		public Transform uiTransform = null;
 	}
 }
