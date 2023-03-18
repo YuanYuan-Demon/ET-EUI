@@ -1,0 +1,14 @@
+﻿namespace ET.Client
+{
+    [FriendOf(typeof(DlgRoleInfo))]
+    public static class DlgRoleInfoSystem
+    {
+        public static void RegisterUIEvent(this DlgRoleInfo self)
+        {
+        }
+
+        public static void ShowWindow(this DlgRoleInfo self, Entity contextData = null)
+        {
+        }
+    }
+}

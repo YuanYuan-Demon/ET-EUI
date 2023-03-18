@@ -6,21 +6,20 @@ namespace ET
 {
     public partial class StartSceneConfigCategory
     {
-        public MultiMap<int, StartSceneConfig> Gates = new MultiMap<int, StartSceneConfig>();
+        public MultiMap<int, StartSceneConfig> Gates = new();
+        public Dictionary<int, StartSceneConfig> Realms = new();
 
-        public MultiMap<int, StartSceneConfig> ProcessScenes = new MultiMap<int, StartSceneConfig>();
-        public Dictionary<int, StartSceneConfig> UnitCaches = new Dictionary<int, StartSceneConfig>();
+        public MultiMap<int, StartSceneConfig> ProcessScenes = new();
+        public Dictionary<int, StartSceneConfig> UnitCaches = new();
 
-        public Dictionary<long, Dictionary<string, StartSceneConfig>> ClientScenesByName = new Dictionary<long, Dictionary<string, StartSceneConfig>>();
+        public Dictionary<long, Dictionary<string, StartSceneConfig>> ClientScenesByName = new();
 
         public StartSceneConfig LocationConfig;
         public StartSceneConfig LoginCenterConfig;
 
-        public List<StartSceneConfig> Realms = new List<StartSceneConfig>();
+        public List<StartSceneConfig> Routers = new();
 
-        public List<StartSceneConfig> Routers = new List<StartSceneConfig>();
-
-        public List<StartSceneConfig> Robots = new List<StartSceneConfig>();
+        public List<StartSceneConfig> Robots = new();
 
         public StartSceneConfig BenchmarkServer;
 
@@ -59,7 +58,7 @@ namespace ET
                 switch (startSceneConfig.Type)
                 {
                     case SceneType.Realm:
-                        this.Realms.Add(startSceneConfig);
+                        this.Realms.Add(startSceneConfig.Zone, startSceneConfig);
                         break;
 
                     case SceneType.Gate:
@@ -150,7 +149,7 @@ namespace ET
         public override void AfterEndInit()
         {
             this.Type = EnumHelper.FromString<SceneType>(this.SceneType);
-            InstanceIdStruct instanceIdStruct = new InstanceIdStruct(this.Process, (uint)this.Id);
+            InstanceIdStruct instanceIdStruct = new(this.Process, (uint)this.Id);
             this.InstanceId = instanceIdStruct.ToLong();
         }
     }
