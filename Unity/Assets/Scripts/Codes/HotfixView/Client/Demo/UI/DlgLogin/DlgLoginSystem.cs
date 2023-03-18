@@ -18,6 +18,13 @@ namespace ET.Client
         {
             try
             {
+                if (string.IsNullOrEmpty(self.View.EInput_AccountInputField.text)
+                    || string.IsNullOrEmpty(self.View.EInput_PasswordInputField.text))
+                {
+                    Log.Error("账号或密码不能为空");
+                    return;
+                }
+
                 int errorCode = await LoginHelper.Login(
                     self.ClientScene(),
                     self.View.EInput_AccountInputField.text,

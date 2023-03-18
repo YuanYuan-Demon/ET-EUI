@@ -57,7 +57,7 @@ namespace ET.Server
                             session.Disconnect();
                             return;
                         }
-                        if (account.Password != accountResult[0].Password)
+                        if (account.Password != request.Password)
                         {
                             response.Error = ErrorCode.ERR_AccountInfoError;
                             session.Disconnect();

@@ -82,6 +82,10 @@ namespace ET
                         this.BenchmarkServer = startSceneConfig;
                         break;
 
+                    case SceneType.LoginCenter:
+                        this.LoginCenterConfig = startSceneConfig;
+                        break;
+
                     case SceneType.UnitCache:
                         this.UnitCaches[startSceneConfig.Zone] = startSceneConfig;
                         break;
