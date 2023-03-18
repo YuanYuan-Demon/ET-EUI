@@ -8,92 +8,22 @@ namespace ET.Client
     [FriendOf(typeof(RoleInfo))]
     public static class DlgRolesSystem
     {
-        public static async void OnConfirmClickHandler(this DlgRoles self)
+        #region UI事件
+
+        public static void RegisterUIEvent(this DlgRoles self)
         {
-            bool isSelect = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId != 0;
-            if (!isSelect)
-            {
-                Log.Error("请先选择角色");
-                return;
-            }
-
-            try
-            {
-                //申请网关负载均衡服务器的token
-                int errorCode = await LoginHelper.GetRealmKey(self.ClientScene());
-                if (errorCode != ErrorCode.ERR_Success)
-                {
-                    Log.Error(errorCode.ToString());
-                    return;
-                }
-
-                //连接网关负载均衡服务器, 请求进入游戏
-                errorCode = await LoginHelper.EnterGame(self.ClientScene());
-                if (errorCode != ErrorCode.ERR_Success)
-                {
-                    Log.Error(errorCode.ToString());
-                    return;
-                }
-                self.ClientScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Main);
-                self.ClientScene().GetComponent<UIComponent>().CloseWindow(WindowID.WindowID_Roles);
-            }
-            catch (Exception e)
-            {
-                Log.Error(e.ToString());
-            }
+            self.View.EB_CreateRoleButton.onClick.AddListener(() => self.OnClickCreateRole());
+            self.View.EB_DeleteRoleButton.onClick.AddListener(() => self.OnClickDeleteRole());
+            self.View.EB_EnterGameButton.onClick.AddListener(() => self.OnClickConfirm());
+            self.View.ELS_RoleListLoopVerticalScrollRect.AddItemRefreshListener((transform, index) => self.OnRoleListRefreshHandler(transform, index)); ;
         }
 
-        public static async void OnCreateRoleClickHandler(this DlgRoles self)
+        public static void ShowWindow(this DlgRoles self, Entity contextData = null)
         {
-            string roleName = self.View.EIF_RoleNameInputField.text;
-            if (string.IsNullOrEmpty(roleName))
-            {
-                Log.Error("角色名不能为空");
-                return;
-            }
-            try
-            {
-                int errorCode = await LoginHelper.CreateRole(self.ClientScene(), roleName);
-                if (errorCode != ErrorCode.ERR_Success)
-                {
-                    Log.Error(errorCode.ToString());
-                    return;
-                }
-                self.RefreshRoleItems();
-            }
-            catch (Exception e)
-            {
-                Log.Error(e);
-            }
+            self.RefreshRoleItems();
         }
 
-        /// <summary>
-        /// 删除角色
-        /// </summary>
-        /// <param name="self"> </param>
-        public static async void OnDeleteRoleClickHandler(this DlgRoles self)
-        {
-            long roleId = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId;
-            if (roleId == 0)
-            {
-                Log.Error("请选择需要删除的角色");
-                return;
-            }
-            try
-            {
-                int errorCode = await LoginHelper.DeleteRole(self.ClientScene(), roleId);
-                if (errorCode != ErrorCode.ERR_Success)
-                {
-                    Log.Error(errorCode.ToString());
-                    return;
-                }
-                self.RefreshRoleItems();
-            }
-            catch (Exception e)
-            {
-                Log.Error(e);
-            }
-        }
+        #endregion UI事件
 
         public static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
         {
@@ -118,17 +48,101 @@ namespace ET.Client
             self.View.ELS_RoleListLoopVerticalScrollRect.SetVisible(true, count);
         }
 
-        public static void RegisterUIEvent(this DlgRoles self)
+        #region 角色管理
+
+        private static async void OnClickConfirm(this DlgRoles self)
         {
-            self.View.EB_CreateRoleButton.onClick.AddListener(() => self.OnCreateRoleClickHandler());
-            self.View.EB_DeleteRoleButton.onClick.AddListener(() => self.OnDeleteRoleClickHandler());
-            self.View.EB_EnterGameButton.onClick.AddListener(() => self.OnConfirmClickHandler());
-            self.View.ELS_RoleListLoopVerticalScrollRect.AddItemRefreshListener((transform, index) => self.OnRoleListRefreshHandler(transform, index)); ;
+            bool isSelect = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId != 0;
+            if (!isSelect)
+            {
+                self.ClientScene().GetComponent<UIComponent>().ShowErrorBox("请先选择角色");
+                return;
+            }
+
+            try
+            {
+                //申请网关负载均衡服务器的token
+                int errorCode = await LoginHelper.GetRealmKey(self.ClientScene());
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    Log.Error(errorCode.ToString());
+                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(errorCode);
+                    return;
+                }
+
+                //连接网关负载均衡服务器, 请求进入游戏
+                errorCode = await LoginHelper.EnterGame(self.ClientScene());
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    Log.Error(errorCode.ToString());
+                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(errorCode);
+                    return;
+                }
+                self.ClientScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Main);
+                self.ClientScene().GetComponent<UIComponent>().CloseWindow(WindowID.WindowID_Roles);
+            }
+            catch (Exception e)
+            {
+                self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(e);
+                Log.Error(e);
+            }
         }
 
-        public static void ShowWindow(this DlgRoles self, Entity contextData = null)
+        private static async void OnClickCreateRole(this DlgRoles self)
         {
-            self.RefreshRoleItems();
+            string roleName = self.View.EIF_RoleNameInputField.text;
+            if (string.IsNullOrEmpty(roleName))
+            {
+                self.ClientScene().GetComponent<UIComponent>().ShowErrorBox("角色名不能为空");
+                return;
+            }
+            try
+            {
+                int errorCode = await LoginHelper.CreateRole(self.ClientScene(), roleName);
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    Log.Error(errorCode.ToString());
+                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(errorCode);
+                    return;
+                }
+                self.RefreshRoleItems();
+            }
+            catch (Exception e)
+            {
+                self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(e);
+                Log.Error(e);
+            }
         }
+
+        /// <summary>
+        /// 删除角色
+        /// </summary>
+        /// <param name="self"> </param>
+        private static async void OnClickDeleteRole(this DlgRoles self)
+        {
+            long roleId = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId;
+            if (roleId == 0)
+            {
+                self.ClientScene().GetComponent<UIComponent>().ShowErrorBox("请选择需要删除的角色");
+                return;
+            }
+            try
+            {
+                int errorCode = await LoginHelper.DeleteRole(self.ClientScene(), roleId);
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    Log.Error(errorCode.ToString());
+                    return;
+                }
+                self.RefreshRoleItems();
+            }
+            catch (Exception e)
+            {
+                self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(e);
+                Log.Error(e);
+            }
+        }
+
+        #endregion 角色管理
     }
 }

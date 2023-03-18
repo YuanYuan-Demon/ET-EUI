@@ -74,6 +74,10 @@ namespace ET.Server
                     scene.AddComponent<NetServerComponent, IPEndPoint>(startSceneConfig.OuterIPPort);
                     scene.AddComponent<LoginInfoRecordComponent>();
                     break;
+
+                case SceneType.UnitCache:
+                    scene.AddComponent<UnitCacheComponent>();
+                    break;
             }
 
             return scene;

@@ -41,6 +41,23 @@ namespace ET.Client
      		}
      	}
 
+		public UnityEngine.RectTransform EG_IconsRectTransform
+     	{
+     		get
+     		{
+     			if (this.uiTransform == null)
+     			{
+     				Log.Error("uiTransform is null.");
+     				return null;
+     			}
+     			if( this.m_EG_IconsRectTransform == null )
+     			{
+		    		this.m_EG_IconsRectTransform = UIFindHelper.FindDeepChild<UnityEngine.RectTransform>(this.uiTransform.gameObject,"EG_Panel/Message/EG_Icons");
+     			}
+     			return this.m_EG_IconsRectTransform;
+     		}
+     	}
+
 		public UnityEngine.UI.Image EI_InformationImage
      	{
      		get
@@ -52,7 +69,7 @@ namespace ET.Client
      			}
      			if( this.m_EI_InformationImage == null )
      			{
-		    		this.m_EI_InformationImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/Message/Icons/EI_Information");
+		    		this.m_EI_InformationImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/Message/EG_Icons/EI_Information");
      			}
      			return this.m_EI_InformationImage;
      		}
@@ -69,7 +86,7 @@ namespace ET.Client
      			}
      			if( this.m_EI_QuestionImage == null )
      			{
-		    		this.m_EI_QuestionImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/Message/Icons/EI_Question");
+		    		this.m_EI_QuestionImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/Message/EG_Icons/EI_Question");
      			}
      			return this.m_EI_QuestionImage;
      		}
@@ -86,7 +103,7 @@ namespace ET.Client
      			}
      			if( this.m_EI_ErrorImage == null )
      			{
-		    		this.m_EI_ErrorImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/Message/Icons/EI_Error");
+		    		this.m_EI_ErrorImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/Message/EG_Icons/EI_Error");
      			}
      			return this.m_EI_ErrorImage;
      		}
@@ -215,6 +232,7 @@ namespace ET.Client
 		{
 			this.m_EG_PanelRectTransform = null;
 			this.m_ET_TitleTextMeshProUGUI = null;
+			this.m_EG_IconsRectTransform = null;
 			this.m_EI_InformationImage = null;
 			this.m_EI_QuestionImage = null;
 			this.m_EI_ErrorImage = null;
@@ -230,6 +248,7 @@ namespace ET.Client
 
 		private UnityEngine.RectTransform m_EG_PanelRectTransform = null;
 		private TMPro.TextMeshProUGUI m_ET_TitleTextMeshProUGUI = null;
+		private UnityEngine.RectTransform m_EG_IconsRectTransform = null;
 		private UnityEngine.UI.Image m_EI_InformationImage = null;
 		private UnityEngine.UI.Image m_EI_QuestionImage = null;
 		private UnityEngine.UI.Image m_EI_ErrorImage = null;

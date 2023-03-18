@@ -22,6 +22,8 @@ namespace ET.Client
                     || string.IsNullOrEmpty(self.View.EInput_PasswordInputField.text))
                 {
                     Log.Error("账号或密码不能为空");
+                    self.ClientScene().GetComponent<UIComponent>()
+                        .ShowErrorBox("账号或密码不能为空");
                     return;
                 }
 
@@ -33,6 +35,7 @@ namespace ET.Client
                 if (errorCode != ErrorCode.ERR_Success)
                 {
                     Log.Error(errorCode.ToString());
+                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(errorCode);
                     return;
                 }
 
@@ -40,6 +43,7 @@ namespace ET.Client
                 if (errorCode != ErrorCode.ERR_Success)
                 {
                     Log.Error(errorCode.ToString());
+                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(errorCode);
                     return;
                 }
                 //显示登陆之后的页面逻辑
@@ -49,6 +53,7 @@ namespace ET.Client
             catch (Exception e)
             {
                 Log.Error(e);
+                self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(e);
             }
         }
     }

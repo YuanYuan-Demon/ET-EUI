@@ -4,37 +4,26 @@ using UnityEngine;
 namespace ET.Client
 {
     [FriendOf(typeof(DlgMessageBox))]
-    [FriendOfAttribute(typeof(ET.Client.MessageBoxData))]
+    [FriendOf(typeof(MessageBoxData))]
     public static class DlgMessageBoxSystem
     {
         private static void SetMessageType(MessageBoxType type, DlgMessageBoxViewComponent view)
         {
-            for (int i = 0; i < view.EG_PanelRectTransform.childCount; i++)
+            for (int i = 0; i < view.EG_IconsRectTransform.childCount; i++)
             {
-                view.EG_PanelRectTransform.GetChild(i).gameObject.SetActive(i == ((int)type));
+                view.EG_IconsRectTransform.GetChild(i).gameObject.SetActive(i == ((int)type));
             }
             switch (type)
             {
                 case MessageBoxType.Infomation:
+                case MessageBoxType.Error:
                     view.EB_OKButton.SetVisible(true);
-                    view.ET_OKTextMeshProUGUI.SetText("确认");
-
                     view.EB_CancelButton.SetVisible(false);
                     break;
 
                 case MessageBoxType.Question:
                     view.EB_OKButton.SetVisible(true);
-                    view.ET_OKTextMeshProUGUI.SetText("确认");
-
                     view.EB_CancelButton.SetVisible(true);
-                    view.ET_CancelTextMeshProUGUI.SetText("取消");
-                    break;
-
-                case MessageBoxType.Error:
-                    view.EB_OKButton.SetVisible(false);
-
-                    view.EB_CancelButton.SetVisible(true);
-                    view.ET_CancelTextMeshProUGUI.SetText("确认");
                     break;
 
                 default:
@@ -42,16 +31,26 @@ namespace ET.Client
             }
         }
 
+        private static void OnClickOK(this DlgMessageBox self)
+        {
+        }
+
+        private static void OnClickCancel(this DlgMessageBox self)
+        {
+        }
+
         public static void RegisterUIEvent(this DlgMessageBox self)
         {
             self.RegisterCloseEvent<DlgMessageBox>(self.View.EB_CancelButton);
             self.RegisterCloseEvent<DlgMessageBox>(self.View.EB_OKButton);
+            self.View.EB_OKButton.onClick.AddListener(self.OnClickOK);
+            self.View.EB_CancelButton.onClick.AddListener(self.OnClickCancel);
         }
 
         public static void ShowWindow(this DlgMessageBox self, Entity contextData = null)
         {
-            self.MessageBoxData = contextData as MessageBoxData;
-            self.View.EG_PanelRectTransform.DOScale(Vector3.one, 0.3f).onComplete += () => self.Refresh();
+            self.Refresh(contextData as MessageBoxData);
+            self.View.EG_PanelRectTransform.DOScale(Vector3.one, 0.3f);
         }
 
         public static void HideWindow(this DlgMessageBox self, Entity contextData = null)
@@ -63,11 +62,11 @@ namespace ET.Client
         /// 刷新UI
         /// </summary>
         /// <param name="self"></param>
-        public static void Refresh(this DlgMessageBox self)
+        public static void Refresh(this DlgMessageBox self, MessageBoxData messageBoxData)
         {
-            if (self.MessageBoxData != null)
+            if (messageBoxData != null && self.MessageBoxData != messageBoxData)
             {
-                MessageBoxData messageBoxData = self.MessageBoxData;
+                self.MessageBoxData = messageBoxData;
                 var view = self.View;
 
                 SetMessageType(messageBoxData.MessageType, view);
