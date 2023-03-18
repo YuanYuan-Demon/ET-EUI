@@ -14,7 +14,7 @@ namespace ET.Client
         {
             self.View.EB_CreateRoleButton.onClick.AddListener(() => self.OnClickCreateRole());
             self.View.EB_DeleteRoleButton.onClick.AddListener(() => self.OnClickDeleteRole());
-            self.View.EB_EnterGameButton.onClick.AddListener(() => self.OnClickConfirm());
+            self.View.EB_EnterGameButton.onClick.AddListener(() => self.OnClickEnter());
             self.View.ELS_RoleListLoopVerticalScrollRect.AddItemRefreshListener((transform, index) => self.OnRoleListRefreshHandler(transform, index)); ;
         }
 
@@ -25,32 +25,7 @@ namespace ET.Client
 
         #endregion UI事件
 
-        public static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
-        {
-            var itemRole = self.ScrollItemRoleInfos[index].BindTrans(transform);
-            var roleInfosComponent = self.ClientScene().GetComponent<RoleInfosComponent>();
-            var roleInfo = roleInfosComponent.RoleInfos[index];
-            itemRole.EB_RoleSelectImage.color = roleInfo.Id == roleInfosComponent.CurRoleId ? Color.red : Color.cyan;
-            itemRole.EL_RoleText.text = roleInfo.Name;
-            itemRole.EB_RoleSelectButton.AddListener(() => self.OnSelectRoleHandler(roleInfo.Id));
-        }
-
-        public static void OnSelectRoleHandler(this DlgRoles self, long roleId)
-        {
-            self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId = roleId;
-            self.View.ELS_RoleListLoopVerticalScrollRect.RefillCells();
-        }
-
-        public static void RefreshRoleItems(this DlgRoles self)
-        {
-            int count = self.ClientScene().GetComponent<RoleInfosComponent>().RoleInfos.Count;
-            self.AddUIScrollItems(ref self.ScrollItemRoleInfos, count);
-            self.View.ELS_RoleListLoopVerticalScrollRect.SetVisible(true, count);
-        }
-
-        #region 角色管理
-
-        private static async void OnClickConfirm(this DlgRoles self)
+        private static async void OnClickEnter(this DlgRoles self)
         {
             bool isSelect = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId != 0;
             if (!isSelect)
@@ -87,6 +62,31 @@ namespace ET.Client
                 Log.Error(e);
             }
         }
+
+        public static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
+        {
+            var itemRole = self.ScrollItemRoleInfos[index].BindTrans(transform);
+            var roleInfosComponent = self.ClientScene().GetComponent<RoleInfosComponent>();
+            var roleInfo = roleInfosComponent.RoleInfos[index];
+            itemRole.EB_RoleSelectImage.color = roleInfo.Id == roleInfosComponent.CurRoleId ? Color.red : Color.cyan;
+            itemRole.EL_RoleText.text = roleInfo.Name;
+            itemRole.EB_RoleSelectButton.AddListener(() => self.OnSelectRoleHandler(roleInfo.Id));
+        }
+
+        public static void OnSelectRoleHandler(this DlgRoles self, long roleId)
+        {
+            self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId = roleId;
+            self.View.ELS_RoleListLoopVerticalScrollRect.RefillCells();
+        }
+
+        public static void RefreshRoleItems(this DlgRoles self)
+        {
+            int count = self.ClientScene().GetComponent<RoleInfosComponent>().RoleInfos.Count;
+            self.AddUIScrollItems(ref self.ScrollItemRoleInfos, count);
+            self.View.ELS_RoleListLoopVerticalScrollRect.SetVisible(true, count);
+        }
+
+        #region 角色管理
 
         private static async void OnClickCreateRole(this DlgRoles self)
         {

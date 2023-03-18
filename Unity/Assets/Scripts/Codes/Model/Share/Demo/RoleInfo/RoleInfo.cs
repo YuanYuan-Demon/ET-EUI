@@ -8,7 +8,7 @@
 
     [ComponentOf(typeof(Unit))]
     [ChildOf]
-    public class RoleInfo : Entity, IAwake, ITransfer//, IUnitCache
+    public class RoleInfo : Entity, IAwake, ITransfer, IUnitCache
     {
         public string Name;
         public int ServerId;

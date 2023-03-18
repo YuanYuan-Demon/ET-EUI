@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ET.Server
 {
@@ -27,7 +28,8 @@ namespace ET.Server
                         dictionary.Add(name, null);
                     }
                 }
-                foreach (var name in dictionary.Keys)
+
+                foreach (var name in dictionary.Keys.ToArray())
                 {
                     Entity entity = await unitCacheComponent.Get(request.UnitId, name);
                     dictionary[name] = entity;

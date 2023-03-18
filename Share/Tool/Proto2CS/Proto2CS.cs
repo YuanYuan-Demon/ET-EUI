@@ -74,7 +74,7 @@ namespace ET
                 int n = int.Parse(ss[4]);
 
                 sb.Append($"\t\t[ProtoMember({n})]\n");
-                sb.Append($"\t\tpublic List<{type}> {name} {{ get; set; }} = new List<{type}>();\n\n");
+                sb.Append($"\t\tpublic List<{type}> {name} {{ get; set; }} = new();\n\n");
             }
             catch (Exception e)
             {

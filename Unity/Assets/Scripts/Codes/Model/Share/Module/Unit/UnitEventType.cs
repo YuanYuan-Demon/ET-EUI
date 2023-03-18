@@ -1,18 +1,15 @@
 ﻿using Unity.Mathematics;
 
-namespace ET
+namespace ET.EventType
 {
-    namespace EventType
+    public struct ChangePosition
     {
-        public struct ChangePosition
-        {
-            public Unit Unit;
-            public float3 OldPos;
-        }
+        public Unit Unit;
+        public float3 OldPos;
+    }
 
-        public struct ChangeRotation
-        {
-            public Unit Unit;
-        }
+    public struct ChangeRotation
+    {
+        public Unit Unit;
     }
 }

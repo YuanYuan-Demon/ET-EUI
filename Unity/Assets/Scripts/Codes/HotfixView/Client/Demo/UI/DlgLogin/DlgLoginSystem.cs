@@ -16,6 +16,8 @@ namespace ET.Client
 
         public static async void OnClickLogin(this DlgLogin self)
         {
+            //await LoginHelper.LoginExample(self.ClientScene(), self.View.EInput_AccountInputField.text, self.View.EInput_PasswordInputField.text);
+            //return;
             try
             {
                 if (string.IsNullOrEmpty(self.View.EInput_AccountInputField.text)
@@ -26,7 +28,6 @@ namespace ET.Client
                         .ShowErrorBox("账号或密码不能为空");
                     return;
                 }
-
                 int errorCode = await LoginHelper.Login(
                     self.ClientScene(),
                     self.View.EInput_AccountInputField.text,

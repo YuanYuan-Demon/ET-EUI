@@ -4,7 +4,18 @@ using MongoDB.Bson.Serialization.Options;
 
 namespace ET
 {
-    [FriendOf(typeof (NumericComponent))]
+    namespace EventType
+    {
+        public struct NumbericChange
+        {
+            public Unit Unit;
+            public int NumericType;
+            public long Old;
+            public long New;
+        }
+    }
+
+    [FriendOf(typeof(NumericComponent))]
     public static class NumericComponentSystem
     {
         public static float GetAsFloat(this NumericComponent self, int numericType)
@@ -88,20 +99,9 @@ namespace ET
             self.Insert(final, result, isPublicEvent);
         }
     }
-    
-    namespace EventType
-    {
-        public struct NumbericChange
-        {
-            public Unit Unit;
-            public int NumericType;
-            public long Old;
-            public long New;
-        }
-    }
 
-    [ComponentOf(typeof (Unit))]
-    public class NumericComponent: Entity, IAwake, ITransfer
+    [ComponentOf(typeof(Unit))]
+    public class NumericComponent : Entity, IAwake, ITransfer, IUnitCache
     {
         [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<int, long> NumericDic = new Dictionary<int, long>();

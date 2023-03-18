@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 
 namespace ET.Server
 {
@@ -11,17 +10,27 @@ namespace ET.Server
 
             await TransferHelper.Transfer(unit, sceneInstanceId, sceneName);
         }
-        
 
         public static async ETTask Transfer(Unit unit, long sceneInstanceId, string sceneName)
         {
             // location加锁
             long unitId = unit.Id;
             long unitInstanceId = unit.InstanceId;
-            
-            M2M_UnitTransferRequest request = new M2M_UnitTransferRequest() {Entitys = new List<byte[]>()};
-            request.OldInstanceId = unitInstanceId;
-            request.Unit = unit.ToBson();
+
+            // 通知客户端开始切场景
+            M2C_StartSceneChange m2CStartSceneChange = new()
+            {
+                SceneInstanceId = sceneInstanceId,
+                SceneName = sceneName
+            };
+            MessageHelper.SendToClient(unit, m2CStartSceneChange);
+
+            M2M_UnitTransferRequest request = new()
+            {
+                OldInstanceId = unitInstanceId,
+                Unit = unit.ToBson()
+            };
+
             foreach (Entity entity in unit.Components.Values)
             {
                 if (entity is ITransfer)
@@ -29,10 +38,12 @@ namespace ET.Server
                     request.Entitys.Add(entity.ToBson());
                 }
             }
-            unit.Dispose();
-            
+            // 删除Mailbox,让发给Unit的ActorLocation消息重发
+            unit.RemoveComponent<MailBoxComponent>();
+
             await LocationProxyComponent.Instance.Lock(unitId, unitInstanceId);
             await ActorMessageSenderComponent.Instance.Call(sceneInstanceId, request);
+            unit.Dispose();
         }
     }
 }
