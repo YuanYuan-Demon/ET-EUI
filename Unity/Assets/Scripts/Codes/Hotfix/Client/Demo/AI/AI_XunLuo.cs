@@ -2,7 +2,7 @@ using Unity.Mathematics;
 
 namespace ET.Client
 {
-    public class AI_XunLuo: AAIHandler
+    public class AI_XunLuo : AAIHandler
     {
         public override int Check(AIComponent aiComponent, AIConfig aiConfig)
         {
@@ -18,12 +18,12 @@ namespace ET.Client
         {
             Scene clientScene = aiComponent.DomainScene();
 
-            Unit myUnit = UnitHelper.GetMyUnitFromClientScene(clientScene);
+            Unit myUnit = clientScene.GetMyUnit();
             if (myUnit == null)
             {
                 return;
             }
-            
+
             Log.Debug("开始巡逻");
 
             while (true)

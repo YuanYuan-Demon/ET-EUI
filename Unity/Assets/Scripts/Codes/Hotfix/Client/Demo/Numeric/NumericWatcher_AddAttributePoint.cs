@@ -8,10 +8,6 @@ namespace ET.Client
     [NumericWatcher(SceneType.Current, NumericType.Agile)]
     public class NumericWatcher_AddAttributePoint : INumericWatcher
     {
-        public void Run(NumbericChange args)
-        {
-        }
-
         public void Run(Unit unit, NumbericChange args)
         {
 #if UNITY
@@ -24,7 +20,7 @@ namespace ET.Client
             {
                 //力量+1点 伤害值+5
                 case NumericType.Power:
-                    numericComponent.Set(NumericType.DamageValueAdd, addValue * 5);
+                    numericComponent.Add(NumericType.DamageValueAdd, addValue * 5);
                     break;
                 //体力+1点 最大生命值 +1%
                 case NumericType.PhysicalStrength:

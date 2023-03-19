@@ -15,6 +15,13 @@ namespace ET.Client
             clientScene.AddComponent<ServerInfosComponent>();
             clientScene.AddComponent<RoleInfosComponent>();
 
+            //clientScene.AddComponent<BagComponent>();
+            clientScene.AddComponent<EquipmentsComponent>();
+            //clientScene.AddComponent<ForgeComponent>();
+            //clientScene.AddComponent<TasksComponent>();
+            //clientScene.AddComponent<RankComponent>();
+            //clientScene.AddComponent<ChatComponent>();
+
             EventSystem.Instance.Publish(clientScene, new EventType.AfterCreateClientScene());
             return clientScene;
         }

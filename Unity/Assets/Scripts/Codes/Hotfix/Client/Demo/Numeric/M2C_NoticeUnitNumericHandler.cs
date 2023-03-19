@@ -12,8 +12,7 @@
             //    return;
             //}
             await ETTask.CompletedTask;
-            session.ClientScene()?.CurrentScene()?.GetComponent<UnitComponent>()
-                ?.Get(message.UnitId)?.GetComponent<NumericComponent>()?.Set(message.NumericType, message.NewValue);
+            session.ClientScene().GetMyNumericComponent().Set(message.NumericType, message.NewValue);
         }
     }
 }

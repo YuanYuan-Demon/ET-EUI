@@ -2,17 +2,29 @@
 {
     public static class UnitHelper
     {
-        public static Unit GetMyUnitFromClientScene(Scene clientScene)
+        public static Unit GetMyUnit(this Scene scene)
         {
-            PlayerComponent playerComponent = clientScene.GetComponent<PlayerComponent>();
-            Scene currentScene = clientScene.GetComponent<CurrentScenesComponent>().Scene;
-            return currentScene.GetComponent<UnitComponent>().Get(playerComponent.MyId);
+            PlayerComponent playerComponent;
+            switch (scene.SceneType)
+            {
+                case SceneType.Client:
+                    playerComponent = scene.GetComponent<PlayerComponent>();
+                    return scene.CurrentScene().GetComponent<UnitComponent>().Get(playerComponent.MyId);
+
+                case SceneType.Current:
+                    playerComponent = scene.ClientScene().GetComponent<PlayerComponent>();
+                    return scene.GetComponent<UnitComponent>().Get(playerComponent.MyId);
+
+                default:
+                    Scene clientScene = scene.ClientScene();
+                    playerComponent = clientScene.GetComponent<PlayerComponent>();
+                    return clientScene.CurrentScene().GetComponent<UnitComponent>().Get(playerComponent.MyId);
+            }
         }
 
-        public static Unit GetMyUnitFromCurrentScene(Scene currentScene)
+        public static NumericComponent GetMyNumericComponent(this Scene scene)
         {
-            PlayerComponent playerComponent = currentScene.Parent.GetParent<Scene>().GetComponent<PlayerComponent>();
-            return currentScene.GetComponent<UnitComponent>().Get(playerComponent.MyId);
+            return scene.GetMyUnit()?.GetComponent<NumericComponent>();
         }
     }
 }

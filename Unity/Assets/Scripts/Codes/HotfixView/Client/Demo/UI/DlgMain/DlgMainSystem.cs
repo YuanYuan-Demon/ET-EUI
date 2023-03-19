@@ -34,7 +34,7 @@ namespace ET.Client
 
         public static void Refresh(this DlgMain self)
         {
-            Unit unit = UnitHelper.GetMyUnitFromCurrentScene(self.ClientScene().CurrentScene());
+            Unit unit = UnitHelper.GetMyUnit(self.ClientScene().CurrentScene());
             NumericComponent numericComponent = unit.GetComponent<NumericComponent>();
 
             self.View.ET_LevelText.SetText($"Lv.{numericComponent.GetAsInt(NumericType.Level)}");

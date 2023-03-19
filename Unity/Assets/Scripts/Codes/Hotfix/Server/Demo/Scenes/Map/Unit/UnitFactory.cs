@@ -30,7 +30,7 @@ namespace ET.Server
                     }
 
                     //unit.AddComponent<BagComponent>();
-                    //unit.AddComponent<EquipmentsComponent>();
+                    unit.AddComponent<EquipmentsComponent>();
                     //unit.AddComponent<ForgeComponent>();
                     //unit.AddComponent<TasksComponent>();
 

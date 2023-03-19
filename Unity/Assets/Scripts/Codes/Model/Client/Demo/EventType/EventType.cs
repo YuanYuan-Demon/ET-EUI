@@ -94,18 +94,18 @@ namespace ET.Client.EventType
 
     #region 角色面板
 
-    public struct AddAttributeConfirm
-    {
-        public Scene ZoneScene;
-        public bool ConfirmAdd;
-        public Dictionary<int, long> Attributes;
-    }
-
     public struct AddAttribute
     {
         public Scene ZoneScene;
         public int NumericType;
         public int AddValue;
+    }
+
+    public struct AddAttributeConfirm
+    {
+        public Scene ZoneScene;
+        public bool ConfirmAdd;
+        public Dictionary<int, long> Attributes;
     }
 
     public struct GetPoint
