@@ -600,7 +600,7 @@ namespace ET
                     continue;
                 }
 
-                if (!(eventInfo.IEvent is AEvent<Event> aEvent))
+                if (eventInfo.IEvent is not AEvent<Event> aEvent)
                 {
                     Log.Error($"event error: {eventInfo.IEvent.GetType().Name}");
                     continue;
@@ -636,7 +636,7 @@ namespace ET
                     continue;
                 }
 
-                if (!(eventInfo.IEvent is AEvent<Event> aEvent))
+                if (eventInfo.IEvent is not AEvent<Event> aEvent)
                 {
                     Log.Error($"event error: {eventInfo.IEvent.GetType().Name}");
                     continue;

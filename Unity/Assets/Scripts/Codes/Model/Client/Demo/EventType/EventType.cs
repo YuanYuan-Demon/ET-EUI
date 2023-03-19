@@ -90,11 +90,6 @@ namespace ET.Client.EventType
         public Unit Unit;
     }
 
-    public struct AfterUnitCreateAsync
-    {
-        public Unit Unit;
-    }
-
     #endregion 地图
 
     #region 角色面板
@@ -137,34 +132,34 @@ namespace ET.Client.EventType
         public Scene ZoneScene;
     }
 
-    public struct AdventureBattleRoundViewAsync
+    public struct AdventureBattleRoundView
     {
         public Scene ZoneScene;
         public Unit AttackUnit;
         public Unit TargetUnit;
     }
 
-    public struct AdventureBattleRoundAsync
+    public struct AdventureBattleRound
     {
         public Scene ZoneScene;
         public Unit AttackUnit;
         public Unit TargetUnit;
     }
 
-    public struct ShowDamageValueViewAsync
+    public struct ShowDamageValueView
     {
         public Scene ZoneScene;
         public Unit TargetUnit;
         public int DamageValue;
     }
 
-    public struct AdventureBattleOverAsync
+    public struct AdventureBattleOver
     {
         public Scene ZoneScene;
         public Unit WinUnit;
     }
 
-    public struct AdventureBattleReportAsync
+    public struct AdventureBattleReport
     {
         public Scene ZoneScene;
         public int Round;

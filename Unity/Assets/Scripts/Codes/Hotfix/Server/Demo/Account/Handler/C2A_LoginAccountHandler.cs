@@ -18,12 +18,14 @@ namespace ET.Server
             {
                 response.Error = ErrorCode.ERR_RequestRepeatedly;
                 session.Disconnect();
+                response.Message = $"你的登录请求太过频繁,请稍后再试";
                 return;
             }
             //校验账号信息
             if (string.IsNullOrEmpty(request.AccountName) || string.IsNullOrEmpty(request.Password))
             {
                 response.Error = ErrorCode.ERR_AccountInfoIsNull;
+                response.Message = $"账号或密码不能为空";
                 session.Disconnect();
                 return;
             }
@@ -31,6 +33,7 @@ namespace ET.Server
             if (!Regex.IsMatch(request.AccountName.Trim(), @"^[a-zA-Z0-9_-]{4,20}$"))
             {
                 response.Error = ErrorCode.ERR_AccountNameFormError;
+                response.Message = $"账号格式错误";
                 session.Disconnect();
                 return;
             }
@@ -54,12 +57,14 @@ namespace ET.Server
                         if (account.AccountType == (int)AccountType.BlackList)
                         {
                             response.Error = ErrorCode.ERR_AccountStatusAbnormal;
+                            response.Message = $"当前账号状态异常";
                             session.Disconnect();
                             return;
                         }
                         if (account.Password != request.Password)
                         {
                             response.Error = ErrorCode.ERR_AccountInfoError;
+                            response.Message = $"账号或密码错误";
                             session.Disconnect();
                             return;
                         }
@@ -85,6 +90,7 @@ namespace ET.Server
                     if (loginAccountResponse?.Error != ErrorCode.ERR_Success)
                     {
                         response.Error = loginAccountResponse.Error;
+                        response.Message = loginAccountResponse?.Message;
                         session?.Disconnect();
                         account?.Dispose();
                         return;
