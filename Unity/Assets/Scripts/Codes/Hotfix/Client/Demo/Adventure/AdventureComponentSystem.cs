@@ -71,10 +71,11 @@ namespace ET.Client
             var battleLevelData = BattleLevelConfigCategory.Instance.Get(levelId);
 
             //根据关卡配置创建怪物
-            for (int i = 0; i < battleLevelData.MonsterIds.Length; i++)
+            int monsterCount = battleLevelData.MonsterIds.Length;
+            for (int i = 0; i < monsterCount; i++)
             {
                 Unit monsterUnit = await UnitFactory.CreateMonsterAsync(self.ClientScene().CurrentScene(), battleLevelData.MonsterIds[i]);
-                monsterUnit.Position = new float3(1.5f, -2 + i, 0);
+                monsterUnit.Position = new float3(3, -monsterCount + i * 2 + RandomHelper.RandomFloat(-0.5f, 0.5f), 0);
                 self.EnemyIdList.Add(monsterUnit.Id);
             }
         }

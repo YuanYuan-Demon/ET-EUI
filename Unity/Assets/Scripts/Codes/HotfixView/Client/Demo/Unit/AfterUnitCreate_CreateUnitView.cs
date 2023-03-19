@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Mathematics;
+using UnityEngine;
 
 namespace ET.Client
 {
@@ -13,14 +14,16 @@ namespace ET.Client
             GameObject go = UnityEngine.Object.Instantiate(bundleGameObject);
             go.transform.SetParent(GlobalComponent.Instance.Unit, true);
 
-            args.Unit.AddComponent<GameObjectComponent>().GameObject = go;
-            args.Unit.GetComponent<GameObjectComponent>().SpriteRenderer = go.GetComponent<SpriteRenderer>();
+            var goComponent = args.Unit.AddComponent<GameObjectComponent>();
+            goComponent.GameObject = go;
+            goComponent.SpriteRenderer = go.GetComponent<SpriteRenderer>();
             args.Unit.AddComponent<AnimatorComponent>();
             args.Unit.AddComponent<HeadHpViewComponent>();
 
-            args.Unit.Position = Vector3.zero;
-            args.Unit.Position = args.Unit.Type == UnitType.Player ? new Vector3(-1.5f, 0, 0)
-                : new Vector3(1.5f, RandomHelper.RandomNumber(-1, 1), 0);
+            args.Unit.Position = args.Unit.Type == UnitType.Player
+                ? new float3(-3f, 1, 0)
+                : new float3(3f, RandomHelper.RandomFloat(-2f, 2f), 0);
+            //goComponent.SpriteRenderer.sortingOrder = (int)args.Unit.Id;
             await ETTask.CompletedTask;
         }
     }

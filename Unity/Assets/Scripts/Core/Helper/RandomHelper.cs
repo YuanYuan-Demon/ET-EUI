@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Random = System.Random;
 
 namespace ET
 {
@@ -16,11 +15,13 @@ namespace ET
             return random ??= new Random(Guid.NewGuid().GetHashCode());
         }
 
+        #region 整数
+
         public static ulong RandUInt64()
         {
             int r1 = RandInt32();
             int r2 = RandInt32();
-            
+
             return ((ulong)r1 << 32) & (ulong)r2;
         }
 
@@ -31,7 +32,7 @@ namespace ET
 
         public static uint RandUInt32()
         {
-            return (uint) GetRandom().Next();
+            return (uint)GetRandom().Next();
         }
 
         public static long RandInt64()
@@ -52,6 +53,32 @@ namespace ET
             int value = GetRandom().Next(lower, upper);
             return value;
         }
+
+        #endregion 整数
+
+        #region 浮点数
+
+        public static float RandomFloat(float upper = 1)
+        {
+            return (float)random.NextDouble() * upper;
+        }
+
+        public static float RandomFloat(float lower, float upper)
+        {
+            return (float)(random.NextDouble() * (upper - lower) + lower);
+        }
+
+        public static double RandomDouble01(double upper = 1)
+        {
+            return random.NextDouble() * upper;
+        }
+
+        public static double RandomDouble(double lower, double upper)
+        {
+            return random.NextDouble() * (upper - lower) + lower;
+        }
+
+        #endregion 浮点数
 
         public static bool RandomBool()
         {
