@@ -341,7 +341,7 @@ namespace ET
 		public byte[] Unit { get; set; }
 
 		[ProtoMember(4)]
-		public List<byte[]> Entitys { get; set; } = new List<byte[]>();
+		public List<byte[]> Entitys { get; set; } = new();
 
 	}
 
@@ -605,10 +605,10 @@ namespace ET
 		public long UnitId { get; set; }
 
 		[ProtoMember(2)]
-		public List<string> EntityTypes { get; set; } = new List<string>();
+		public List<string> EntityTypes { get; set; } = new();
 
 		[ProtoMember(3)]
-		public List<byte[]> EntityBytes { get; set; } = new List<byte[]>();
+		public List<byte[]> EntityBytes { get; set; } = new();
 
 	}
 
@@ -640,7 +640,7 @@ namespace ET
 		public long UnitId { get; set; }
 
 		[ProtoMember(2)]
-		public List<string> ComponentNames { get; set; } = new List<string>();
+		public List<string> ComponentNames { get; set; } = new();
 
 	}
 
@@ -658,10 +658,10 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(4)]
-		public List<Entity> Entities { get; set; } = new List<Entity>();
+		public List<Entity> Entities { get; set; } = new();
 
 		[ProtoMember(5)]
-		public List<string> ComponentNames { get; set; } = new List<string>();
+		public List<string> ComponentNames { get; set; } = new();
 
 	}
 

@@ -8,10 +8,10 @@ namespace ET
 	public partial class HttpGetRouterResponse: ProtoObject
 	{
 		[ProtoMember(1)]
-		public List<string> Realms { get; set; } = new List<string>();
+		public List<string> Realms { get; set; } = new();
 
 		[ProtoMember(2)]
-		public List<string> Routers { get; set; } = new List<string>();
+		public List<string> Routers { get; set; } = new();
 
 	}
 
@@ -120,7 +120,7 @@ namespace ET
 	public partial class MoveInfo: ProtoObject
 	{
 		[ProtoMember(1)]
-		public List<Unity.Mathematics.float3> Points { get; set; } = new List<Unity.Mathematics.float3>();
+		public List<Unity.Mathematics.float3> Points { get; set; } = new();
 
 		[ProtoMember(2)]
 		public Unity.Mathematics.quaternion Rotation { get; set; }
@@ -162,7 +162,7 @@ namespace ET
 	public partial class M2C_CreateUnits: ProtoObject, IActorMessage
 	{
 		[ProtoMember(1)]
-		public List<UnitInfo> Units { get; set; } = new List<UnitInfo>();
+		public List<UnitInfo> Units { get; set; } = new();
 
 	}
 
@@ -192,7 +192,7 @@ namespace ET
 	public partial class M2C_RemoveUnits: ProtoObject, IActorMessage
 	{
 		[ProtoMember(2)]
-		public List<long> Units { get; set; } = new List<long>();
+		public List<long> Units { get; set; } = new();
 
 	}
 
@@ -228,7 +228,7 @@ namespace ET
 		public Unity.Mathematics.float3 Position { get; set; }
 
 		[ProtoMember(3)]
-		public List<Unity.Mathematics.float3> Points { get; set; } = new List<Unity.Mathematics.float3>();
+		public List<Unity.Mathematics.float3> Points { get; set; } = new();
 
 	}
 
@@ -572,7 +572,7 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(1)]
-		public List<NServerInfo> NServerInfos { get; set; } = new List<NServerInfo>();
+		public List<NServerInfo> NServerInfos { get; set; } = new();
 
 	}
 
@@ -637,7 +637,7 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(1)]
-		public List<NRoleInfo> NRoleInfos { get; set; } = new List<NRoleInfo>();
+		public List<NRoleInfo> NRoleInfos { get; set; } = new();
 
 	}
 
@@ -890,10 +890,10 @@ namespace ET
 		public int RpcId { get; set; }
 
 		[ProtoMember(1)]
-		public List<int> NumericTypes { get; set; } = new List<int>();
+		public List<int> NumericTypes { get; set; } = new();
 
 		[ProtoMember(2)]
-		public List<long> AddValues { get; set; } = new List<long>();
+		public List<long> AddValues { get; set; } = new();
 
 	}
 
@@ -1024,7 +1024,7 @@ namespace ET
 		public int RpcId { get; set; }
 
 		[ProtoMember(1)]
-		public List<ItemInfo> ItemInfoList { get; set; } = new List<ItemInfo>();
+		public List<ItemInfo> ItemInfoList { get; set; } = new();
 
 		[ProtoMember(2)]
 		public int ContainerType { get; set; }
@@ -1107,7 +1107,7 @@ namespace ET
 		public int Score { get; set; }
 
 		[ProtoMember(3)]
-		public List<AttributeEntryProto> AttributeEntryList { get; set; } = new List<AttributeEntryProto>();
+		public List<AttributeEntryProto> AttributeEntryList { get; set; } = new();
 
 	}
 
@@ -1256,7 +1256,7 @@ namespace ET
 	public partial class M2C_AllProductionList: ProtoObject, IActorMessage
 	{
 		[ProtoMember(1)]
-		public List<ProductionProto> ProductionProtoList { get; set; } = new List<ProductionProto>();
+		public List<ProductionProto> ProductionProtoList { get; set; } = new();
 
 	}
 
@@ -1290,7 +1290,7 @@ namespace ET
 	public partial class M2C_AllTaskInfoList: ProtoObject, IActorMessage
 	{
 		[ProtoMember(1)]
-		public List<TaskInfoProto> TaskInfoProtoList { get; set; } = new List<TaskInfoProto>();
+		public List<TaskInfoProto> TaskInfoProtoList { get; set; } = new();
 
 	}
 

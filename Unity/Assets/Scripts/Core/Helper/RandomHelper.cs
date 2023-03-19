@@ -5,7 +5,7 @@ using Random = System.Random;
 namespace ET
 {
     // 支持多线程
-    public static class RandomGenerator
+    public static class RandomHelper
     {
         [StaticField]
         [ThreadStatic]

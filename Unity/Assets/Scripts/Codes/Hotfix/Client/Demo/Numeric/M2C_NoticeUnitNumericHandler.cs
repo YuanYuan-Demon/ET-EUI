@@ -1,6 +1,6 @@
 ﻿namespace ET.Client
 {
-    [MessageHandler(SceneType.Current)]
+    [MessageHandler(SceneType.Client)]
     public class M2C_NoticeUnitNumericHandler : AMHandler<M2C_NoticeUnitNumeric>
     {
         protected override async ETTask Run(Session session, M2C_NoticeUnitNumeric message)
@@ -11,8 +11,8 @@
             //    myUnit.GetComponent<NumericComponent>().Set(message.NumericType, message.NewValue);
             //    return;
             //}
-            await ETTask.CompletedTask;
             session.ClientScene().GetMyNumericComponent().Set(message.NumericType, message.NewValue);
+            await ETTask.CompletedTask;
         }
     }
 }

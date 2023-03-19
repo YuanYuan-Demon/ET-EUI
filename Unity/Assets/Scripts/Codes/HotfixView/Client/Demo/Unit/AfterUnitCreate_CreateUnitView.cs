@@ -16,11 +16,11 @@ namespace ET.Client
             args.Unit.AddComponent<GameObjectComponent>().GameObject = go;
             args.Unit.GetComponent<GameObjectComponent>().SpriteRenderer = go.GetComponent<SpriteRenderer>();
             args.Unit.AddComponent<AnimatorComponent>();
-            //args.Unit.AddComponent<HeadHpViewComponent>();
+            args.Unit.AddComponent<HeadHpViewComponent>();
 
             args.Unit.Position = Vector3.zero;
             args.Unit.Position = args.Unit.Type == UnitType.Player ? new Vector3(-1.5f, 0, 0)
-                : new Vector3(1.5f, RandomGenerator.RandomNumber(-1, 1), 0);
+                : new Vector3(1.5f, RandomHelper.RandomNumber(-1, 1), 0);
             await ETTask.CompletedTask;
         }
     }

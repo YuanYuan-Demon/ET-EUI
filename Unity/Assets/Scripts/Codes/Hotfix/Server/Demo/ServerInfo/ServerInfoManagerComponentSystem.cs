@@ -49,7 +49,7 @@
                     newServerInfo.ServerName = info.ServerName;
                     newServerInfo.Status = (int)ServerStatus.Normal;
                     self.ServerInfos.Add(newServerInfo);
-                    self.AddChild(newServerInfo);
+                    //self.AddChild(newServerInfo);
                     DBManagerComponent.Instance.GetZoneDB(self.DomainZone()).SaveNotWait(newServerInfo).Coroutine();
                 }
                 return;

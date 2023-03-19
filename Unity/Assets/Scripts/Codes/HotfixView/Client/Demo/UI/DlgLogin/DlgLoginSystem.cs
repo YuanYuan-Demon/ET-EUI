@@ -24,8 +24,7 @@ namespace ET.Client
                     || string.IsNullOrEmpty(self.View.EInput_PasswordInputField.text))
                 {
                     Log.Error("账号或密码不能为空");
-                    self.ClientScene().GetComponent<UIComponent>()
-                        .ShowErrorBox("账号或密码不能为空");
+                    self.ShowErrorBox("账号或密码不能为空");
                     return;
                 }
                 var err = await LoginHelper.Login(
@@ -36,7 +35,7 @@ namespace ET.Client
                 if (err.Code != ErrorCode.ERR_Success)
                 {
                     Log.Error(err.ToString());
-                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(err.Message);
+                    self.ShowErrorBox(err.Message);
                     return;
                 }
 
@@ -44,17 +43,17 @@ namespace ET.Client
                 if (err.Code != ErrorCode.ERR_Success)
                 {
                     Log.Error(err.ToString());
-                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(err.Message);
+                    self.ShowErrorBox(err.Message);
                     return;
                 }
                 //显示登陆之后的页面逻辑
-                self.DomainScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_Login);
-                self.DomainScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Server);
+                self.HideWindow(WindowID.WindowID_Login);
+                self.ShowWindow(WindowID.WindowID_Server);
             }
             catch (Exception e)
             {
                 Log.Error(e);
-                self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(e);
+                self.ShowErrorBox(e);
             }
         }
     }

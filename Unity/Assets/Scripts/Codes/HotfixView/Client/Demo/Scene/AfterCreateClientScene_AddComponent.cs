@@ -11,7 +11,7 @@ namespace ET.Client
             scene.AddComponent<UIPathComponent>();
             scene.AddComponent<UIComponent>();
             scene.AddComponent<RedDotComponent>();
-            //scene.AddComponent<FlyDamageValueViewComponent>();
+            scene.AddComponent<FlyDamageValueViewComponent>();
 
             scene.GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Login);
             await ETTask.CompletedTask;

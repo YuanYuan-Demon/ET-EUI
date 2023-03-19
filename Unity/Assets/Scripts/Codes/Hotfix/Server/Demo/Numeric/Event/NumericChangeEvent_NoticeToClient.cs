@@ -7,13 +7,13 @@ namespace ET.Server
     {
         protected override async ETTask Run(Scene scene, NumbericChange nc)
         {
-            await ETTask.CompletedTask;
             //只允许通知玩家Unit
             if (nc.Unit.Type != UnitType.Player)
             {
                 return;
             }
             nc.Unit.GetComponent<NumericNoticeComponent>()?.NoticeImmediately(nc);
+            await ETTask.CompletedTask;
         }
     }
 }

@@ -108,7 +108,7 @@ namespace ET.Server
                     session.AddComponent<AccountCheckOutTimeComponent, long>(account.Id);
 
                     //发放登陆令牌
-                    string token = TimeHelper.ServerNow().ToString() + RandomGenerator.RandomNumber(int.MinValue, int.MinValue).ToString();
+                    string token = TimeHelper.ServerNow().ToString() + RandomHelper.RandomNumber(int.MinValue, int.MinValue).ToString();
                     //scene.GetComponent<TokenComponent>().Remove(account.Id);
                     scene.GetComponent<TokenComponent>().AddOrModify(account.Id, token);
 

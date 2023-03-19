@@ -7,7 +7,7 @@
         {
             #region 发放本Gate登陆令牌
 
-            string key = RandomGenerator.RandInt64().ToString() + TimeHelper.ServerNow().ToString();
+            string key = RandomHelper.RandInt64().ToString() + TimeHelper.ServerNow().ToString();
             //scene.GetComponent<GateSessionKeyComponent>().Remove(request.AccountId);
             scene.GetComponent<GateSessionKeyComponent>().Add(request.AccountId, key);
             response.GateSessionToken = key;

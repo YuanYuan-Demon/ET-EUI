@@ -10,7 +10,6 @@ namespace ET.Client.EventType
 
     public struct AppStartInitFinish
     {
-        public Scene ZoneScene;
     }
 
     #endregion 初始化
@@ -19,7 +18,6 @@ namespace ET.Client.EventType
 
     public struct SceneChangeStart
     {
-        public Scene ZoneScene;
     }
 
     public struct SceneChangeFinish
@@ -30,12 +28,6 @@ namespace ET.Client.EventType
     {
     }
 
-    public struct SceneChangeFinishAsync
-    {
-        public Scene ZoneScene;
-        public Scene CurrentScene;
-    }
-
     public struct PingChange
     {
         public Scene ZoneScene;
@@ -44,7 +36,6 @@ namespace ET.Client.EventType
 
     public struct AfterCreateZoneScene
     {
-        public Scene ZoneScene;
     }
 
     public struct AfterCreateCurrentScene
@@ -63,7 +54,6 @@ namespace ET.Client.EventType
 
     public struct LoginFinish
     {
-        public Scene ZoneScene;
     }
 
     public struct LoadingBegin
@@ -82,7 +72,6 @@ namespace ET.Client.EventType
 
     public struct EnterMapFinish
     {
-        public Scene ZoneScene;
     }
 
     public struct AfterUnitCreate
@@ -110,12 +99,10 @@ namespace ET.Client.EventType
 
     public struct GetPoint
     {
-        public Scene ZoneScene;
     }
 
     public struct PointIsZero
     {
-        public Scene ZoneScene;
     }
 
     #endregion 角色面板
@@ -124,77 +111,53 @@ namespace ET.Client.EventType
 
     public struct StartGameLevel
     {
-        public Scene ZoneScene;
     }
 
     public struct AdventureRoundReset
     {
-        public Scene ZoneScene;
     }
 
     public struct AdventureBattleRoundView
     {
-        public Scene ZoneScene;
         public Unit AttackUnit;
         public Unit TargetUnit;
     }
 
     public struct AdventureBattleRound
     {
-        public Scene ZoneScene;
         public Unit AttackUnit;
         public Unit TargetUnit;
     }
 
     public struct ShowDamageValueView
     {
-        public Scene ZoneScene;
         public Unit TargetUnit;
         public int DamageValue;
     }
 
     public struct AdventureBattleOver
     {
-        public Scene ZoneScene;
         public Unit WinUnit;
     }
 
     public struct AdventureBattleReport
     {
-        public Scene ZoneScene;
         public int Round;
         public BattleRoundResult BattleRoundResult;
     }
 
-    public class ShowAdventureHpBar : DisposeObject
+    public struct ShowAdventureHpBar
     {
-        [StaticField]
-        public static readonly ShowAdventureHpBar Instance = new();
-
         public Unit Unit;
         public bool isShow;
-
-        public override void Dispose()
-        {
-            this.Unit = null;
-        }
     }
 
     #endregion 关卡系统
 
     #region 打造系统
 
-    public class MakeQueueOver : DisposeObject
+    public struct MakeQueueOver
     {
-        [StaticField]
-        public static readonly MakeQueueOver Instance = new();
-
-        public Scene ZoneScene;
-
-        public override void Dispose()
-        {
-            this.ZoneScene = null;
-        }
     }
 
     #endregion 打造系统
@@ -203,7 +166,6 @@ namespace ET.Client.EventType
 
     public struct UpdateTaskInfo
     {
-        public Scene ZoneScene;
     }
 
     #endregion 任务系统
@@ -212,7 +174,6 @@ namespace ET.Client.EventType
 
     public struct UpdateChatInfo
     {
-        public Scene ZoneScene;
     }
 
     #endregion 聊天系统

@@ -20,14 +20,14 @@
             //添加自动保存数据组件
             unit.AddComponent<UnitDBSaveComponent>();
             //添加数值监听组件
-            //unit.AddComponent<NumericNoticeComponent>();
+            unit.AddComponent<NumericNoticeComponent>();
             //添加冒险闯关校验组件
-            //unit.AddComponent<AdventureCheckComponent>();
+            unit.AddComponent<AdventureCheckComponent>();
 
             //添加Actor通信组件
             unit.AddComponent<MailBoxComponent>();
 
-            //// 通知客户端开始切场景
+            // 通知客户端开始切场景
             //M2C_StartSceneChange m2CStartSceneChange = new()
             //{
             //    SceneInstanceId = scene.InstanceId,

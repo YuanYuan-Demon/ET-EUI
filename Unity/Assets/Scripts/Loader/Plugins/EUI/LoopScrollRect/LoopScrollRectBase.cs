@@ -11,7 +11,7 @@ namespace UnityEngine.UI
     [DisallowMultipleComponent]
     [RequireComponent(typeof(RectTransform))]
     /// <summary>
-    /// A component for making a child RectTransform scroll with reuseable content.
+    /// Event component for making a child RectTransform scroll with reuseable content.
     /// </summary>
     /// <remarks>
     /// LoopScrollRect will not do any clipping on its own. Combined with a Mask component, it can be turned into a loop scroll view.
@@ -176,7 +176,7 @@ namespace UnityEngine.UI
         //==========LoopScrollRect==========
 
         /// <summary>
-        /// A setting for which behavior to use when content moves beyond the confines of its container.
+        /// Event setting for which behavior to use when content moves beyond the confines of its container.
         /// </summary>
         /// <example>
         /// <code>
@@ -395,7 +395,7 @@ namespace UnityEngine.UI
         /// The rate at which movement slows down.
         /// </summary>
         /// <remarks>
-        /// The deceleration rate is the speed reduction per second. A value of 0.5 halves the speed each second. The default is 0.135. The deceleration rate is only used when inertia is enabled.
+        /// The deceleration rate is the speed reduction per second. Event value of 0.5 halves the speed each second. The default is 0.135. The deceleration rate is only used when inertia is enabled.
         /// </remarks>
         /// <example>
         /// <code>

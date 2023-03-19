@@ -12,18 +12,18 @@ namespace ET
         [ProtoIgnore]
         [BsonIgnore]
         private Dictionary<int, BattleLevelConfig> dict = new Dictionary<int, BattleLevelConfig>();
-		
+
         [BsonElement]
         [ProtoMember(1)]
         private List<BattleLevelConfig> list = new List<BattleLevelConfig>();
-		
+
         public void Merge(object o)
         {
             BattleLevelConfigCategory s = o as BattleLevelConfigCategory;
             this.list.AddRange(s.list);
         }
-		
-		[ProtoAfterDeserialization]        
+
+        [ProtoAfterDeserialization]
         public void ProtoEndInit()
         {
             foreach (BattleLevelConfig config in list)
@@ -31,23 +31,22 @@ namespace ET
                 config.AfterEndInit();
                 this.dict.Add(config.Id, config);
             }
-            this.list.Clear();
-            
+
             this.AfterEndInit();
         }
-		
+
         public BattleLevelConfig Get(int id)
         {
             this.dict.TryGetValue(id, out BattleLevelConfig item);
 
             if (item == null)
             {
-                throw new Exception($"配置找不到，配置表名: {nameof (BattleLevelConfig)}，配置id: {id}");
+                throw new Exception($"配置找不到，配置表名: {nameof(BattleLevelConfig)}，配置id: {id}");
             }
 
             return item;
         }
-		
+
         public bool Contain(int id)
         {
             return this.dict.ContainsKey(id);
@@ -69,23 +68,26 @@ namespace ET
     }
 
     [ProtoContract]
-	public partial class BattleLevelConfig: ProtoObject, IConfig
-	{
-		/// <summary>Id</summary>
-		[ProtoMember(1)]
-		public int Id { get; set; }
-		/// <summary>怪物列表</summary>
-		[ProtoMember(2)]
-		public int[] MonsterIds { get; set; }
-		/// <summary>关卡名字</summary>
-		[ProtoMember(3)]
-		public string Name { get; set; }
-		/// <summary>准入等级范围</summary>
-		[ProtoMember(4)]
-		public int[] MiniEnterLevel { get; set; }
-		/// <summary>战斗胜利获取的经验值</summary>
-		[ProtoMember(5)]
-		public int RewardExp { get; set; }
+    public partial class BattleLevelConfig : ProtoObject, IConfig
+    {
+        /// <summary>Id</summary>
+        [ProtoMember(1)]
+        public int Id { get; set; }
 
-	}
+        /// <summary>怪物列表</summary>
+        [ProtoMember(2)]
+        public int[] MonsterIds { get; set; }
+
+        /// <summary>关卡名字</summary>
+        [ProtoMember(3)]
+        public string Name { get; set; }
+
+        /// <summary>准入等级范围</summary>
+        [ProtoMember(4)]
+        public int[] MiniEnterLevel { get; set; }
+
+        /// <summary>战斗胜利获取的经验值</summary>
+        [ProtoMember(5)]
+        public int RewardExp { get; set; }
+    }
 }
