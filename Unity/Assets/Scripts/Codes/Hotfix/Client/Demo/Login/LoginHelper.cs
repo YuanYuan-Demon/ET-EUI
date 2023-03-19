@@ -9,7 +9,7 @@ namespace ET.Client
     {
         #region 登录相关
 
-        public static async ETTask<int> Login(Scene clientScene, string account, string password)
+        public static async ETTask<ErrorMessage> Login(Scene clientScene, string account, string password)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace ET.Client
                 if (response.Error != ErrorCode.ERR_Success)
                 {
                     session?.Dispose();
-                    return response.Error;
+                    return new() { Code = response.Error, Message = response.Message };
                 }
                 clientScene.AddComponent<SessionComponent>().Session = session;
                 //clientScene.GetComponent<SessionComponent>().Session.AddComponent<PingComponent>();
@@ -51,7 +51,7 @@ namespace ET.Client
             {
                 Log.Error(e);
             }
-            return ErrorCode.ERR_Success;
+            return new() { Code = ErrorCode.ERR_Success };
         }
 
         public static async ETTask LoginExample(Scene clientScene, string account, string password)
@@ -99,7 +99,7 @@ namespace ET.Client
         /// </summary>
         /// <param name="zoneScene"> </param>
         /// <returns> 状态码 </returns>
-        public static async ETTask<int> GetServerInfos(Scene zoneScene)
+        public static async ETTask<ErrorMessage> GetServerInfos(Scene zoneScene)
         {
             A2C_GetServerInfos response;
             try
@@ -113,12 +113,12 @@ namespace ET.Client
             catch (Exception e)
             {
                 Log.Error(e);
-                return ErrorCode.ERR_NetWorkError;
+                return new(ErrorCode.ERR_NetWorkError, "网络异常");
             }
 
             if (response.Error != ErrorCode.ERR_Success)
             {
-                return response.Error;
+                return new(response.Error, response.Message);
             }
             //记录服务器列表信息
             var serverInfoComponent = zoneScene.GetComponent<ServerInfosComponent>();
@@ -128,7 +128,7 @@ namespace ET.Client
                 serverInfo.FromNServerInfo(nServerInfo);
                 serverInfoComponent.Add(serverInfo);
             }
-            return ErrorCode.ERR_Success;
+            return ErrorMessage.Success;
         }
 
         /// <summary>

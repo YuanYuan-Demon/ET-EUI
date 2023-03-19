@@ -28,23 +28,23 @@ namespace ET.Client
                         .ShowErrorBox("账号或密码不能为空");
                     return;
                 }
-                int errorCode = await LoginHelper.Login(
+                var err = await LoginHelper.Login(
                     self.ClientScene(),
                     self.View.EInput_AccountInputField.text,
                     self.View.EInput_PasswordInputField.text);
 
-                if (errorCode != ErrorCode.ERR_Success)
+                if (err.Code != ErrorCode.ERR_Success)
                 {
-                    Log.Error(errorCode.ToString());
-                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(errorCode);
+                    Log.Error(err.ToString());
+                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(err.Message);
                     return;
                 }
 
-                errorCode = await LoginHelper.GetServerInfos(self.DomainScene());
-                if (errorCode != ErrorCode.ERR_Success)
+                err = await LoginHelper.GetServerInfos(self.DomainScene());
+                if (err.Code != ErrorCode.ERR_Success)
                 {
-                    Log.Error(errorCode.ToString());
-                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(errorCode);
+                    Log.Error(err.ToString());
+                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(err.Message);
                     return;
                 }
                 //显示登陆之后的页面逻辑
