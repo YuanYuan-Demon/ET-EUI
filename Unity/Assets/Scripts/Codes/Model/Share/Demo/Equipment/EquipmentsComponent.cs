@@ -12,8 +12,5 @@ namespace ET
         /// </summary>
         [BsonIgnore]
         public Dictionary<int, Item> EquipItems = new();
-
-        [BsonIgnore]
-        public M2C_ItemUpdateOpInfo message = new() { ContainerType = (int)ItemContainerType.RoleInfo };
     }
 }

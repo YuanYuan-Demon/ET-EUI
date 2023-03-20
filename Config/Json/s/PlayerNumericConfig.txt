@@ -1,5 +1,5 @@
 {"list":[
-{"_t":"PlayerNumericConfig","_id":1011,"BaseValue":50,"isNeedShow":1,"isAddPoint":0},
+{"_t":"PlayerNumericConfig","_id":1011,"BaseValue":100,"isNeedShow":1,"isAddPoint":0},
 {"_t":"PlayerNumericConfig","_id":1012,"BaseValue":0,"isNeedShow":1,"isAddPoint":0},
 {"_t":"PlayerNumericConfig","_id":1002,"BaseValue":100,"isNeedShow":1,"isAddPoint":0},
 {"_t":"PlayerNumericConfig","_id":1013,"BaseValue":100,"isNeedShow":0,"isAddPoint":0},

@@ -61,7 +61,7 @@ namespace ET.Server
             if (self.EntityChangeTypes.Count <= 0)
                 return;
             Unit unit = self.GetParent<Unit>();
-            Other2UnitCache_AddOrUpdateUnit request = new Other2UnitCache_AddOrUpdateUnit();
+            Other2UnitCache_AddOrUpdateUnit request = new();
             request.UnitId = unit.Id;
             request.EntityTypes.Add(unit.GetType().FullName);
             request.EntityBytes.Add(MongoHelper.Serialize(unit));

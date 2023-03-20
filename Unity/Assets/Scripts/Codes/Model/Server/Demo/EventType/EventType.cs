@@ -37,8 +37,8 @@
     public struct ChangeEquipItem
     {
         public Unit Unit;
-        //public Item Item;
-        //public EquipOp EquipOp;
+        public Item Item;
+        public EquipOp EquipOp;
     }
 
     #endregion 背包系统

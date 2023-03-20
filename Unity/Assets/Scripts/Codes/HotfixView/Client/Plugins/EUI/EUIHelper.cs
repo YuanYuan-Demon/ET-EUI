@@ -67,6 +67,7 @@ namespace ET.Client
         {
             loopScrollRect.gameObject.SetActive(isVisible);
             loopScrollRect.totalCount = count;
+            //await TimerComponent.Instance.WaitAsync(10);
             loopScrollRect.RefillCells();
         }
 

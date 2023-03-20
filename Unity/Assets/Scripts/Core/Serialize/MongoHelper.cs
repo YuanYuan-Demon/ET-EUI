@@ -13,7 +13,7 @@ namespace ET
 {
     public static class MongoHelper
     {
-        private class StructBsonSerialize<TValue>: StructSerializerBase<TValue> where TValue : struct
+        private class StructBsonSerialize<TValue> : StructSerializerBase<TValue> where TValue : struct
         {
             public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, TValue value)
             {
@@ -78,7 +78,11 @@ namespace ET
         }
 
         [StaticField]
-        private static readonly JsonWriterSettings defaultSettings = new() { OutputMode = JsonOutputMode.RelaxedExtendedJson };
+        private static readonly JsonWriterSettings defaultSettings = new()
+        {
+            OutputMode = JsonOutputMode.RelaxedExtendedJson,
+            Indent = true
+        };
 
         static MongoHelper()
         {
@@ -96,7 +100,7 @@ namespace ET
             Dictionary<string, Type> types = EventSystem.Instance.GetTypes();
             foreach (Type type in types.Values)
             {
-                if (!type.IsSubclassOf(typeof (Object)))
+                if (!type.IsSubclassOf(typeof(Object)))
                 {
                     continue;
                 }
@@ -116,7 +120,7 @@ namespace ET
 
         public static void RegisterStruct<T>() where T : struct
         {
-            BsonSerializer.RegisterSerializer(typeof (T), new StructBsonSerialize<T>());
+            BsonSerializer.RegisterSerializer(typeof(T), new StructBsonSerialize<T>());
         }
 
         public static string ToJson(object obj)
@@ -157,7 +161,7 @@ namespace ET
             {
                 BsonSerializationContext context = BsonSerializationContext.CreateRoot(bsonWriter);
                 BsonSerializationArgs args = default;
-                args.NominalType = typeof (object);
+                args.NominalType = typeof(object);
                 IBsonSerializer serializer = BsonSerializer.LookupSerializer(args.NominalType);
                 serializer.Serialize(context, args, message);
             }
@@ -208,18 +212,18 @@ namespace ET
             {
                 using (MemoryStream memoryStream = new MemoryStream(bytes))
                 {
-                    return (T)BsonSerializer.Deserialize(memoryStream, typeof (T));
+                    return (T)BsonSerializer.Deserialize(memoryStream, typeof(T));
                 }
             }
             catch (Exception e)
             {
-                throw new Exception($"from bson error: {typeof (T).Name}", e);
+                throw new Exception($"from bson error: {typeof(T).Name}", e);
             }
         }
 
         public static T Deserialize<T>(byte[] bytes, int index, int count)
         {
-            return (T)Deserialize(typeof (T), bytes, index, count);
+            return (T)Deserialize(typeof(T), bytes, index, count);
         }
 
         public static T Clone<T>(T t)

@@ -54,5 +54,10 @@
         {
             return scene.GetMyUnit()?.GetComponent<NumericComponent>();
         }
+
+        public static NumericComponent GetMyNumericComponent(this Entity entity)
+        {
+            return entity.GetMyUnit()?.GetComponent<NumericComponent>();
+        }
     }
 }

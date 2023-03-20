@@ -41,8 +41,8 @@
             MessageHelper.SendToClient(unit, m2CCreateUnits);
 
             //通知客户端同步背包信息
-            //ItemUpdateNoticeHelper.SyncAllBagItems(unit);
-            //ItemUpdateNoticeHelper.SyncAllEquipItems(unit);
+            ItemUpdateNoticeHelper.SyncAllBagItems(unit);
+            ItemUpdateNoticeHelper.SyncAllEquipItems(unit);
 
             //通知客户端同步打造信息
             //ForgeHelper.SyncAllProduction(unit);

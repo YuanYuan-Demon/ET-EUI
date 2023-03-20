@@ -1,10 +1,8 @@
-﻿
-using MongoDB.Bson.Serialization.Attributes;
-
+﻿using MongoDB.Bson.Serialization.Attributes;
 
 namespace ET
 {
-    [ChildOf(typeof(EquipmentsComponent))]
+    [ChildOf]
     public class Item : Entity, IAwake<int>, IDestroy, ISerializeToEntity
     {
         /// <summary>
@@ -16,7 +14,6 @@ namespace ET
         /// 物品品质
         /// </summary>
         public int Quality = 0;
-
 
         /// <summary>
         /// 物品配置数据
