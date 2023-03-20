@@ -75,7 +75,7 @@ namespace ET.Client
             for (int i = 0; i < monsterCount; i++)
             {
                 Unit monsterUnit = await UnitFactory.CreateMonsterAsync(self.ClientScene().CurrentScene(), battleLevelData.MonsterIds[i]);
-                monsterUnit.Position = new float3(3, -monsterCount + i * 2 + RandomHelper.RandomFloat(-0.5f, 0.5f), 0);
+                monsterUnit.Position = new float3(2, -monsterCount - 1 + i * 2 + RandomHelper.RandomFloat(-0.5f, 0.5f), 0);
                 self.EnemyIdList.Add(monsterUnit.Id);
             }
         }

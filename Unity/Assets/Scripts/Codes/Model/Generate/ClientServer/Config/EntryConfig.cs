@@ -31,7 +31,6 @@ namespace ET
                 config.AfterEndInit();
                 this.dict.Add(config.Id, config);
             }
-            this.list.Clear();
             
             this.AfterEndInit();
         }

@@ -21,9 +21,8 @@ namespace ET.Client
             args.Unit.AddComponent<HeadHpViewComponent>();
 
             args.Unit.Position = args.Unit.Type == UnitType.Player
-                ? new float3(-3f, 1, 0)
-                : new float3(3f, RandomHelper.RandomFloat(-2f, 2f), 0);
-            //goComponent.SpriteRenderer.sortingOrder = (int)args.Unit.Id;
+                ? new float3(-3f, -2.5f, 0)
+                : new float3(2f, RandomHelper.RandomFloat(-2f, 2f), 0);
             await ETTask.CompletedTask;
         }
     }
