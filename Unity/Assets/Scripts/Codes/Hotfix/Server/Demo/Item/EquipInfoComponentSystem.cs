@@ -57,7 +57,7 @@
         /// <summary>
         /// 创建随机词条
         /// </summary>
-        /// <param name="self"></param>
+        /// <param name="self">装备信息组件</param>
         public static void CreateEntry(this EquipInfoComponent self)
         {
             ItemConfig itemConfig = self.GetParent<Item>().Config;

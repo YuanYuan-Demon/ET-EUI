@@ -17,7 +17,7 @@ namespace ET.Client
 
             clientScene.AddComponent<BagComponent>();
             clientScene.AddComponent<EquipmentsComponent>();
-            //clientScene.AddComponent<ForgeComponent>();
+            clientScene.AddComponent<ForgeComponent>();
             //clientScene.AddComponent<TasksComponent>();
             //clientScene.AddComponent<RankComponent>();
             //clientScene.AddComponent<ChatComponent>();

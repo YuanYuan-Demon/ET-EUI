@@ -45,9 +45,9 @@ namespace ET
         /// <summary>
         /// 获取lower与Upper之间的随机数,包含下限，不包含上限
         /// </summary>
-        /// <param name="lower"></param>
-        /// <param name="upper"></param>
-        /// <returns></returns>
+        /// <param name="lower">下届</param>
+        /// <param name="upper">上届</param>
+        /// <returns>随机数</returns>
         public static int RandomNumber(int lower, int upper)
         {
             int value = GetRandom().Next(lower, upper);

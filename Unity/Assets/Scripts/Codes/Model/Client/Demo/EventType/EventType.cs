@@ -160,6 +160,10 @@ namespace ET.Client.EventType
     {
     }
 
+    public struct ReceiveProduct
+    {
+    }
+
     #endregion 打造系统
 
     #region 任务系统
