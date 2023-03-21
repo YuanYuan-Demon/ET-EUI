@@ -13,7 +13,7 @@ namespace ET.Server
                 for (int i = 0; i < request.EntityTypes.Count; i++)
                 {
                     Type type = EventSystem.Instance.GetType(request.EntityTypes[i]);
-                    Entity entity = MongoHelper.Deserialize(type, request.EntityBytes[i]) as Entity;
+                    var entity = MongoHelper.Deserialize(type, request.EntityBytes[i]) as Entity;
                     entityList.Add(entity);
                 }
                 await unitCacheCompnent.AddOrUpdate(request.UnitId, entityList);
@@ -22,7 +22,8 @@ namespace ET.Server
 
         protected override async ETTask Run(Scene scene, Other2UnitCache_AddOrUpdateUnit request, UnitCache2Other_AddOrUpdateUnit response)
         {
-            await UpdateUnitCacheAsync(scene, request, response);
+            UpdateUnitCacheAsync(scene, request, response).Coroutine();
+            await ETTask.CompletedTask;
         }
     }
 }

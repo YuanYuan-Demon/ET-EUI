@@ -12,6 +12,7 @@
             protected override void Awake(UnitCacheComponent self)
             {
                 self.UnitCacheNames.Clear();
+                //读取所有需要缓存的类型名称
                 foreach (var type in EventSystem.Instance.GetTypes().Values)
                 {
                     if (type != typeof(IUnitCache) && typeof(IUnitCache).IsAssignableFrom(type))
@@ -19,6 +20,7 @@
                         self.UnitCacheNames.Add(type.Name);
                     }
                 }
+                //初始化所有缓存
                 foreach (var key in self.UnitCacheNames)
                 {
                     var unitCache = self.AddChild<UnitCache>();

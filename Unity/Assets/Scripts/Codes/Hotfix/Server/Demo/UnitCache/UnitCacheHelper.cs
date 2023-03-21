@@ -1,4 +1,5 @@
 ﻿using System;
+using MongoDB.Bson;
 
 namespace ET.Server
 {
@@ -9,7 +10,7 @@ namespace ET.Server
             GateMapComponent gateMapComponent = player.AddComponent<GateMapComponent>();
             gateMapComponent.Scene = await SceneFactory.Create(gateMapComponent, "GateMap", SceneType.Map);
             // 获取玩家缓存
-            Unit unit = await UnitCacheHelper.GetUnitCache(gateMapComponent.Scene, player.UnitId);
+            Unit unit = await GetUnitCache(gateMapComponent.Scene, player.UnitId);
             bool isNewUnit = unit is null;
             if (isNewUnit)
             {
@@ -19,8 +20,9 @@ namespace ET.Server
                 var roleInfos = await DBManagerComponent.Instance.GetZoneDB(player.DomainZone()).Query<RoleInfo>(d => d.Id == player.UnitId);
                 unit.AddComponent(roleInfos[0]);
 
-                UnitCacheHelper.AddOrUpdateUnitAllCache(unit);
+                AddOrUpdateUnitAllCache(unit);
             }
+
             return (isNewUnit, unit);
         }
 
@@ -54,7 +56,7 @@ namespace ET.Server
         {
             var message = new Other2UnitCache_AddOrUpdateUnit() { UnitId = self.Id, };
             message.EntityTypes.Add(typeof(T).FullName);
-            message.EntityBytes.Add(MongoHelper.Serialize(self));
+            message.EntityBytes.Add(self.ToBson());
             await MessageHelper.CallActor(StartSceneConfigCategory.Instance.GetUnitCacheConfig(self.Id).InstanceId, message);
         }
 

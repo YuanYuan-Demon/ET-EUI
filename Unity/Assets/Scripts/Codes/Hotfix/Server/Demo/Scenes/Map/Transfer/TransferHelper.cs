@@ -8,7 +8,7 @@ namespace ET.Server
         {
             await Game.WaitFrameFinish();
 
-            await TransferHelper.Transfer(unit, sceneInstanceId, sceneName);
+            await Transfer(unit, sceneInstanceId, sceneName);
         }
 
         public static async ETTask Transfer(Unit unit, long sceneInstanceId, string sceneName)

@@ -13,6 +13,7 @@ namespace ET.Server
             Dictionary<string, Entity> dictionary = ObjectPool.Instance.Fetch(typeof(Dictionary<string, Entity>)) as Dictionary<string, Entity>;
             try
             {
+                //若未填写组件名,默认获取所有需要缓存的实体
                 if (request.ComponentNames.Count == 0)
                 {
                     dictionary.Add(nameof(Unit), null);
@@ -21,6 +22,7 @@ namespace ET.Server
                         dictionary.Add(key, null);
                     }
                 }
+                //根据请求的组件列表获取缓存
                 else
                 {
                     foreach (var name in request.ComponentNames)
