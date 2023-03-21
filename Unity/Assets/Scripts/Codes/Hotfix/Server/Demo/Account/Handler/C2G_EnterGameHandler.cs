@@ -3,23 +3,22 @@
 namespace ET.Server
 {
     [FriendOf(typeof(SessionStatusComponent))]
-    //[FriendOf(typeof(ET.RoleInfo))]
-    //[FriendOf(typeof(ET.UnitGateComponent))]
     [MessageHandler(SceneType.Gate)]
+    [FriendOf(typeof(RoleInfo))]
     public class C2G_EnterGameHandler : AMRpcHandler<C2G_EnterGame, G2C_EnterGame>
     {
-        //private static async ETTask<long> EnterWorldChatServer(Unit unit)
-        //{
-        //    StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(unit.DomainZone(), "ChatInfo");
-        //    Chat2G_EnterChat response = await MessageHelper.CallActor(startSceneConfig.InstanceId, new G2Chat_EnterChat()
-        //    {
-        //        UnitId = unit.Id,
-        //        Name = unit.GetComponent<RoleInfo>().Name,
-        //        GateSessionActorId = unit.GetComponent<UnitGateComponent>().GateSessionActorId
-        //    }) as Chat2G_EnterChat;
+        private static async ETTask<long> EnterWorldChatServer(Unit unit)
+        {
+            StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(unit.DomainZone(), "Chat");
+            Chat2G_EnterChat response = await MessageHelper.CallActor(startSceneConfig.InstanceId, new G2Chat_EnterChat()
+            {
+                UnitId = unit.Id,
+                Name = unit.GetComponent<RoleInfo>().Name,
+                GateSessionActorId = unit.GetComponent<UnitGateComponent>().GateSessionActorId
+            }) as Chat2G_EnterChat;
 
-        //    return response.ChatInfoUnitInstanceId;
-        //}
+            return response.ChatInfoUnitInstanceId;
+        }
 
         protected override async ETTask Run(Session session, C2G_EnterGame request, G2C_EnterGame response)
         {
@@ -107,7 +106,7 @@ namespace ET.Server
                     unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
                     //unit.AddComponent<UnitGateComponent, long>(player.InstanceId);
 
-                    //player.ChatInfoInstanceId = await EnterWorldChatServer(unit); //登录聊天服
+                    player.ChatInfoInstanceId = await EnterWorldChatServer(unit); //登录聊天服
 
                     //玩家Unit上线后的初始化操作
                     await UnitHelper.InitUnit(unit, isNewPlayer);

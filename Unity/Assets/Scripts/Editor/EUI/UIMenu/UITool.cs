@@ -55,6 +55,12 @@ public class UITool
                 list.transform.GetComponentInChildren<Image>().raycastTarget = true;
             }
 
+            var mask = go.transform.Find("Mask");
+            if (mask != null && mask.TryGetComponent<Image>(out var image))
+            {
+                image.raycastTarget = true;
+            }
+
             Debug.Log($"已修改预制体[{go.name}]组件的Raycast");
             EditorUtility.SetDirty(go);
         }

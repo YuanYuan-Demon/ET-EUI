@@ -32,12 +32,14 @@ namespace ET.Client
                 self.EI_IconImage.overrideSprite = null;
                 self.EI_QualityImage.color = Color.grey;
                 self.ET_LabelTextMeshProUGUI.enabled = true;
+                self.EB_SelectImage.raycastTarget = false;
             }
             else
             {
                 self.EI_IconImage.overrideSprite = IconHelper.LoadIconSprite("Icons", item.Config.Icon);
                 self.EI_QualityImage.color = item.ItemQualityColor();
                 self.ET_LabelTextMeshProUGUI.enabled = false;
+                self.EB_SelectImage.raycastTarget = true;
             }
         }
 

@@ -21,7 +21,7 @@
         LoginCenter,
         UnitCache,
         Rank,
-        ChatInfo,
+        Chat,
 
         // 客户端Model层
         Client = 31,

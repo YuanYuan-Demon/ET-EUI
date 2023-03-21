@@ -1369,24 +1369,47 @@ namespace ET
 
 	}
 
-// //============================================  聊天系统  ============================================
-// //ResponseType Chat2C_SendChatInfo
-// message C2Chat_SendChatInfo // IActorChatInfoRequest
-// {
-// 	int32 RpcId         = 90;
-// 	string ChatMessage  = 1;
-// }
-// message Chat2C_SendChatInfo // IActorChatInfoResponse
-// {
-// 	int32 RpcId    = 90;
-// 	int32 Error    = 91;
-// 	string Message = 92;
-// }
-// message Chat2C_NoticeChatInfo // IActorMessage
-// {
-// 	string Name = 1;
-// 	string ChatMessage = 2;
-// }
+//============================================  聊天系统  ============================================
+	[ResponseType(nameof(Chat2C_SendChatInfo))]
+	[Message(OuterMessage.C2Chat_SendChatInfo)]
+	[ProtoContract]
+	public partial class C2Chat_SendChatInfo: ProtoObject, IActorChatInfoRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public string ChatMessage { get; set; }
+
+	}
+
+	[Message(OuterMessage.Chat2C_SendChatInfo)]
+	[ProtoContract]
+	public partial class Chat2C_SendChatInfo: ProtoObject, IActorChatInfoResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
+	[Message(OuterMessage.Chat2C_NoticeChatInfo)]
+	[ProtoContract]
+	public partial class Chat2C_NoticeChatInfo: ProtoObject, IActorMessage
+	{
+		[ProtoMember(1)]
+		public string Name { get; set; }
+
+		[ProtoMember(2)]
+		public string ChatMessage { get; set; }
+
+	}
+
 	public static class OuterMessage
 	{
 		 public const ushort HttpGetRouterResponse = 10002;
@@ -1478,5 +1501,8 @@ namespace ET
 		 public const ushort RankInfoProto = 10088;
 		 public const ushort C2Rank_GetRanksInfo = 10089;
 		 public const ushort Rank2C_GetRanksInfo = 10090;
+		 public const ushort C2Chat_SendChatInfo = 10091;
+		 public const ushort Chat2C_SendChatInfo = 10092;
+		 public const ushort Chat2C_NoticeChatInfo = 10093;
 	}
 }

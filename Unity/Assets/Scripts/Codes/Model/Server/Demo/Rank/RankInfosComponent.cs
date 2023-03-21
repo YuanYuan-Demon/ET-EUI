@@ -35,8 +35,9 @@ namespace ET
             int result = b.Level - a.Level;
             if (result != 0) return result;
 
-            int id = (int)(a.Id - b.Id);
-            return id;
+            if (a.Id > b.Id) return 1;
+            else if (a.Id < b.Id) return -1;
+            return 0;
         }
     }
 }
