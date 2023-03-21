@@ -8,8 +8,7 @@ namespace ET.Server
         public void Run(Unit unit, NumbericChange args)
         {
             unit.GetComponent<TasksComponent>().TriggerTaskAction(TaskActionType.UpLevel, (int)args.New);
-            //TODO:RankHelper
-            //RankHelper.AddOrUpdateLevelRank(unit);
+            RankHelper.AddOrUpdateLevelRank(unit);
         }
     }
 }

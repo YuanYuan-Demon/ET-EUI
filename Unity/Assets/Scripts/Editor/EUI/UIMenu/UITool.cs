@@ -26,6 +26,15 @@ public class UITool
                 }
             }
 
+            var toggles = go.GetComponentsInChildren<Toggle>();
+            foreach (var toggle in toggles)
+            {
+                if (toggle.targetGraphic != null)
+                {
+                    toggle.targetGraphic.raycastTarget = true;
+                }
+            }
+
             var infds = go.GetComponentsInChildren<InputField>();
             foreach (var infd in infds)
             {
@@ -39,6 +48,13 @@ public class UITool
                 if (infd.targetGraphic != null)
                     infd.targetGraphic.raycastTarget = true;
             }
+
+            var loopList = go.GetComponentsInChildren<LoopScrollRectBase>();
+            foreach (var list in loopList)
+            {
+                list.transform.GetComponentInChildren<Image>().raycastTarget = true;
+            }
+
             Debug.Log($"已修改预制体[{go.name}]组件的Raycast");
             EditorUtility.SetDirty(go);
         }

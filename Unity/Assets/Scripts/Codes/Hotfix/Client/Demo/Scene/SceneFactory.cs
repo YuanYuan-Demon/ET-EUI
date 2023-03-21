@@ -19,7 +19,7 @@ namespace ET.Client
             clientScene.AddComponent<EquipmentsComponent>();
             clientScene.AddComponent<ForgeComponent>();
             clientScene.AddComponent<TaskComponent>();
-            //clientScene.AddComponent<RankComponent>();
+            clientScene.AddComponent<RankComponent>();
             //clientScene.AddComponent<ChatComponent>();
 
             EventSystem.Instance.Publish(clientScene, new EventType.AfterCreateClientScene());

@@ -38,19 +38,21 @@ namespace ET.Client
 
         public static string GetRemainingTimeStr(this Production self)
         {
-            long RemainTime = self.TargetTime - TimeHelper.ServerNow();
+            long remainTime = self.TargetTime - TimeHelper.ServerNow();
+            TimeSpan timeSpan = TimeSpan.FromMilliseconds(remainTime);
+            if (timeSpan.TotalMinutes <= 0)
+                return "已完成";
+            return timeSpan.ToString(@"hh\:mm\:ss");
 
-            if (RemainTime <= 0)
-            {
-                return "0时0分0秒";
-            }
+            //var leftTime = remainTime / 1000f;
+            //StringBuilder sb = new();
+            //float h = MathF.Floor(leftTime / 3600f);
+            //float m = MathF.Floor(leftTime / 60f - h * 60f);
+            //float s = MathF.Ceiling(leftTime - m * 60f - h * 3600f);
 
-            RemainTime /= 1000;
-
-            float h = MathF.Floor(RemainTime / 3600f);
-            float m = MathF.Floor(RemainTime / 60f - h * 60f);
-            float s = MathF.Ceiling(RemainTime - m * 60f - h * 3600f);
-            return $"{h:00}小时{m:00}分{s:00}秒";
+            //if (h > 0) sb.Append($"{h:00}时");
+            //if (m > 0) sb.Append($"{m:00}分");
+            //if (s > 0) sb.Append($"{s:00}秒");
         }
     }
 }

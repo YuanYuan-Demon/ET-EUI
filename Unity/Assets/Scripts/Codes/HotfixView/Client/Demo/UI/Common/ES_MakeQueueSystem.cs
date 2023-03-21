@@ -18,7 +18,6 @@ namespace ET.Client
                     return;
                 }
                 EventSystem.Instance.Publish(self.ClientScene(), new ReceiveProduct());
-                //self.ClientScene().GetComponent<UIComponent>().GetDlgLogic<DlgForge>().RefreshMakeQueue();
             }
             catch (Exception e)
             {
@@ -41,12 +40,11 @@ namespace ET.Client
 
             bool isCanReceive = production.IsMakeTimeOver() && production.IsMakingState();
 
-            self.ET_MakeTimeTextMeshProUGUI.SetText(production.GetRemainingTimeStr());
             self.ED_ProcessBarSlider.value = production.GetProcess();
 
             self.ED_ProcessBarSlider.SetVisible(!isCanReceive);
-            self.ET_MakeTimeTextMeshProUGUI.SetVisible(!isCanReceive);
-            self.ET_TipTextMeshProUGUI.SetText(isCanReceive ? "制作完成" : "距离制作完成还有");
+            self.ET_TipTextMeshProUGUI.alignment = isCanReceive ? TMPro.TextAlignmentOptions.Right : TMPro.TextAlignmentOptions.Flush;
+            self.ET_TipTextMeshProUGUI.SetText(isCanReceive ? "制作完成" : $"剩余时间: {production.GetRemainingTimeStr()}");
             self.EB_GetButton.SetVisible(isCanReceive);
             self.EB_GetButton.AddListenerAsync(() => OnReceiveButtonHandler(self, production.Id));
         }

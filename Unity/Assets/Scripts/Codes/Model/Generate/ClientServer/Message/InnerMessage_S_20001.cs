@@ -694,12 +694,19 @@ namespace ET
 
 	}
 
-// //============================================  排行榜系统  ============================================
-// message Map2Rank_AddOrUpdateRankInfo //IActorMessage
-// {
-// 	int32 RpcId = 90;
-// 	RankInfo RankInfo = 1;
-// }
+//============================================  排行榜系统  ============================================
+	[Message(InnerMessage.Map2Rank_AddOrUpdateRankInfo)]
+	[ProtoContract]
+	public partial class Map2Rank_AddOrUpdateRankInfo: ProtoObject, IActorMessage
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public RankInfo RankInfo { get; set; }
+
+	}
+
 // //============================================  聊天系统  ============================================
 // //ResponseType Chat2G_EnterChat
 // message G2Chat_EnterChat // IActorRequest
@@ -774,5 +781,6 @@ namespace ET
 		 public const ushort UnitCache2Other_GetUnit = 20044;
 		 public const ushort Other2UnitCache_DeleteUnit = 20045;
 		 public const ushort UnitCache2Other_DeleteUnit = 20046;
+		 public const ushort Map2Rank_AddOrUpdateRankInfo = 20047;
 	}
 }

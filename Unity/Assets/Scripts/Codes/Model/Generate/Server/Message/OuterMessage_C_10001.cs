@@ -1322,26 +1322,53 @@ namespace ET
 
 	}
 
-// //============================================  排行榜系统  ============================================
-// message RankInfoProto
-// {
-// 	int64 Id      = 1;
-// 	int64 UnitId  = 2;
-// 	string Name   = 4;
-// 	int32  Level  = 5;
-// }
-// //ResponseType Rank2C_GetRanksInfo
-// message C2Rank_GetRanksInfo // IActorRankInfoRequest
-// {
-// 	int32 RpcId        = 90;
-// }
-// message Rank2C_GetRanksInfo // IActorRankInfoResponse
-// {
-// 	int32 RpcId    = 90;
-// 	int32 Error    = 91;
-// 	string Message = 92;
-// 	repeated RankInfoProto RankInfoProtoList = 1;
-// }
+//============================================  排行榜系统  ============================================
+	[Message(OuterMessage.RankInfoProto)]
+	[ProtoContract]
+	public partial class RankInfoProto: ProtoObject
+	{
+		[ProtoMember(1)]
+		public long Id { get; set; }
+
+		[ProtoMember(2)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(4)]
+		public string Name { get; set; }
+
+		[ProtoMember(5)]
+		public int Level { get; set; }
+
+	}
+
+	[ResponseType(nameof(Rank2C_GetRanksInfo))]
+	[Message(OuterMessage.C2Rank_GetRanksInfo)]
+	[ProtoContract]
+	public partial class C2Rank_GetRanksInfo: ProtoObject, IActorRankInfoRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(OuterMessage.Rank2C_GetRanksInfo)]
+	[ProtoContract]
+	public partial class Rank2C_GetRanksInfo: ProtoObject, IActorRankInfoResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public List<RankInfoProto> RankInfoProtoList { get; set; } = new();
+
+	}
+
 // //============================================  聊天系统  ============================================
 // //ResponseType Chat2C_SendChatInfo
 // message C2Chat_SendChatInfo // IActorChatInfoRequest
@@ -1448,5 +1475,8 @@ namespace ET
 		 public const ushort M2C_AllTaskInfoList = 10085;
 		 public const ushort C2M_ReceiveTaskReward = 10086;
 		 public const ushort M2C_ReceiveTaskReward = 10087;
+		 public const ushort RankInfoProto = 10088;
+		 public const ushort C2Rank_GetRanksInfo = 10089;
+		 public const ushort Rank2C_GetRanksInfo = 10090;
 	}
 }

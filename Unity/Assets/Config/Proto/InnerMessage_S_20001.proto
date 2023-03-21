@@ -355,15 +355,14 @@ message UnitCache2Other_DeleteUnit	//	IActorResponse
 }
 
 
-// //============================================  排行榜系统  ============================================
+//============================================  排行榜系统  ============================================
 
-// message Map2Rank_AddOrUpdateRankInfo //IActorMessage
-// {
-// 	int32 RpcId = 90;
+message Map2Rank_AddOrUpdateRankInfo //IActorMessage
+{
+	int32 RpcId = 90;
 	
-// 	RankInfo RankInfo = 1;
-// }
-
+	RankInfo RankInfo = 1;
+}
 
 
 // //============================================  聊天系统  ============================================
