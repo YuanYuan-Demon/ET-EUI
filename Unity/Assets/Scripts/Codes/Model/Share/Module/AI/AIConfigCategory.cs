@@ -12,15 +12,15 @@ namespace ET
 
         public SortedDictionary<int, AIConfig> GetAI(int aiConfigId) => this.AIConfigs[aiConfigId];
 
-        protected override void PostInit()
+        protected override void PostResolve()
         {
             foreach ((int id, AIConfig aiConfig) in this.GetAll())
             {
                 SortedDictionary<int, AIConfig> aiNodeConfig;
-                if (!this.AIConfigs.TryGetValue(aiConfig.AIConfigId, out aiNodeConfig))
+                if (!this.AIConfigs.TryGetValue(aiConfig.AIConfigID, out aiNodeConfig))
                 {
                     aiNodeConfig = new();
-                    this.AIConfigs.Add(aiConfig.AIConfigId, aiNodeConfig);
+                    this.AIConfigs.Add(aiConfig.AIConfigID, aiNodeConfig);
                 }
 
                 aiNodeConfig.Add(id, aiConfig);

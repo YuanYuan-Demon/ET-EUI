@@ -1,0 +1,172 @@
+[
+  {
+    "id": 1,
+    "task_name": "升级",
+    "task_desc": "升到2级",
+    "task_action_type": 1,
+    "task_target_id": 0,
+    "task_target_count": 2,
+    "task_before": 0,
+    "reward_gold": 10
+  },
+  {
+    "id": 2,
+    "task_name": "升级",
+    "task_desc": "升到3级",
+    "task_action_type": 1,
+    "task_target_id": 0,
+    "task_target_count": 3,
+    "task_before": 1,
+    "reward_gold": 20
+  },
+  {
+    "id": 3,
+    "task_name": "升级",
+    "task_desc": "升到4级",
+    "task_action_type": 1,
+    "task_target_id": 0,
+    "task_target_count": 4,
+    "task_before": 2,
+    "reward_gold": 30
+  },
+  {
+    "id": 4,
+    "task_name": "升级",
+    "task_desc": "升到5级",
+    "task_action_type": 1,
+    "task_target_id": 0,
+    "task_target_count": 5,
+    "task_before": 3,
+    "reward_gold": 40
+  },
+  {
+    "id": 5,
+    "task_name": "升级",
+    "task_desc": "升到6级",
+    "task_action_type": 1,
+    "task_target_id": 0,
+    "task_target_count": 6,
+    "task_before": 4,
+    "reward_gold": 50
+  },
+  {
+    "id": 6,
+    "task_name": "升级",
+    "task_desc": "升到7级",
+    "task_action_type": 1,
+    "task_target_id": 0,
+    "task_target_count": 7,
+    "task_before": 5,
+    "reward_gold": 60
+  },
+  {
+    "id": 7,
+    "task_name": "升级",
+    "task_desc": "升到8级",
+    "task_action_type": 1,
+    "task_target_id": 0,
+    "task_target_count": 8,
+    "task_before": 6,
+    "reward_gold": 70
+  },
+  {
+    "id": 8,
+    "task_name": "打造1",
+    "task_desc": "打造一把宝鱼小剑",
+    "task_action_type": 2,
+    "task_target_id": 1,
+    "task_target_count": 1,
+    "task_before": 0,
+    "reward_gold": 10
+  },
+  {
+    "id": 9,
+    "task_name": "打造2",
+    "task_desc": "打造两把宝鱼小剑",
+    "task_action_type": 2,
+    "task_target_id": 1,
+    "task_target_count": 2,
+    "task_before": 8,
+    "reward_gold": 20
+  },
+  {
+    "id": 10,
+    "task_name": "打造3",
+    "task_desc": "打造三把宝鱼小剑",
+    "task_action_type": 2,
+    "task_target_id": 1,
+    "task_target_count": 3,
+    "task_before": 9,
+    "reward_gold": 30
+  },
+  {
+    "id": 11,
+    "task_name": "打造4",
+    "task_desc": "打造四把宝鱼小剑",
+    "task_action_type": 2,
+    "task_target_id": 1,
+    "task_target_count": 4,
+    "task_before": 10,
+    "reward_gold": 40
+  },
+  {
+    "id": 12,
+    "task_name": "打造5",
+    "task_desc": "打造五把宝鱼小剑",
+    "task_action_type": 2,
+    "task_target_id": 1,
+    "task_target_count": 5,
+    "task_before": 11,
+    "reward_gold": 50
+  },
+  {
+    "id": 13,
+    "task_name": "打造6",
+    "task_desc": "打造六把宝鱼小剑",
+    "task_action_type": 2,
+    "task_target_id": 1,
+    "task_target_count": 6,
+    "task_before": 12,
+    "reward_gold": 60
+  },
+  {
+    "id": 14,
+    "task_name": "打造7",
+    "task_desc": "打造七把宝鱼小剑",
+    "task_action_type": 2,
+    "task_target_id": 1,
+    "task_target_count": 7,
+    "task_before": 13,
+    "reward_gold": 70
+  },
+  {
+    "id": 15,
+    "task_name": "冒险1",
+    "task_desc": "通关冒险一层",
+    "task_action_type": 3,
+    "task_target_id": 1,
+    "task_target_count": 1,
+    "task_before": 0,
+    "reward_gold": 70
+  },
+  {
+    "id": 16,
+    "task_name": "冒险2",
+    "task_desc": "通关冒险二层",
+    "task_action_type": 3,
+    "task_target_id": 2,
+    "task_target_count": 1,
+    "task_before": 15,
+    "reward_gold": 70
+  },
+  {
+    "id": 17,
+    "task_name": "冒险3",
+    "task_desc": "通关冒险三层",
+    "task_action_type": 3,
+    "task_target_id": 3,
+    "task_target_count": 1,
+    "task_before": 16,
+    "reward_gold": 70
+  }
+]

@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1011,
+    "name": "伤害",
+    "is_need_show": 1,
+    "is_persent": 0
+  },
+  {
+    "id": 1012,
+    "name": "伤害追加",
+    "is_need_show": 1,
+    "is_persent": 0
+  },
+  {
+    "id": 1002,
+    "name": "最大生命值",
+    "is_need_show": 1,
+    "is_persent": 0
+  },
+  {
+    "id": 1013,
+    "name": "生命",
+    "is_need_show": 0,
+    "is_persent": 0
+  },
+  {
+    "id": 1004,
+    "name": "最大法力值",
+    "is_need_show": 1,
+    "is_persent": 0
+  },
+  {
+    "id": 1014,
+    "name": "法力",
+    "is_need_show": 0,
+    "is_persent": 0
+  },
+  {
+    "id": 1015,
+    "name": "护甲",
+    "is_need_show": 1,
+    "is_persent": 0
+  },
+  {
+    "id": 1016,
+    "name": "护甲追加",
+    "is_need_show": 1,
+    "is_persent": 0
+  },
+  {
+    "id": 1017,
+    "name": "闪避",
+    "is_need_show": 1,
+    "is_persent": 1
+  },
+  {
+    "id": 1018,
+    "name": "闪避追加",
+    "is_need_show": 1,
+    "is_persent": 1
+  },
+  {
+    "id": 1019,
+    "name": "暴击率",
+    "is_need_show": 1,
+    "is_persent": 1
+  },
+  {
+    "id": 3001,
+    "name": "力量",
+    "is_need_show": 0,
+    "is_persent": 1
+  },
+  {
+    "id": 3002,
+    "name": "体力",
+    "is_need_show": 0,
+    "is_persent": 1
+  },
+  {
+    "id": 3003,
+    "name": "敏捷",
+    "is_need_show": 0,
+    "is_persent": 1
+  },
+  {
+    "id": 3004,
+    "name": "精神",
+    "is_need_show": 0,
+    "is_persent": 1
+  },
+  {
+    "id": 3005,
+    "name": "属性点",
+    "is_need_show": 0,
+    "is_persent": 0
+  },
+  {
+    "id": 3006,
+    "name": "战力值",
+    "is_need_show": 0,
+    "is_persent": 0
+  },
+  {
+    "id": 3007,
+    "name": "等级",
+    "is_need_show": 0,
+    "is_persent": 0
+  },
+  {
+    "id": 3008,
+    "name": "金币",
+    "is_need_show": 0,
+    "is_persent": 0
+  },
+  {
+    "id": 3009,
+    "name": "经验值",
+    "is_need_show": 0,
+    "is_persent": 0
+  },
+  {
+    "id": 3013,
+    "name": "存活状态",
+    "is_need_show": 0,
+    "is_persent": 0
+  },
+  {
+    "id": 3015,
+    "name": "背包容量",
+    "is_need_show": 0,
+    "is_persent": 0
+  }
+]

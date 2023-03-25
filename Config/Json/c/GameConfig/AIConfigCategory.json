@@ -1,23 +1,9 @@
 [
   {
-    "id": 101,
-    "a_i_config_id": 1,
-    "order": 1,
-    "name": "AI_Attack",
-    "node_params": []
-  },
-  {
-    "id": 102,
-    "a_i_config_id": 1,
-    "order": 2,
-    "name": "AI_XunLuo",
-    "node_params": []
-  },
-  {
     "id": 201,
-    "a_i_config_id": 2,
+    "a_i_config_i_d": 2,
     "order": 1,
     "name": "AI_XunLuo",
-    "node_params": []
+    "node_param": []
   }
 ]

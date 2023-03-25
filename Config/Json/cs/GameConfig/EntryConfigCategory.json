@@ -1,0 +1,119 @@
+[
+  {
+    "id": 1,
+    "entry_type": 1,
+    "entry_level": 1,
+    "entry_score": 1,
+    "attribute_type": 1002,
+    "attribute_min_value": 1,
+    "attribute_max_value": 1
+  },
+  {
+    "id": 2,
+    "entry_type": 1,
+    "entry_level": 1,
+    "entry_score": 1,
+    "attribute_type": 1016,
+    "attribute_min_value": 1,
+    "attribute_max_value": 1
+  },
+  {
+    "id": 3,
+    "entry_type": 1,
+    "entry_level": 1,
+    "entry_score": 1,
+    "attribute_type": 1017,
+    "attribute_min_value": 2000,
+    "attribute_max_value": 2000
+  },
+  {
+    "id": 4,
+    "entry_type": 1,
+    "entry_level": 2,
+    "entry_score": 2,
+    "attribute_type": 1011,
+    "attribute_min_value": 1,
+    "attribute_max_value": 1
+  },
+  {
+    "id": 5,
+    "entry_type": 1,
+    "entry_level": 2,
+    "entry_score": 2,
+    "attribute_type": 1019,
+    "attribute_min_value": 2000,
+    "attribute_max_value": 2000
+  },
+  {
+    "id": 6,
+    "entry_type": 1,
+    "entry_level": 2,
+    "entry_score": 2,
+    "attribute_type": 1002,
+    "attribute_min_value": 1,
+    "attribute_max_value": 1
+  },
+  {
+    "id": 7,
+    "entry_type": 1,
+    "entry_level": 2,
+    "entry_score": 2,
+    "attribute_type": 1016,
+    "attribute_min_value": 2,
+    "attribute_max_value": 2
+  },
+  {
+    "id": 8,
+    "entry_type": 1,
+    "entry_level": 3,
+    "entry_score": 3,
+    "attribute_type": 1017,
+    "attribute_min_value": 3000,
+    "attribute_max_value": 3000
+  },
+  {
+    "id": 9,
+    "entry_type": 2,
+    "entry_level": 1,
+    "entry_score": 3,
+    "attribute_type": 1011,
+    "attribute_min_value": 3,
+    "attribute_max_value": 3
+  },
+  {
+    "id": 10,
+    "entry_type": 2,
+    "entry_level": 1,
+    "entry_score": 3,
+    "attribute_type": 1019,
+    "attribute_min_value": 3000,
+    "attribute_max_value": 3000
+  },
+  {
+    "id": 11,
+    "entry_type": 2,
+    "entry_level": 2,
+    "entry_score": 3,
+    "attribute_type": 1002,
+    "attribute_min_value": 4,
+    "attribute_max_value": 4
+  },
+  {
+    "id": 12,
+    "entry_type": 2,
+    "entry_level": 2,
+    "entry_score": 3,
+    "attribute_type": 1016,
+    "attribute_min_value": 4,
+    "attribute_max_value": 4
+  },
+  {
+    "id": 13,
+    "entry_type": 2,
+    "entry_level": 3,
+    "entry_score": 3,
+    "attribute_type": 1017,
+    "attribute_min_value": 4000,
+    "attribute_max_value": 4000
+  }
+]

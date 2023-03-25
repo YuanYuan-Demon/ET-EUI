@@ -20,11 +20,29 @@ public sealed partial class UnitConfig: Luban.BeanBase
     public UnitConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
-        Type = _buf.ReadInt();
         Name = _buf.ReadString();
-        Position = _buf.ReadInt();
-        Height = _buf.ReadInt();
-        Weight = _buf.ReadInt();
+        UnitType = (UnitType)_buf.ReadInt();
+        Class = _buf.ReadString();
+        Prefab = _buf.ReadString();
+        Desc = _buf.ReadString();
+        AIType = _buf.ReadString();
+        Height = _buf.ReadLong();
+        Radius = _buf.ReadLong();
+        Speed = _buf.ReadInt();
+        MaxHp = _buf.ReadLong();
+        MaxMp = _buf.ReadLong();
+        GrowthStr = _buf.ReadLong();
+        GrowthInt = _buf.ReadLong();
+        GrowthAgi = _buf.ReadLong();
+        STR = _buf.ReadLong();
+        INT = _buf.ReadLong();
+        DEX = _buf.ReadLong();
+        AD = _buf.ReadLong();
+        AP = _buf.ReadLong();
+        DEF = _buf.ReadLong();
+        MDEF = _buf.ReadLong();
+        SPD = _buf.ReadLong();
+        CRI = _buf.ReadLong();
         PostInit();
     }
 
@@ -34,35 +52,122 @@ public sealed partial class UnitConfig: Luban.BeanBase
     }
 
     /// <summary>
-    /// Id
+    /// id
     /// </summary>
     public int Id { get; private set; }
-    /// <summary>
-    /// Type
-    /// </summary>
-    public int Type { get; private set; }
-    /// <summary>
-    /// 名字
-    /// </summary>
     public string Name { get; private set; }
     /// <summary>
-    /// 位置
+    /// 类型
     /// </summary>
-    public int Position { get; private set; }
+    public UnitType UnitType { get; private set; }
     /// <summary>
-    /// 身高
+    /// 子类型
     /// </summary>
-    public int Height { get; private set; }
+    public string Class { get; private set; }
     /// <summary>
-    /// 体重
+    /// 模型资源
     /// </summary>
-    public int Weight { get; private set; }
+    public string Prefab { get; private set; }
+    /// <summary>
+    /// 描述
+    /// </summary>
+    public string Desc { get; private set; }
+    /// <summary>
+    /// AI策略
+    /// </summary>
+    public string AIType { get; private set; }
+    /// <summary>
+    /// 身高(单位:0.1毫米)
+    /// </summary>
+    public long Height { get; private set; }
+    /// <summary>
+    /// 体积半径
+    /// </summary>
+    public long Radius { get; private set; }
+    /// <summary>
+    /// 速度
+    /// </summary>
+    public int Speed { get; private set; }
+    /// <summary>
+    /// 生命
+    /// </summary>
+    public long MaxHp { get; private set; }
+    /// <summary>
+    /// 法力
+    /// </summary>
+    public long MaxMp { get; private set; }
+    /// <summary>
+    /// 力量成长
+    /// </summary>
+    public long GrowthStr { get; private set; }
+    /// <summary>
+    /// 智力成长
+    /// </summary>
+    public long GrowthInt { get; private set; }
+    /// <summary>
+    /// 敏捷成长
+    /// </summary>
+    public long GrowthAgi { get; private set; }
+    /// <summary>
+    /// 力量
+    /// </summary>
+    public long STR { get; private set; }
+    /// <summary>
+    /// 智力
+    /// </summary>
+    public long INT { get; private set; }
+    /// <summary>
+    /// 敏捷
+    /// </summary>
+    public long DEX { get; private set; }
+    /// <summary>
+    /// 物理攻击
+    /// </summary>
+    public long AD { get; private set; }
+    /// <summary>
+    /// 法术攻击
+    /// </summary>
+    public long AP { get; private set; }
+    /// <summary>
+    /// 物理防御
+    /// </summary>
+    public long DEF { get; private set; }
+    /// <summary>
+    /// 法术防御
+    /// </summary>
+    public long MDEF { get; private set; }
+    /// <summary>
+    /// 攻击速度
+    /// </summary>
+    public long SPD { get; private set; }
+    /// <summary>
+    /// 暴击概率(1/10000)
+    /// </summary>
+    public long CRI { get; private set; }
 
     public const int __ID__ = -568528378;
     public override int GetTypeId() => __ID__;
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -76,11 +181,29 @@ public sealed partial class UnitConfig: Luban.BeanBase
     {
         return "{ "
         + "id:" + Id + ","
-        + "type:" + Type + ","
         + "name:" + Name + ","
-        + "position:" + Position + ","
+        + "unitType:" + UnitType + ","
+        + "class:" + Class + ","
+        + "prefab:" + Prefab + ","
+        + "desc:" + Desc + ","
+        + "aIType:" + AIType + ","
         + "height:" + Height + ","
-        + "weight:" + Weight + ","
+        + "radius:" + Radius + ","
+        + "speed:" + Speed + ","
+        + "maxHp:" + MaxHp + ","
+        + "maxMp:" + MaxMp + ","
+        + "growthStr:" + GrowthStr + ","
+        + "growthInt:" + GrowthInt + ","
+        + "growthAgi:" + GrowthAgi + ","
+        + "STR:" + STR + ","
+        + "INT:" + INT + ","
+        + "DEX:" + DEX + ","
+        + "AD:" + AD + ","
+        + "AP:" + AP + ","
+        + "DEF:" + DEF + ","
+        + "MDEF:" + MDEF + ","
+        + "SPD:" + SPD + ","
+        + "CRI:" + CRI + ","
         + "}";
     }
 }

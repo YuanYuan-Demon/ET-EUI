@@ -20,10 +20,10 @@ public sealed partial class AIConfig: Luban.BeanBase
     public AIConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
-        AIConfigId = _buf.ReadInt();
+        AIConfigID = _buf.ReadInt();
         Order = _buf.ReadInt();
         Name = _buf.ReadString();
-        {int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);NodeParams = new System.Collections.Generic.List<int>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { int _e0;  _e0 = _buf.ReadInt(); NodeParams.Add(_e0);}}
+        {int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);NodeParam = new System.Collections.Generic.List<int>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { int _e0;  _e0 = _buf.ReadInt(); NodeParam.Add(_e0);}}
         PostInit();
     }
 
@@ -39,7 +39,7 @@ public sealed partial class AIConfig: Luban.BeanBase
     /// <summary>
     /// 所属ai
     /// </summary>
-    public int AIConfigId { get; private set; }
+    public int AIConfigID { get; private set; }
     /// <summary>
     /// 此ai中的顺序
     /// </summary>
@@ -51,7 +51,7 @@ public sealed partial class AIConfig: Luban.BeanBase
     /// <summary>
     /// 节点参数
     /// </summary>
-    public System.Collections.Generic.List<int> NodeParams { get; private set; }
+    public System.Collections.Generic.List<int> NodeParam { get; private set; }
 
     public const int __ID__ = -294143606;
     public override int GetTypeId() => __ID__;
@@ -70,10 +70,10 @@ public sealed partial class AIConfig: Luban.BeanBase
     {
         return "{ "
         + "id:" + Id + ","
-        + "aIConfigId:" + AIConfigId + ","
+        + "aIConfigID:" + AIConfigID + ","
         + "order:" + Order + ","
         + "name:" + Name + ","
-        + "nodeParams:" + Luban.StringUtil.CollectionToString(NodeParams) + ","
+        + "nodeParam:" + Luban.StringUtil.CollectionToString(NodeParam) + ","
         + "}";
     }
 }

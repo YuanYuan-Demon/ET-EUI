@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "item_config_id": 1002,
+    "production_time": 3,
+    "material_Id": 3016,
+    "material_count": 60,
+    "need_level": 1
+  },
+  {
+    "id": 2,
+    "item_config_id": 1007,
+    "production_time": 3,
+    "material_Id": 3017,
+    "material_count": 120,
+    "need_level": 2
+  }
+]

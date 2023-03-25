@@ -1,22 +1,30 @@
 ﻿using System.Diagnostics;
+using ET.EventType;
 using MongoDB.Bson.Serialization.Attributes;
 using Unity.Mathematics;
 
 namespace ET
 {
-    [ChildOf(typeof(UnitComponent))]
+    [ChildOf]
     [DebuggerDisplay("ViewName,nq")]
-    public class Unit: Entity, IAwake<int>
+    public class Unit: Entity, IAwake<int>, IAddComponent, IGetComponent
     {
+        [BsonElement]
+        private float3 position;
+
+        [BsonElement]
+        private quaternion rotation;
+
+        protected override string ViewName => $"{this.GetType().Name} ({this.Id})";
+
         public int ConfigId { get; set; } //配置表id
 
         [BsonIgnore]
-        public UnitConfig Config =>  UnitConfigCategory.Instance.Get(this.ConfigId);
+        public UnitConfig Config => UnitConfigCategory.Instance.Get(this.ConfigId);
 
-        public UnitType Type => (UnitType)UnitConfigCategory.Instance.Get(this.ConfigId).Type;
+        public UnitType Type => UnitConfigCategory.Instance.Get(this.ConfigId).UnitType;
 
-        [BsonElement]
-        private float3 position; //坐标
+        //坐标
 
         [BsonIgnore]
         public float3 Position
@@ -26,7 +34,7 @@ namespace ET
             {
                 float3 oldPos = this.position;
                 this.position = value;
-                EventSystem.Instance.Publish(this.DomainScene(), new EventType.ChangePosition() { Unit = this, OldPos = oldPos });
+                EventSystem.Instance.Publish(this.DomainScene(), new ChangePosition() { Unit = this, OldPos = oldPos });
             }
         }
 
@@ -37,9 +45,6 @@ namespace ET
             set => this.Rotation = quaternion.LookRotation(value, math.up());
         }
 
-        [BsonElement]
-        private quaternion rotation;
-
         [BsonIgnore]
         public quaternion Rotation
         {
@@ -47,15 +52,7 @@ namespace ET
             set
             {
                 this.rotation = value;
-                EventSystem.Instance.Publish(this.DomainScene(), new EventType.ChangeRotation() { Unit = this });
-            }
-        }
-
-        protected override string ViewName
-        {
-            get
-            {
-                return $"{this.GetType().Name} ({this.Id})";
+                EventSystem.Instance.Publish(this.DomainScene(), new ChangeRotation() { Unit = this });
             }
         }
     }

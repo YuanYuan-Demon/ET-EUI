@@ -1,15 +1,31 @@
 ﻿namespace ET.Server
 {
-    [FriendOf(typeof(Player))]
+    [FriendOf(typeof (Player))]
     public static class PlayerSystem
     {
-        [ObjectSystem]
-        public class PlayerAwakeSystem : AwakeSystem<Player, string>
+        #region 生命周期
+
+        public class PlayerAwakeSystem: AwakeSystem<Player, long, long>
         {
-            protected override void Awake(Player self, string a)
+            protected override void Awake(Player self, long accountId, long unitId)
             {
-                self.Account = a;
+                self.AccountId = accountId;
+                self.UnitId = unitId;
             }
         }
+
+        public class PlayerDestroySystem: DestroySystem<Player>
+        {
+            protected override void Destroy(Player self)
+            {
+                self.AccountId = 0;
+                self.UnitId = 0;
+                self.ChatInfoInstanceId = 0;
+                self.PlayerState = PlayerState.Disconnect;
+                self.ClientSession?.Dispose();
+            }
+        }
+
+        #endregion 生命周期
     }
 }

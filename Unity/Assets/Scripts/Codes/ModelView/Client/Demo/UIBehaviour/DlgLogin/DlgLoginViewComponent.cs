@@ -1,131 +1,260 @@
-﻿
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+
 namespace ET.Client
 {
-	[ComponentOf(typeof(DlgLogin))]
-	[EnableMethod]
-	public  class DlgLoginViewComponent : Entity,IAwake,IDestroy 
-	{
-		public UnityEngine.UI.Button E_LoginButton
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_E_LoginButton == null )
-     			{
-		    		this.m_E_LoginButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Sprite_BackGround/E_Login");
-     			}
-     			return this.m_E_LoginButton;
-     		}
-     	}
+    [ComponentOf(typeof (DlgLogin))]
+    [EnableMethod]
+    public class DlgLoginViewComponent: Entity, IAwake, IDestroy
+    {
+        private UnityEngine.UI.Button m_EB_Cancel_Button = null;
+        private UnityEngine.UI.Button m_EB_Login_Button = null;
+        private UnityEngine.UI.Button m_EB_Register_Button = null;
+        private UnityEngine.UI.Button m_EB_ToRegister_Button = null;
 
-		public UnityEngine.UI.Image E_LoginImage
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_E_LoginImage == null )
-     			{
-		    		this.m_E_LoginImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Sprite_BackGround/E_Login");
-     			}
-     			return this.m_E_LoginImage;
-     		}
-     	}
+        private UnityEngine.RectTransform m_EG_LoginPanel_RectTransform = null;
+        private UnityEngine.RectTransform m_EG_RegisterPanel_RectTransform = null;
+        private TMPro.TMP_InputField m_EInput_LoginAccount_TMP_InputField = null;
+        private TMPro.TMP_InputField m_EInput_LoginPassword_TMP_InputField = null;
+        private TMPro.TMP_InputField m_EInput_RegisterAccount_TMP_InputField = null;
+        private TMPro.TMP_InputField m_EInput_RegisterPassword_Confirm_TMP_InputField = null;
+        private TMPro.TMP_InputField m_EInput_RegisterPassword_TMP_InputField = null;
+        public Transform uiTransform = null;
 
-		public UnityEngine.UI.InputField E_AccountInputField
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_E_AccountInputField == null )
-     			{
-		    		this.m_E_AccountInputField = UIFindHelper.FindDeepChild<UnityEngine.UI.InputField>(this.uiTransform.gameObject,"Sprite_BackGround/E_Account");
-     			}
-     			return this.m_E_AccountInputField;
-     		}
-     	}
+        public UnityEngine.RectTransform EG_LoginPanel_RectTransform
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
 
-		public UnityEngine.UI.Image E_AccountImage
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_E_AccountImage == null )
-     			{
-		    		this.m_E_AccountImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Sprite_BackGround/E_Account");
-     			}
-     			return this.m_E_AccountImage;
-     		}
-     	}
+                if (this.m_EG_LoginPanel_RectTransform == null)
+                {
+                    this.m_EG_LoginPanel_RectTransform =
+                            UIFindHelper.FindDeepChild<UnityEngine.RectTransform>(this.uiTransform.gameObject, "Panel/Content/EG_LoginPanel");
+                }
 
-		public UnityEngine.UI.InputField E_PasswordInputField
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_E_PasswordInputField == null )
-     			{
-		    		this.m_E_PasswordInputField = UIFindHelper.FindDeepChild<UnityEngine.UI.InputField>(this.uiTransform.gameObject,"Sprite_BackGround/E_Password");
-     			}
-     			return this.m_E_PasswordInputField;
-     		}
-     	}
+                return this.m_EG_LoginPanel_RectTransform;
+            }
+        }
 
-		public UnityEngine.UI.Image E_PasswordImage
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_E_PasswordImage == null )
-     			{
-		    		this.m_E_PasswordImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Sprite_BackGround/E_Password");
-     			}
-     			return this.m_E_PasswordImage;
-     		}
-     	}
+        public TMPro.TMP_InputField EInput_LoginAccount_TMP_InputField
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
 
-		public void DestroyWidget()
-		{
-			this.m_E_LoginButton = null;
-			this.m_E_LoginImage = null;
-			this.m_E_AccountInputField = null;
-			this.m_E_AccountImage = null;
-			this.m_E_PasswordInputField = null;
-			this.m_E_PasswordImage = null;
-			this.uiTransform = null;
-		}
+                if (this.m_EInput_LoginAccount_TMP_InputField == null)
+                {
+                    this.m_EInput_LoginAccount_TMP_InputField = UIFindHelper.FindDeepChild<TMPro.TMP_InputField>(this.uiTransform.gameObject,
+                        "Panel/Content/EG_LoginPanel/Account/EInput_LoginAccount");
+                }
 
-		private UnityEngine.UI.Button m_E_LoginButton = null;
-		private UnityEngine.UI.Image m_E_LoginImage = null;
-		private UnityEngine.UI.InputField m_E_AccountInputField = null;
-		private UnityEngine.UI.Image m_E_AccountImage = null;
-		private UnityEngine.UI.InputField m_E_PasswordInputField = null;
-		private UnityEngine.UI.Image m_E_PasswordImage = null;
-		public Transform uiTransform = null;
-	}
+                return this.m_EInput_LoginAccount_TMP_InputField;
+            }
+        }
+
+        public TMPro.TMP_InputField EInput_LoginPassword_TMP_InputField
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_EInput_LoginPassword_TMP_InputField == null)
+                {
+                    this.m_EInput_LoginPassword_TMP_InputField = UIFindHelper.FindDeepChild<TMPro.TMP_InputField>(this.uiTransform.gameObject,
+                        "Panel/Content/EG_LoginPanel/Password/EInput_LoginPassword");
+                }
+
+                return this.m_EInput_LoginPassword_TMP_InputField;
+            }
+        }
+
+        public UnityEngine.UI.Button EB_Login_Button
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_EB_Login_Button == null)
+                {
+                    this.m_EB_Login_Button =
+                            UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,
+                                "Panel/Content/EG_LoginPanel/Buttons/EB_Login");
+                }
+
+                return this.m_EB_Login_Button;
+            }
+        }
+
+        public UnityEngine.UI.Button EB_ToRegister_Button
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_EB_ToRegister_Button == null)
+                {
+                    this.m_EB_ToRegister_Button = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,
+                        "Panel/Content/EG_LoginPanel/Buttons/EB_ToRegister");
+                }
+
+                return this.m_EB_ToRegister_Button;
+            }
+        }
+
+        public UnityEngine.RectTransform EG_RegisterPanel_RectTransform
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_EG_RegisterPanel_RectTransform == null)
+                {
+                    this.m_EG_RegisterPanel_RectTransform =
+                            UIFindHelper.FindDeepChild<UnityEngine.RectTransform>(this.uiTransform.gameObject, "Panel/Content/EG_RegisterPanel");
+                }
+
+                return this.m_EG_RegisterPanel_RectTransform;
+            }
+        }
+
+        public TMPro.TMP_InputField EInput_RegisterAccount_TMP_InputField
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_EInput_RegisterAccount_TMP_InputField == null)
+                {
+                    this.m_EInput_RegisterAccount_TMP_InputField = UIFindHelper.FindDeepChild<TMPro.TMP_InputField>(this.uiTransform.gameObject,
+                        "Panel/Content/EG_RegisterPanel/Account/EInput_RegisterAccount");
+                }
+
+                return this.m_EInput_RegisterAccount_TMP_InputField;
+            }
+        }
+
+        public TMPro.TMP_InputField EInput_RegisterPassword_TMP_InputField
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_EInput_RegisterPassword_TMP_InputField == null)
+                {
+                    this.m_EInput_RegisterPassword_TMP_InputField = UIFindHelper.FindDeepChild<TMPro.TMP_InputField>(this.uiTransform.gameObject,
+                        "Panel/Content/EG_RegisterPanel/Password/EInput_RegisterPassword");
+                }
+
+                return this.m_EInput_RegisterPassword_TMP_InputField;
+            }
+        }
+
+        public TMPro.TMP_InputField EInput_RegisterPassword_Confirm_TMP_InputField
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_EInput_RegisterPassword_Confirm_TMP_InputField == null)
+                {
+                    this.m_EInput_RegisterPassword_Confirm_TMP_InputField = UIFindHelper.FindDeepChild<TMPro.TMP_InputField>(
+                        this.uiTransform.gameObject, "Panel/Content/EG_RegisterPanel/ConfirmPassword/EInput_RegisterPassword_Confirm");
+                }
+
+                return this.m_EInput_RegisterPassword_Confirm_TMP_InputField;
+            }
+        }
+
+        public UnityEngine.UI.Button EB_Register_Button
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_EB_Register_Button == null)
+                {
+                    this.m_EB_Register_Button = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,
+                        "Panel/Content/EG_RegisterPanel/Buttons/EB_Register");
+                }
+
+                return this.m_EB_Register_Button;
+            }
+        }
+
+        public UnityEngine.UI.Button EB_Cancel_Button
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_EB_Cancel_Button == null)
+                {
+                    this.m_EB_Cancel_Button = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,
+                        "Panel/Content/EG_RegisterPanel/Buttons/EB_Cancel");
+                }
+
+                return this.m_EB_Cancel_Button;
+            }
+        }
+
+        public void DestroyWidget()
+        {
+            this.m_EG_LoginPanel_RectTransform = null;
+            this.m_EInput_LoginAccount_TMP_InputField = null;
+            this.m_EInput_LoginPassword_TMP_InputField = null;
+            this.m_EB_Login_Button = null;
+            this.m_EB_ToRegister_Button = null;
+            this.m_EG_RegisterPanel_RectTransform = null;
+            this.m_EInput_RegisterAccount_TMP_InputField = null;
+            this.m_EInput_RegisterPassword_TMP_InputField = null;
+            this.m_EInput_RegisterPassword_Confirm_TMP_InputField = null;
+            this.m_EB_Register_Button = null;
+            this.m_EB_Cancel_Button = null;
+            this.uiTransform = null;
+        }
+    }
 }

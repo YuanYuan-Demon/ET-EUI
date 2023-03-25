@@ -14,4 +14,12 @@
         <var name="z" type="float"/>
         <var name="w" type="float"/>
     </bean>
+    <enum name="UnitType" tags="skip">
+        <var name="Player" value="1"/>
+        <var name="Monster" value="2"/>
+        <var name="NPC" value="3"/>
+        <mapper target = "GameConfig,Client,Server,Editor" codeTarget="cs-bin">
+            <option name="type" value="ET.UnitType"/>
+        </mapper>
+    </enum>
 </module>

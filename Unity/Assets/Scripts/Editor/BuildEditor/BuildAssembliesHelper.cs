@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.Compilation;
+using UnityEngine;
 
 namespace ET
 {
@@ -20,7 +20,7 @@ namespace ET
             switch (globalConfig.CodeMode)
             {
                 case CodeMode.Client:
-                    codes = new List<string>()
+                    codes = new()
                     {
                         "Assets/Scripts/Codes/Model/Generate/Client/",
                         "Assets/Scripts/Codes/Model/Share/",
@@ -29,7 +29,7 @@ namespace ET
                     };
                     break;
                 case CodeMode.Server:
-                    codes = new List<string>()
+                    codes = new()
                     {
                         "Assets/Scripts/Codes/Model/Generate/Server/",
                         "Assets/Scripts/Codes/Model/Share/",
@@ -38,7 +38,7 @@ namespace ET
                     };
                     break;
                 case CodeMode.ClientServer:
-                    codes = new List<string>()
+                    codes = new()
                     {
                         "Assets/Scripts/Codes/Model/Share/",
                         "Assets/Scripts/Codes/Model/Client/",
@@ -48,10 +48,10 @@ namespace ET
                     };
                     break;
                 default:
-                    throw new Exception("not found enum");
+                    throw new("not found enum");
             }
 
-            BuildAssembliesHelper.BuildMuteAssembly("Model", codes, Array.Empty<string>(), codeOptimization, globalConfig.CodeMode);
+            BuildMuteAssembly("Model", codes, Array.Empty<string>(), codeOptimization, globalConfig.CodeMode);
 
             File.Copy(Path.Combine(Define.BuildOutputDir, $"Model.dll"), Path.Combine(CodeDir, $"Model.dll.bytes"), true);
             File.Copy(Path.Combine(Define.BuildOutputDir, $"Model.pdb"), Path.Combine(CodeDir, $"Model.pdb.bytes"), true);
@@ -66,14 +66,14 @@ namespace ET
                 File.Delete(file);
             }
 
-            int random = RandomGenerator.RandomNumber(100000000, 999999999);
+            int random = RandomHelper.RandomNumber(100000000, 999999999);
             string logicFile = $"Hotfix_{random}";
 
             List<string> codes;
             switch (globalConfig.CodeMode)
             {
                 case CodeMode.Client:
-                    codes = new List<string>()
+                    codes = new()
                     {
                         "Assets/Scripts/Codes/Hotfix/Share/",
                         "Assets/Scripts/Codes/Hotfix/Client/",
@@ -81,13 +81,13 @@ namespace ET
                     };
                     break;
                 case CodeMode.Server:
-                    codes = new List<string>()
+                    codes = new()
                     {
                         "Assets/Scripts/Codes/Hotfix/Share/", "Assets/Scripts/Codes/Hotfix/Server/", "Assets/Scripts/Codes/Hotfix/Client/",
                     };
                     break;
                 case CodeMode.ClientServer:
-                    codes = new List<string>()
+                    codes = new()
                     {
                         "Assets/Scripts/Codes/Hotfix/Share/",
                         "Assets/Scripts/Codes/Hotfix/Client/",
@@ -96,10 +96,10 @@ namespace ET
                     };
                     break;
                 default:
-                    throw new Exception("not found enum");
+                    throw new("not found enum");
             }
 
-            BuildAssembliesHelper.BuildMuteAssembly("Hotfix", codes, new[] { Path.Combine(Define.BuildOutputDir, "Model.dll") }, codeOptimization,
+            BuildMuteAssembly("Hotfix", codes, new[] { Path.Combine(Define.BuildOutputDir, "Model.dll") }, codeOptimization,
                 globalConfig.CodeMode);
 
             File.Copy(Path.Combine(Define.BuildOutputDir, "Hotfix.dll"), Path.Combine(CodeDir, $"Hotfix.dll.bytes"), true);
@@ -110,19 +110,19 @@ namespace ET
         }
 
         private static void BuildMuteAssembly(
-            string assemblyName, List<string> CodeDirectorys,
-            string[] additionalReferences, CodeOptimization codeOptimization, CodeMode codeMode = CodeMode.Client)
+        string assemblyName, List<string> CodeDirectorys,
+        string[] additionalReferences, CodeOptimization codeOptimization, CodeMode codeMode = CodeMode.Client)
         {
             if (!Directory.Exists(Define.BuildOutputDir))
             {
                 Directory.CreateDirectory(Define.BuildOutputDir);
             }
 
-            List<string> scripts = new List<string>();
+            var scripts = new List<string>();
             for (int i = 0; i < CodeDirectorys.Count; i++)
             {
-                DirectoryInfo dti = new DirectoryInfo(CodeDirectorys[i]);
-                FileInfo[] fileInfos = dti.GetFiles("*.cs", System.IO.SearchOption.AllDirectories);
+                DirectoryInfo dti = new(CodeDirectorys[i]);
+                var fileInfos = dti.GetFiles("*.cs", SearchOption.AllDirectories);
                 for (int j = 0; j < fileInfos.Length; j++)
                 {
                     scripts.Add(fileInfos[j].FullName);
@@ -136,21 +136,15 @@ namespace ET
 
             Directory.CreateDirectory(Define.BuildOutputDir);
 
-            AssemblyBuilder assemblyBuilder = new AssemblyBuilder(dllPath, scripts.ToArray());
+            AssemblyBuilder assemblyBuilder = new(dllPath, scripts.ToArray());
 
             if (codeMode == CodeMode.Client)
             {
-                assemblyBuilder.excludeReferences = new string[]
+                assemblyBuilder.excludeReferences = new[]
                 {
-                    "DnsClient.dll", 
-                    "MongoDB.Driver.Core.dll", 
-                    "MongoDB.Driver.dll", 
-                    "MongoDB.Driver.Legacy.dll",
-                    "MongoDB.Libmongocrypt.dll", 
-                    "SharpCompress.dll", 
-                    "System.Buffers.dll", 
-                    "System.Runtime.CompilerServices.Unsafe.dll",
-                    "System.Text.Encoding.CodePages.dll"
+                    "DnsClient.dll", "MongoDB.Driver.Core.dll", "MongoDB.Driver.dll", "MongoDB.Driver.Legacy.dll",
+                    "MongoDB.Libmongocrypt.dll", "SharpCompress.dll", "System.Buffers.dll", "System.Runtime.CompilerServices.Unsafe.dll",
+                    "System.Text.Encoding.CodePages.dll",
                 };
             }
 

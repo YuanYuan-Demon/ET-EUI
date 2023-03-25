@@ -1,0 +1,143 @@
+[
+  {
+    "id": 1,
+    "monster_id": [
+      1001
+    ],
+    "name": "诅咒之地1",
+    "enter_level_rang": [
+      1,
+      10
+    ],
+    "reward_exp": 1
+  },
+  {
+    "id": 2,
+    "monster_id": [
+      1002
+    ],
+    "name": "诅咒之地2",
+    "enter_level_rang": [
+      10,
+      20
+    ],
+    "reward_exp": 2
+  },
+  {
+    "id": 3,
+    "monster_id": [
+      1003
+    ],
+    "name": "诅咒之地3",
+    "enter_level_rang": [
+      20,
+      30
+    ],
+    "reward_exp": 3
+  },
+  {
+    "id": 4,
+    "monster_id": [
+      1004
+    ],
+    "name": "诅咒之地4",
+    "enter_level_rang": [
+      30,
+      40
+    ],
+    "reward_exp": 4
+  },
+  {
+    "id": 5,
+    "monster_id": [
+      1005
+    ],
+    "name": "诅咒之地5",
+    "enter_level_rang": [
+      40,
+      50
+    ],
+    "reward_exp": 5
+  },
+  {
+    "id": 6,
+    "monster_id": [
+      1006
+    ],
+    "name": "诅咒之地6",
+    "enter_level_rang": [
+      50,
+      60
+    ],
+    "reward_exp": 6
+  },
+  {
+    "id": 7,
+    "monster_id": [
+      1007
+    ],
+    "name": "诅咒之地7",
+    "enter_level_rang": [
+      60,
+      70
+    ],
+    "reward_exp": 7
+  },
+  {
+    "id": 8,
+    "monster_id": [
+      1008
+    ],
+    "name": "诅咒之地8",
+    "enter_level_rang": [
+      70,
+      80
+    ],
+    "reward_exp": 8
+  },
+  {
+    "id": 9,
+    "monster_id": [
+      1009
+    ],
+    "name": "诅咒之地9",
+    "enter_level_rang": [
+      80,
+      90
+    ],
+    "reward_exp": 9
+  },
+  {
+    "id": 10,
+    "monster_id": [
+      1010
+    ],
+    "name": "诅咒之地10",
+    "enter_level_rang": [
+      90100
+    ],
+    "reward_exp": 10
+  },
+  {
+    "id": 11,
+    "monster_id": [
+      1011
+    ],
+    "name": "诅咒之地11",
+    "enter_level_rang": [
+      100110
+    ],
+    "reward_exp": 11
+  },
+  {
+    "id": 12,
+    "monster_id": [
+      1012
+    ],
+    "name": "诅咒之地12",
+    "enter_level_rang": [
+      110120
+    ],
+    "reward_exp": 12
+  }
+]
