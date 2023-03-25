@@ -153,7 +153,7 @@ public class AOTGenericReferences : UnityEngine.MonoBehaviour
 		// ET.ETTask ET.EventSystem::PublishAsync<ET.EventType.LoginFinish>(ET.Scene,ET.EventType.LoginFinish)
 		// System.Object ET.Game::AddSingleton<System.Object>()
 		// System.Object ET.JsonHelper::FromJson<System.Object>(System.String)
-		// System.Void ET.RandomGenerator::BreakRank<System.Object>(System.Collections.Generic.List`1<System.Object>)
+		// System.Void ET.RandomHelper::BreakRank<System.Object>(System.Collections.Generic.List`1<System.Object>)
 		// System.String ET.StringHelper::ArrayToString<System.Single>(System.Single[])
 		// System.Object ReferenceCollector::Get<System.Object>(System.String)
 		// ET.Client.Wait_UnitStop System.Activator::CreateInstance<ET.Client.Wait_UnitStop>()

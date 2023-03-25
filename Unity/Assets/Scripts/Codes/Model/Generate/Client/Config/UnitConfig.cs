@@ -31,7 +31,6 @@ namespace ET
                 config.AfterEndInit();
                 this.dict.Add(config.Id, config);
             }
-            this.list.Clear();
             
             this.AfterEndInit();
         }
@@ -86,6 +85,15 @@ namespace ET
 		/// <summary>身高</summary>
 		[ProtoMember(5)]
 		public int Height { get; set; }
+		/// <summary>最大生命值</summary>
+		[ProtoMember(7)]
+		public int MaxHP { get; set; }
+		/// <summary>攻击伤害值</summary>
+		[ProtoMember(8)]
+		public int DamageValue { get; set; }
+		/// <summary>预设物名</summary>
+		[ProtoMember(9)]
+		public string PrefabName { get; set; }
 
 	}
 }

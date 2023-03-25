@@ -235,3 +235,524 @@ message G2C_Benchmark // IResponse
 	int32 Error = 2;
 	string Message = 3;
 }
+
+//============================================  账号系统  ============================================
+
+//ResponseType A2C_RegisterAccount
+message C2A_RegisterAccount // IRequest
+{
+	int32 RpcId = 90;
+
+	string AccountName = 1;
+	string Password = 2;
+}
+
+message A2C_RegisterAccount // IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//ResponseType A2C_LoginAccount
+message C2A_LoginAccount // IRequest
+{
+	int32 RpcId = 90;
+
+	string AccountName = 1;
+	string Password = 2;
+}
+
+message A2C_LoginAccount // IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	string Token = 1;
+	int64 AccountId = 2;
+}
+
+message A2C_Disconnect // IMessage
+{
+	int32 Error = 1;
+}
+
+//============================================  服务器选择流程  ============================================
+
+message NServerInfo
+{
+	int32 Id = 1;
+	int32 Status = 2;
+	string ServerName = 3;
+}
+
+//ResponseType A2C_GetServerInfos
+message C2A_GetServerInfos	//	IRequest
+{
+	int32 RpcId = 90;
+
+	string Token = 1;
+	int64 AccountId = 2;
+}
+
+message A2C_GetServerInfos	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	repeated NServerInfo NServerInfos = 1;
+}
+
+//============================================  角色创建/选择流程  ============================================
+
+message NRoleInfo
+{
+	int64 Id = 1;
+	string Name = 2;
+	int32 ServerId = 3;
+	int32 Status = 4;
+	int64 AccountId = 5;
+	int64 LastLoginTIme = 6;
+	int64 CreateTime = 7;
+}
+
+//ResponseType A2C_GetRoles
+message C2A_GetRoles	//	IRequest
+{
+	int32 RpcId = 90;
+
+	string Token = 1;
+	int32 ServerId = 2;
+	int64 AccountId = 3;
+}
+
+message A2C_GetRoles	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+	
+	repeated NRoleInfo NRoleInfos = 1;
+}
+
+//ResponseType A2C_CreateRole
+message C2A_CreateRole	//	IRequest
+{
+	int32 RpcId = 90;
+
+	string Token = 1;
+	int32 ServerId = 2;
+	int64 AccountId = 3;
+	string Name = 4;
+}
+
+message A2C_CreateRole	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	NRoleInfo NRoleInfo = 1;
+}
+
+//ResponseType A2C_DelteRole
+message C2A_DelteRole	//	IRequest
+{
+	int32 RpcId = 90;
+
+	string Token = 1;
+	int32 ServerId = 2;
+	int64 AccountId = 3;
+	int64 RoleId = 4;
+}
+
+message A2C_DelteRole	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	int64 RoleId = 1;
+}
+
+//============================================  登录流程  ============================================
+
+//ResponseType A2C_GetRealmKey
+message C2A_GetRealmKey	//	IRequest
+{
+	int32 RpcId = 90;
+
+	string Token = 1;
+	int32 ServerId = 2;
+	int64 AccountId = 3;
+}
+
+message A2C_GetRealmKey	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	string RealmToken = 1;
+	string RealmAddress = 2;
+}
+
+//ResponseType R2C_LoginRealm
+message C2R_LoginRealm	//	IRequest
+{
+	int32 RpcId = 90;
+
+	string RealmToken = 1;
+	int64 AccountId = 2;
+}
+
+message R2C_LoginRealm	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	string GateSessionToken = 1;
+	string GateAddress = 2;
+}
+
+//ResponseType G2C_LoginGameGate
+message C2G_LoginGameGate	//	IRequest
+{
+	int32 RpcId = 90;
+
+	string Key = 1;
+	int64 RoleId = 2;
+	int64 AccountId = 3;
+}
+
+message G2C_LoginGameGate	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	int64 PlayerId  = 1;
+}
+
+//ResponseType G2C_EnterGame
+message C2G_EnterGame	//	IRequest
+{
+	int32 RpcId = 90;
+}
+
+message G2C_EnterGame	//	IResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+
+	int64 UnitId  = 1;
+}
+
+//============================================  数值系统  ============================================
+
+message M2C_NoticeUnitNumeric // IActorMessage
+{
+	int64 UnitId = 1;
+	int32 NumericType = 2;
+	int64 NewValue = 3;
+}
+
+//============================================  属性点  ============================================
+
+//ResponseType M2C_AddAttributePoints
+message C2M_AddAttributePoints // IActorLocationRequest
+{
+	int32 RpcId = 90;
+
+	repeated int32 NumericTypes = 1;
+	repeated int64 AddValues = 2;
+}
+
+message M2C_AddAttributePoints // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+
+//============================================  闯关系统  ============================================
+
+//ResponseType M2C_StartGameLevel
+message C2M_StartGameLevel // IActorLocationRequest
+{
+	int32 RpcId = 90;
+
+	int32 LevelId = 1;
+}
+
+message M2C_StartGameLevel // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//ResponseType M2C_EndGameLevel
+message C2M_EndGameLevel // IActorLocationRequest
+{
+	int32 RpcId = 90;
+
+	int32 Round = 1;
+	int32 BattleResult = 2;
+}
+
+message M2C_EndGameLevel // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//ResponseType M2C_UpRoleLevel
+message C2M_UpRoleLevel // IActorLocationRequest
+{
+	int32 RpcId = 90;
+}
+
+message M2C_UpRoleLevel // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//============================================  道具系统  ============================================
+
+message ItemInfo
+{
+	int64 ItemUid      = 1;
+	int32 ItemConfigId = 2;
+	int32 ItemQuality  = 3;
+	
+	EquipInfoProto EquipInfo = 4; 
+}
+
+message M2C_AllItemsList // IActorMessage
+{
+	int32 RpcId = 90;
+	
+	repeated ItemInfo ItemInfoList = 1;
+	int32    ContainerType = 2;
+}
+
+message M2C_ItemUpdateOpInfo // IActorMessage
+{
+	int32 RpcId = 90;
+
+	ItemInfo ItemInfo = 1;
+	int32    Op       = 2;
+	int32    ContainerType = 3;
+}
+
+//ResponseType M2C_SellItem
+message C2M_SellItem // IActorLocationRequest
+{
+	int32 RpcId = 1;
+	int64 ItemUid = 2;
+}
+
+message M2C_SellItem // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+
+//============================================  装备系统  ============================================
+
+message AttributeEntryProto
+{
+	int64 Id = 1;
+	int32 EntryType = 2; 
+	int32 AttributeName = 3;
+	int64 AttributeValue = 4;
+}
+
+
+message EquipInfoProto
+{
+	int64 Id    = 1;
+	int32 Score = 2;
+	repeated AttributeEntryProto AttributeEntryList = 3;
+}
+
+//ResponseType M2C_EquipItem
+message C2M_EquipItem // IActorLocationRequest
+{
+	int32 RpcId = 90;
+
+	int64 ItemUid = 1;
+}
+
+message M2C_EquipItem // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+//ResponseType M2C_UnloadEquipItem
+message C2M_UnloadEquipItem // IActorLocationRequest
+{
+	int32 RpcId = 90;
+
+	int32 EquipPosition = 1;
+}
+
+message M2C_UnloadEquipItem // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
+
+
+//============================================  打造系统  ============================================
+
+message ProductionProto
+{
+	int64 Id           = 1;
+	int32 ConfigId     = 2;
+	int64 TargetTime   = 3;
+	int64 StartTime    = 4;
+	int32 ProductionState = 5;
+}
+
+//ResponseType M2C_StartProduction
+message C2M_StartProduction // IActorLocationRequest
+{
+	int32 RpcId    = 90;
+	
+	int32 ConfigId = 1;
+}
+
+message M2C_StartProduction // IActorLocationResponse
+{
+	int32 RpcId    = 90;
+	int32 Error    = 91;
+	string Message = 92;
+
+	ProductionProto  ProductionProto = 1;
+}
+
+
+//ResponseType M2C_ReceiveProduction
+message C2M_ReceiveProduction // IActorLocationRequest
+{
+	int32 RpcId        = 90;
+
+	int64 ProducitonId = 1;
+}
+
+message M2C_ReceiveProduction // IActorLocationResponse
+{
+	int32 RpcId    = 90;
+	int32 Error    = 91;
+	string Message = 92;
+
+	ProductionProto  ProductionProto = 1;
+}
+
+message M2C_AllProductionList // IActorMessage
+{
+	repeated ProductionProto ProductionProtoList = 1;
+}
+
+//============================================  任务系统  ============================================
+
+message TaskInfoProto
+{
+	int32 ConfigId  = 1;
+	int32 TaskState = 2;
+	int32 TaskPogress = 3;
+}
+
+message M2C_UpdateTaskInfo // IActorMessage
+{
+	TaskInfoProto TaskInfoProto = 1;
+}
+
+
+message M2C_AllTaskInfoList // IActorMessage
+{
+	repeated TaskInfoProto TaskInfoProtoList = 1;
+}
+
+
+//ResponseType M2C_ReceiveTaskReward
+message C2M_ReceiveTaskReward // IActorLocationRequest
+{
+	int32 RpcId        = 90;
+
+	int32 TaskConfigId = 1;
+}
+
+message M2C_ReceiveTaskReward // IActorLocationResponse
+{
+	int32 RpcId    = 90;
+	int32 Error    = 91;
+	string Message = 92;
+}
+
+// //============================================  排行榜系统  ============================================
+// message RankInfoProto
+// {
+// 	int64 Id      = 1;
+// 	int64 UnitId  = 2;
+// 	string Name   = 4;
+// 	int32  Level  = 5;
+// }
+
+// //ResponseType Rank2C_GetRanksInfo
+// message C2Rank_GetRanksInfo // IActorRankInfoRequest
+// {
+// 	int32 RpcId        = 90;
+// }
+
+
+// message Rank2C_GetRanksInfo // IActorRankInfoResponse
+// {
+// 	int32 RpcId    = 90;
+// 	int32 Error    = 91;
+// 	string Message = 92;
+
+// 	repeated RankInfoProto RankInfoProtoList = 1;
+// }
+
+
+// //============================================  聊天系统  ============================================
+
+// //ResponseType Chat2C_SendChatInfo
+// message C2Chat_SendChatInfo // IActorChatInfoRequest
+// {
+// 	int32 RpcId         = 90;
+	
+// 	string ChatMessage  = 1;
+// }
+
+
+// message Chat2C_SendChatInfo // IActorChatInfoResponse
+// {
+// 	int32 RpcId    = 90;
+// 	int32 Error    = 91;
+// 	string Message = 92;
+// }
+
+
+// message Chat2C_NoticeChatInfo // IActorMessage
+// {
+// 	string Name = 1;
+// 	string ChatMessage = 2;
+// }

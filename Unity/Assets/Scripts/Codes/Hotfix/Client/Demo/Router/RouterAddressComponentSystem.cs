@@ -17,7 +17,7 @@ namespace ET.Client
 
         private static async ETTask GetAllRouter(this RouterAddressComponent self)
         {
-            string url = $"http://{self.RouterManagerHost}:{self.RouterManagerPort}/get_router?v={RandomGenerator.RandUInt32()}";
+            string url = $"http://{self.RouterManagerHost}:{self.RouterManagerPort}/get_router?v={RandomHelper.RandUInt32()}";
             Log.Debug($"start get router info: {url}");
             string routerInfo = await HttpClientHelper.Get(url);
             Log.Debug($"recv router info: {routerInfo}");
@@ -26,7 +26,7 @@ namespace ET.Client
             Log.Debug($"start get router info finish: {JsonHelper.ToJson(httpGetRouterResponse)}");
 
             // 打乱顺序
-            RandomGenerator.BreakRank(self.Info.Routers);
+            RandomHelper.BreakRank(self.Info.Routers);
 
             self.WaitTenMinGetAllRouter().Coroutine();
         }

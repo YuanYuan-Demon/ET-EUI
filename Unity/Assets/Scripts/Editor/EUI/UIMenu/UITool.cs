@@ -1,5 +1,4 @@
-﻿using TMPro;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,37 +16,32 @@ public class UITool
                 mkg.raycastTarget = false;
             }
 
-            var btns = go.GetComponentsInChildren<Button>();
-            foreach (var btn in btns)
+            var selelctObjs = go.GetComponentsInChildren<Selectable>();
+            foreach (var s in selelctObjs)
             {
-                if (btn.targetGraphic != null)
+                var nav = s.navigation;
+                nav.mode = Navigation.Mode.None;
+                s.navigation = nav;
+
+                if (s.targetGraphic != null)
                 {
-                    btn.targetGraphic.raycastTarget = true;
+                    s.targetGraphic.raycastTarget = true;
                 }
             }
 
-            var toggles = go.GetComponentsInChildren<Toggle>();
-            foreach (var toggle in toggles)
-            {
-                if (toggle.targetGraphic != null)
-                {
-                    toggle.targetGraphic.raycastTarget = true;
-                }
-            }
+            //var infds = go.GetComponentsInChildren<InputField>();
+            //foreach (var infd in infds)
+            //{
+            //    if (infd.targetGraphic != null)
+            //        infd.targetGraphic.raycastTarget = true;
+            //}
 
-            var infds = go.GetComponentsInChildren<InputField>();
-            foreach (var infd in infds)
-            {
-                if (infd.targetGraphic != null)
-                    infd.targetGraphic.raycastTarget = true;
-            }
-
-            var tmpIpd = go.GetComponentsInChildren<TMP_InputField>();
-            foreach (var infd in tmpIpd)
-            {
-                if (infd.targetGraphic != null)
-                    infd.targetGraphic.raycastTarget = true;
-            }
+            //var tmpIpd = go.GetComponentsInChildren<TMP_InputField>();
+            //foreach (var infd in tmpIpd)
+            //{
+            //    if (infd.targetGraphic != null)
+            //        infd.targetGraphic.raycastTarget = true;
+            //}
 
             var loopList = go.GetComponentsInChildren<LoopScrollRectBase>();
             foreach (var list in loopList)

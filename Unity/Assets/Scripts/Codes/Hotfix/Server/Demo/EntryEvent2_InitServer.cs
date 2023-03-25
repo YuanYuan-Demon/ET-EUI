@@ -3,7 +3,7 @@ using System.Net;
 namespace ET.Server
 {
     [Event(SceneType.Process)]
-    public class EntryEvent2_InitServer: AEvent<ET.EventType.EntryEvent2>
+    public class EntryEvent2_InitServer : AEvent<ET.EventType.EntryEvent2>
     {
         protected override async ETTask Run(Scene scene, ET.EventType.EntryEvent2 args)
         {
@@ -17,7 +17,8 @@ namespace ET.Server
             Root.Instance.Scene.AddComponent<ServerSceneManagerComponent>();
             Root.Instance.Scene.AddComponent<RobotCaseComponent>();
 
-            Root.Instance.Scene.AddComponent<NavmeshComponent>();
+            //Root.Instance.Scene.AddComponent<NavmeshComponent>();
+            Root.Instance.Scene.AddComponent<DBManagerComponent>();
 
             StartProcessConfig processConfig = StartProcessConfigCategory.Instance.Get(Options.Instance.Process);
             switch (Options.Instance.AppType)

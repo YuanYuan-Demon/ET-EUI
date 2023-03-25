@@ -1,6 +1,6 @@
 namespace ET.Client
 {
-    public class AI_Attack: AAIHandler
+    public class AI_Attack : AAIHandler
     {
         public override int Check(AIComponent aiComponent, AIConfig aiConfig)
         {
@@ -16,7 +16,7 @@ namespace ET.Client
         {
             Scene clientScene = aiComponent.DomainScene();
 
-            Unit myUnit = UnitHelper.GetMyUnitFromClientScene(clientScene);
+            Unit myUnit = clientScene.GetMyUnit();
             if (myUnit == null)
             {
                 return;
@@ -24,7 +24,7 @@ namespace ET.Client
 
             // 停在当前位置
             clientScene.GetComponent<SessionComponent>().Session.Send(new C2M_Stop());
-            
+
             Log.Debug("开始攻击");
 
             for (int i = 0; i < 100000; ++i)
