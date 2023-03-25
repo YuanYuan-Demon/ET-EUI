@@ -7,16 +7,16 @@ namespace ET.Client
     {
         private static void ShowLogin(this DlgLogin self, bool isLogin = true)
         {
-            self.View.EG_LoginPanelRectTransform.gameObject.SetActive(isLogin);
-            self.View.EG_RegisterPanelRectTransform.gameObject.SetActive(!isLogin);
+            self.View.EG_LoginPanel_RectTransform.gameObject.SetActive(isLogin);
+            self.View.EG_RegisterPanel_RectTransform.gameObject.SetActive(!isLogin);
         }
 
         public static void RegisterUIEvent(this DlgLogin self)
         {
-            self.View.EB_LoginButton.AddListener(self.OnClickLogin);
-            self.View.EB_ToRegisterButton.AddListener(self.OnClickToRegister);
-            self.View.EB_RegisterButton.AddListener(self.OnClickRegister);
-            self.View.EB_CancelButton.AddListener(self.OnClickCancel);
+            self.View.EB_Login_Button.AddListener(self.OnClickLogin);
+            self.View.EB_ToRegister_Button.AddListener(self.OnClickToRegister);
+            self.View.EB_Register_Button.AddListener(self.OnClickRegister);
+            self.View.EB_Cancel_Button.AddListener(self.OnClickCancel);
         }
 
         public static void ShowWindow(this DlgLogin self, Entity contextData = null)
@@ -30,8 +30,11 @@ namespace ET.Client
         {
             try
             {
-                if (string.IsNullOrEmpty(self.View.EInput_LoginAccountTMP_InputField.text)
-                    || string.IsNullOrEmpty(self.View.EInput_LoginPasswordTMP_InputField.text))
+                string account = self.View.EInput_LoginAccount_TMP_InputField.text;
+                string password = self.View.EInput_LoginPassword_TMP_InputField.text;
+
+                if (string.IsNullOrEmpty(account)
+                    || string.IsNullOrEmpty(password))
                 {
                     Log.Error("账号或密码不能为空");
                     UIComponent.Instance.ShowErrorBox("账号或密码不能为空");
@@ -39,8 +42,8 @@ namespace ET.Client
                 }
                 var err = await LoginHelper.Login(
                     self.ClientScene(),
-                    self.View.EInput_LoginAccountTMP_InputField.text,
-                    self.View.EInput_LoginPasswordTMP_InputField.text);
+                    account,
+                    password);
 
                 if (err.Code != ErrorCode.ERR_Success)
                 {
@@ -76,17 +79,28 @@ namespace ET.Client
         {
             try
             {
-                if (string.IsNullOrEmpty(self.View.EInput_LoginAccountTMP_InputField.text)
-                    || string.IsNullOrEmpty(self.View.EInput_LoginPasswordTMP_InputField.text))
+                string account = self.View.EInput_RegisterAccount_TMP_InputField.text;
+                string password = self.View.EInput_RegisterPassword_TMP_InputField.text;
+                string confirmPassword = self.View.EInput_RegisterPassword_Confirm_TMP_InputField.text;
+
+                if (string.IsNullOrEmpty(account)
+                    || string.IsNullOrEmpty(password)
+                    || string.IsNullOrEmpty(confirmPassword))
                 {
                     Log.Error("账号或密码不能为空");
                     UIComponent.Instance.ShowErrorBox("账号或密码不能为空");
                     return;
                 }
+                if (string.Compare(password, confirmPassword) != 0)
+                {
+                    Log.Error("两次密码不一致");
+                    UIComponent.Instance.ShowErrorBox("两次密码不一致");
+                    return;
+                }
                 var err = await LoginHelper.Register(
                     self.ClientScene(),
-                    self.View.EInput_LoginAccountTMP_InputField.text,
-                    self.View.EInput_LoginPasswordTMP_InputField.text);
+                    account,
+                    password);
 
                 if (err.Code != ErrorCode.ERR_Success)
                 {

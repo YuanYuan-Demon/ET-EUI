@@ -1,14 +1,13 @@
-﻿using ET;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace UnityEditor.UI
 {
-    static internal class LoopScrollRectMenuOptions
+    internal static class LoopScrollRectMenuOptions
     {
         #region code from MenuOptions.cs
+
         private const string kUILayerName = "UI";
 
         private const string kStandardSpritePath = "UI/Skin/UISprite.psd";
@@ -19,9 +18,9 @@ namespace UnityEditor.UI
         private const string kDropdownArrowPath = "UI/Skin/DropdownArrow.psd";
         private const string kMaskPath = "UI/Skin/UIMask.psd";
 
-        static private DefaultControls.Resources s_StandardResources;
+        private static DefaultControls.Resources s_StandardResources;
 
-        static private DefaultControls.Resources GetStandardResources()
+        private static DefaultControls.Resources GetStandardResources()
         {
             if (s_StandardResources.standard == null)
             {
@@ -100,7 +99,7 @@ namespace UnityEditor.UI
             Selection.activeGameObject = element;
         }
 
-        static public GameObject CreateNewUI()
+        public static GameObject CreateNewUI()
         {
             // Root for the UI
             var root = new GameObject("Canvas");
@@ -117,7 +116,7 @@ namespace UnityEditor.UI
         }
 
         // Helper function that returns a Canvas GameObject; preferably a parent of the selection, or other existing Canvas.
-        static public GameObject GetOrCreateCanvasGameObject()
+        public static GameObject GetOrCreateCanvasGameObject()
         {
             GameObject selectedGo = Selection.activeGameObject;
 
@@ -134,118 +133,113 @@ namespace UnityEditor.UI
             // No canvas in the scene at all? Then create a new one.
             return LoopScrollRectMenuOptions.CreateNewUI();
         }
-        #endregion
-        
+
+        #endregion code from MenuOptions.cs
+
         [MenuItem("GameObject/EUI/Loop Horizontal Scroll Rect", false, -1)]
-        static public void AddLoopHorizontalScrollRect(MenuCommand menuCommand)
+        public static void AddLoopHorizontalScrollRect(MenuCommand menuCommand)
         {
             GameObject go = LoopScrollRectDefaultControls.CreateLoopHorizontalScrollRect(GetStandardResources());
             PlaceUIElementRoot(go, menuCommand);
-          
-            go.name = "ELoopScrollList_";
+
+            go.name = "EL_";
         }
 
         [MenuItem("GameObject/EUI/Loop Vertical Scroll Rect", false, -1)]
-        static public void AddLoopVerticalScrollRect(MenuCommand menuCommand)
+        public static void AddLoopVerticalScrollRect(MenuCommand menuCommand)
         {
             GameObject go = LoopScrollRectDefaultControls.CreateLoopVerticalScrollRect(GetStandardResources());
             PlaceUIElementRoot(go, menuCommand);
-         
-            go.name = "ELoopScrollList_";
+
+            go.name = "EL_";
         }
-        
-        
+
         [MenuItem("GameObject/EUI/Loop Horizontal Grid Scroll Rect", false, -1)]
-        static public void AddLoopHorizontalGridScrollRect(MenuCommand menuCommand)
+        public static void AddLoopHorizontalGridScrollRect(MenuCommand menuCommand)
         {
-            GameObject go = LoopScrollRectDefaultControls.CreateLoopHorizontalScrollRect(GetStandardResources(),true);
+            GameObject go = LoopScrollRectDefaultControls.CreateLoopHorizontalScrollRect(GetStandardResources(), true);
             PlaceUIElementRoot(go, menuCommand);
-          
-            go.name = "ELoopScrollList_";
+
+            go.name = "EL_";
         }
 
         [MenuItem("GameObject/EUI/Loop Vertical Grid Scroll Rect", false, -1)]
-        static public void AddLoopVerticalGridScrollRect(MenuCommand menuCommand)
+        public static void AddLoopVerticalGridScrollRect(MenuCommand menuCommand)
         {
-            GameObject go = LoopScrollRectDefaultControls.CreateLoopVerticalScrollRect(GetStandardResources(),true);
+            GameObject go = LoopScrollRectDefaultControls.CreateLoopVerticalScrollRect(GetStandardResources(), true);
             PlaceUIElementRoot(go, menuCommand);
-         
-            go.name = "ELoopScrollList_";
+
+            go.name = "EL_";
         }
-        
-        
-        
+
         [MenuItem("GameObject/EUI/EUISprite", false, -1)]
-        static public void AddZUISprite(MenuCommand menuCommand)
+        public static void AddZUISprite(MenuCommand menuCommand)
         {
             GameObject go = new GameObject();
             GameObject parent = Selection.activeGameObject;
-            go.transform.SetParent(parent.transform,false);
+            go.transform.SetParent(parent.transform, false);
             go.transform.SetAsLastSibling();
             go.AddComponent<RectTransform>();
             go.AddComponent<CanvasRenderer>();
             go.AddComponent<Image>();
-         
-            go.name = "ESprite_";
+
+            go.name = "EI_";
         }
-        
-        
+
         [MenuItem("GameObject/EUI/EUIButton", false, -1)]
-        static public void AddZUIButton(MenuCommand menuCommand)
+        public static void AddZUIButton(MenuCommand menuCommand)
         {
             GameObject go = new GameObject();
             GameObject parent = Selection.activeGameObject;
-            go.transform.SetParent(parent.transform,false);
+            go.transform.SetParent(parent.transform, false);
             go.transform.SetAsLastSibling();
             go.AddComponent<RectTransform>();
             go.AddComponent<CanvasRenderer>();
             go.AddComponent<Image>();
             go.AddComponent<Button>();
-           
-            go.name = "EButton_";
+
+            go.name = "EB_";
         }
-        
-        
-        [MenuItem("GameObject/EUI/EUIButtonAndLabel", false, -1)]
-        static public void AddZUIButtonAndLabel(MenuCommand menuCommand)
+
+        [MenuItem("GameObject/EUI/EUIButtonAndText", false, -1)]
+        public static void AddZUIButtonAndText(MenuCommand menuCommand)
         {
             GameObject go = new GameObject();
             GameObject parent = Selection.activeGameObject;
-            go.transform.SetParent(parent.transform,false);
+            go.transform.SetParent(parent.transform, false);
             go.transform.SetAsLastSibling();
             go.AddComponent<RectTransform>();
             go.AddComponent<CanvasRenderer>();
             go.AddComponent<Image>();
             go.AddComponent<Button>();
-         
+
             go.name = "EButton_";
             GameObject go2 = new GameObject();
-            go2.transform.SetParent(go.transform,false);
+            go2.transform.SetParent(go.transform, false);
             go2.transform.SetAsLastSibling();
             go2.AddComponent<RectTransform>();
             go2.AddComponent<CanvasRenderer>();
             Text text = go2.AddComponent<Text>();
             text.color = Color.black;
             text.text = "1111";
-           
-            go2.name = "ELabel_";
+
+            go2.name = "ET_";
         }
-        
-        [MenuItem("GameObject/EUI/EUILabel", false, -1)]
-        static public void AddZUILabel(MenuCommand menuCommand)
+
+        [MenuItem("GameObject/EUI/EUIText", false, -1)]
+        public static void AddZUIText(MenuCommand menuCommand)
         {
             GameObject go = new GameObject();
             GameObject parent = Selection.activeGameObject;
-            go.transform.SetParent(parent.transform,false);
+            go.transform.SetParent(parent.transform, false);
             go.transform.SetAsLastSibling();
             go.AddComponent<RectTransform>();
             go.AddComponent<CanvasRenderer>();
             Text text = go.AddComponent<Text>();
             text.color = Color.black;
             text.text = "1111";
-          
-            go.name = "ELabel_";
+
+            go.name = "ET_";
         }
-        
     }
 }

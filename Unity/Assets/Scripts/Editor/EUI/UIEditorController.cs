@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEditor;
-using System.IO;
-using ET;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace ClientEditor
 {
-    class UIEditorController
+    internal class UIEditorController
     {
         [MenuItem("GameObject/SpawnEUICode", false, -2)]
-        static public void CreateNewCode()
+        public static void CreateNewCode()
         {
             GameObject go = Selection.activeObject as GameObject;
             UICodeSpawner.SpawnEUICode(go);
@@ -22,18 +16,17 @@ namespace ClientEditor
         public static void NameAllUIPrefab()
         {
             string suffix = ".unity3d";
-            UnityEngine.Object[] selectAsset = Selection.GetFiltered<UnityEngine.Object>(SelectionMode.DeepAssets);
-            for (int i = 0; i < selectAsset.Length; i++)
+            var selectAsset = Selection.GetFiltered<UnityEngine.Object>(SelectionMode.DeepAssets);
+            foreach (var obj in selectAsset)
             {
-                string prefabName = AssetDatabase.GetAssetPath(selectAsset[i]);
+                string prefabName = AssetDatabase.GetAssetPath(obj);
                 //MARKER：判断是否是.prefab
-                if (prefabName.EndsWith(".prefab"))
+                if (prefabName.EndsWith(".prefab") || prefabName.EndsWith(".unity"))
                 {
                     Debug.Log(prefabName);
                     AssetImporter importer = AssetImporter.GetAtPath(prefabName);
-                    importer.assetBundleName = selectAsset[i].name.ToLower() + suffix;
+                    importer.assetBundleName = obj.name.ToLower() + suffix;
                 }
-
             }
             AssetDatabase.Refresh();
             AssetDatabase.RemoveUnusedAssetBundleNames();

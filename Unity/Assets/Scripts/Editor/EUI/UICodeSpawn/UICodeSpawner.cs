@@ -477,7 +477,7 @@ public partial class UICodeSpawner
                     continue;
                 }
 
-                string widgetName = widget.name + strClassType.Split('.').ToList().Last();
+                string widgetName = $"{widget.name}_{strClassType.Split('.').ToList().Last()}";
                 strBuilder.AppendFormat("\t\t	{0}.m_{1} = null;\r\n", pointStr, widgetName);
             }
         }
@@ -505,7 +505,7 @@ public partial class UICodeSpawner
                     GetSubUIBaseWindowCode(ref strBuilder, pair.Key, strPath, subUIClassPrefab.name);
                     continue;
                 }
-                string widgetName = widget.name + strClassType.Split('.').ToList().Last();
+                string widgetName = $"{widget.name}_{strClassType.Split('.').ToList().Last()}";
 
                 strBuilder.AppendFormat("		public {0} {1}\r\n", strInterfaceType, widgetName);
                 strBuilder.AppendLine("     	{");
@@ -570,7 +570,7 @@ public partial class UICodeSpawner
                     continue;
                 }
 
-                string widgetName = widget.name + strClassType.Split('.').ToList().Last();
+                string widgetName = $"{widget.name}_{strClassType.Split('.').ToList().Last()}";
                 strBuilder.AppendFormat("\t\tprivate {0} m_{1} = null;\r\n", strClassType, widgetName);
             }
         }

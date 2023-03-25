@@ -167,114 +167,109 @@ namespace ET.Client
 
         #endregion 登录相关
 
-        //#region 角色
+        #region 角色
 
-        ///// <summary>
-        ///// 获取当前服务器(区)角色列表
-        ///// </summary>
-        ///// <param name="zoneScene"> </param>
-        ///// <returns> </returns>
-        //public static async ETTask<int> GetRoles(Scene zoneScene)
-        //{
-        //    A2C_GetRoles response;
-        //    try
-        //    {
-        //        response = await zoneScene.GetSession().Call(new C2A_GetRoles()
-        //        {
-        //            Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
-        //            ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
-        //            AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
-        //        }) as A2C_GetRoles;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Log.Error(e);
-        //        return ErrorCode.ERR_NetWorkError;
-        //    }
+        /// <summary>
+        /// 获取当前服务器(区)角色列表
+        /// </summary>
+        /// <param name="zoneScene"> </param>
+        /// <returns> </returns>
+        public static async ETTask<int> GetRoles(Scene zoneScene)
+        {
+            A2C_GetRoles response;
+            try
+            {
+                response = await zoneScene.GetSession().Call(new C2A_GetRoles()
+                {
+                    Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
+                    AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
+                    ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
+                }) as A2C_GetRoles;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
 
-        //    if (response.Error != ErrorCode.ERR_Success)
-        //    {
-        //        return response.Error;
-        //    }
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                return response.Error;
+            }
 
-        //    zoneScene.GetComponent<RoleInfosComponent>().RoleInfos.Clear();//UNDONE: 孩子节点并未清除
-        //    for (int i = 0; i < response.NRoleInfos.Count; i++)
-        //    {
-        //        var roleInfo = zoneScene.GetComponent<RoleInfosComponent>().AddChild<RoleInfo>();
-        //        roleInfo.FromNServerInfo(response.NRoleInfos[i]);
-        //        zoneScene.GetComponent<RoleInfosComponent>().RoleInfos.Add(roleInfo);
-        //    }
+            RoleInfosComponent roleInfosComponent = zoneScene.GetComponent<RoleInfosComponent>();
+            roleInfosComponent.Clear();//UNDONE: 孩子节点并未清除
+            foreach (NRoleInfo nRoleInfo in response.NRoleInfos)
+            {
+                roleInfosComponent.Add(nRoleInfo);
+            }
 
-        //    return ErrorCode.ERR_Success;
-        //}
+            return ErrorCode.ERR_Success;
+        }
 
-        ///// <summary>
-        ///// 创建角色
-        ///// </summary>
-        ///// <param name="zoneScene"> </param>
-        ///// <param name="roleName"> 角色名 </param>
-        ///// <returns> 状态码 </returns>
-        //public static async ETTask<int> CreateRole(Scene zoneScene, string roleName)
-        //{
-        //    A2C_CreateRole response = null;
-        //    try
-        //    {
-        //        response = await zoneScene.GetSession().Call(new C2A_CreateRole()
-        //        {
-        //            AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
-        //            Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
-        //            Name = roleName,
-        //            ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
-        //        }) as A2C_CreateRole;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Log.Error(e);
-        //        return ErrorCode.ERR_NetWorkError;
-        //    }
+        /// <summary>
+        /// 创建角色
+        /// </summary>
+        /// <param name="zoneScene"> </param>
+        /// <param name="roleName"> 角色名 </param>
+        /// <returns> 状态码 </returns>
+        public static async ETTask<int> CreateRole(Scene zoneScene, string roleName)
+        {
+            A2C_CreateRole response = null;
+            try
+            {
+                response = await zoneScene.GetSession().Call(new C2A_CreateRole()
+                {
+                    AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
+                    Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
+                    Name = roleName,
+                    ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
+                }) as A2C_CreateRole;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
 
-        //    if (response.Error != ErrorCode.ERR_Success)
-        //    {
-        //        return response.Error;
-        //    }
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                return response.Error;
+            }
 
-        //    var newRoleInfo = zoneScene.GetComponent<RoleInfosComponent>().AddChild<RoleInfo>();
-        //    newRoleInfo.FromNServerInfo(response.NRoleInfo);
-        //    zoneScene.GetComponent<RoleInfosComponent>().RoleInfos.Add(newRoleInfo);
-        //    return ErrorCode.ERR_Success;
-        //}
+            zoneScene.GetComponent<RoleInfosComponent>().Add(response.NRoleInfo);
+            return ErrorCode.ERR_Success;
+        }
 
-        //public static async ETTask<int> DeleteRole(Scene zoneScene, long roleId)
-        //{
-        //    A2C_DelteRole response = null;
-        //    try
-        //    {
-        //        response = await zoneScene.GetSession().Call(new C2A_DelteRole()
-        //        {
-        //            Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
-        //            ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
-        //            RoleId = roleId
-        //        }) as A2C_DelteRole;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Log.Error(e);
-        //        return ErrorCode.ERR_NetWorkError;
-        //    }
+        public static async ETTask<int> DeleteRole(Scene zoneScene, long roleId)
+        {
+            A2C_DelteRole response = null;
+            try
+            {
+                response = await zoneScene.GetSession().Call(new C2A_DelteRole()
+                {
+                    Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
+                    ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
+                    RoleId = roleId
+                }) as A2C_DelteRole;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
 
-        //    if (response.Error != ErrorCode.ERR_Success)
-        //    {
-        //        return response.Error;
-        //    }
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                return response.Error;
+            }
 
-        //    //删除本地数据
-        //    var roleInfos = zoneScene.GetComponent<RoleInfosComponent>().RoleInfos;
-        //    int index = roleInfos.FindIndex(role => role.Id == response.RoleId);
-        //    roleInfos.RemoveAt(index);
-        //    return ErrorCode.ERR_Success;
-        //}
+            //删除本地数据
+            zoneScene.GetComponent<RoleInfosComponent>().Remove(response.RoleId);
+            return ErrorCode.ERR_Success;
+        }
 
-        //#endregion 角色
+        #endregion 角色
 
         ///// <summary>
         ///// 连接网关负载均衡服务器, 请求进入游戏
