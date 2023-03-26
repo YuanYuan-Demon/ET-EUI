@@ -21,7 +21,7 @@ namespace ClientEditor
             {
                 string prefabName = AssetDatabase.GetAssetPath(obj);
                 //MARKER：判断是否是.prefab
-                if (prefabName.EndsWith(".prefab") || prefabName.EndsWith(".unity"))
+                if (prefabName.EndsWith(".prefab") || prefabName.EndsWith(".unity") || prefabName.EndsWith(".spriteatlasv2"))
                 {
                     Debug.Log(prefabName);
                     AssetImporter importer = AssetImporter.GetAtPath(prefabName);

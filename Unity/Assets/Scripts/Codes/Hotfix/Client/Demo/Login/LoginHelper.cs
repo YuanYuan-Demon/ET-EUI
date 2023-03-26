@@ -4,6 +4,7 @@ using System.Net.Sockets;
 
 namespace ET.Client
 {
+    [FriendOfAttribute(typeof(ET.Client.RoleInfosComponent))]
     public static class LoginHelper
     {
         #region 登录相关
@@ -65,7 +66,6 @@ namespace ET.Client
                 {
                     routerAddressComponent = clientScene.AddComponent<RouterAddressComponent, string, int>(ConstValue.RouterHttpHost, ConstValue.RouterHttpPort);
                     await routerAddressComponent.Init();
-
                     clientScene.AddComponent<NetClientComponent, AddressFamily>(routerAddressComponent.RouterManagerIPAddress.AddressFamily);
                 }
 
@@ -131,39 +131,39 @@ namespace ET.Client
             return ErrorMessage.Success;
         }
 
-        ///// <summary>
-        ///// 向 Account账号服务器 申请网关负载均衡服务器 的token
-        ///// </summary>
-        ///// <param name="zoneScene"> </param>
-        ///// <returns> </returns>
-        //public static async ETTask<int> GetRealmKey(Scene zoneScene)
-        //{
-        //    A2C_GetRealmKey response = null;
-        //    AccountInfoComponent accountInfoComponent = zoneScene.GetComponent<AccountInfoComponent>();
-        //    try
-        //    {
-        //        response = await zoneScene.GetSession().Call(new C2A_GetRealmKey()
-        //        {
-        //            Token = accountInfoComponent.Token,
-        //            ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
-        //            AccountId = accountInfoComponent.AccountId
-        //        }) as A2C_GetRealmKey;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Log.Error(e);
-        //        return ErrorCode.ERR_NetWorkError;
-        //    }
+        /// <summary>
+        /// 向 Account账号服务器 申请网关负载均衡服务器 的token
+        /// </summary>
+        /// <param name="zoneScene"> </param>
+        /// <returns> </returns>
+        public static async ETTask<int> GetRealmKey(Scene zoneScene)
+        {
+            A2C_GetRealmKey response = null;
+            AccountInfoComponent accountInfoComponent = zoneScene.GetComponent<AccountInfoComponent>();
+            try
+            {
+                response = await zoneScene.GetSession().Call(new C2A_GetRealmKey()
+                {
+                    Token = accountInfoComponent.Token,
+                    ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
+                    AccountId = accountInfoComponent.AccountId
+                }) as A2C_GetRealmKey;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
 
-        //    if (response.Error != ErrorCode.ERR_Success)
-        //    {
-        //        return response.Error;
-        //    }
-        //    accountInfoComponent.RealmToken = response.RealmToken;
-        //    accountInfoComponent.RealmAddress = response.RealmAddress;
-        //    zoneScene.GetComponent<SessionComponent>().Session.Dispose();
-        //    return ErrorCode.ERR_Success;
-        //}
+            if (response.Error != ErrorCode.ERR_Success)
+            {
+                return response.Error;
+            }
+            accountInfoComponent.RealmToken = response.RealmToken;
+            accountInfoComponent.RealmAddress = response.RealmAddress;
+            zoneScene.GetComponent<SessionComponent>().Session.Dispose();
+            return ErrorCode.ERR_Success;
+        }
 
         #endregion 登录相关
 
@@ -198,11 +198,8 @@ namespace ET.Client
             }
 
             RoleInfosComponent roleInfosComponent = zoneScene.GetComponent<RoleInfosComponent>();
-            roleInfosComponent.Clear();//UNDONE: 孩子节点并未清除
-            foreach (NRoleInfo nRoleInfo in response.NRoleInfos)
-            {
-                roleInfosComponent.Add(nRoleInfo);
-            }
+            roleInfosComponent.Clear();
+            roleInfosComponent.AddRange(response.NRoleInfos);
 
             return ErrorCode.ERR_Success;
         }
@@ -271,102 +268,102 @@ namespace ET.Client
 
         #endregion 角色
 
-        ///// <summary>
-        ///// 连接网关负载均衡服务器, 请求进入游戏
-        ///// </summary>
-        ///// <param name="clientScene"> </param>
-        ///// <returns> </returns>
-        //public static async ETTask<int> EnterGame(Scene clientScene)
-        //{
-        //    AccountInfoComponent accountInfoComponent = clientScene.GetComponent<AccountInfoComponent>();
-        //    string realmAddress = accountInfoComponent.RealmAddress;
+        /// <summary>
+        /// 连接网关负载均衡服务器, 请求进入游戏
+        /// </summary>
+        /// <param name="clientScene"> </param>
+        /// <returns> </returns>
+        public static async ETTask<int> EnterGame(Scene clientScene)
+        {
+            AccountInfoComponent accountInfoComponent = clientScene.GetComponent<AccountInfoComponent>();
+            string realmAddress = accountInfoComponent.RealmAddress;
 
-        //    #region 连接Realm服务器,获取分配的Gate服务器
+            #region 连接Realm服务器,获取分配的Gate服务器
 
-        //    //realmSession = clientScene.GetComponent<NetClientComponent>().Create(NetworkHelper.ToIPEndPoint(realmAddress));
+            //realmSession = clientScene.GetComponent<NetClientComponent>().Create(NetworkHelper.ToIPEndPoint(realmAddress));
 
-        //    R2C_LoginRealm r2c_LoginRealm;
-        //    try
-        //    {
-        //        using Session realmSession = await RouterHelper.CreateRouterSession(clientScene, NetworkHelper.ToIPEndPoint(realmAddress));
-        //        r2c_LoginRealm = await realmSession.Call(
-        //            new C2R_LoginRealm()
-        //            {
-        //                RealmToken = accountInfoComponent.RealmToken,
-        //                AccountId = accountInfoComponent.AccountId,
-        //            }) as R2C_LoginRealm;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Log.Error(e);
-        //        return ErrorCode.ERR_NetWorkError;
-        //    }
+            R2C_LoginRealm r2c_LoginRealm;
+            try
+            {
+                using Session realmSession = await RouterHelper.CreateRouterSession(clientScene, NetworkHelper.ToIPEndPoint(realmAddress));
+                r2c_LoginRealm = await realmSession.Call(
+                    new C2R_LoginRealm()
+                    {
+                        RealmToken = accountInfoComponent.RealmToken,
+                        AccountId = accountInfoComponent.AccountId,
+                    }) as R2C_LoginRealm;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                return ErrorCode.ERR_NetWorkError;
+            }
 
-        //    if (r2c_LoginRealm.Error != ErrorCode.ERR_Success)
-        //    {
-        //        return r2c_LoginRealm.Error;
-        //    }
-        //    Log.Warning($"GateAddress: {r2c_LoginRealm.GateAddress}");
+            if (r2c_LoginRealm.Error != ErrorCode.ERR_Success)
+            {
+                return r2c_LoginRealm.Error;
+            }
+            Log.Warning($"GateAddress: {r2c_LoginRealm.GateAddress}");
 
-        //    #endregion 连接Realm服务器,获取分配的Gate服务器
+            #endregion 连接Realm服务器,获取分配的Gate服务器
 
-        //    #region 连接Gate网关服务器
+            #region 连接Gate网关服务器
 
-        //    Session gateSession = await RouterHelper.CreateRouterSession(clientScene, NetworkHelper.ToIPEndPoint(r2c_LoginRealm.GateAddress));
-        //    clientScene.GetComponent<SessionComponent>().Session = gateSession;
+            Session gateSession = await RouterHelper.CreateRouterSession(clientScene, NetworkHelper.ToIPEndPoint(r2c_LoginRealm.GateAddress));
+            clientScene.GetComponent<SessionComponent>().Session = gateSession;
 
-        //    G2C_LoginGameGate g2c_LoginGameGate;
-        //    try
-        //    {
-        //        g2c_LoginGameGate = await gateSession.Call(new C2G_LoginGameGate()
-        //        {
-        //            AccountId = accountInfoComponent.AccountId,
-        //            Key = r2c_LoginRealm.GateSessionToken,
-        //            RoleId = clientScene.GetComponent<RoleInfosComponent>().CurRoleId
-        //        }) as G2C_LoginGameGate;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Log.Error(e);
-        //        gateSession?.Dispose();
-        //        return ErrorCode.ERR_NetWorkError;
-        //    }
+            G2C_LoginGameGate g2c_LoginGameGate;
+            try
+            {
+                g2c_LoginGameGate = await gateSession.Call(new C2G_LoginGameGate()
+                {
+                    AccountId = accountInfoComponent.AccountId,
+                    Key = r2c_LoginRealm.GateSessionToken,
+                    RoleId = clientScene.GetComponent<RoleInfosComponent>().CurRoleId
+                }) as G2C_LoginGameGate;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                gateSession?.Dispose();
+                return ErrorCode.ERR_NetWorkError;
+            }
 
-        //    if (g2c_LoginGameGate.Error != ErrorCode.ERR_Success)
-        //    {
-        //        return g2c_LoginGameGate.Error;
-        //    }
-        //    Log.Debug("登录Gate服务器成功");
+            if (g2c_LoginGameGate.Error != ErrorCode.ERR_Success)
+            {
+                return g2c_LoginGameGate.Error;
+            }
+            Log.Debug("登录Gate服务器成功");
 
-        //    #endregion 连接Gate网关服务器
+            #endregion 连接Gate网关服务器
 
-        //    #region 角色正式请求进入游戏逻辑服
+            #region 角色正式请求进入游戏逻辑服
 
-        //    G2C_EnterGame g2c_EnterGameResponse;
-        //    var wait = clientScene.GetComponent<ObjectWait>().Wait<Wait_SceneChangeFinish>();
-        //    try
-        //    {
-        //        g2c_EnterGameResponse = await gateSession.Call(new C2G_EnterGame()) as G2C_EnterGame;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Log.Error(e);
-        //        gateSession?.Dispose();
-        //        return ErrorCode.ERR_NetWorkError;
-        //    }
+            G2C_EnterGame g2c_EnterGameResponse;
+            var wait = clientScene.GetComponent<ObjectWait>().Wait<Wait_SceneChangeFinish>();
+            try
+            {
+                g2c_EnterGameResponse = await gateSession.Call(new C2G_EnterGame()) as G2C_EnterGame;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                gateSession?.Dispose();
+                return ErrorCode.ERR_NetWorkError;
+            }
 
-        //    if (g2c_EnterGameResponse.Error != ErrorCode.ERR_Success)
-        //    {
-        //        return g2c_EnterGameResponse.Error;
-        //    }
+            if (g2c_EnterGameResponse.Error != ErrorCode.ERR_Success)
+            {
+                return g2c_EnterGameResponse.Error;
+            }
 
-        //    clientScene.GetComponent<PlayerComponent>().MyId = g2c_EnterGameResponse.UnitId;
-        //    await wait;
-        //    Log.Debug("角色进入游戏成功");
+            clientScene.GetComponent<PlayerComponent>().MyId = g2c_EnterGameResponse.UnitId;
+            await wait;
+            Log.Debug("角色进入游戏成功");
 
-        //    #endregion 角色正式请求进入游戏逻辑服
+            #endregion 角色正式请求进入游戏逻辑服
 
-        //    return ErrorCode.ERR_Success;
-        //}
+            return ErrorCode.ERR_Success;
+        }
     }
 }

@@ -4,9 +4,23 @@ using MongoDB.Bson.Serialization.Options;
 
 namespace ET
 {
-    [FriendOf(typeof (NumericComponent))]
+    namespace EventType
+    {
+        public struct NumbericChange
+        {
+            public bool IsServer;
+            public Unit Unit;
+            public int NumericType;
+            public long Old;
+            public long New;
+        }
+    }
+
+    [FriendOf(typeof(NumericComponent))]
     public static class NumericComponentSystem
     {
+        #region Get
+
         public static float GetAsFloat(this NumericComponent self, int numericType)
         {
             return (float)self.GetByKey(numericType) / 10000;
@@ -21,6 +35,17 @@ namespace ET
         {
             return self.GetByKey(numericType);
         }
+
+        public static long GetByKey(this NumericComponent self, int key)
+        {
+            long value = 0;
+            self.NumericDic.TryGetValue(key, out value);
+            return value;
+        }
+
+        #endregion Get
+
+        #region Set
 
         public static void Set(this NumericComponent self, int nt, float value)
         {
@@ -65,12 +90,45 @@ namespace ET
             }
         }
 
-        public static long GetByKey(this NumericComponent self, int key)
+        #endregion Set
+
+        #region Add
+
+        public static long Add(this NumericComponent self, int nt, float value)
         {
-            long value = 0;
-            self.NumericDic.TryGetValue(key, out value);
-            return value;
+            return self[nt] += (int)(value * 10000);
         }
+
+        public static long Add(this NumericComponent self, int nt, int value)
+        {
+            return self[nt] += value;
+        }
+
+        public static long Add(this NumericComponent self, int nt, long value)
+        {
+            return self[nt] += value;
+        }
+
+        #endregion Add
+
+        #region Minus
+
+        public static long Minus(this NumericComponent self, int nt, float value)
+        {
+            return self[nt] -= (int)(value * 10000);
+        }
+
+        public static long Minus(this NumericComponent self, int nt, int value)
+        {
+            return self[nt] -= value;
+        }
+
+        public static long Minus(this NumericComponent self, int nt, long value)
+        {
+            return self[nt] -= value;
+        }
+
+        #endregion Minus
 
         public static void Update(this NumericComponent self, int numericType, bool isPublicEvent)
         {
@@ -88,22 +146,11 @@ namespace ET
             self.Insert(final, result, isPublicEvent);
         }
     }
-    
-    namespace EventType
-    {
-        public struct NumbericChange
-        {
-            public Unit Unit;
-            public int NumericType;
-            public long Old;
-            public long New;
-        }
-    }
 
-    [ComponentOf(typeof (Unit))]
-    public class NumericComponent: Entity, IAwake, ITransfer
+    [ComponentOf(typeof(Unit))]
+    public class NumericComponent : Entity, IAwake, ITransfer, IUnitCache
     {
-        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfDocuments)]
         public Dictionary<int, long> NumericDic = new Dictionary<int, long>();
 
         public long this[int numericType]

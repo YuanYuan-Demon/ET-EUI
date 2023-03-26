@@ -56,13 +56,13 @@ namespace ET.Client
      			{
      				if( this.m_EI_Bg_Image == null )
      				{
-		    			this.m_EI_Bg_Image = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EI_Bg");
+		    			this.m_EI_Bg_Image = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EB_Server/EI_Bg");
      				}
      				return this.m_EI_Bg_Image;
      			}
      			else
      			{
-		    		return UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EI_Bg");
+		    		return UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EB_Server/EI_Bg");
      			}
      		}
      	}
@@ -80,13 +80,13 @@ namespace ET.Client
      			{
      				if( this.m_ET_ServerName_TextMeshProUGUI == null )
      				{
-		    			this.m_ET_ServerName_TextMeshProUGUI = UIFindHelper.FindDeepChild<TMPro.TextMeshProUGUI>(this.uiTransform.gameObject,"ET_ServerName");
+		    			this.m_ET_ServerName_TextMeshProUGUI = UIFindHelper.FindDeepChild<TMPro.TextMeshProUGUI>(this.uiTransform.gameObject,"EB_Server/ET_ServerName");
      				}
      				return this.m_ET_ServerName_TextMeshProUGUI;
      			}
      			else
      			{
-		    		return UIFindHelper.FindDeepChild<TMPro.TextMeshProUGUI>(this.uiTransform.gameObject,"ET_ServerName");
+		    		return UIFindHelper.FindDeepChild<TMPro.TextMeshProUGUI>(this.uiTransform.gameObject,"EB_Server/ET_ServerName");
      			}
      		}
      	}
