@@ -12,7 +12,7 @@ namespace ClientEditor
             UICodeSpawner.SpawnEUICode(go);
         }
 
-        [MenuItem("Assets/AssetBundle/NameUIPrefab")]
+        [MenuItem("Assets/AssetBundle/MarkBundle")]
         public static void NameAllUIPrefab()
         {
             string suffix = ".unity3d";
@@ -21,12 +21,12 @@ namespace ClientEditor
             {
                 string prefabName = AssetDatabase.GetAssetPath(obj);
                 //MARKER：判断是否是.prefab
-                if (prefabName.EndsWith(".prefab") || prefabName.EndsWith(".unity") || prefabName.EndsWith(".spriteatlasv2"))
-                {
-                    Debug.Log(prefabName);
-                    AssetImporter importer = AssetImporter.GetAtPath(prefabName);
-                    importer.assetBundleName = obj.name.ToLower() + suffix;
-                }
+                //if (prefabName.EndsWith(".prefab") || prefabName.EndsWith(".unity") || prefabName.EndsWith(".spriteatlasv2"))
+                //{
+                Debug.Log(prefabName);
+                AssetImporter importer = AssetImporter.GetAtPath(prefabName);
+                importer.assetBundleName = obj.name.ToLower() + suffix;
+                //}
             }
             AssetDatabase.Refresh();
             AssetDatabase.RemoveUnusedAssetBundleNames();

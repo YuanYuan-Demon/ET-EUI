@@ -11,5 +11,13 @@
         WindowID_Server,
         WindowID_Roles,
         WindowID_Main,
+        WindowID_Setting,
+        WindowID_Bag,
+        WindowID_Quest,
+        WindowID_Equip,
+        WindowID_Skill,
+        WindowID_Friend,
+        WindowID_Guild,
+        WindowID_Ride,
     }
 }
