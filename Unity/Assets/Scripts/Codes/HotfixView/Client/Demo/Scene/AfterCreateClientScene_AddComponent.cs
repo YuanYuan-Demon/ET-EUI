@@ -11,6 +11,8 @@ namespace ET.Client
             scene.AddComponent<UIPathComponent>();
             scene.AddComponent<UIComponent>();
             scene.AddComponent<RedDotComponent>();
+            scene.AddComponent<RoleShowComponent>();
+
             //Undone: AddComponent<FlyDamageValueViewComponent>();
             //scene.AddComponent<FlyDamageValueViewComponent>();
 

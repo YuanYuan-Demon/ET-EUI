@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8163615017947993997}
   - component: {fileID: 8163615017947993986}
-  - component: {fileID: 8163615017947993985}
   - component: {fileID: 2324487224829179557}
   m_Layer: 0
   m_Name: Out_Teleporter
@@ -29,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.62, y: 9.97, z: 25.79}
   m_LocalScale: {x: 6, y: 6, z: 2}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8162070719212254860}
   m_Father: {fileID: 0}
@@ -42,20 +42,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8163615017947993998}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &8163615017947993985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8163615017947993998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 404125c04f657d5498f2b080f7f06831, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ID: 0
-  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!65 &2324487224829179557
 BoxCollider:
   m_ObjectHideFlags: 0

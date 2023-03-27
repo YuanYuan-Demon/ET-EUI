@@ -8,7 +8,7 @@ namespace ET
     public static class PathfindingComponentSystem
     {
         [ObjectSystem]
-        public class AwakeSystem: AwakeSystem<PathfindingComponent, string>
+        public class AwakeSystem : AwakeSystem<PathfindingComponent, string>
         {
             protected override void Awake(PathfindingComponent self, string name)
             {
@@ -23,7 +23,7 @@ namespace ET
         }
 
         [ObjectSystem]
-        public class DestroySystem: DestroySystem<PathfindingComponent>
+        public class DestroySystem : DestroySystem<PathfindingComponent>
         {
             protected override void Destroy(PathfindingComponent self)
             {
@@ -31,7 +31,7 @@ namespace ET
                 self.NavMesh = 0;
             }
         }
-        
+
         public static void Find(this PathfindingComponent self, float3 start, float3 target, List<float3> result)
         {
             if (self.NavMesh == 0)
@@ -57,7 +57,7 @@ namespace ET
             //Log.Debug($"finish find path: {self.GetParent<Unit>().Id} {result.ListToString()}");
         }
 
-        public static void FindWithAdjust(this PathfindingComponent self, float3 start, float3 target, List<float3> result,float adjustRaduis)
+        public static void FindWithAdjust(this PathfindingComponent self, float3 start, float3 target, List<float3> result, float adjustRaduis)
         {
             self.Find(start, target, result);
             for (int i = 0; i < result.Count; i++)
@@ -66,7 +66,7 @@ namespace ET
                 result[i] = adjust;
             }
         }
-        
+
         public static float3 FindRandomPointWithRaduis(this PathfindingComponent self, float3 pos, float raduis)
         {
             if (self.NavMesh == 0)
@@ -78,18 +78,18 @@ namespace ET
             {
                 throw new Exception($"pathfinding raduis is too large，cur: {raduis}, max: {PathfindingComponent.FindRandomNavPosMaxRadius}");
             }
-            
-            int degrees = RandomHelper.RandomNumber(0, 360);
-            float r = RandomHelper.RandomNumber(0, (int) (raduis * 1000)) / 1000f;
 
-            float x = r * math.cos(math.radians(degrees)); 
+            int degrees = RandomHelper.RandomInt32(0, 360);
+            float r = RandomHelper.RandomInt32(0, (int)(raduis * 1000)) / 1000f;
+
+            float x = r * math.cos(math.radians(degrees));
             float z = r * math.sin(math.radians(degrees));
 
             float3 findpos = new float3(pos.x + x, pos.y, pos.z + z);
 
             return self.RecastFindNearestPoint(findpos);
         }
-        
+
         /// <summary>
         /// 以pos为中心各自在宽和高的左右 前后两个方向延伸
         /// </summary>
@@ -110,15 +110,15 @@ namespace ET
             {
                 throw new Exception($"pathfinding rectangle is too large，width: {width} height: {height}, max: {PathfindingComponent.FindRandomNavPosMaxRadius}");
             }
-            
-            float x = RandomHelper.RandomNumber(-width, width);
-            float z = RandomHelper.RandomNumber(-height, height);
+
+            float x = RandomHelper.RandomInt32(-width, width);
+            float z = RandomHelper.RandomInt32(-height, height);
 
             float3 findpos = new float3(pos.x + x, pos.y, pos.z + z);
 
             return self.RecastFindNearestPoint(findpos);
         }
-        
+
         public static float3 FindRandomPointWithRaduis(this PathfindingComponent self, float3 pos, float minRadius, float maxRadius)
         {
             if (self.NavMesh == 0)
@@ -130,9 +130,9 @@ namespace ET
             {
                 throw new Exception($"pathfinding raduis is too large，cur: {maxRadius}, max: {PathfindingComponent.FindRandomNavPosMaxRadius}");
             }
-            
-            int degrees = RandomHelper.RandomNumber(0, 360);
-            float r = RandomHelper.RandomNumber((int) (minRadius * 1000), (int) (maxRadius * 1000)) / 1000f;
+
+            int degrees = RandomHelper.RandomInt32(0, 360);
+            float r = RandomHelper.RandomInt32((int)(minRadius * 1000), (int)(maxRadius * 1000)) / 1000f;
 
             float x = r * math.cos(math.radians(degrees));
             float z = r * math.sin(math.radians(degrees));
@@ -158,7 +158,7 @@ namespace ET
             {
                 throw new Exception($"RecastFindNearestPoint fail, 可能是位置配置有问题: sceneName:{self.DomainScene().Name} {pos} {self.Name} {self.GetParent<Unit>().Id} {self.GetParent<Unit>().Config.Id} {self.EndPos.ArrayToString()}");
             }
-            
+
             return new float3(-self.EndPos[0], self.EndPos[1], self.EndPos[2]);
         }
     }

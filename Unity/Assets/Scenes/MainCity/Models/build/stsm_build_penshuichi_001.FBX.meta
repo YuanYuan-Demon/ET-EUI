@@ -1,46 +1,117 @@
 fileFormatVersion: 2
 guid: ac5446ae3183a1348bcdb3e57429633f
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: Object02
-    100002: //RootNode
-    100004: stsm_build_penshuichi_001
-    100006: stsm_build_penshuichi_001_2
-    100008: clickbox
-    100010: fx_to
-    100012: fx_top
-    400000: Object02
-    400002: //RootNode
-    400004: stsm_build_penshuichi_001
-    400006: stsm_build_penshuichi_001_2
-    400008: clickbox
-    400010: fx_to
-    400012: fx_top
-    2300000: stsm_build_penshuichi_001
-    2300002: //RootNode
-    2300004: stsm_build_penshuichi_001_2
-    2300006: clickbox
-    3300000: stsm_build_penshuichi_001
-    3300002: //RootNode
-    3300004: stsm_build_penshuichi_001_2
-    3300006: clickbox
-    4300000: stsm_build_penshuichi_001
-    4300002: stsm_build_penshuichi_001_2
-    4300004: w
-    4300006: clickbox
-    6400000: clickbox
-    6500000: clickbox
-    9500000: //RootNode
+  serializedVersion: 21300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Object02
+  - first:
+      1: 100002
+    second: //RootNode
+  - first:
+      1: 100004
+    second: stsm_build_penshuichi_001
+  - first:
+      1: 100006
+    second: stsm_build_penshuichi_001_2
+  - first:
+      1: 100008
+    second: clickbox
+  - first:
+      1: 100010
+    second: fx_to
+  - first:
+      1: 100012
+    second: fx_top
+  - first:
+      4: 400000
+    second: Object02
+  - first:
+      4: 400002
+    second: //RootNode
+  - first:
+      4: 400004
+    second: stsm_build_penshuichi_001
+  - first:
+      4: 400006
+    second: stsm_build_penshuichi_001_2
+  - first:
+      4: 400008
+    second: clickbox
+  - first:
+      4: 400010
+    second: fx_to
+  - first:
+      4: 400012
+    second: fx_top
+  - first:
+      23: 2300000
+    second: stsm_build_penshuichi_001
+  - first:
+      23: 2300002
+    second: //RootNode
+  - first:
+      23: 2300004
+    second: stsm_build_penshuichi_001_2
+  - first:
+      23: 2300006
+    second: clickbox
+  - first:
+      33: 3300000
+    second: stsm_build_penshuichi_001
+  - first:
+      33: 3300002
+    second: //RootNode
+  - first:
+      33: 3300004
+    second: stsm_build_penshuichi_001_2
+  - first:
+      33: 3300006
+    second: clickbox
+  - first:
+      43: 4300000
+    second: stsm_build_penshuichi_001
+  - first:
+      43: 4300002
+    second: stsm_build_penshuichi_001_2
+  - first:
+      43: 4300004
+    second: w
+  - first:
+      43: 4300006
+    second: clickbox
+  - first:
+      64: 6400000
+    second: clickbox
+  - first:
+      65: 6500000
+    second: clickbox
+  - first:
+      95: 9500000
+    second: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 1d09771479c328f41b0748a5c981fa1f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Standard_1
+    second: {fileID: 2100000, guid: 1908c5d380921424b9463a36fe28af12, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -48,12 +119,15 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 2
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -61,26 +135,47 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 4
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -90,14 +185,18 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 1
   userData: 
   assetBundleName: 

@@ -17,17 +17,27 @@ namespace ET
 
         #region 整数
 
-        public static ulong RandUInt64()
-        {
-            int r1 = RandInt32();
-            int r2 = RandInt32();
-
-            return ((ulong)r1 << 32) & (ulong)r2;
-        }
-
-        public static int RandInt32()
+        public static int RandomInt32()
         {
             return GetRandom().Next();
+        }
+
+        public static int RandomInt32(int upper = 1)
+        {
+            int value = GetRandom().Next(0, upper);
+            return value;
+        }
+
+        /// <summary>
+        /// 获取lower与Upper之间的随机数,包含下限，不包含上限
+        /// </summary>
+        /// <param name="lower">下届</param>
+        /// <param name="upper">上届</param>
+        /// <returns>随机数</returns>
+        public static int RandomInt32(int lower, int upper)
+        {
+            int value = GetRandom().Next(lower, upper);
+            return value;
         }
 
         public static uint RandUInt32()
@@ -42,16 +52,12 @@ namespace ET
             return (long)(((ulong)r1 << 32) | r2);
         }
 
-        /// <summary>
-        /// 获取lower与Upper之间的随机数,包含下限，不包含上限
-        /// </summary>
-        /// <param name="lower">下届</param>
-        /// <param name="upper">上届</param>
-        /// <returns>随机数</returns>
-        public static int RandomNumber(int lower, int upper)
+        public static ulong RandUInt64()
         {
-            int value = GetRandom().Next(lower, upper);
-            return value;
+            int r1 = RandomInt32();
+            int r2 = RandomInt32();
+
+            return ((ulong)r1 << 32) & (ulong)r2;
         }
 
         #endregion 整数
@@ -60,22 +66,22 @@ namespace ET
 
         public static float RandomFloat(float upper = 1)
         {
-            return (float)random.NextDouble() * upper;
+            return (float)GetRandom().NextDouble() * upper;
         }
 
         public static float RandomFloat(float lower, float upper)
         {
-            return (float)(random.NextDouble() * (upper - lower) + lower);
+            return (float)(GetRandom().NextDouble() * (upper - lower) + lower);
         }
 
         public static double RandomDouble01(double upper = 1)
         {
-            return random.NextDouble() * upper;
+            return GetRandom().NextDouble() * upper;
         }
 
         public static double RandomDouble(double lower, double upper)
         {
-            return random.NextDouble() * (upper - lower) + lower;
+            return GetRandom().NextDouble() * (upper - lower) + lower;
         }
 
         #endregion 浮点数
@@ -87,12 +93,12 @@ namespace ET
 
         public static T RandomArray<T>(T[] array)
         {
-            return array[RandomNumber(0, array.Length)];
+            return array[RandomInt32(0, array.Length)];
         }
 
         public static T RandomArray<T>(List<T> array)
         {
-            return array[RandomNumber(0, array.Count)];
+            return array[RandomInt32(0, array.Count)];
         }
 
         /// <summary>
@@ -116,7 +122,7 @@ namespace ET
 
         public static float RandFloat01()
         {
-            int a = RandomNumber(0, 1000000);
+            int a = RandomInt32(0, 1000000);
             return a / 1000000f;
         }
     }

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
-using ET;
 using UnityEditor;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 namespace ETEditor
@@ -16,10 +13,8 @@ namespace ETEditor
     /// 从Unity的NavMesh组件里导出地图数据，供服务器来使用
     /// https://blog.csdn.net/huutu/article/details/52672505
     /// </summary>
-    public class NavMeshExporter: Editor
+    public class NavMeshExporter : Editor
     {
-        public const byte VERSION = 1;
-
         private class Vert
         {
             public int id;
@@ -69,8 +64,10 @@ namespace ETEditor
         private static Dictionary<int, Vert> indexVertDict = new Dictionary<int, Vert>();
         private static string outputClientFolder = "../RecastNavMesh/Meshes/";
         private static string outputServerFolder = "../Config/RecastNavData/ExportedObj/";
+        public const byte VERSION = 1;
 
         #region 菜单主函数
+
         [MenuItem("ET/NavMesh/ExportSceneObj")]
         public static void ExportScene()
         {
@@ -103,7 +100,7 @@ namespace ETEditor
             Debug.Log($"NavMesh Output Info - Vertices:[{vertList.Count}] - Faces:[{faceList.Count}]");
         }
 
-        #endregion
+        #endregion 菜单主函数
 
         #region 导出Bytes
 
@@ -112,9 +109,9 @@ namespace ETEditor
             for (int i = 0, n = vertices.Length - 1; i <= n; i++)
             {
                 var point = vertices[i];
-                var x = (float) Math.Round(point.x, 2);
-                var y = (float) Math.Round(point.y, 2);
-                var z = (float) Math.Round(point.z, 2);
+                var x = (float)Math.Round(point.x, 2);
+                var y = (float)Math.Round(point.y, 2);
+                var z = (float)Math.Round(point.z, 2);
                 if (!pointVertDict.ContainsKey(x))
                 {
                     pointVertDict.Add(x, new Dictionary<float, Vert>());
@@ -161,7 +158,7 @@ namespace ETEditor
                 }
 
                 var newFace = true;
-                var area = areas[i] >= 3? areas[i] - 2 : 0;
+                var area = areas[i] >= 3 ? areas[i] - 2 : 0;
                 if (face != null && face.area == area)
                 {
                     for (var j = 0; j < 3; j++)
@@ -234,7 +231,7 @@ namespace ETEditor
 
         private static float GetDistance(float deltaX, float deltaZ)
         {
-            return (float) Math.Round(Math.Sqrt((double) deltaX * (double) deltaX + (double) deltaZ * (double) deltaZ), 2);
+            return (float)Math.Round(Math.Sqrt((double)deltaX * (double)deltaX + (double)deltaZ * (double)deltaZ), 2);
         }
 
         private static void InitFace(Face face)
@@ -257,14 +254,14 @@ namespace ETEditor
             face.centerZ /= vertCount;
             if (face.normalB != 0)
             {
-                face.normalX = (float) Math.Round(face.normalA / face.normalB, 6);
-                face.normalZ = (float) Math.Round(face.normalC / face.normalB, 6);
+                face.normalX = (float)Math.Round(face.normalA / face.normalB, 6);
+                face.normalZ = (float)Math.Round(face.normalC / face.normalB, 6);
             }
 
             for (int i = 0, n = vertCount - 1; i <= n; i++)
             {
                 var firstVert = face.verts[i];
-                var secondVert = face.verts[i == n? 0 : i + 1];
+                var secondVert = face.verts[i == n ? 0 : i + 1];
                 if (!vertPairDict.ContainsKey(firstVert))
                 {
                     vertPairDict.Add(firstVert, new Dictionary<Vert, Pair>());
@@ -329,8 +326,8 @@ namespace ETEditor
             var hilbertZ = 65535f / (maxZ - minZ);
             foreach (var face in faceList)
             {
-                var X = (uint) Math.Round((face.centerX - minX) * hilbertX);
-                var Z = (uint) Math.Round((face.centerZ - minZ) * hilbertZ);
+                var X = (uint)Math.Round((face.centerX - minX) * hilbertX);
+                var Z = (uint)Math.Round((face.centerZ - minZ) * hilbertZ);
                 var a = X ^ Z;
                 var b = 0xFFFF ^ a;
                 var c = 0xFFFF ^ (X | Z);
@@ -446,7 +443,7 @@ namespace ETEditor
             AssetDatabase.Refresh();
         }
 
-        #endregion
+        #endregion 导出Bytes
 
         #region 导出*_internal.Obj
 
@@ -484,7 +481,7 @@ namespace ETEditor
             AssetDatabase.Refresh();
         }
 
-        #endregion
+        #endregion 导出*_internal.Obj
 
         #region 导出Obj(Recast使用)
 
@@ -493,6 +490,23 @@ namespace ETEditor
         // 原文链接：https://blog.csdn.net/rhett_yuan/article/details/79483387
         //          https://www.cnblogs.com/koshio0219/p/12195974.html
         //			http://wiki.unity3d.com/index.php?title=ObjExporter#EditorObjExporter.cs
+
+        public struct ObjMaterial
+        {
+            public string name;
+            public string textureName;
+        }
+
+        private static string NAVMESH_TAG = "NavMesh";
+
+        private static int vertexOffset = 0;
+
+        private static int normalOffset = 0;
+
+        private static int uvOffset = 0;
+
+        // Global containers for all active mesh/terrain tags
+        public static List<MeshFilter> m_Meshes = new List<MeshFilter>();
 
         /// <summary>
         /// 将NavMesh里的所有物体导出成为RecastNavigation可以识别的Obj文件。July.11.2020. Liu Gang.
@@ -517,7 +531,7 @@ namespace ETEditor
                 sw.Write("mtllib ./" + filename + ".mtl\n");
                 string strMes = MeshToString(mf, materialList);
                 sw.Write(strMes);
-                EditorUtility.DisplayProgressBar("Exporting objects...", mf.name, count++ / (float) meshes.Count);
+                EditorUtility.DisplayProgressBar("Exporting objects...", mf.name, count++ / (float)meshes.Count);
             }
 
             sw.Flush();
@@ -525,21 +539,6 @@ namespace ETEditor
 
             EditorUtility.ClearProgressBar();
             AssetDatabase.Refresh();
-        }
-
-        // Global containers for all active mesh/terrain tags
-        public static List<MeshFilter> m_Meshes = new List<MeshFilter>();
-
-        private static string NAVMESH_TAG = "NavMesh";
-
-        private static int vertexOffset = 0;
-        private static int normalOffset = 0;
-        private static int uvOffset = 0;
-
-        public struct ObjMaterial
-        {
-            public string name;
-            public string textureName;
         }
 
         private static void Clear()
@@ -676,7 +675,7 @@ namespace ETEditor
 
                 // int[] triangles = m.GetTriangles(material);
                 // for (int i=0;i<triangles.Length;i+=3) {
-                // 	sb.Append(string.Format("f {0}/{0}/{0} {1}/{1}/{1} {2}/{2}/{2}\n", 
+                // 	sb.Append(string.Format("f {0}/{0}/{0} {1}/{1}/{1} {2}/{2}/{2}\n",
                 // 		triangles[i]+1, triangles[i+1]+1, triangles[i+2]+1));
                 // }
                 int[] triangles = m.GetTriangles(material);
@@ -694,7 +693,7 @@ namespace ETEditor
             return sb.ToString();
         }
 
-        #endregion
+        #endregion 导出Obj(Recast使用)
 
         #region 拷贝文件
 
@@ -745,6 +744,6 @@ namespace ETEditor
             }
         }
 
-        #endregion
+        #endregion 拷贝文件
     }
 }
