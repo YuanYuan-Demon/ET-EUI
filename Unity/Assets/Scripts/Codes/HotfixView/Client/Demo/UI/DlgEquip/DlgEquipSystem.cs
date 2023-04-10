@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ET.Client
@@ -32,7 +33,7 @@ namespace ET.Client
             self.Refresh();
         }
 
-        public static void ShowWindow(this DlgEquip self, Entity contextData = null)
+        public static void ShowWindow(this DlgEquip self, ShowWindowData contextData = null)
         {
             self.View.ED_EqiupTab_Dropdown.value = (int)self.EquipPosition;
             self.Refresh();
@@ -89,7 +90,7 @@ namespace ET.Client
 
         public static void RefreshEquipList(this DlgEquip self)
         {
-            var eqiups = self.ClientScene().GetComponent<BagComponent>().ItemTypeMap[ItemType.Equip].ToList();
+            List<Item> eqiups = self.ClientScene().GetComponent<BagComponent>().ItemTypeMap[ItemType.Equip].ToList();
             self.EquipList = self.EquipPosition switch
             {
                 EquipPosition.无 => eqiups,

@@ -2,7 +2,7 @@
 
 namespace ET.Client
 {
-    [FriendOf(typeof(DlgLogin))]
+    [FriendOf(typeof (DlgLogin))]
     public static class DlgLoginSystem
     {
         private static void ShowLogin(this DlgLogin self, bool isLogin = true)
@@ -19,10 +19,7 @@ namespace ET.Client
             self.View.EB_Cancel_Button.AddListener(self.OnClickCancel);
         }
 
-        public static void ShowWindow(this DlgLogin self, Entity contextData = null)
-        {
-            self.ShowLogin();
-        }
+        public static void ShowWindow(this DlgLogin self, ShowWindowData contextData = null) => self.ShowLogin();
 
         #region 按钮事件
 
@@ -40,8 +37,8 @@ namespace ET.Client
                     UIComponent.Instance.ShowErrorBox("账号或密码不能为空");
                     return;
                 }
-                var response = await LoginHelper.Login(
-                    self.ClientScene(),
+
+                IResponse response = await LoginHelper.Login(self.ClientScene(),
                     account,
                     password);
 
@@ -59,6 +56,7 @@ namespace ET.Client
                     UIComponent.Instance.ShowErrorBox(response.Message);
                     return;
                 }
+
                 //显示登陆之后的页面逻辑
                 UIComponent.Instance.HideWindow(WindowID.WindowID_Login);
                 UIComponent.Instance.ShowWindow(WindowID.WindowID_Server);
@@ -70,10 +68,7 @@ namespace ET.Client
             }
         }
 
-        private static void OnClickToRegister(this DlgLogin self)
-        {
-            self.ShowLogin(false);
-        }
+        private static void OnClickToRegister(this DlgLogin self) => self.ShowLogin(false);
 
         private static async void OnClickRegister(this DlgLogin self)
         {
@@ -91,14 +86,15 @@ namespace ET.Client
                     UIComponent.Instance.ShowErrorBox("账号或密码不能为空");
                     return;
                 }
+
                 if (string.Compare(password, confirmPassword) != 0)
                 {
                     Log.Error("两次密码不一致");
                     UIComponent.Instance.ShowErrorBox("两次密码不一致");
                     return;
                 }
-                var err = await LoginHelper.Register(
-                    self.ClientScene(),
+
+                IResponse err = await LoginHelper.Register(self.ClientScene(),
                     account,
                     password);
 
@@ -108,7 +104,8 @@ namespace ET.Client
                     UIComponent.Instance.ShowErrorBox(err.Message);
                     return;
                 }
-                self.ShowLogin(true);
+
+                self.ShowLogin();
             }
             catch (Exception e)
             {
@@ -117,10 +114,7 @@ namespace ET.Client
             }
         }
 
-        private static void OnClickCancel(this DlgLogin self)
-        {
-            self.ShowLogin();
-        }
+        private static void OnClickCancel(this DlgLogin self) => self.ShowLogin();
 
         #endregion 按钮事件
     }

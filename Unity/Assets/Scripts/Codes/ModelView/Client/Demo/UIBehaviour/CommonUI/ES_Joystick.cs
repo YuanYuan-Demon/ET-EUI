@@ -17,7 +17,6 @@ namespace ET.Client
         public bool isUpdate = false;
         public long joyMoveTimerId = 0;
         public Transform uiTransform = null;
-
         public UnityEngine.UI.Image E_Bg_Image
         {
             get

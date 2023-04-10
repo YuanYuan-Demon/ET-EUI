@@ -3,13 +3,13 @@ using Unity.Mathematics;
 
 namespace ET.Server
 {
-    [FriendOf(typeof(MoveComponent))]
-    [FriendOf(typeof(NumericComponent))]
+    [FriendOf(typeof (MoveComponent))]
+    [FriendOf(typeof (NumericComponent))]
     public static class UnitHelper
     {
-        public static UnitInfo CreateUnitInfo(Unit unit)
+        public static UnitInfo ToNUnit(this Unit unit)
         {
-            UnitInfo unitInfo = new UnitInfo();
+            UnitInfo unitInfo = new();
             NumericComponent nc = unit.GetComponent<NumericComponent>();
             unitInfo.UnitId = unit.Id;
             unitInfo.ConfigId = unit.ConfigId;
@@ -22,7 +22,7 @@ namespace ET.Server
             {
                 if (!moveComponent.IsArrived())
                 {
-                    unitInfo.MoveInfo = new MoveInfo() { Points = new List<float3>() };
+                    unitInfo.MoveInfo = new() { Points = new() };
                     unitInfo.MoveInfo.Points.Add(unit.Position);
                     for (int i = moveComponent.N; i < moveComponent.Targets.Count; ++i)
                     {
@@ -32,7 +32,7 @@ namespace ET.Server
                 }
             }
 
-            unitInfo.KV = new Dictionary<int, long>();
+            unitInfo.KV = new();
 
             foreach ((int key, long value) in nc.NumericDic)
             {
@@ -43,14 +43,8 @@ namespace ET.Server
         }
 
         // 获取看见unit的玩家，主要用于广播
-        public static Dictionary<long, AOIEntity> GetBeSeePlayers(this Unit self)
-        {
-            return self.GetComponent<AOIEntity>().GetBeSeePlayers();
-        }
+        public static Dictionary<long, AOIEntity> GetBeSeePlayers(this Unit self) => self.GetComponent<AOIEntity>().GetBeSeePlayers();
 
-        public static async ETTask InitUnit(Unit unit, bool isNewPlayer)
-        {
-            await ETTask.CompletedTask;
-        }
+        public static async ETTask InitUnit(Unit unit, bool isNewPlayer) => await ETTask.CompletedTask;
     }
 }

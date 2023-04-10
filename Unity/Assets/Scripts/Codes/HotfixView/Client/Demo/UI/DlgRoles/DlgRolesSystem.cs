@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 namespace ET.Client
 {
-    [FriendOf(typeof(DlgRoles))]
-    [FriendOf(typeof(RoleInfosComponent))]
-    [FriendOf(typeof(RoleInfo))]
+    [FriendOf(typeof (DlgRoles))]
+    [FriendOf(typeof (RoleInfosComponent))]
+    [FriendOf(typeof (RoleInfo))]
     public static class DlgRolesSystem
     {
         #region UI事件
@@ -17,12 +17,13 @@ namespace ET.Client
             self.View.EB_Create_Button.AddListener(() => self.OnClickCreateRole());
             //self.View.EB_DeleteRoleButton.AddListener(() => self.OnClickDeleteRole());
             self.View.EB_EnterGame_Button.AddListener(() => self.OnClickEnter());
-            self.View.EL_Roles_LoopVerticalScrollRect.AddItemRefreshListener((transform, index) => self.OnRoleListRefreshHandler(transform, index)); ;
+            self.View.EL_Roles_LoopVerticalScrollRect.AddItemRefreshListener((transform, index) => self.OnRoleListRefreshHandler(transform, index));
+            ;
             self.View.EB_Back_Button.AddListener(() => self.ShowSelectPanel());
             self.View.EG_Toggles_RectTransform.GetComponent<ToggleGroup>().AddListener(self.OnSelectClass);
         }
 
-        public static void ShowWindow(this DlgRoles self, Entity contextData = null)
+        public static void ShowWindow(this DlgRoles self, ShowWindowData contextData = null)
         {
             self.ShowSelectPanel();
             self.RefreshRoleItems();
@@ -58,6 +59,7 @@ namespace ET.Client
                     UIComponent.Instance.ShowErrorBox(errorCode);
                     return;
                 }
+
                 UIComponent.Instance.CloseWindow(WindowID.WindowID_Roles);
             }
             catch (Exception e)
@@ -69,8 +71,8 @@ namespace ET.Client
 
         private static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
         {
-            var itemRole = self.ScrollItemRoleInfos[index].BindTrans(transform);
-            var roleInfosComponent = self.ClientScene().GetComponent<RoleInfosComponent>();
+            Scroll_Item_RoleInfo itemRole = self.ScrollItemRoleInfos[index].BindTrans(transform);
+            RoleInfosComponent roleInfosComponent = self.ClientScene().GetComponent<RoleInfosComponent>();
             if (index == roleInfosComponent.RoleInfos.Count)
             {
                 itemRole.EI_Avator_Image.overrideSprite = IconHelper.LoadIconSprite("UI_Icons", "Add");
@@ -80,9 +82,9 @@ namespace ET.Client
             }
             else
             {
-                var roleInfo = roleInfosComponent.RoleInfos[index];
+                RoleInfo roleInfo = roleInfosComponent.RoleInfos[index];
                 itemRole.EI_Avator_Image.overrideSprite = null;
-                itemRole.EI_Bg_Image.color = roleInfo.Id == roleInfosComponent.CurRoleId ? Color.red : Color.cyan;
+                itemRole.EI_Bg_Image.color = roleInfo.Id == roleInfosComponent.CurRoleId? Color.red : Color.cyan;
                 itemRole.ET_Info_TextMeshProUGUI.text = $"昵称: {roleInfo.Name}\n等级: {roleInfo.Level}";
                 itemRole.EB_Select_Button.AddListener(() => self.OnSelectRole(roleInfo));
             }
@@ -90,7 +92,7 @@ namespace ET.Client
 
         private static void OnSelectClass(this DlgRoles self, int cla)
         {
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 self.View.EG_Class_RectTransform.GetChild(i).gameObject.SetActive(i == cla);
                 Transform toggleTransform = self.View.EG_Toggles_RectTransform.GetChild(i);
@@ -124,10 +126,15 @@ namespace ET.Client
             if (showSelect)
             {
                 var roleInfos = self.ClientScene().GetComponent<RoleInfosComponent>().RoleInfos;
-                if (roleInfos.Count > 0) self.OnSelectRole(roleInfos[0]);
+                if (roleInfos.Count > 0)
+                {
+                    self.OnSelectRole(roleInfos[0]);
+                }
             }
             else
+            {
                 self.OnSelectClass(0);
+            }
         }
 
         #region 角色管理
@@ -140,6 +147,7 @@ namespace ET.Client
                 UIComponent.Instance.ShowErrorBox("角色名不能为空");
                 return;
             }
+
             try
             {
                 int errorCode = await LoginHelper.CreateRole(self.ClientScene(), roleName);
@@ -149,6 +157,7 @@ namespace ET.Client
                     UIComponent.Instance.ShowErrorBox(errorCode);
                     return;
                 }
+
                 self.ShowWindow();
                 //self.RefreshRoleItems();
             }
@@ -160,7 +169,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 删除角色
+        ///     删除角色
         /// </summary>
         /// <param name="self"> </param>
         private static async void OnClickDeleteRole(this DlgRoles self)
@@ -171,6 +180,7 @@ namespace ET.Client
                 UIComponent.Instance.ShowErrorBox("请选择需要删除的角色");
                 return;
             }
+
             try
             {
                 int errorCode = await LoginHelper.DeleteRole(self.ClientScene(), roleId);
@@ -179,6 +189,7 @@ namespace ET.Client
                     Log.Error(errorCode.ToString());
                     return;
                 }
+
                 self.RefreshRoleItems();
             }
             catch (Exception e)

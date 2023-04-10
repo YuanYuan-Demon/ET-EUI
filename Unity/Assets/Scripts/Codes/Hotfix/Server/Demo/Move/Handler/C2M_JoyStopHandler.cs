@@ -4,7 +4,7 @@ using Unity.Mathematics;
 namespace ET.Server
 {
     [ActorMessageHandler(SceneType.Map)]
-    public class C2M_JoyStopHandler : AMActorLocationHandler<Unit, C2M_JoyStop>
+    public class C2M_JoyStopHandler: AMActorLocationHandler<Unit, C2M_JoyStop>
     {
         protected override async ETTask Run(Unit unit, C2M_JoyStop message)
         {

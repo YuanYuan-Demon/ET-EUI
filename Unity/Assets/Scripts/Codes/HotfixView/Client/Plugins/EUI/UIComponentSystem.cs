@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using UnityEngine;
 
 namespace ET.Client
@@ -128,10 +129,9 @@ namespace ET.Client
             }
         }
 
-        private static void RealShowWindow(this UIComponent self, UIBaseWindow baseWindow, WindowID id, ShowWindowData showData = null)
+        private static void RealShowWindow(this UIComponent self, UIBaseWindow baseWindow, WindowID id, ShowWindowData windowData = null)
         {
-            Entity contextData = showData?.contextData;
-            UIEventComponent.Instance.GetUIEventHandler(id).OnShowWindow(baseWindow, contextData);
+            UIEventComponent.Instance.GetUIEventHandler(id).OnShowWindow(baseWindow, windowData);
             baseWindow.UIPrefabGameObject?.SetActive(true);
 
             self.VisibleWindowsDic[(int)id] = baseWindow;

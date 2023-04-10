@@ -1,6 +1,6 @@
 ﻿namespace ET.Client
 {
-    [FriendOf(typeof(DlgMain))]
+    [FriendOf(typeof (DlgMain))]
     public static class DlgMainSystem
     {
         public static void RegisterUIEvent(this DlgMain self)
@@ -20,15 +20,9 @@
             view.ES_Joystick.RegisterUIEvent();
         }
 
-        public static void ShowWindow(this DlgMain self, Entity contextData = null)
-        {
-            self.View.ES_Joystick.OnShow();
-        }
+        public static void ShowWindow(this DlgMain self, ShowWindowData contextData = null) => self.View.ES_Joystick.OnShow();
 
-        public static void HideWindow(this DlgMain self)
-        {
-            self.View.ES_Joystick.OnHide();
-        }
+        public static void HideWindow(this DlgMain self) => self.View.ES_Joystick.OnHide();
 
         #region 按钮响应
 

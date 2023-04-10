@@ -3,7 +3,7 @@
 namespace ET.Server
 {
     [ActorMessageHandler(SceneType.Map)]
-    public class M2M_UnitTransferRequestHandler : AMActorRpcHandler<Scene, M2M_UnitTransferRequest, M2M_UnitTransferResponse>
+    public class M2M_UnitTransferRequestHandler: AMActorRpcHandler<Scene, M2M_UnitTransferRequest, M2M_UnitTransferResponse>
     {
         protected override async ETTask Run(Scene scene, M2M_UnitTransferRequest request, M2M_UnitTransferResponse response)
         {
@@ -13,9 +13,9 @@ namespace ET.Server
             unitComponent.AddChild(unit);
             unitComponent.Add(unit);
 
-            foreach (var bytes in request.Entitys)
+            foreach (byte[] bytes in request.Entitys)
             {
-                var entity = MongoHelper.Deserialize<Entity>(bytes);
+                Entity entity = MongoHelper.Deserialize<Entity>(bytes);
                 unit.AddComponent(entity);
             }
 
@@ -42,7 +42,7 @@ namespace ET.Server
 
             // 通知客户端创建My Unit
             M2C_CreateMyUnit m2CCreateUnits = new();
-            m2CCreateUnits.Unit = UnitHelper.CreateUnitInfo(unit);
+            m2CCreateUnits.Unit = unit.ToNUnit();
             MessageHelper.SendToClient(unit, m2CCreateUnits);
 
             //通知客户端同步背包信息

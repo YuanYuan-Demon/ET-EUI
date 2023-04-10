@@ -1,6 +1,6 @@
 namespace ET.Server.EventType
 {
-    #region 背包系统
+    #region 鑳屽寘绯荤粺
 
     public struct ChangeEquipItem
     {
@@ -9,5 +9,5 @@ namespace ET.Server.EventType
         public EquipOp EquipOp;
     }
 
-    #endregion 背包系统
+    #endregion 鑳屽寘绯荤粺
 }

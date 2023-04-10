@@ -28,7 +28,7 @@ namespace ET.Server
             M2M_UnitTransferRequest request = new()
             {
                 OldInstanceId = unitInstanceId,
-                Unit = unit.ToBson()
+                Unit = unit.ToBson(),
             };
 
             foreach (Entity entity in unit.Components.Values)

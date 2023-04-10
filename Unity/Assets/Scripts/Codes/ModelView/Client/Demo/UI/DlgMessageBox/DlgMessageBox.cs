@@ -7,14 +7,14 @@
         Error,
     }
 
-    [ComponentOf(typeof(UIBaseWindow))]
-    public class DlgMessageBox : Entity, IAwake, IUILogic
+    [ComponentOf(typeof (UIBaseWindow))]
+    public class DlgMessageBox: Entity, IAwake, IUILogic
     {
         public MessageBoxData MessageBoxData;
         public DlgMessageBoxViewComponent View => this.GetComponent<DlgMessageBoxViewComponent>();
     }
 
-    public class MessageBoxData : Entity
+    public class MessageBoxData: ShowWindowData
     {
         public MessageBoxType MessageType;
         public string Title;

@@ -26,11 +26,7 @@ namespace ET.Server
             }
 
             // 广播寻路路径
-            M2C_PathfindingResult m2CPathfindingResult = new()
-            {
-                Points = list,
-                Id = unit.Id
-            };
+            M2C_PathfindingResult m2CPathfindingResult = new() { Points = list, Id = unit.Id };
             MessageHelper.Broadcast(unit, m2CPathfindingResult);
 
             MoveComponent moveComponent = unit.GetComponent<MoveComponent>();
@@ -49,15 +45,9 @@ namespace ET.Server
         }
 
         // error: 0表示协程走完正常停止
-        public static void SendStop(this Unit unit, int error)
+        public static void SendStop(this Unit unit, int error) => MessageHelper.Broadcast(unit, new M2C_Stop()
         {
-            MessageHelper.Broadcast(unit, new M2C_Stop()
-            {
-                Error = error,
-                Id = unit.Id,
-                Position = unit.Position,
-                Rotation = unit.Rotation,
-            });
-        }
+            Error = error, Id = unit.Id, Position = unit.Position, Rotation = unit.Rotation,
+        });
     }
 }

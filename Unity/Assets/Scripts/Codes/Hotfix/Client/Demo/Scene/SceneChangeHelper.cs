@@ -19,10 +19,10 @@ namespace ET.Client
 
             // 等待CreateMyUnit的消息
             Wait_CreateMyUnit waitCreateMyUnit = await clientScene.GetComponent<ObjectWait>().Wait<Wait_CreateMyUnit>();
-            M2C_CreateMyUnit m2CCreateMyUnit = waitCreateMyUnit.Message;
-            clientScene.GetComponent<PlayerComponent>().MyId = m2CCreateMyUnit.Unit.UnitId;
+            M2C_CreateMyUnit m2c_CreateMyUnit = waitCreateMyUnit.Message;
+            clientScene.GetComponent<PlayerComponent>().MyId = m2c_CreateMyUnit.Unit.UnitId;
 
-            Unit unit = UnitFactory.Create(currentScene, m2CCreateMyUnit.Unit);
+            Unit unit = UnitFactory.Create(currentScene, m2c_CreateMyUnit.Unit);
             unitComponent.Add(unit);
             unitComponent.MyUnit = unit;
 

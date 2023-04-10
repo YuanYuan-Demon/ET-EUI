@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ET.Client
 {
-    [FriendOf(typeof(DlgShop))]
+    [FriendOf(typeof (DlgShop))]
     public static class DlgShopSystem
     {
         public static void RegisterUIEvent(this DlgShop self)
@@ -14,27 +15,21 @@ namespace ET.Client
             self.View.EB_Buy_Button.onClick.AddListener(self.OnClickBuy);
         }
 
-        public static void ShowWindow(this DlgShop self, Entity contextData = null)
-        {
-            self.View.ET_All_Toggle.IsSelected(true);
-        }
+        public static void ShowWindow(this DlgShop self, ShowWindowData contextData = null) => self.View.ET_All_Toggle.IsSelected(true);
 
-        public static void HideWindow(this DlgShop self)
-        {
-            self.RemoveUIScrollItems(ref self.ScrollItemShopItems);
-        }
+        public static void HideWindow(this DlgShop self) => self.RemoveUIScrollItems(ref self.ScrollItemShopItems);
 
         public static async void OnClickBuy(this DlgShop self)
         {
-            var response = await ShopHelper.BuyItem(self.ClientScene(), self.SelectItem.ConfigId, self.SelectItem.Count);
+            IResponse response = await ShopHelper.BuyItem(self.ClientScene(), self.SelectItem.ConfigId, self.SelectItem.Count);
             if (response?.Error != ErrorCode.ERR_Success)
             {
                 Log.Error(response.ToString());
                 UIComponent.Instance.ShowErrorBox(response.Message);
                 return;
             }
-            else
-                UIComponent.Instance.ShowInfoBox("购买成功");
+
+            UIComponent.Instance.ShowInfoBox("购买成功");
         }
 
         public static void OnSelectTabGroup(this DlgShop self, int index)
@@ -45,12 +40,17 @@ namespace ET.Client
 
         public static void Refresh(this DlgShop self)
         {
-            var itemConfigs = ItemConfigCategory.Instance.GetAll().Values;
+            Dictionary<int, ItemConfig>.ValueCollection itemConfigs = ItemConfigCategory.Instance.GetAll().Values;
             self.ConfigList.Clear();
             if (self.ShopTab == ItemType.All)
+            {
                 self.ConfigList.AddRange(itemConfigs);
+            }
             else
-                self.ConfigList.AddRange(itemConfigs.Where(config => config.Type == ((int)self.ShopTab)));
+            {
+                self.ConfigList.AddRange(itemConfigs.Where(config => config.Type == (int)self.ShopTab));
+            }
+
             if (self.ConfigList != null && self.ConfigList.Count != 0)
             {
                 self.AddUIScrollItems(ref self.ScrollItemShopItems, self.ConfigList.Count);
@@ -60,8 +60,8 @@ namespace ET.Client
 
         public static void OnRefreshShopItem(this DlgShop self, Transform transform, int index)
         {
-            var scrollItemBagItem = self.ScrollItemShopItems[index].BindTrans(transform);
-            scrollItemBagItem.Refresh(self.ConfigList[index]);
+            Scroll_Item_ShopItem shopItem = self.ScrollItemShopItems[index].BindTrans(transform);
+            shopItem.Refresh(self.ConfigList[index]);
         }
     }
 }

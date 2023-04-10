@@ -3,33 +3,33 @@ using UnityEngine;
 
 namespace ET.Client
 {
-    [FriendOf(typeof(DlgServer))]
+    [FriendOf(typeof (DlgServer))]
     public static class DlgServerSystem
     {
         public static void RegisterUIEvent(this DlgServer self)
         {
             self.View.EB_Confirm_Button.AddListenerAsync(self.OnClickConfirm);
-            self.View.EL_Server_LoopVerticalScrollRect.AddItemRefreshListener((Transform transform, int index) => { self.OnScrollItemRefreshHandler(transform, index); });
+            self.View.EL_Server_LoopVerticalScrollRect.AddItemRefreshListener((transform, index) =>
+            {
+                self.OnScrollItemRefreshHandler(transform, index);
+            });
         }
 
-        public static void ShowWindow(this DlgServer self, Entity contextData = null)
+        public static void ShowWindow(this DlgServer self, ShowWindowData contextData = null)
         {
             int count = self.ClientScene().GetComponent<ServerInfosComponent>().ServerInfos.Count;
             self.AddUIScrollItems(ref self.ScrollItemServerInfos, count);
             self.View.EL_Server_LoopVerticalScrollRect.SetVisible(true, count);
         }
 
-        public static void HideWindow(this DlgServer self)
-        {
-            self.RemoveUIScrollItems(ref self.ScrollItemServerInfos);
-        }
+        public static void HideWindow(this DlgServer self) => self.RemoveUIScrollItems(ref self.ScrollItemServerInfos);
 
         public static void OnScrollItemRefreshHandler(this DlgServer self, Transform transform, int index)
         {
-            var itemServerInfo = self.ScrollItemServerInfos[index].BindTrans(transform);
+            Scroll_Item_ServerInfo itemServerInfo = self.ScrollItemServerInfos[index].BindTrans(transform);
             ServerInfosComponent serverInfosComponent = self.ClientScene().GetComponent<ServerInfosComponent>();
-            var info = serverInfosComponent.ServerInfos[index];
-            itemServerInfo.EI_Bg_Image.color = info.Id == serverInfosComponent.CurServerId ? Color.red : Color.cyan;
+            ServerInfo info = serverInfosComponent.ServerInfos[index];
+            itemServerInfo.EI_Bg_Image.color = info.Id == serverInfosComponent.CurServerId? Color.red : Color.cyan;
             itemServerInfo.ET_ServerName_TextMeshProUGUI.SetText(info.ServerName);
             itemServerInfo.EB_Server_Button.AddListener(() => self.OnSelectServer(info.Id));
         }

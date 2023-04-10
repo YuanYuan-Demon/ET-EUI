@@ -24,7 +24,6 @@ namespace ET
         {
             try
             {
-                Log.Debug($"处理事件: [{args.ToJson()}]");
                 await Run(scene, args);
             }
             catch (Exception e)
