@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace ET.Client
@@ -20,7 +19,7 @@ namespace ET.Client
         {
             protected override void Update(OperaComponent self)
             {
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetMouseButtonDown(0))
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit hit;
@@ -38,7 +37,7 @@ namespace ET.Client
                     EventSystem.Instance.Load();
                     Log.Debug("hot reload success!");
                 }
-            
+
                 if (Input.GetKeyDown(KeyCode.T))
                 {
                     C2M_TransferMap c2MTransferMap = new C2M_TransferMap();

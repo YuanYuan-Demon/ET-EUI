@@ -17,6 +17,7 @@ namespace ET.Client
             GameObject go = UnityEngine.Object.Instantiate(prefab, GlobalComponent.Instance.Unit, true);
             go.transform.position = unit.Position;
             unit.AddComponent<GameObjectComponent>().GameObject = go;
+            unit.GetComponent<ObjectWait>().Notify(new Wait_UnitAddGOComponent());
             unit.AddComponent<AnimatorComponent>();
             await ETTask.CompletedTask;
         }

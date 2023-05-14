@@ -132,14 +132,14 @@ public partial class UICodeSpawner
     private static void SpawnCodeForDlgEventHandle(GameObject gameObject)
     {
         string strDlgName = gameObject.name;
-        string strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName + "/Event";
+        string strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName + "/EventType";
 
         if (!System.IO.Directory.Exists(strFilePath))
         {
             System.IO.Directory.CreateDirectory(strFilePath);
         }
 
-        strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName + "/Event/" + strDlgName + "EventHandler.cs";
+        strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName + "/EventType/" + strDlgName + "EventHandler.cs";
         if (System.IO.File.Exists(strFilePath))
         {
             Debug.LogError("已存在 " + strDlgName + ".cs,将不会再次生成。");

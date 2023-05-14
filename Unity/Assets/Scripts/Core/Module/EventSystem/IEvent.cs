@@ -23,6 +23,7 @@ namespace ET
         {
             try
             {
+                Log.Debug($"处理事件: [{typeof(EventType)}]");
                 await Run(scene, args);
             }
             catch (Exception e)

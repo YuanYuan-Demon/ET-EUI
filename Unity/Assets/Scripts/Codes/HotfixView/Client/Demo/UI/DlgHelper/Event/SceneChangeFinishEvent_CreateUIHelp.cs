@@ -9,6 +9,7 @@
 
             //UIComponent.Instance.HideWindow(WindowID.WindowID_Loading);
             UIComponent.Instance.ShowWindow(WindowID.WindowID_Main);
+            scene.AddComponent<CameraComponent>();
         }
     }
 }

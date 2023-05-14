@@ -252,7 +252,7 @@ namespace UnityEngine.UI
 
         [Serializable]
         /// <summary>
-        /// Event type used by the ScrollRect.
+        /// EventType type used by the ScrollRect.
         /// </summary>
         public class ScrollRectEvent : UnityEvent<Vector2> {}
 
