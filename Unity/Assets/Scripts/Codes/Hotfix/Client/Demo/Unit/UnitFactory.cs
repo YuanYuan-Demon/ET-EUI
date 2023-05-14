@@ -31,6 +31,7 @@
             unit.AddComponent<ObjectWait>();
 
             unit.AddComponent<XunLuoPathComponent>();
+            unit.AddComponent<UnitInfoComponent, UnitInfo>(unitInfo);
 
             EventSystem.Instance.Publish(unit.DomainScene(), new EventType.AfterUnitCreate() { Unit = unit });
             return unit;

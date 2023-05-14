@@ -655,7 +655,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3164358565731692404}
   - component: {fileID: 3197756004974168209}
-  - component: {fileID: -3393039631710867581}
   m_Layer: 0
   m_Name: Wizard
   m_TagString: Untagged
@@ -701,21 +700,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &-3393039631710867581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2351406723938825678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 502d8cafd6a5a0447ab1db9a24cdcb10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data:
-  - key: Wizard
-    gameObject: {fileID: 2351406723938825678}
 --- !u!1 &2360090261958259541
 GameObject:
   m_ObjectHideFlags: 0

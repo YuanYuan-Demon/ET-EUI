@@ -11,14 +11,17 @@ namespace ET.Client
             //unit.Config
             // Unit View层
             // 这里可以改成异步加载，demo就不搞了
-            GameObject bundleGameObject = (GameObject)ResourcesComponent.Instance.GetAsset($"warrior.unity3d", "Warrior");
-            GameObject prefab = bundleGameObject.Get<GameObject>("Warrior");
+            GameObject bundleUnitGO = ResourcesComponent.Instance.GetAsset($"Unit.unity3d", "Unit") as GameObject;
+            GameObject prefab = bundleUnitGO.Get<GameObject>("Warrior");
 
-            GameObject go = UnityEngine.Object.Instantiate(prefab, GlobalComponent.Instance.Unit, true);
-            go.transform.position = unit.Position;
-            unit.AddComponent<GameObjectComponent>().GameObject = go;
+            GameObject unitGO = UnityEngine.Object.Instantiate(bundleUnitGO, GlobalComponent.Instance.Unit, true);
+            GameObject modelGO = UnityEngine.Object.Instantiate(prefab, unitGO.transform, true);
+
+            unitGO.transform.position = unit.Position;
+            unit.AddComponent<GameObjectComponent>().GameObject = unitGO;
             unit.GetComponent<ObjectWait>().Notify(new Wait_UnitAddGOComponent());
             unit.AddComponent<AnimatorComponent>();
+            unit.AddComponent<HeadHUDViewComponent>();
             await ETTask.CompletedTask;
         }
     }

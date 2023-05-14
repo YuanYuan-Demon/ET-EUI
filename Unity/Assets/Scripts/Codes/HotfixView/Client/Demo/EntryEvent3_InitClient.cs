@@ -10,6 +10,7 @@ namespace ET.Client
 
             Root.Instance.Scene.AddComponent<GlobalComponent>();
 
+            await ResourcesComponent.Instance.LoadBundleAsync("Unit.unity3d");
             await ResourcesComponent.Instance.LoadBundleAsync("Warrior.unity3d");
 
             Scene clientScene = await SceneFactory.CreateClientScene(1, "Game");
