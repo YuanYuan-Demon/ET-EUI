@@ -71,7 +71,6 @@ namespace ET.Client
                     return;
                 }
                 UIComponent.Instance.CloseWindow(WindowID.WindowID_Roles);
-                UIComponent.Instance.ShowWindow(WindowID.WindowID_Main);
             }
             catch (Exception e)
             {

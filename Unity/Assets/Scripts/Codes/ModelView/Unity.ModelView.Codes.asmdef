@@ -7,7 +7,8 @@
         "Unity.Model.Codes",
         "Unity.Mathematics",
         "Unity.Loader",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Cinemachine"
     ],
     "includePlatforms": [
         "Editor"
