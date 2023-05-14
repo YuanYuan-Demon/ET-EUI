@@ -1,4 +1,6 @@
-﻿namespace ET.Server
+﻿using Unity.Mathematics;
+
+namespace ET.Server
 {
     [ActorMessageHandler(SceneType.Map)]
     public class M2M_UnitTransferRequestHandler : AMActorRpcHandler<Scene, M2M_UnitTransferRequest, M2M_UnitTransferResponse>
@@ -16,6 +18,9 @@
                 var entity = MongoHelper.Deserialize<Entity>(bytes);
                 unit.AddComponent(entity);
             }
+
+            unit.AddComponent<MoveComponent>();
+            unit.AddComponent<PathfindingComponent, string>(scene.Name);
 
             //添加自动保存数据组件
             unit.AddComponent<UnitDBSaveComponent>();
@@ -51,7 +56,7 @@
             //TaskNoticeHelper.SyncAllTaskInfo(unit);
 
             // 加入aoi
-            //unit.AddComponent<AOIEntity, int, Vector3>(9 * 1000, unit.Position);
+            unit.AddComponent<AOIEntity, int, float3>(9 * 1000, unit.Position);
 
             //response.NewInstanceId = unit.InstanceId;
 

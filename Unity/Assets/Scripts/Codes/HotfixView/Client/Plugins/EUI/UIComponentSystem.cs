@@ -18,8 +18,11 @@ namespace ET.Client
         {
             protected override void Awake(UIComponent self)
             {
-                self.Awake();
-                UIComponent.Instance = self;
+                if (UIComponent.Instance == null)
+                {
+                    self.Awake();
+                    UIComponent.Instance = self;
+                }
             }
         }
 
@@ -28,8 +31,10 @@ namespace ET.Client
         {
             protected override void Destroy(UIComponent self)
             {
+                if (UIComponent.Instance != null)
+                    UIComponent.Instance = null;
+
                 self.Destroy();
-                UIComponent.Instance = null;
             }
         }
 
@@ -450,7 +455,7 @@ namespace ET.Client
             }
             self.HideWindow(windowId);
             self.UnLoadWindow(windowId);
-            Debug.Log("<color=magenta>## close window without PopNavigationWindow() ##</color>");
+            Debug.Log($"<color=magenta>## close window[{windowId}] without PopNavigationWindow() ##</color>");
         }
 
         /// <summary>

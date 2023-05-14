@@ -314,8 +314,10 @@ message NRoleInfo
 	int32 ServerId = 3;
 	int32 Status = 4;
 	int64 AccountId = 5;
-	int64 LastLoginTIme = 6;
-	int64 CreateTime = 7;
+	RoleClass RoleClass = 6;
+	int32 Level = 7;
+	int64 LastLoginTIme = 8;
+	int64 CreateTime = 9;
 }
 
 //ResponseType A2C_GetRoles
@@ -346,6 +348,7 @@ message C2A_CreateRole	//	IRequest
 	int32 ServerId = 2;
 	int64 AccountId = 3;
 	string Name = 4;
+	RoleClass RoleClass = 5;
 }
 
 message A2C_CreateRole	//	IResponse

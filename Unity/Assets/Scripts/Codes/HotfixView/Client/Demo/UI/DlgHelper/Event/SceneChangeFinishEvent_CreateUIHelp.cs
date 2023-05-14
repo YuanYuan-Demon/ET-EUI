@@ -5,7 +5,10 @@
     {
         protected override async ETTask Run(Scene scene, EventType.SceneChangeFinish args)
         {
-            await scene.GetComponent<UIComponent>().ShowWindowAsync(WindowID.WindowID_Helper);
+            await ETTask.CompletedTask;
+
+            //UIComponent.Instance.HideWindow(WindowID.WindowID_Loading);
+            UIComponent.Instance.ShowWindow(WindowID.WindowID_Main);
         }
     }
 }

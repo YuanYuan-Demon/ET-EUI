@@ -38,7 +38,7 @@ namespace ET.Client
                 toggleTransform.GetChild(0).gameObject.SetActive(i != cla);
                 toggleTransform.GetChild(1).gameObject.SetActive(i == cla);
                 toggleTransform.GetComponent<Toggle>().targetGraphic = toggleTransform.GetComponentInChildren<Image>();
-                EventSystem.Instance.Publish(self.ClientScene(), new EventType.SelectRole { RoleClass = cla });
+                EventSystem.Instance.Publish(self.ClientScene(), new EventType.SelectRole { RoleClass = (RoleClass)cla });
             }
         }
 
@@ -70,8 +70,8 @@ namespace ET.Client
                     UIComponent.Instance.ShowErrorBox(errorCode);
                     return;
                 }
-                UIComponent.Instance.ShowWindow(WindowID.WindowID_Main);
                 UIComponent.Instance.CloseWindow(WindowID.WindowID_Roles);
+                UIComponent.Instance.ShowWindow(WindowID.WindowID_Main);
             }
             catch (Exception e)
             {
@@ -85,8 +85,13 @@ namespace ET.Client
             self.View.EG_SelectPanel_RectTransform.gameObject.SetActive(showSelect);
             self.View.EG_CreatePanel_RectTransform.gameObject.SetActive(!showSelect);
             self.View.EB_Back_Button.gameObject.SetActive(!showSelect);
-            if (showSelect) self.OnSelectRole(0);
-            else self.OnSelectClass(0);
+            if (showSelect)
+            {
+                var roleInfos = self.ClientScene().GetComponent<RoleInfosComponent>().RoleInfos;
+                if (roleInfos.Count > 0) self.OnSelectRole(roleInfos[0]);
+            }
+            else
+                self.OnSelectClass(0);
         }
 
         private static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
@@ -105,16 +110,16 @@ namespace ET.Client
                 var roleInfo = roleInfosComponent.RoleInfos[index];
                 itemRole.EI_Avator_Image.overrideSprite = null;
                 itemRole.EI_Bg_Image.color = roleInfo.Id == roleInfosComponent.CurRoleId ? Color.red : Color.cyan;
-                itemRole.ET_Info_TextMeshProUGUI.text = $"昵称: {roleInfo.Name}\n等级: ";
-                itemRole.EB_Select_Button.AddListener(() => self.OnSelectRole(roleInfo.Id));
+                itemRole.ET_Info_TextMeshProUGUI.text = $"昵称: {roleInfo.Name}\n等级: {roleInfo.Level}";
+                itemRole.EB_Select_Button.AddListener(() => self.OnSelectRole(roleInfo));
             }
         }
 
-        private static void OnSelectRole(this DlgRoles self, long roleId)
+        private static void OnSelectRole(this DlgRoles self, RoleInfo roleInfo)
         {
-            self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId = roleId;
+            self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId = roleInfo.Id;
             self.View.EL_Roles_LoopVerticalScrollRect.RefillCells();
-            EventSystem.Instance.Publish(self.ClientScene(), new EventType.SelectRole { RoleClass = RandomHelper.RandomInt32(3) });
+            EventSystem.Instance.Publish(self.ClientScene(), new EventType.SelectRole { RoleClass = roleInfo.RoleClass });
         }
 
         private static void RefreshRoleItems(this DlgRoles self)

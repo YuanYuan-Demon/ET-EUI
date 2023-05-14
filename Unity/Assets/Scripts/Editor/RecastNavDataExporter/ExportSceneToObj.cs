@@ -317,7 +317,7 @@ namespace ETEditor
             Terrain terrain = UnityEngine.Object.FindObjectOfType<Terrain>();
             //MeshFilter[] mfs = UnityEngine.Object.FindObjectsOfType<MeshFilter>();
             var mfs = FindObjectsOfType<MeshFilter>().Where(s => s.gameObject.CompareTag("NavMesh")).ToArray();
-            SkinnedMeshRenderer[] smrs = UnityEngine.Object.FindObjectsOfType<SkinnedMeshRenderer>();
+            var smrs = FindObjectsOfType<SkinnedMeshRenderer>().Where(s => s.gameObject.CompareTag("NavMesh")).ToArray();
             ExportSceneToObj(path, terrain, mfs, smrs, autoCut, true);
         }
 
@@ -360,8 +360,8 @@ namespace ETEditor
 
             long endTime = GetMsTime();
             float time = (float)(endTime - startTime) / 1000;
-            Debug.Log("Export SUCCESS:" + path);
-            Debug.Log("Export Time:" + time + "s");
+            Debug.Log("导出成功:" + path);
+            Debug.Log("导出用时:" + time + "s");
             OpenDir(path);
         }
     }

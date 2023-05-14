@@ -4,6 +4,7 @@ using UnityEngine.UI;
 namespace ET.Client
 {
 	[EnableMethod]
+	[ChildOf]
 	public  class ES_Status : Entity,ET.IAwake<UnityEngine.Transform>,IDestroy 
 	{
 		public UnityEngine.UI.Slider ED_HpSlider_Slider

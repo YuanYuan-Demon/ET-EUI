@@ -11,7 +11,7 @@ namespace ET.Client
             UnityEngine.Transform transform = scene.GetComponent<RoleShowComponent>().Transform;
             for (int i = 0; i < 3; i++)
             {
-                transform.GetChild(i).gameObject.SetActive(i == args.RoleClass);
+                transform.GetChild(i).gameObject.SetActive(i == ((int)args.RoleClass));
             }
         }
     }

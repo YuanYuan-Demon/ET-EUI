@@ -10,6 +10,8 @@
             self.ServerId = nRoleInfo.ServerId;
             self.Status = nRoleInfo.Status;
             self.AccountId = nRoleInfo.AccountId;
+            self.RoleClass = nRoleInfo.RoleClass;
+            self.Level = nRoleInfo.Level;
             self.LastLoginTIme = nRoleInfo.LastLoginTIme;
             self.CreateTime = nRoleInfo.CreateTime;
         }
@@ -21,6 +23,8 @@
                 Id = self.Id,
                 Name = self.Name,
                 ServerId = self.ServerId,
+                Level = self.Level,
+                RoleClass = self.RoleClass,
                 Status = self.Status,
                 AccountId = self.AccountId,
                 LastLoginTIme = self.LastLoginTIme,

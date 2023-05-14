@@ -37,7 +37,7 @@
 
         public struct SelectRole
         {
-            public int RoleClass;
+            public RoleClass RoleClass;
         }
     }
 }

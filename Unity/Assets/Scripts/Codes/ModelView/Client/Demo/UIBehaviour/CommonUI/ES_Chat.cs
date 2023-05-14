@@ -4,6 +4,7 @@ using UnityEngine.UI;
 namespace ET.Client
 {
 	[EnableMethod]
+	[ChildOf]
 	public  class ES_Chat : Entity,ET.IAwake<UnityEngine.Transform>,IDestroy 
 	{
 		public UnityEngine.UI.Button EB_Minilize_Button

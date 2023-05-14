@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using ET;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -91,13 +92,19 @@ namespace ETEditor
             //WriteFile();
 
             // 导出*_internal.Obj，仅供Unity编辑器自己查看
-            //WriteUnityObjFile();
+            WriteUnityObjFile();
             // 导出Recast可用的*.Obj文件
-            WriteRecastObjFile();
+            //WriteRecastObjFile();
             // 拷贝Obj和Bytes文件到服务器目录下 TODO 暂不需要
             //CopyObjFiles();
 
             Debug.Log($"NavMesh Output Info - Vertices:[{vertList.Count}] - Faces:[{faceList.Count}]");
+        }
+
+        [MenuItem("ET/NavMesh/ExportObjToRecast")]
+        public static void ExportObjToRecast()
+        {
+            WriteRecastObjFile();
         }
 
         #endregion 菜单主函数
@@ -453,7 +460,8 @@ namespace ETEditor
 
         private static void WriteUnityObjFile()
         {
-            var path = outputClientFolder + SceneManager.GetActiveScene().name + "_internal.obj";
+            var path = $"Assets/Scenes/{SceneManager.GetActiveScene().name}/" + SceneManager.GetActiveScene().name + "_internal.obj";
+            //var path = outputClientFolder + SceneManager.GetActiveScene().name + "_internal.obj";
             StreamWriter tmpStreamWriter = new StreamWriter(path);
 
             NavMeshTriangulation tmpNavMeshTriangulation = UnityEngine.AI.NavMesh.CalculateTriangulation();
@@ -461,8 +469,7 @@ namespace ETEditor
             //顶点
             for (int i = 0; i < tmpNavMeshTriangulation.vertices.Length; i++)
             {
-                tmpStreamWriter.WriteLine("v  " + tmpNavMeshTriangulation.vertices[i].x + " " + tmpNavMeshTriangulation.vertices[i].y + " " +
-                    tmpNavMeshTriangulation.vertices[i].z);
+                tmpStreamWriter.WriteLine($"v  {-1 * tmpNavMeshTriangulation.vertices[i].x} {tmpNavMeshTriangulation.vertices[i].y} {tmpNavMeshTriangulation.vertices[i].z}");
             }
 
             tmpStreamWriter.WriteLine("g pPlane1");
@@ -470,9 +477,8 @@ namespace ETEditor
             //索引
             for (int i = 0; i < tmpNavMeshTriangulation.indices.Length;)
             {
-                tmpStreamWriter.WriteLine("f " + (tmpNavMeshTriangulation.indices[i] + 1) + " " + (tmpNavMeshTriangulation.indices[i + 1] + 1) + " " +
-                    (tmpNavMeshTriangulation.indices[i + 2] + 1));
-                i = i + 3;
+                tmpStreamWriter.WriteLine($"f {tmpNavMeshTriangulation.indices[i] + 1} {tmpNavMeshTriangulation.indices[i + 1] + 2} {tmpNavMeshTriangulation.indices[i + 1] + 1}");
+                i += 3;
             }
 
             tmpStreamWriter.Flush();
@@ -519,7 +525,7 @@ namespace ETEditor
             }
 
             var filename = SceneManager.GetActiveScene().name;
-            var path = outputClientFolder + filename + ".obj";
+            var path = $"{outputClientFolder}{filename}.obj";
             StreamWriter sw = new StreamWriter(path);
 
             Dictionary<string, ObjMaterial> materialList = PrepareFileWrite();
@@ -536,7 +542,7 @@ namespace ETEditor
 
             sw.Flush();
             sw.Close();
-
+            Log.Debug($"导出成功: {path}");
             EditorUtility.ClearProgressBar();
             AssetDatabase.Refresh();
         }

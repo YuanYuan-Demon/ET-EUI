@@ -120,7 +120,7 @@ namespace ET.Server
 
                     //将游戏对象传送至游戏逻辑服
                     long unitId = unit.Id;
-                    StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(session.DomainZone(), "Game");
+                    StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(session.DomainZone(), "MainCity");
                     await TransferHelper.Transfer(unit, startSceneConfig.InstanceId, startSceneConfig.Name);
 
                     player.UnitId = unitId;

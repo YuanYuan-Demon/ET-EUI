@@ -628,9 +628,15 @@ namespace ET
 		public long AccountId { get; set; }
 
 		[ProtoMember(6)]
-		public long LastLoginTIme { get; set; }
+		public RoleClass RoleClass { get; set; }
 
 		[ProtoMember(7)]
+		public int Level { get; set; }
+
+		[ProtoMember(8)]
+		public long LastLoginTIme { get; set; }
+
+		[ProtoMember(9)]
 		public long CreateTime { get; set; }
 
 	}
@@ -691,6 +697,9 @@ namespace ET
 
 		[ProtoMember(4)]
 		public string Name { get; set; }
+
+		[ProtoMember(5)]
+		public RoleClass RoleClass { get; set; }
 
 	}
 

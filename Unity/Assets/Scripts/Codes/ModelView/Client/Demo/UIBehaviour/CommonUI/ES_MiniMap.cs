@@ -4,6 +4,7 @@ using UnityEngine.UI;
 namespace ET.Client
 {
 	[EnableMethod]
+	[ChildOf]
 	public  class ES_MiniMap : Entity,ET.IAwake<UnityEngine.Transform>,IDestroy 
 	{
 		public void DestroyWidget()

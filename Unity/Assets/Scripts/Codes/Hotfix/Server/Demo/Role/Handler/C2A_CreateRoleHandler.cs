@@ -62,6 +62,8 @@ namespace ET.Server
                     roleInfo.Status = (int)RoleInfoStatus.Normal;
                     roleInfo.AccountId = request.AccountId;
                     roleInfo.CreateTime = TimeHelper.ServerNow();
+                    roleInfo.Level = 1;
+                    roleInfo.RoleClass = request.RoleClass;
                     roleInfo.LastLoginTIme = 0;
                     await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(roleInfo);
                     //发送响应

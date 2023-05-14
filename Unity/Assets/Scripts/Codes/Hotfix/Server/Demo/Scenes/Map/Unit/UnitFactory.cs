@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Mathematics;
 
 namespace ET.Server
 {
@@ -13,6 +14,8 @@ namespace ET.Server
                 {
                     Unit unit = unitComponent.AddChildWithId<Unit, int>(id, 1001);
                     NumericComponent numericComponent = unit.AddComponent<NumericComponent>();
+                    numericComponent.Set(NumericType.Speed, 6f); // 速度是6米每秒
+                    numericComponent.Set(NumericType.AOI, 15000); // 视野15米
                     foreach (var config in PlayerNumericConfigCategory.Instance.GetAll().Values)
                     {
                         if (config.BaseValue == 0)
@@ -28,7 +31,7 @@ namespace ET.Server
                             numericComponent.SetNoEvent(config.Id, config.BaseValue);
                         }
                     }
-
+                    unit.Position = new float3(50, 8.2f, 40);
                     //Undone: AddComponent<BagComponent>()
                     //unit.AddComponent<BagComponent>();
                     //Undone: AddComponent<EquipmentsComponent>()

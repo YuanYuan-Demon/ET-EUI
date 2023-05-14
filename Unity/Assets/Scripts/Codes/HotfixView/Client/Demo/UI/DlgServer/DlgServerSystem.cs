@@ -46,7 +46,7 @@ namespace ET.Client
             bool isSelect = self.ClientScene().GetComponent<ServerInfosComponent>().CurServerId != 0;
             if (!isSelect)
             {
-                self.ClientScene().GetComponent<UIComponent>().ShowErrorBox("请先选择区服");
+                UIComponent.Instance.ShowErrorBox("请先选择区服");
                 return;
             }
 
@@ -56,17 +56,17 @@ namespace ET.Client
                 if (errorCode != ErrorCode.ERR_Success)
                 {
                     Log.Error(errorCode.ToString());
-                    self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(errorCode);
+                    UIComponent.Instance.ShowErrorBox(errorCode);
                     return;
                 }
 
-                self.ClientScene().GetComponent<UIComponent>().ShowWindow(WindowID.WindowID_Roles);
-                self.ClientScene().GetComponent<UIComponent>().CloseWindow(WindowID.WindowID_Server);
+                UIComponent.Instance.ShowWindow(WindowID.WindowID_Roles);
+                UIComponent.Instance.CloseWindow(WindowID.WindowID_Server);
             }
             catch (Exception e)
             {
                 Log.Error(e);
-                self.ClientScene().GetComponent<UIComponent>().ShowErrorBox(e);
+                UIComponent.Instance.ShowErrorBox(e);
             }
         }
     }
