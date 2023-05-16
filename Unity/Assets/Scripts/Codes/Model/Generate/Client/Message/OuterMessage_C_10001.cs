@@ -907,6 +907,22 @@ namespace ET
 
 	}
 
+//============================================  移动同步  ============================================
+	[Message(OuterMessage.C2M_JoyStop)]
+	[ProtoContract]
+	public partial class C2M_JoyStop: ProtoObject, IActorLocationMessage
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public Unity.Mathematics.float3 Position { get; set; }
+
+		[ProtoMember(2)]
+		public Unity.Mathematics.float3 Forward { get; set; }
+
+	}
+
 //============================================  数值系统  ============================================
 	[Message(OuterMessage.M2C_NoticeUnitNumeric)]
 	[ProtoContract]
@@ -943,66 +959,6 @@ namespace ET
 	[Message(OuterMessage.M2C_AddAttributePoints)]
 	[ProtoContract]
 	public partial class M2C_AddAttributePoints: ProtoObject, IActorLocationResponse
-	{
-		[ProtoMember(90)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(91)]
-		public int Error { get; set; }
-
-		[ProtoMember(92)]
-		public string Message { get; set; }
-
-	}
-
-//============================================  闯关系统  ============================================
-	[ResponseType(nameof(M2C_StartGameLevel))]
-	[Message(OuterMessage.C2M_StartGameLevel)]
-	[ProtoContract]
-	public partial class C2M_StartGameLevel: ProtoObject, IActorLocationRequest
-	{
-		[ProtoMember(90)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(1)]
-		public int LevelId { get; set; }
-
-	}
-
-	[Message(OuterMessage.M2C_StartGameLevel)]
-	[ProtoContract]
-	public partial class M2C_StartGameLevel: ProtoObject, IActorLocationResponse
-	{
-		[ProtoMember(90)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(91)]
-		public int Error { get; set; }
-
-		[ProtoMember(92)]
-		public string Message { get; set; }
-
-	}
-
-	[ResponseType(nameof(M2C_EndGameLevel))]
-	[Message(OuterMessage.C2M_EndGameLevel)]
-	[ProtoContract]
-	public partial class C2M_EndGameLevel: ProtoObject, IActorLocationRequest
-	{
-		[ProtoMember(90)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(1)]
-		public int Round { get; set; }
-
-		[ProtoMember(2)]
-		public int BattleResult { get; set; }
-
-	}
-
-	[Message(OuterMessage.M2C_EndGameLevel)]
-	[ProtoContract]
-	public partial class M2C_EndGameLevel: ProtoObject, IActorLocationResponse
 	{
 		[ProtoMember(90)]
 		public int RpcId { get; set; }
@@ -1210,161 +1166,6 @@ namespace ET
 
 	}
 
-//============================================  打造系统  ============================================
-	[Message(OuterMessage.ProductionProto)]
-	[ProtoContract]
-	public partial class ProductionProto: ProtoObject
-	{
-		[ProtoMember(1)]
-		public long Id { get; set; }
-
-		[ProtoMember(2)]
-		public int ConfigId { get; set; }
-
-		[ProtoMember(3)]
-		public long TargetTime { get; set; }
-
-		[ProtoMember(4)]
-		public long StartTime { get; set; }
-
-		[ProtoMember(5)]
-		public int ProductionState { get; set; }
-
-	}
-
-	[ResponseType(nameof(M2C_StartProduction))]
-	[Message(OuterMessage.C2M_StartProduction)]
-	[ProtoContract]
-	public partial class C2M_StartProduction: ProtoObject, IActorLocationRequest
-	{
-		[ProtoMember(90)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(1)]
-		public int ConfigId { get; set; }
-
-	}
-
-	[Message(OuterMessage.M2C_StartProduction)]
-	[ProtoContract]
-	public partial class M2C_StartProduction: ProtoObject, IActorLocationResponse
-	{
-		[ProtoMember(90)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(91)]
-		public int Error { get; set; }
-
-		[ProtoMember(92)]
-		public string Message { get; set; }
-
-		[ProtoMember(1)]
-		public ProductionProto ProductionProto { get; set; }
-
-	}
-
-	[ResponseType(nameof(M2C_ReceiveProduction))]
-	[Message(OuterMessage.C2M_ReceiveProduction)]
-	[ProtoContract]
-	public partial class C2M_ReceiveProduction: ProtoObject, IActorLocationRequest
-	{
-		[ProtoMember(90)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(1)]
-		public long ProducitonId { get; set; }
-
-	}
-
-	[Message(OuterMessage.M2C_ReceiveProduction)]
-	[ProtoContract]
-	public partial class M2C_ReceiveProduction: ProtoObject, IActorLocationResponse
-	{
-		[ProtoMember(90)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(91)]
-		public int Error { get; set; }
-
-		[ProtoMember(92)]
-		public string Message { get; set; }
-
-		[ProtoMember(1)]
-		public ProductionProto ProductionProto { get; set; }
-
-	}
-
-	[Message(OuterMessage.M2C_AllProductionList)]
-	[ProtoContract]
-	public partial class M2C_AllProductionList: ProtoObject, IActorMessage
-	{
-		[ProtoMember(1)]
-		public List<ProductionProto> ProductionProtoList { get; set; } = new();
-
-	}
-
-//============================================  任务系统  ============================================
-	[Message(OuterMessage.TaskInfoProto)]
-	[ProtoContract]
-	public partial class TaskInfoProto: ProtoObject
-	{
-		[ProtoMember(1)]
-		public int ConfigId { get; set; }
-
-		[ProtoMember(2)]
-		public int TaskState { get; set; }
-
-		[ProtoMember(3)]
-		public int TaskPogress { get; set; }
-
-	}
-
-	[Message(OuterMessage.M2C_UpdateTaskInfo)]
-	[ProtoContract]
-	public partial class M2C_UpdateTaskInfo: ProtoObject, IActorMessage
-	{
-		[ProtoMember(1)]
-		public TaskInfoProto TaskInfoProto { get; set; }
-
-	}
-
-	[Message(OuterMessage.M2C_AllTaskInfoList)]
-	[ProtoContract]
-	public partial class M2C_AllTaskInfoList: ProtoObject, IActorMessage
-	{
-		[ProtoMember(1)]
-		public List<TaskInfoProto> TaskInfoProtoList { get; set; } = new();
-
-	}
-
-	[ResponseType(nameof(M2C_ReceiveTaskReward))]
-	[Message(OuterMessage.C2M_ReceiveTaskReward)]
-	[ProtoContract]
-	public partial class C2M_ReceiveTaskReward: ProtoObject, IActorLocationRequest
-	{
-		[ProtoMember(90)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(1)]
-		public int TaskConfigId { get; set; }
-
-	}
-
-	[Message(OuterMessage.M2C_ReceiveTaskReward)]
-	[ProtoContract]
-	public partial class M2C_ReceiveTaskReward: ProtoObject, IActorLocationResponse
-	{
-		[ProtoMember(90)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(91)]
-		public int Error { get; set; }
-
-		[ProtoMember(92)]
-		public string Message { get; set; }
-
-	}
-
 // //============================================  排行榜系统  ============================================
 // message RankInfoProto
 // {
@@ -1462,36 +1263,22 @@ namespace ET
 		 public const ushort G2C_LoginGameGate = 10056;
 		 public const ushort C2G_EnterGame = 10057;
 		 public const ushort G2C_EnterGame = 10058;
-		 public const ushort M2C_NoticeUnitNumeric = 10059;
-		 public const ushort C2M_AddAttributePoints = 10060;
-		 public const ushort M2C_AddAttributePoints = 10061;
-		 public const ushort C2M_StartGameLevel = 10062;
-		 public const ushort M2C_StartGameLevel = 10063;
-		 public const ushort C2M_EndGameLevel = 10064;
-		 public const ushort M2C_EndGameLevel = 10065;
-		 public const ushort C2M_UpRoleLevel = 10066;
-		 public const ushort M2C_UpRoleLevel = 10067;
-		 public const ushort ItemInfo = 10068;
-		 public const ushort M2C_AllItemsList = 10069;
-		 public const ushort M2C_ItemUpdateOpInfo = 10070;
-		 public const ushort C2M_SellItem = 10071;
-		 public const ushort M2C_SellItem = 10072;
-		 public const ushort AttributeEntryProto = 10073;
-		 public const ushort EquipInfoProto = 10074;
-		 public const ushort C2M_EquipItem = 10075;
-		 public const ushort M2C_EquipItem = 10076;
-		 public const ushort C2M_UnloadEquipItem = 10077;
-		 public const ushort M2C_UnloadEquipItem = 10078;
-		 public const ushort ProductionProto = 10079;
-		 public const ushort C2M_StartProduction = 10080;
-		 public const ushort M2C_StartProduction = 10081;
-		 public const ushort C2M_ReceiveProduction = 10082;
-		 public const ushort M2C_ReceiveProduction = 10083;
-		 public const ushort M2C_AllProductionList = 10084;
-		 public const ushort TaskInfoProto = 10085;
-		 public const ushort M2C_UpdateTaskInfo = 10086;
-		 public const ushort M2C_AllTaskInfoList = 10087;
-		 public const ushort C2M_ReceiveTaskReward = 10088;
-		 public const ushort M2C_ReceiveTaskReward = 10089;
+		 public const ushort C2M_JoyStop = 10059;
+		 public const ushort M2C_NoticeUnitNumeric = 10060;
+		 public const ushort C2M_AddAttributePoints = 10061;
+		 public const ushort M2C_AddAttributePoints = 10062;
+		 public const ushort C2M_UpRoleLevel = 10063;
+		 public const ushort M2C_UpRoleLevel = 10064;
+		 public const ushort ItemInfo = 10065;
+		 public const ushort M2C_AllItemsList = 10066;
+		 public const ushort M2C_ItemUpdateOpInfo = 10067;
+		 public const ushort C2M_SellItem = 10068;
+		 public const ushort M2C_SellItem = 10069;
+		 public const ushort AttributeEntryProto = 10070;
+		 public const ushort EquipInfoProto = 10071;
+		 public const ushort C2M_EquipItem = 10072;
+		 public const ushort M2C_EquipItem = 10073;
+		 public const ushort C2M_UnloadEquipItem = 10074;
+		 public const ushort M2C_UnloadEquipItem = 10075;
 	}
 }

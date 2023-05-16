@@ -18,10 +18,7 @@
         public const int AccountSessionCheckOutTime = 204;
         public const int PlayerOfflineOutTime = 205;
         public const int UnitDBSave = 206;
-        public const int BattleRound = 207;
-        public const int NoticeUnitNumericTime = 208;
-        public const int MakeQueueOver = 209;
-        public const int MakeQueueUI = 210;
-        public const int RankUI = 211;
+
+        public const int JoyMoveTimer = 207;
     }
 }

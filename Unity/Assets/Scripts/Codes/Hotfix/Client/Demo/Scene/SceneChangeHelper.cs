@@ -22,6 +22,7 @@
 
             Unit unit = UnitFactory.Create(currentScene, m2CCreateMyUnit.Unit);
             unitComponent.Add(unit);
+            unitComponent.MyUnit = unit;
 
             clientScene.RemoveComponent<AIComponent>();
 

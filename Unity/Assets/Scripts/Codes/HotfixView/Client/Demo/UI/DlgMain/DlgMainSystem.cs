@@ -15,10 +15,18 @@
             view.EB_Friend_Button.AddListener(self.OnClickFriend);
             view.EB_Guild_Button.AddListener(self.OnClickGuild);
             view.EB_Ride_Button.AddListener(self.OnClickRide);
+
+            view.ES_Joystick.RegisterUIEvent();
         }
 
         public static void ShowWindow(this DlgMain self, Entity contextData = null)
         {
+            self.View.ES_Joystick.OnShow();
+        }
+
+        public static void HideWindow(this DlgMain self)
+        {
+            self.View.ES_Joystick.OnHide();
         }
 
         #region 按钮响应

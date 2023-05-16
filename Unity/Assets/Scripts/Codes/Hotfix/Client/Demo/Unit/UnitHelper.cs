@@ -59,5 +59,23 @@
         {
             return entity.GetMyUnit()?.GetComponent<NumericComponent>();
         }
+
+        public static bool IsMyUnit(this Unit unit)
+        {
+            if (unit == null || unit.IsDisposed)
+            {
+                return false;
+            }
+            var unitComponent = unit.GetUnitComponent();
+            if (unitComponent == null || unitComponent.IsDisposed)
+            {
+                return false;
+            }
+            if (unitComponent.MyUnit == null)
+            {
+                return false;
+            }
+            return unitComponent.MyUnit == null && unitComponent.MyUnit.Id == unit.Id;
+        }
     }
 }

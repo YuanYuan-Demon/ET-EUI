@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace ET.Client
@@ -22,12 +24,10 @@ namespace ET.Client
                 if (Input.GetMouseButtonDown(0))
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, 1000, self.mapMask))
+                    if (Physics.Raycast(ray, out RaycastHit hit, 1000, self.mapMask))
                     {
-                        C2M_PathfindingResult c2MPathfindingResult = new C2M_PathfindingResult();
-                        c2MPathfindingResult.Position = hit.point;
-                        self.ClientScene().GetComponent<SessionComponent>().Session.Send(c2MPathfindingResult);
+                        self.ClientScene().GetComponent<SessionComponent>().Session.Send(
+                            new C2M_PathfindingResult() { Position = hit.point });
                     }
                 }
 
@@ -40,10 +40,41 @@ namespace ET.Client
 
                 if (Input.GetKeyDown(KeyCode.T))
                 {
-                    C2M_TransferMap c2MTransferMap = new C2M_TransferMap();
+                    C2M_TransferMap c2MTransferMap = new();
                     self.ClientScene().GetComponent<SessionComponent>().Session.Call(c2MTransferMap).Coroutine();
                 }
             }
+        }
+
+        public static void JoyMove(this OperaComponent self, float3 moveDir)
+        {
+            Unit unit = self.GetMyUnit();
+            float3 unitPos = unit.Position;
+            float3 newPos = unitPos + (moveDir * 2);
+
+            List<float3> list = new()
+            {
+                unit.Position,
+                newPos
+            };
+            unit.MoveToAsync(list).Coroutine();
+
+            self.ClientScene().GetComponent<SessionComponent>().Session.Send(new C2M_PathfindingResult()
+            {
+                Position = newPos
+            });
+        }
+
+        public static void Stop(this OperaComponent self)
+        {
+            Unit unit = self.GetMyUnit();
+            unit.GetComponent<MoveComponent>().StopForce();
+
+            self.ClientScene().GetComponent<SessionComponent>().Session.Send(new C2M_JoyStop()
+            {
+                Position = unit.Position,
+                Forward = unit.Forward
+            });
         }
     }
 }
