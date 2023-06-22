@@ -32,8 +32,32 @@ namespace ET.Server
                         }
                     }
                     unit.Position = new float3(50, 8.2f, 40);
-                    //Undone: AddComponent<BagComponent>()
-                    //unit.AddComponent<BagComponent>();
+                    unit.AddComponent<BagComponent>();
+
+                    #region 背包测试
+
+                    //添加装备
+                    for (int i = 0; i < 10; i++)
+                    {
+                        int equipId = RandomHelper.RandomInt32(1, 8) + 1000 * RandomHelper.RandomInt32(1, 4) + 10 * RandomHelper.RandomInt32(0, 2);
+                        if (!BagHelper.AddItemByConfigId(unit, equipId, isSync: false))
+                        {
+                            Log.Error("增加背包物品失败");
+                        }
+                    }
+
+                    //添加道具
+                    for (int i = 0; i < 30; i++)
+                    {
+                        int itemId = RandomHelper.RandomInt32(1, 11);
+                        if (!BagHelper.AddItemByConfigId(unit, itemId, isSync: false))
+                        {
+                            Log.Error("增加背包物品失败");
+                        }
+                    }
+
+                    #endregion 背包测试
+
                     //Undone: AddComponent<EquipmentsComponent>()
                     //unit.AddComponent<EquipmentsComponent>();
                     //Undone: AddComponent<ForgeComponent>()

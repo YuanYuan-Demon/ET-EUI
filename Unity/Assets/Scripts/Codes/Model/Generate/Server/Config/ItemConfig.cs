@@ -31,6 +31,7 @@ namespace ET
                 config.AfterEndInit();
                 this.dict.Add(config.Id, config);
             }
+            this.list.Clear();
             
             this.AfterEndInit();
         }
@@ -76,25 +77,25 @@ namespace ET
 		/// <summary>名字</summary>
 		[ProtoMember(2)]
 		public string Name { get; set; }
-		/// <summary>名字</summary>
+		/// <summary>描述</summary>
 		[ProtoMember(3)]
 		public string Desc { get; set; }
 		/// <summary>物品类型</summary>
 		[ProtoMember(4)]
 		public int Type { get; set; }
-		/// <summary>装配位置</summary>
+		/// <summary>道具等级</summary>
 		[ProtoMember(5)]
-		public int EquipPosition { get; set; }
+		public int Level { get; set; }
 		/// <summary>c图标</summary>
 		[ProtoMember(6)]
 		public string Icon { get; set; }
-		/// <summary>最大累加数量</summary>
+		/// <summary>堆叠限制</summary>
 		[ProtoMember(7)]
-		public int MaxSumCount { get; set; }
-		/// <summary>s词条随机Id</summary>
+		public int StackLimit { get; set; }
+		/// <summary>购买价格</summary>
 		[ProtoMember(8)]
-		public int EntryRandomId { get; set; }
-		/// <summary>售卖的基础价格</summary>
+		public int Price { get; set; }
+		/// <summary>销售价格</summary>
 		[ProtoMember(9)]
 		public int SellBasePrice { get; set; }
 

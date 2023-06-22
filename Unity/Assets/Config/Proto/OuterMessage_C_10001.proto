@@ -510,8 +510,7 @@ message ItemInfo
 {
 	int64 ItemUid      = 1;
 	int32 ItemConfigId = 2;
-	int32 ItemQuality  = 3;
-	
+	int32 Count = 3;
 	EquipInfoProto EquipInfo = 4; 
 }
 
@@ -520,7 +519,7 @@ message M2C_AllItemsList // IActorMessage
 	int32 RpcId = 90;
 	
 	repeated ItemInfo ItemInfoList = 1;
-	int32    ContainerType = 2;
+	ItemContainerType ContainerType = 2;
 }
 
 message M2C_ItemUpdateOpInfo // IActorMessage
@@ -528,8 +527,9 @@ message M2C_ItemUpdateOpInfo // IActorMessage
 	int32 RpcId = 90;
 
 	ItemInfo ItemInfo = 1;
-	int32    Op       = 2;
-	int32    ContainerType = 3;
+	ItemOp Op = 2;
+	int32 Count = 3;
+	ItemContainerType ContainerType = 4;
 }
 
 //ResponseType M2C_SellItem
@@ -537,6 +537,7 @@ message C2M_SellItem // IActorLocationRequest
 {
 	int32 RpcId = 1;
 	int64 ItemUid = 2;
+	int32 Count = 3;
 }
 
 message M2C_SellItem // IActorLocationResponse
@@ -552,7 +553,7 @@ message M2C_SellItem // IActorLocationResponse
 message AttributeEntryProto
 {
 	int64 Id = 1;
-	int32 EntryType = 2; 
+	EntryType EntryType = 2; 
 	int32 AttributeName = 3;
 	int64 AttributeValue = 4;
 }
@@ -562,7 +563,8 @@ message EquipInfoProto
 {
 	int64 Id    = 1;
 	int32 Score = 2;
-	repeated AttributeEntryProto AttributeEntryList = 3;
+	int32 Quality = 3;
+	repeated AttributeEntryProto AttributeEntryList = 4;
 }
 
 //ResponseType M2C_EquipItem

@@ -1008,7 +1008,7 @@ namespace ET
 		public int ItemConfigId { get; set; }
 
 		[ProtoMember(3)]
-		public int ItemQuality { get; set; }
+		public int Count { get; set; }
 
 		[ProtoMember(4)]
 		public EquipInfoProto EquipInfo { get; set; }
@@ -1026,7 +1026,7 @@ namespace ET
 		public List<ItemInfo> ItemInfoList { get; set; } = new();
 
 		[ProtoMember(2)]
-		public int ContainerType { get; set; }
+		public ItemContainerType ContainerType { get; set; }
 
 	}
 
@@ -1041,10 +1041,13 @@ namespace ET
 		public ItemInfo ItemInfo { get; set; }
 
 		[ProtoMember(2)]
-		public int Op { get; set; }
+		public ItemOp Op { get; set; }
 
 		[ProtoMember(3)]
-		public int ContainerType { get; set; }
+		public int Count { get; set; }
+
+		[ProtoMember(4)]
+		public ItemContainerType ContainerType { get; set; }
 
 	}
 
@@ -1058,6 +1061,9 @@ namespace ET
 
 		[ProtoMember(2)]
 		public long ItemUid { get; set; }
+
+		[ProtoMember(3)]
+		public int Count { get; set; }
 
 	}
 
@@ -1085,7 +1091,7 @@ namespace ET
 		public long Id { get; set; }
 
 		[ProtoMember(2)]
-		public int EntryType { get; set; }
+		public EntryType EntryType { get; set; }
 
 		[ProtoMember(3)]
 		public int AttributeName { get; set; }
@@ -1106,6 +1112,9 @@ namespace ET
 		public int Score { get; set; }
 
 		[ProtoMember(3)]
+		public int Quality { get; set; }
+
+		[ProtoMember(4)]
 		public List<AttributeEntryProto> AttributeEntryList { get; set; } = new();
 
 	}

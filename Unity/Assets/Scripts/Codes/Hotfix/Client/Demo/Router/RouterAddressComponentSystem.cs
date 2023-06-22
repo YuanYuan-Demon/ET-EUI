@@ -6,48 +6,6 @@ namespace ET.Client
     [FriendOf(typeof(RouterAddressComponent))]
     public static class RouterAddressComponentSystem
     {
-        public class RouterAddressComponentAwakeSystem : AwakeSystem<RouterAddressComponent, string, int>
-        {
-            protected override void Awake(RouterAddressComponent self, string address, int port)
-            {
-                self.RouterManagerHost = address;
-                self.RouterManagerPort = port;
-            }
-        }
-
-        private static async ETTask GetAllRouter(this RouterAddressComponent self)
-        {
-            string url = $"http://{self.RouterManagerHost}:{self.RouterManagerPort}/get_router?v={RandomHelper.RandUInt32()}";
-            Log.Debug($"start get router info: {url}");
-            string routerInfo = await HttpClientHelper.Get(url);
-            Log.Debug($"recv router info: {routerInfo}");
-            HttpGetRouterResponse httpGetRouterResponse = JsonHelper.FromJson<HttpGetRouterResponse>(routerInfo);
-            self.Info = httpGetRouterResponse;
-            Log.Debug($"start get router info finish: {JsonHelper.ToJson(httpGetRouterResponse)}");
-
-            // 打乱顺序
-            RandomHelper.BreakRank(self.Info.Routers);
-
-            self.WaitTenMinGetAllRouter().Coroutine();
-        }
-
-        public static async ETTask Init(this RouterAddressComponent self)
-        {
-            self.RouterManagerIPAddress = NetworkHelper.GetHostAddress(self.RouterManagerHost);
-            await self.GetAllRouter();
-        }
-
-        // 等10分钟再获取一次
-        public static async ETTask WaitTenMinGetAllRouter(this RouterAddressComponent self)
-        {
-            await TimerComponent.Instance.WaitAsync(5 * 60 * 1000);
-            if (self.IsDisposed)
-            {
-                return;
-            }
-            await self.GetAllRouter();
-        }
-
         public static IPEndPoint GetAddress(this RouterAddressComponent self)
         {
             if (self.Info.Routers.Count == 0)
@@ -76,6 +34,48 @@ namespace ET.Client
             //    ipAddress = ipAddress.MapToIPv6();
             //}
             return new IPEndPoint(ipAddress, int.Parse(ss[1]));
+        }
+
+        public static async ETTask Init(this RouterAddressComponent self)
+        {
+            self.RouterManagerIPAddress = NetworkHelper.GetHostAddress(self.RouterManagerHost);
+            await self.GetAllRouter();
+        }
+
+        // 等10分钟再获取一次
+        public static async ETTask WaitTenMinGetAllRouter(this RouterAddressComponent self)
+        {
+            await TimerComponent.Instance.WaitAsync(5 * 60 * 1000);
+            if (self.IsDisposed)
+            {
+                return;
+            }
+            await self.GetAllRouter();
+        }
+
+        private static async ETTask GetAllRouter(this RouterAddressComponent self)
+        {
+            string url = $"http://{self.RouterManagerHost}:{self.RouterManagerPort}/get_router?v={RandomHelper.RandomUInt32()}";
+            Log.Debug($"start get router info: {url}");
+            string routerInfo = await HttpClientHelper.Get(url);
+            Log.Debug($"recv router info: {routerInfo}");
+            HttpGetRouterResponse httpGetRouterResponse = JsonHelper.FromJson<HttpGetRouterResponse>(routerInfo);
+            self.Info = httpGetRouterResponse;
+            Log.Debug($"start get router info finish: {JsonHelper.ToJson(httpGetRouterResponse)}");
+
+            // 打乱顺序
+            RandomHelper.BreakRank(self.Info.Routers);
+
+            self.WaitTenMinGetAllRouter().Coroutine();
+        }
+
+        public class RouterAddressComponentAwakeSystem : AwakeSystem<RouterAddressComponent, string, int>
+        {
+            protected override void Awake(RouterAddressComponent self, string address, int port)
+            {
+                self.RouterManagerHost = address;
+                self.RouterManagerPort = port;
+            }
         }
     }
 }

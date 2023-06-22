@@ -4,24 +4,8 @@ namespace ET
 {
     [EnableMethod]
     [DebuggerDisplay("ViewName,nq")]
-    [ChildOf]
-    public sealed class Scene: Entity
+    public sealed class Scene : Entity
     {
-        public int Zone
-        {
-            get;
-        }
-
-        public SceneType SceneType
-        {
-            get;
-        }
-
-        public string Name
-        {
-            get;
-        }
-
         public Scene(long instanceId, int zone, SceneType sceneType, string name, Entity parent)
         {
             this.Id = instanceId;
@@ -52,11 +36,27 @@ namespace ET
             Log.Info($"scene create: {this.SceneType} {this.Name} {this.Id} {this.InstanceId} {this.Zone}");
         }
 
-        public override void Dispose()
+        protected override string ViewName
         {
-            base.Dispose();
-            
-            Log.Info($"scene dispose: {this.SceneType} {this.Name} {this.Id} {this.InstanceId} {this.Zone}");
+            get
+            {
+                return $"{this.GetType().Name} ({this.SceneType})";
+            }
+        }
+
+        public int Zone
+        {
+            get;
+        }
+
+        public SceneType SceneType
+        {
+            get;
+        }
+
+        public string Name
+        {
+            get;
         }
 
         public new Entity Domain
@@ -83,13 +83,12 @@ namespace ET
                 this.parent.Children.Add(this.Id, this);
             }
         }
-        
-        protected override string ViewName
+
+        public override void Dispose()
         {
-            get
-            {
-                return $"{this.GetType().Name} ({this.SceneType})";    
-            }
+            base.Dispose();
+
+            Log.Info($"scene dispose: {this.SceneType} {this.Name} {this.Id} {this.InstanceId} {this.Zone}");
         }
     }
 }

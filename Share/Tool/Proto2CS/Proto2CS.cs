@@ -30,6 +30,124 @@ namespace ET
         private static readonly char[] splitChars = { ' ', '\t' };
         private static readonly List<OpcodeInfo> msgOpcode = new List<OpcodeInfo>();
 
+        private static void GenerateCS(StringBuilder sb, string path, string proto)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            string csPath = Path.Combine(path, Path.GetFileNameWithoutExtension(proto) + ".cs");
+            using FileStream txt = new FileStream(csPath, FileMode.Create, FileAccess.ReadWrite);
+            using StreamWriter sw = new StreamWriter(txt);
+            sw.Write(sb.ToString());
+        }
+
+        private static void Map(StringBuilder sb, string ns, string newline)
+        {
+            int start = newline.IndexOf("<") + 1;
+            int end = newline.IndexOf(">");
+            string types = newline.Substring(start, end - start);
+            string[] ss = types.Split(",");
+            string keyType = ConvertType(ss[0].Trim());
+            string valueType = ConvertType(ss[1].Trim());
+            string tail = newline.Substring(end + 1);
+            ss = tail.Trim().Replace(";", "").Split(" ");
+            string v = ss[0];
+            string n = ss[2];
+
+            sb.Append("\t\t[MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]\n");
+            sb.Append($"\t\t[ProtoMember({n})]\n");
+            sb.Append($"\t\tpublic Dictionary<{keyType}, {valueType}> {v} {{ get; set; }}\n");
+        }
+
+        private static void Repeated(StringBuilder sb, string ns, string newline)
+        {
+            try
+            {
+                int index = newline.IndexOf(";");
+                newline = newline.Remove(index);
+                string[] ss = newline.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
+                string type = ss[1];
+                type = ConvertType(type);
+                string name = ss[2];
+                int n = int.Parse(ss[4]);
+
+                sb.Append($"\t\t[ProtoMember({n})]\n");
+                sb.Append($"\t\tpublic List<{type}> {name} {{ get; set; }} = new();\n\n");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{newline}\n {e}");
+            }
+        }
+
+        private static string ConvertType(string type)
+        {
+            string typeCs = "";
+            switch (type)
+            {
+                case "int16":
+                    typeCs = "short";
+                    break;
+
+                case "int32":
+                    typeCs = "int";
+                    break;
+
+                case "bytes":
+                    typeCs = "byte[]";
+                    break;
+
+                case "uint32":
+                    typeCs = "uint";
+                    break;
+
+                case "long":
+                    typeCs = "long";
+                    break;
+
+                case "int64":
+                    typeCs = "long";
+                    break;
+
+                case "uint64":
+                    typeCs = "ulong";
+                    break;
+
+                case "uint16":
+                    typeCs = "ushort";
+                    break;
+
+                default:
+                    typeCs = type;
+                    break;
+            }
+
+            return typeCs;
+        }
+
+        private static void Members(StringBuilder sb, string newline, bool isRequired)
+        {
+            try
+            {
+                int index = newline.IndexOf(";");
+                newline = newline.Remove(index);
+                string[] ss = newline.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
+                string type = ss[0];
+                string name = ss[1];
+                int n = int.Parse(ss[3]);
+                string typeCs = ConvertType(type);
+
+                sb.Append($"\t\t[ProtoMember({n})]\n");
+                sb.Append($"\t\tpublic {typeCs} {name} {{ get; set; }}\n\n");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{newline}\n {e}");
+            }
+        }
+
         public static void Proto2CS()
         {
             msgOpcode.Clear();
@@ -43,7 +161,7 @@ namespace ET
             {
                 Directory.Delete(serverMessagePath, true);
             }
-            
+
             if (Directory.Exists(clientServerMessagePath))
             {
                 Directory.Delete(clientServerMessagePath, true);
@@ -70,7 +188,7 @@ namespace ET
             string ns = "ET";
             msgOpcode.Clear();
             string proto = Path.Combine(protoDir, $"{fileName}.proto");
-            
+
             string s = File.ReadAllText(proto);
 
             StringBuilder sb = new StringBuilder();
@@ -79,7 +197,7 @@ namespace ET
             sb.Append("using System.Collections.Generic;\n");
             sb.Append($"namespace {ns}\n");
             sb.Append("{\n");
-            
+
             bool isMsgStart = false;
             foreach (string line in s.Split('\n'))
             {
@@ -175,7 +293,6 @@ namespace ET
                 }
             }
 
-
             sb.Append("\tpublic static class " + protoName + "\n\t{\n");
             foreach (OpcodeInfo info in msgOpcode)
             {
@@ -183,7 +300,6 @@ namespace ET
             }
 
             sb.Append("\t}\n");
-            
 
             sb.Append("}\n");
 
@@ -193,121 +309,11 @@ namespace ET
                 GenerateCS(sb, serverMessagePath, proto);
                 GenerateCS(sb, clientServerMessagePath, proto);
             }
-            
+
             if (cs.Contains("S"))
             {
                 GenerateCS(sb, serverMessagePath, proto);
                 GenerateCS(sb, clientServerMessagePath, proto);
-            }
-        }
-
-        private static void GenerateCS(StringBuilder sb, string path, string proto)
-        {
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            string csPath = Path.Combine(path, Path.GetFileNameWithoutExtension(proto) + ".cs");
-            using FileStream txt = new FileStream(csPath, FileMode.Create, FileAccess.ReadWrite);
-            using StreamWriter sw = new StreamWriter(txt);
-            sw.Write(sb.ToString());
-        }
-
-        private static void Map(StringBuilder sb, string ns, string newline)
-        {
-            int start = newline.IndexOf("<") + 1;
-            int end = newline.IndexOf(">");
-            string types = newline.Substring(start, end - start);
-            string[] ss = types.Split(",");
-            string keyType = ConvertType(ss[0].Trim());
-            string valueType = ConvertType(ss[1].Trim());
-            string tail = newline.Substring(end + 1);
-            ss = tail.Trim().Replace(";", "").Split(" ");
-            string v = ss[0];
-            string n = ss[2];
-            
-            sb.Append("\t\t[MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]\n");
-            sb.Append($"\t\t[ProtoMember({n})]\n");
-            sb.Append($"\t\tpublic Dictionary<{keyType}, {valueType}> {v} {{ get; set; }}\n");
-        }
-        
-        private static void Repeated(StringBuilder sb, string ns, string newline)
-        {
-            try
-            {
-                int index = newline.IndexOf(";");
-                newline = newline.Remove(index);
-                string[] ss = newline.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
-                string type = ss[1];
-                type = ConvertType(type);
-                string name = ss[2];
-                int n = int.Parse(ss[4]);
-
-                sb.Append($"\t\t[ProtoMember({n})]\n");
-                sb.Append($"\t\tpublic List<{type}> {name} {{ get; set; }}\n\n");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"{newline}\n {e}");
-            }
-        }
-
-        private static string ConvertType(string type)
-        {
-            string typeCs = "";
-            switch (type)
-            {
-                case "int16":
-                    typeCs = "short";
-                    break;
-                case "int32":
-                    typeCs = "int";
-                    break;
-                case "bytes":
-                    typeCs = "byte[]";
-                    break;
-                case "uint32":
-                    typeCs = "uint";
-                    break;
-                case "long":
-                    typeCs = "long";
-                    break;
-                case "int64":
-                    typeCs = "long";
-                    break;
-                case "uint64":
-                    typeCs = "ulong";
-                    break;
-                case "uint16":
-                    typeCs = "ushort";
-                    break;
-                default:
-                    typeCs = type;
-                    break;
-            }
-
-            return typeCs;
-        }
-
-        private static void Members(StringBuilder sb, string newline, bool isRequired)
-        {
-            try
-            {
-                int index = newline.IndexOf(";");
-                newline = newline.Remove(index);
-                string[] ss = newline.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
-                string type = ss[0];
-                string name = ss[1];
-                int n = int.Parse(ss[3]);
-                string typeCs = ConvertType(type);
-
-                sb.Append($"\t\t[ProtoMember({n})]\n");
-                sb.Append($"\t\tpublic {typeCs} {name} {{ get; set; }}\n\n");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"{newline}\n {e}");
             }
         }
     }

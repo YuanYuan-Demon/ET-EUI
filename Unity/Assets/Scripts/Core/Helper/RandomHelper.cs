@@ -24,8 +24,7 @@ namespace ET
 
         public static int RandomInt32(int upper = 1)
         {
-            int value = GetRandom().Next(0, upper);
-            return value;
+            return GetRandom().Next(0, upper);
         }
 
         /// <summary>
@@ -36,23 +35,22 @@ namespace ET
         /// <returns>随机数</returns>
         public static int RandomInt32(int lower, int upper)
         {
-            int value = GetRandom().Next(lower, upper);
-            return value;
+            return GetRandom().Next(lower, upper);
         }
 
-        public static uint RandUInt32()
+        public static uint RandomUInt32()
         {
             return (uint)GetRandom().Next();
         }
 
         public static long RandInt64()
         {
-            uint r1 = RandUInt32();
-            uint r2 = RandUInt32();
+            uint r1 = RandomUInt32();
+            uint r2 = RandomUInt32();
             return (long)(((ulong)r1 << 32) | r2);
         }
 
-        public static ulong RandUInt64()
+        public static ulong RandomUInt64()
         {
             int r1 = RandomInt32();
             int r2 = RandomInt32();
@@ -120,7 +118,7 @@ namespace ET
             }
         }
 
-        public static float RandFloat01()
+        public static float RandomFloat01()
         {
             int a = RandomInt32(0, 1000000);
             return a / 1000000f;

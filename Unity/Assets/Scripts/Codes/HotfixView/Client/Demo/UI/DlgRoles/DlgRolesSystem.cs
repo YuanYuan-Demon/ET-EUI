@@ -29,19 +29,6 @@ namespace ET.Client
 
         #endregion UI事件
 
-        private static void OnSelectClass(this DlgRoles self, int cla)
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                self.View.EG_Class_RectTransform.GetChild(i).gameObject.SetActive(i == cla);
-                Transform toggleTransform = self.View.EG_Toggles_RectTransform.GetChild(i);
-                toggleTransform.GetChild(0).gameObject.SetActive(i != cla);
-                toggleTransform.GetChild(1).gameObject.SetActive(i == cla);
-                toggleTransform.GetComponent<Toggle>().targetGraphic = toggleTransform.GetComponentInChildren<Image>();
-                EventSystem.Instance.Publish(self.ClientScene(), new EventType.SelectRole { RoleClass = (RoleClass)cla });
-            }
-        }
-
         private static async void OnClickEnter(this DlgRoles self)
         {
             bool isSelect = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId != 0;
@@ -79,20 +66,6 @@ namespace ET.Client
             }
         }
 
-        private static void ShowSelectPanel(this DlgRoles self, bool showSelect = true)
-        {
-            self.View.EG_SelectPanel_RectTransform.gameObject.SetActive(showSelect);
-            self.View.EG_CreatePanel_RectTransform.gameObject.SetActive(!showSelect);
-            self.View.EB_Back_Button.gameObject.SetActive(!showSelect);
-            if (showSelect)
-            {
-                var roleInfos = self.ClientScene().GetComponent<RoleInfosComponent>().RoleInfos;
-                if (roleInfos.Count > 0) self.OnSelectRole(roleInfos[0]);
-            }
-            else
-                self.OnSelectClass(0);
-        }
-
         private static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
         {
             var itemRole = self.ScrollItemRoleInfos[index].BindTrans(transform);
@@ -114,6 +87,19 @@ namespace ET.Client
             }
         }
 
+        private static void OnSelectClass(this DlgRoles self, int cla)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                self.View.EG_Class_RectTransform.GetChild(i).gameObject.SetActive(i == cla);
+                Transform toggleTransform = self.View.EG_Toggles_RectTransform.GetChild(i);
+                toggleTransform.GetChild(0).gameObject.SetActive(i != cla);
+                toggleTransform.GetChild(1).gameObject.SetActive(i == cla);
+                toggleTransform.GetComponent<Toggle>().targetGraphic = toggleTransform.GetComponentInChildren<Image>();
+                EventSystem.Instance.Publish(self.ClientScene(), new EventType.SelectRole { RoleClass = (RoleClass)cla });
+            }
+        }
+
         private static void OnSelectRole(this DlgRoles self, RoleInfo roleInfo)
         {
             self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId = roleInfo.Id;
@@ -127,6 +113,20 @@ namespace ET.Client
             int count = self.ClientScene().GetComponent<RoleInfosComponent>().RoleInfos.Count + 1;
             self.AddUIScrollItems(ref self.ScrollItemRoleInfos, count);
             self.View.EL_Roles_LoopVerticalScrollRect.SetVisible(true, count);
+        }
+
+        private static void ShowSelectPanel(this DlgRoles self, bool showSelect = true)
+        {
+            self.View.EG_SelectPanel_RectTransform.gameObject.SetActive(showSelect);
+            self.View.EG_CreatePanel_RectTransform.gameObject.SetActive(!showSelect);
+            self.View.EB_Back_Button.gameObject.SetActive(!showSelect);
+            if (showSelect)
+            {
+                var roleInfos = self.ClientScene().GetComponent<RoleInfosComponent>().RoleInfos;
+                if (roleInfos.Count > 0) self.OnSelectRole(roleInfos[0]);
+            }
+            else
+                self.OnSelectClass(0);
         }
 
         #region 角色管理

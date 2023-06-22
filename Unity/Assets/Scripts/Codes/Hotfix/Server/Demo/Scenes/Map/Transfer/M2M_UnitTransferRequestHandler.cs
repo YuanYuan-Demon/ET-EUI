@@ -46,7 +46,32 @@ namespace ET.Server
             MessageHelper.SendToClient(unit, m2CCreateUnits);
 
             //通知客户端同步背包信息
-            //ItemUpdateNoticeHelper.SyncAllBagItems(unit);
+
+            #region 背包测试
+
+            ////添加装备
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    int equipId = RandomHelper.RandomInt32(1, 8) + 1000 * RandomHelper.RandomInt32(1, 4) + 10 * RandomHelper.RandomInt32(0, 2);
+            //    if (!BagHelper.AddItemByConfigId(unit, equipId))
+            //    {
+            //        Log.Error("增加背包物品失败");
+            //    }
+            //}
+
+            ////添加道具
+            //for (int i = 0; i < 30; i++)
+            //{
+            //    int itemId = RandomHelper.RandomInt32(1, 11);
+            //    if (!BagHelper.AddItemByConfigId(unit, itemId))
+            //    {
+            //        Log.Error("增加背包物品失败");
+            //    }
+            //}
+
+            #endregion 背包测试
+
+            ItemUpdateNoticeHelper.SyncAllBagItems(unit);
             //ItemUpdateNoticeHelper.SyncAllEquipItems(unit);
 
             //通知客户端同步打造信息

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 
 namespace ET.Server
@@ -7,7 +8,11 @@ namespace ET.Server
     {
         public async ETTask Handle(Entity domain, HttpListenerContext context)
         {
-            HttpGetRouterResponse response = new();
+            HttpGetRouterResponse response = new()
+            {
+                Realms = new List<string>(),
+                Routers = new List<string>(),
+            };
             foreach (StartSceneConfig startSceneConfig in StartSceneConfigCategory.Instance.Realms.Values)
             {
                 response.Realms.Add(startSceneConfig.InnerIPOutPort.ToString());
