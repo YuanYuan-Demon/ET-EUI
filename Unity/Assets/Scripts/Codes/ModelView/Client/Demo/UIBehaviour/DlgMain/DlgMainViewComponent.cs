@@ -132,23 +132,6 @@ namespace ET.Client
      		}
      	}
 
-		public UnityEngine.UI.Image EB_Setting_Image
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_Setting_Image == null )
-     			{
-		    		this.m_EB_Setting_Image = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Buttons/EB_Setting");
-     			}
-     			return this.m_EB_Setting_Image;
-     		}
-     	}
-
 		public UnityEngine.UI.Button EB_Bag_Button
      	{
      		get
@@ -163,57 +146,6 @@ namespace ET.Client
 		    		this.m_EB_Bag_Button = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Buttons/EB_Bag");
      			}
      			return this.m_EB_Bag_Button;
-     		}
-     	}
-
-		public UnityEngine.UI.Image EB_Bag_Image
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_Bag_Image == null )
-     			{
-		    		this.m_EB_Bag_Image = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Buttons/EB_Bag");
-     			}
-     			return this.m_EB_Bag_Image;
-     		}
-     	}
-
-		public UnityEngine.UI.Button EB_Quest_Button
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_Quest_Button == null )
-     			{
-		    		this.m_EB_Quest_Button = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Buttons/EB_Quest");
-     			}
-     			return this.m_EB_Quest_Button;
-     		}
-     	}
-
-		public UnityEngine.UI.Image EB_Quest_Image
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_Quest_Image == null )
-     			{
-		    		this.m_EB_Quest_Image = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Buttons/EB_Quest");
-     			}
-     			return this.m_EB_Quest_Image;
      		}
      	}
 
@@ -234,7 +166,7 @@ namespace ET.Client
      		}
      	}
 
-		public UnityEngine.UI.Image EB_Equip_Image
+		public UnityEngine.UI.Button EB_Quest_Button
      	{
      		get
      		{
@@ -243,11 +175,11 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_EB_Equip_Image == null )
+     			if( this.m_EB_Quest_Button == null )
      			{
-		    		this.m_EB_Equip_Image = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Buttons/EB_Equip");
+		    		this.m_EB_Quest_Button = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Buttons/EB_Quest");
      			}
-     			return this.m_EB_Equip_Image;
+     			return this.m_EB_Quest_Button;
      		}
      	}
 
@@ -268,7 +200,7 @@ namespace ET.Client
      		}
      	}
 
-		public UnityEngine.UI.Image EB_Skill_Image
+		public UnityEngine.UI.Button EB_Ride_Button
      	{
      		get
      		{
@@ -277,11 +209,11 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_EB_Skill_Image == null )
+     			if( this.m_EB_Ride_Button == null )
      			{
-		    		this.m_EB_Skill_Image = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Buttons/EB_Skill");
+		    		this.m_EB_Ride_Button = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Buttons/EB_Ride");
      			}
-     			return this.m_EB_Skill_Image;
+     			return this.m_EB_Ride_Button;
      		}
      	}
 
@@ -302,23 +234,6 @@ namespace ET.Client
      		}
      	}
 
-		public UnityEngine.UI.Image EB_Friend_Image
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_Friend_Image == null )
-     			{
-		    		this.m_EB_Friend_Image = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Buttons/EB_Friend");
-     			}
-     			return this.m_EB_Friend_Image;
-     		}
-     	}
-
 		public UnityEngine.UI.Button EB_Guild_Button
      	{
      		get
@@ -333,57 +248,6 @@ namespace ET.Client
 		    		this.m_EB_Guild_Button = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Buttons/EB_Guild");
      			}
      			return this.m_EB_Guild_Button;
-     		}
-     	}
-
-		public UnityEngine.UI.Image EB_Guild_Image
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_Guild_Image == null )
-     			{
-		    		this.m_EB_Guild_Image = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Buttons/EB_Guild");
-     			}
-     			return this.m_EB_Guild_Image;
-     		}
-     	}
-
-		public UnityEngine.UI.Button EB_Ride_Button
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_Ride_Button == null )
-     			{
-		    		this.m_EB_Ride_Button = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Buttons/EB_Ride");
-     			}
-     			return this.m_EB_Ride_Button;
-     		}
-     	}
-
-		public UnityEngine.UI.Image EB_Ride_Image
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EB_Ride_Image == null )
-     			{
-		    		this.m_EB_Ride_Image = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"Buttons/EB_Ride");
-     			}
-     			return this.m_EB_Ride_Image;
      		}
      	}
 
@@ -402,21 +266,13 @@ namespace ET.Client
 			this.m_es_joystick?.Dispose();
 			this.m_es_joystick = null;
 			this.m_EB_Setting_Button = null;
-			this.m_EB_Setting_Image = null;
 			this.m_EB_Bag_Button = null;
-			this.m_EB_Bag_Image = null;
-			this.m_EB_Quest_Button = null;
-			this.m_EB_Quest_Image = null;
 			this.m_EB_Equip_Button = null;
-			this.m_EB_Equip_Image = null;
+			this.m_EB_Quest_Button = null;
 			this.m_EB_Skill_Button = null;
-			this.m_EB_Skill_Image = null;
-			this.m_EB_Friend_Button = null;
-			this.m_EB_Friend_Image = null;
-			this.m_EB_Guild_Button = null;
-			this.m_EB_Guild_Image = null;
 			this.m_EB_Ride_Button = null;
-			this.m_EB_Ride_Image = null;
+			this.m_EB_Friend_Button = null;
+			this.m_EB_Guild_Button = null;
 			this.uiTransform = null;
 		}
 
@@ -427,21 +283,13 @@ namespace ET.Client
 		private ES_Chat m_es_chat = null;
 		private ES_Joystick m_es_joystick = null;
 		private UnityEngine.UI.Button m_EB_Setting_Button = null;
-		private UnityEngine.UI.Image m_EB_Setting_Image = null;
 		private UnityEngine.UI.Button m_EB_Bag_Button = null;
-		private UnityEngine.UI.Image m_EB_Bag_Image = null;
-		private UnityEngine.UI.Button m_EB_Quest_Button = null;
-		private UnityEngine.UI.Image m_EB_Quest_Image = null;
 		private UnityEngine.UI.Button m_EB_Equip_Button = null;
-		private UnityEngine.UI.Image m_EB_Equip_Image = null;
+		private UnityEngine.UI.Button m_EB_Quest_Button = null;
 		private UnityEngine.UI.Button m_EB_Skill_Button = null;
-		private UnityEngine.UI.Image m_EB_Skill_Image = null;
-		private UnityEngine.UI.Button m_EB_Friend_Button = null;
-		private UnityEngine.UI.Image m_EB_Friend_Image = null;
-		private UnityEngine.UI.Button m_EB_Guild_Button = null;
-		private UnityEngine.UI.Image m_EB_Guild_Image = null;
 		private UnityEngine.UI.Button m_EB_Ride_Button = null;
-		private UnityEngine.UI.Image m_EB_Ride_Image = null;
+		private UnityEngine.UI.Button m_EB_Friend_Button = null;
+		private UnityEngine.UI.Button m_EB_Guild_Button = null;
 		public Transform uiTransform = null;
 	}
 }
