@@ -41,6 +41,23 @@ namespace ET.Client
      		}
      	}
 
+		public UnityEngine.UI.Image EB_CloseImage
+     	{
+     		get
+     		{
+     			if (this.uiTransform == null)
+     			{
+     				Log.Error("uiTransform is null.");
+     				return null;
+     			}
+     			if( this.m_EB_CloseImage == null )
+     			{
+		    		this.m_EB_CloseImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/EB_Close");
+     			}
+     			return this.m_EB_CloseImage;
+     		}
+     	}
+
 		public ES_MakeQueue ES_MakeQueue1
      	{
      		get
@@ -74,23 +91,6 @@ namespace ET.Client
 		    	   this.m_es_makequeue2 = this.AddChild<ES_MakeQueue,Transform>(subTrans);
      			}
      			return this.m_es_makequeue2;
-     		}
-     	}
-
-		public UnityEngine.UI.Image EL_ProductionsImage
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EL_ProductionsImage == null )
-     			{
-		    		this.m_EL_ProductionsImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EG_Panel/Panel/EL_Productions");
-     			}
-     			return this.m_EL_ProductionsImage;
      		}
      	}
 
@@ -132,11 +132,11 @@ namespace ET.Client
 		{
 			this.m_EG_PanelRectTransform = null;
 			this.m_EB_CloseButton = null;
+			this.m_EB_CloseImage = null;
 			this.m_es_makequeue1?.Dispose();
 			this.m_es_makequeue1 = null;
 			this.m_es_makequeue2?.Dispose();
 			this.m_es_makequeue2 = null;
-			this.m_EL_ProductionsImage = null;
 			this.m_EL_ProductionsLoopVerticalScrollRect = null;
 			this.m_ET_MaterialTextMeshProUGUI = null;
 			this.uiTransform = null;
@@ -144,9 +144,9 @@ namespace ET.Client
 
 		private UnityEngine.RectTransform m_EG_PanelRectTransform = null;
 		private UnityEngine.UI.Button m_EB_CloseButton = null;
+		private UnityEngine.UI.Image m_EB_CloseImage = null;
 		private ES_MakeQueue m_es_makequeue1 = null;
 		private ES_MakeQueue m_es_makequeue2 = null;
-		private UnityEngine.UI.Image m_EL_ProductionsImage = null;
 		private UnityEngine.UI.LoopVerticalScrollRect m_EL_ProductionsLoopVerticalScrollRect = null;
 		private TMPro.TextMeshProUGUI m_ET_MaterialTextMeshProUGUI = null;
 		public Transform uiTransform = null;

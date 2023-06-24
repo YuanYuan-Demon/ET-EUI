@@ -363,7 +363,7 @@ namespace ET
         // 这个因为是NetClientComponent中使用，不会与Accept冲突
         public uint CreateConnectChannelId()
         {
-            return RandomHelper.RandUInt32();
+            return RandomHelper.RandomUInt32();
         }
 
 #endregion

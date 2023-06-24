@@ -1,6 +1,3 @@
-using UnityEngine;
-using System.Collections;
-
 namespace UnityEngine.UI
 {
     [AddComponentMenu("UI/Loop Horizontal Scroll Rect", 50)]
@@ -26,7 +23,7 @@ namespace UnityEngine.UI
         {
             return -vector.x;
         }
-        
+
         protected override float GetAbsDimension(Vector2 vector)
         {
             return vector.x;
@@ -83,7 +80,7 @@ namespace UnityEngine.UI
                 changed = true;
             }
 
-            if ((viewBounds.min.x - contentBounds.max.x > viewBounds.size.x)  && itemTypeEnd > itemTypeStart)
+            if ((viewBounds.min.x - contentBounds.max.x > viewBounds.size.x) && itemTypeEnd > itemTypeStart)
             {
                 int maxItemTypeStart = -1;
                 if (totalCount >= 0)
@@ -96,7 +93,7 @@ namespace UnityEngine.UI
                 ReturnToTempPool(true, itemTypeEnd - itemTypeStart);
                 // TODO: fix with contentConstraint?
                 itemTypeStart = itemTypeEnd;
-            
+
                 int offsetCount = Mathf.FloorToInt((viewBounds.min.x - contentBounds.max.x) / (elementSize + contentSpacing));
                 if (maxItemTypeStart >= 0 && itemTypeStart + offsetCount * contentConstraintCount > maxItemTypeStart)
                 {

@@ -34,6 +34,8 @@
                 ContainerType = (int)ItemContainerType.Bag
             };
             BagComponent bagComponent = unit.GetComponent<BagComponent>();
+            bagComponent ??= unit.AddComponent<BagComponent>();
+
             foreach (var item in bagComponent.ItemsDict.Values)
             {
                 message.ItemInfoList.Add(item.ToMessage());
@@ -49,6 +51,8 @@
                 ContainerType = (int)ItemContainerType.RoleInfo
             };
             EquipmentsComponent equipmentsComponent = unit.GetComponent<EquipmentsComponent>();
+            equipmentsComponent ??= unit.AddComponent<EquipmentsComponent>();
+
             foreach (var item in equipmentsComponent.EquipItems.Values)
             {
                 m2CAllItemsList.ItemInfoList.Add(item.ToMessage());
