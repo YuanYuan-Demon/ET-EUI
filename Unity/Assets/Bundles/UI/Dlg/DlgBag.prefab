@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Content: {fileID: 7523327259421087900}
   m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
@@ -1584,7 +1584,7 @@ PrefabInstance:
     - target: {fileID: 1902766307204090761, guid: 9da3177af12a2e94e920367d5fa6cd3f,
         type: 3}
       propertyPath: m_fontSize
-      value: 26.4
+      value: 31.65
       objectReference: {fileID: 0}
     - target: {fileID: 1902766307204090761, guid: 9da3177af12a2e94e920367d5fa6cd3f,
         type: 3}

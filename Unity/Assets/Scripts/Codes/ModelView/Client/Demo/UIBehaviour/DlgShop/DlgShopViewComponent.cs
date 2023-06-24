@@ -126,7 +126,7 @@ namespace ET.Client
      		}
      	}
 
-		public UnityEngine.UI.LoopVerticalScrollRect EL_BagItem_LoopVerticalScrollRect
+		public UnityEngine.UI.LoopVerticalScrollRect EL_ShopItem_LoopVerticalScrollRect
      	{
      		get
      		{
@@ -135,11 +135,11 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_EL_BagItem_LoopVerticalScrollRect == null )
+     			if( this.m_EL_ShopItem_LoopVerticalScrollRect == null )
      			{
-		    		this.m_EL_BagItem_LoopVerticalScrollRect = UIFindHelper.FindDeepChild<UnityEngine.UI.LoopVerticalScrollRect>(this.uiTransform.gameObject,"Panel/EL_BagItem");
+		    		this.m_EL_ShopItem_LoopVerticalScrollRect = UIFindHelper.FindDeepChild<UnityEngine.UI.LoopVerticalScrollRect>(this.uiTransform.gameObject,"Panel/EL_ShopItem");
      			}
-     			return this.m_EL_BagItem_LoopVerticalScrollRect;
+     			return this.m_EL_ShopItem_LoopVerticalScrollRect;
      		}
      	}
 
@@ -186,7 +186,7 @@ namespace ET.Client
 			this.m_ET_Equip_Toggle = null;
 			this.m_ET_Consumables_Toggle = null;
 			this.m_ET_Material_Toggle = null;
-			this.m_EL_BagItem_LoopVerticalScrollRect = null;
+			this.m_EL_ShopItem_LoopVerticalScrollRect = null;
 			this.m_ET_Money_TextMeshProUGUI = null;
 			this.m_EB_Buy_Button = null;
 			this.uiTransform = null;
@@ -199,7 +199,7 @@ namespace ET.Client
 		private UnityEngine.UI.Toggle m_ET_Equip_Toggle = null;
 		private UnityEngine.UI.Toggle m_ET_Consumables_Toggle = null;
 		private UnityEngine.UI.Toggle m_ET_Material_Toggle = null;
-		private UnityEngine.UI.LoopVerticalScrollRect m_EL_BagItem_LoopVerticalScrollRect = null;
+		private UnityEngine.UI.LoopVerticalScrollRect m_EL_ShopItem_LoopVerticalScrollRect = null;
 		private TMPro.TextMeshProUGUI m_ET_Money_TextMeshProUGUI = null;
 		private UnityEngine.UI.Button m_EB_Buy_Button = null;
 		public Transform uiTransform = null;

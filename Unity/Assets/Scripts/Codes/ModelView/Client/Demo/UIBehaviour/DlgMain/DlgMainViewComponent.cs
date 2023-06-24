@@ -251,6 +251,23 @@ namespace ET.Client
      		}
      	}
 
+		public UnityEngine.UI.Button EB_Shop_Button
+     	{
+     		get
+     		{
+     			if (this.uiTransform == null)
+     			{
+     				Log.Error("uiTransform is null.");
+     				return null;
+     			}
+     			if( this.m_EB_Shop_Button == null )
+     			{
+		    		this.m_EB_Shop_Button = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"Buttons/EB_Shop");
+     			}
+     			return this.m_EB_Shop_Button;
+     		}
+     	}
+
 		public void DestroyWidget()
 		{
 			this.m_es_minimap?.Dispose();
@@ -273,6 +290,7 @@ namespace ET.Client
 			this.m_EB_Ride_Button = null;
 			this.m_EB_Friend_Button = null;
 			this.m_EB_Guild_Button = null;
+			this.m_EB_Shop_Button = null;
 			this.uiTransform = null;
 		}
 
@@ -290,6 +308,7 @@ namespace ET.Client
 		private UnityEngine.UI.Button m_EB_Ride_Button = null;
 		private UnityEngine.UI.Button m_EB_Friend_Button = null;
 		private UnityEngine.UI.Button m_EB_Guild_Button = null;
+		private UnityEngine.UI.Button m_EB_Shop_Button = null;
 		public Transform uiTransform = null;
 	}
 }

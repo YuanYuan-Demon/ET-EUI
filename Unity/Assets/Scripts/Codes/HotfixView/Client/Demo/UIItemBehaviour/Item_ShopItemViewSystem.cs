@@ -6,7 +6,6 @@
         protected override void Destroy(Scroll_Item_ShopItem self)
         {
             self.DestroyWidget();
-            self.UnRegisterEvent();
         }
     }
 }

@@ -33,11 +33,6 @@ namespace ET.Client
 
         public static void Refresh(this DlgBag self)
         {
-            self.RefreshItems();
-        }
-
-        public static void RefreshItems(this DlgBag self)
-        {
             MultiMap<int, Item> itemsMap = self.ClientScene().GetComponent<BagComponent>().ItemTypeMap;
             switch (self.BagTab)
             {

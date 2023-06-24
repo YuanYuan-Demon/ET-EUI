@@ -1,12 +1,14 @@
-﻿namespace ET.Client
+﻿using System.Collections.Generic;
+
+namespace ET.Client
 {
-	 [ComponentOf(typeof(UIBaseWindow))]
-	public  class DlgShop :Entity,IAwake,IUILogic
-	{
+    [ComponentOf(typeof(UIBaseWindow))]
+    public class DlgShop : Entity, IAwake, IUILogic
+    {
+        public Dictionary<int, Scroll_Item_ShopItem> ScrollItemShopItems;
+        public List<ItemConfig> ConfigList = new();
 
-		public DlgShopViewComponent View { get => this.GetComponent<DlgShopViewComponent>();} 
-
-		 
-
-	}
+        public ItemType ShopTab;
+        public DlgShopViewComponent View { get => this.GetComponent<DlgShopViewComponent>(); }
+    }
 }

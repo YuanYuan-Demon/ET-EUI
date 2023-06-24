@@ -15,6 +15,7 @@
             view.EB_Friend_Button.AddListener(self.OnClickFriend);
             view.EB_Guild_Button.AddListener(self.OnClickGuild);
             view.EB_Ride_Button.AddListener(self.OnClickRide);
+            view.EB_Shop_Button.AddListener(self.OnClickShop);
 
             view.ES_Joystick.RegisterUIEvent();
         }
@@ -46,6 +47,8 @@
         private static void OnClickGuild(this DlgMain self) => UIComponent.Instance.ShowWindow(WindowID.WindowID_Guild);
 
         private static void OnClickRide(this DlgMain self) => UIComponent.Instance.ShowWindow(WindowID.WindowID_Ride);
+
+        private static void OnClickShop(this DlgMain self) => UIComponent.Instance.ShowWindow(WindowID.WindowID_Shop);
 
         #endregion 按钮响应
     }
