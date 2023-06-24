@@ -1,8 +1,8 @@
-﻿namespace ET.Client
+namespace ET.Client
 {
     public enum WindowID
     {
-        WindowID_Invaild = 0,
+        WindowID_Invaild,
         WindowID_MessageBox,
         WindowID_Lobby,    //房间界面
         WindowID_Login,     //登录界面
@@ -19,5 +19,6 @@
         WindowID_Friend,
         WindowID_Guild,
         WindowID_Ride,
+        WindowID_Shop,
     }
 }
