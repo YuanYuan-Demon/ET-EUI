@@ -37,7 +37,7 @@ namespace ET.Client
             switch (self.BagTab)
             {
                 case ItemType.All:
-                    self.ItemList = self.ClientScene().GetComponent<BagComponent>().ItemsDict.Values.ToList();
+                    self.ItemList = self.ClientScene().GetComponent<BagComponent>().AllItemsDict.Values.ToList();
                     break;
 
                 case ItemType.Equip:

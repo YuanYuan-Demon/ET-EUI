@@ -1193,7 +1193,12 @@ PrefabInstance:
     - target: {fileID: 2154968972940673691, guid: 5b2e63e799ebfa142b516a9bd7144321,
         type: 3}
       propertyPath: m_text
-      value: "\u6574\u7406"
+      value: "\u8D2D\u4E70"
+      objectReference: {fileID: 0}
+    - target: {fileID: 2154968972940673691, guid: 5b2e63e799ebfa142b516a9bd7144321,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 28.15
       objectReference: {fileID: 0}
     - target: {fileID: 4623163364075206138, guid: 5b2e63e799ebfa142b516a9bd7144321,
         type: 3}

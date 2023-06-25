@@ -72,12 +72,12 @@ namespace ET.Client
         /// <summary>
         /// 售卖背包物品
         /// </summary>
-        /// <param name="ZoneScene"></param>
+        /// <param name="clientScene"></param>
         /// <param name="itemId"></param>
         /// <returns></returns>
-        public static async ETTask<int> SellBagItem(Scene ZoneScene, long itemId)
+        public static async ETTask<int> SellBagItem(Scene clientScene, long itemId)
         {
-            Item item = ItemHelper.GetItem(ZoneScene, itemId, ItemContainerType.Bag);
+            Item item = ItemHelper.GetItem(clientScene, itemId, ItemContainerType.Bag);
 
             if (item == null)
             {
@@ -87,7 +87,7 @@ namespace ET.Client
             M2C_SellItem m2cSellItem;
             try
             {
-                m2cSellItem = (M2C_SellItem)await ZoneScene.GetComponent<SessionComponent>().Session.Call(new C2M_SellItem() { ItemUid = itemId });
+                m2cSellItem = await clientScene.GetComponent<SessionComponent>().Session.Call(new C2M_SellItem() { ItemUid = itemId }) as M2C_SellItem;
             }
             catch (Exception e)
             {

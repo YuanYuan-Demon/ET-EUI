@@ -7,7 +7,7 @@ namespace ET.Client
     {
         public Dictionary<int, Scroll_Item_ShopItem> ScrollItemShopItems;
         public List<ItemConfig> ConfigList = new();
-
+        public (int ConfigId, int Count) SelectItem;
         public ItemType ShopTab;
         public DlgShopViewComponent View { get => this.GetComponent<DlgShopViewComponent>(); }
     }

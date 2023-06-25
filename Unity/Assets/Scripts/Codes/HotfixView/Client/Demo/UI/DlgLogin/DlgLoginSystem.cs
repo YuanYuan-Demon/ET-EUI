@@ -40,23 +40,23 @@ namespace ET.Client
                     UIComponent.Instance.ShowErrorBox("账号或密码不能为空");
                     return;
                 }
-                var err = await LoginHelper.Login(
+                var response = await LoginHelper.Login(
                     self.ClientScene(),
                     account,
                     password);
 
-                if (err.Code != ErrorCode.ERR_Success)
+                if (response?.Error != ErrorCode.ERR_Success)
                 {
-                    Log.Error(err.ToString());
-                    UIComponent.Instance.ShowErrorBox(err.Message);
+                    Log.Error(response.ToString());
+                    UIComponent.Instance.ShowErrorBox(response.Message);
                     return;
                 }
 
-                err = await LoginHelper.GetServerInfos(self.DomainScene());
-                if (err.Code != ErrorCode.ERR_Success)
+                response = await LoginHelper.GetServerInfos(self.DomainScene());
+                if (response?.Error != ErrorCode.ERR_Success)
                 {
-                    Log.Error(err.ToString());
-                    UIComponent.Instance.ShowErrorBox(err.Message);
+                    Log.Error(response.ToString());
+                    UIComponent.Instance.ShowErrorBox(response.Message);
                     return;
                 }
                 //显示登陆之后的页面逻辑
@@ -102,7 +102,7 @@ namespace ET.Client
                     account,
                     password);
 
-                if (err.Code != ErrorCode.ERR_Success)
+                if (err.Error != ErrorCode.ERR_Success)
                 {
                     Log.Error(err.ToString());
                     UIComponent.Instance.ShowErrorBox(err.Message);

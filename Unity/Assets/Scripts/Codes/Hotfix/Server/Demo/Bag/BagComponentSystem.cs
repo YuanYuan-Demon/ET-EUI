@@ -12,13 +12,7 @@ namespace ET.Server
         {
             protected override void Destroy(BagComponent self)
             {
-                foreach (var item in self.ItemsDict.Values)
-                {
-                    item?.Dispose();
-                }
-                self.ItemsDict.Clear();
-                self.ItemTypeMap.Clear();
-                self.ItemsMap.Clear();
+                self.Clear();
             }
         }
 
@@ -35,18 +29,33 @@ namespace ET.Server
 
         #endregion 生命周期
 
+        public static void Clear(this BagComponent self)
+        {
+            foreach (var item in self.AllItemsDict.Values)
+            {
+                item?.Dispose();
+            }
+            self.AllItemsDict.Clear();
+            self.ItemTypeMap.Clear();
+            self.ItemsMap.Clear();
+        }
+
         #region 添加道具
 
         public static bool AddItemByConfigId(this BagComponent self, int configId, int count = 1, bool isSync = true)
         {
-            if (!self.IsCanAddItemByConfigId(configId))
-                return false;
             if (count <= 0)
+                return false;
+            if (!self.CanAddItem(configId, count))
                 return false;
 
             //如果已经存在该物品
-            if (self.ItemsMap.TryGetValue(configId, out var item))
+            if (self.ItemsMap.TryGetValue(configId, out Item item))
+            {
                 item.Count += count;
+                if (isSync)
+                    ItemUpdateNoticeHelper.SyncUpdateItem(self.GetParent<Unit>(), item, ItemOp.Update, ItemContainerType.Bag);
+            }
             else //如果不存在该物品
                 self.AddNewItem(configId, count, isSync);
             return true;
@@ -111,7 +120,7 @@ namespace ET.Server
             }
             item.Count += count;
             if (isSync)
-                ItemUpdateNoticeHelper.SyncAddItem(self.GetParent<Unit>(), item, ItemContainerType.Bag, count);
+                ItemUpdateNoticeHelper.SyncUpdateItem(self.GetParent<Unit>(), item, ItemOp.Add, ItemContainerType.Bag);
             return true;
         }
 
@@ -120,7 +129,7 @@ namespace ET.Server
             if (self.ContainItem(item.Id))
                 return false;
 
-            self.ItemsDict.Add(item.Id, item);
+            self.AllItemsDict.Add(item.Id, item);
             self.ItemTypeMap.Add(item.Config.Type, item);
             if (item.CanStack)
                 self.ItemsMap.Add(item.ConfigId, item);
@@ -152,7 +161,7 @@ namespace ET.Server
                     self.RemoveContainer(item);
                 }
 
-                ItemUpdateNoticeHelper.SyncRemoveItem(self.GetParent<Unit>(), item, ItemContainerType.Bag, count);
+                ItemUpdateNoticeHelper.SyncUpdateItem(self.GetParent<Unit>(), item, ItemOp.Remove, ItemContainerType.Bag);
                 return true;
             }
             else
@@ -164,7 +173,7 @@ namespace ET.Server
 
         public static void RemoveContainer(this BagComponent self, Item item)
         {
-            self.ItemsDict.Remove(item.Id);
+            self.AllItemsDict.Remove(item.Id);
             self.ItemTypeMap.Remove(item.Config.Type, item);
         }
 
@@ -174,7 +183,7 @@ namespace ET.Server
 
         public static Item GetItemById(this BagComponent self, long itemId)
         {
-            self.ItemsDict.TryGetValue(itemId, out Item item);
+            self.AllItemsDict.TryGetValue(itemId, out Item item);
             return item;
         }
 
@@ -182,32 +191,41 @@ namespace ET.Server
 
         #region 查询
 
-        public static bool IsCanAddItemByConfigId(this BagComponent self, int configID)
-        {
-            if (!ItemConfigCategory.Instance.Contain(configID))
-            {
-                return false;
-            }
-
-            if (self.IsMaxLoad())
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         /// <summary>
         /// 是否达到最大负载
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static bool IsMaxLoad(this BagComponent self)
+        public static bool IsMaxLoad(this BagComponent self, int count = 1)
         {
-            return self.ItemsDict.Count >= self.GetParent<Unit>().GetComponent<NumericComponent>()[NumericType.MaxBagCapacity];
+            return self.AllItemsDict.Count + count > self.GetParent<Unit>().GetComponent<NumericComponent>()[NumericType.MaxBagCapacity];
         }
 
-        public static bool IsCanAddItem(this BagComponent self, Item item)
+        public static bool CanAddItem(this BagComponent self, int configId, int count = 1)
+        {
+            var config = ItemConfigCategory.Instance.Get(configId);
+            if (config == null)
+                return false;
+            //如果是可堆叠的
+            if (config.StackLimit > 1)
+            {
+                if (!self.ItemsMap.ContainsKey(configId) && self.IsMaxLoad())
+                {
+                    return false;
+                }
+            }
+            //如果是不可堆叠的
+            else
+            {
+                if (self.IsMaxLoad(count))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public static bool CanAddItem(this BagComponent self, Item item)
         {
             if (item == null || item.IsDisposed)
             {
@@ -224,7 +242,7 @@ namespace ET.Server
                 return false;
             }
 
-            if (self.ItemsDict.ContainsKey(item.Id))
+            if (self.AllItemsDict.ContainsKey(item.Id))
             {
                 return false;
             }
@@ -243,7 +261,7 @@ namespace ET.Server
                 return false;
             }
 
-            if (self.ItemsDict.Count + goodsList.Count > self.GetParent<Unit>().GetComponent<NumericComponent>()[NumericType.MaxBagCapacity])
+            if (self.AllItemsDict.Count + goodsList.Count > self.GetParent<Unit>().GetComponent<NumericComponent>()[NumericType.MaxBagCapacity])
             {
                 return false;
             }
@@ -260,7 +278,7 @@ namespace ET.Server
 
         public static bool ContainItem(this BagComponent self, long itemId)
         {
-            self.ItemsDict.TryGetValue(itemId, out Item item);
+            self.AllItemsDict.TryGetValue(itemId, out Item item);
             return item != null && !item.IsDisposed;
         }
 

@@ -16,8 +16,9 @@
     /// </summary>
     public enum ItemOp
     {
-        Add = 0,  //增加物品
-        Remove = 1 //移除物品
+        Add,  //增加物品
+        Update, //更新物品
+        Remove //移除物品
     }
 
     /// <summary>
@@ -25,7 +26,7 @@
     /// </summary>
     public enum ItemContainerType
     {
-        Bag = 0,  //背包容器
-        RoleInfo = 1, //游戏角色装配容器
+        Bag,  //背包容器
+        RoleInfo, //游戏角色装配容器
     }
 }

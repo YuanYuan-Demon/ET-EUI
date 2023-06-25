@@ -10,13 +10,15 @@
 
         public static void Refresh(this Scroll_Item_ShopItem self, ItemConfig config)
         {
+            self.RegisterEvent();
+
             self.Count = 1;
+            self.DataId = config.Id;
             self.EI_Icon_Image.overrideSprite = IconHelper.LoadIconSprite("Items", config.Icon);
             self.ET_ItemTitle_TextMeshProUGUI.text = config.Name;
             self.ET_ItemDesc_TextMeshProUGUI.text = config.Desc;
-            self.ET_ItemPrice_TextMeshProUGUI.text = config.Price.ToString();
+            self.ET_ItemPrice_TextMeshProUGUI.text = $"￥{config.Price}";
             self.ET_BuyCount_TextMeshProUGUI.text = self.Count.ToString();
-            self.RegisterEvent();
         }
 
         public static void RegisterEvent(this Scroll_Item_ShopItem self)
@@ -31,6 +33,12 @@
                 --self.Count;
                 self.ET_BuyCount_TextMeshProUGUI.text = self.Count.ToString();
             });
+            self.EB_Select_Button.AddListener(() =>
+            EventSystem.Instance.Publish(self.DomainScene(), new EventType.SelectShopItem()
+            {
+                Id = self.DataId,
+                Count = self.Count
+            }));
         }
 
         public static void UnRegisterEvent(this Scroll_Item_ShopItem self)

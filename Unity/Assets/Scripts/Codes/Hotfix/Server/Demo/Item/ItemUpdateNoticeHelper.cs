@@ -4,26 +4,13 @@
     [FriendOf(typeof(Item))]
     public static class ItemUpdateNoticeHelper
     {
-        public static void SyncAddItem(Unit unit, Item item, ItemContainerType containerType, int count)
+        public static void SyncUpdateItem(Unit unit, Item item, ItemOp itemOp, ItemContainerType containerType)
         {
             var message = new M2C_ItemUpdateOpInfo
             {
                 ContainerType = containerType,
-                ItemInfo = item.ToMessage(),
-                Op = ItemOp.Add,
-                Count = count
-            };
-            MessageHelper.SendToClient(unit, message);
-        }
-
-        public static void SyncRemoveItem(Unit unit, Item item, ItemContainerType containerType, int count)
-        {
-            var message = new M2C_ItemUpdateOpInfo
-            {
-                ContainerType = containerType,
-                ItemInfo = item.ToMessage(false),
-                Op = ItemOp.Remove,
-                Count = count
+                ItemInfo = item.ToMessage(itemOp == ItemOp.Add),
+                Op = itemOp,
             };
             MessageHelper.SendToClient(unit, message);
         }
@@ -37,7 +24,7 @@
             BagComponent bagComponent = unit.GetComponent<BagComponent>();
             bagComponent ??= unit.AddComponent<BagComponent>();
 
-            foreach (var item in bagComponent.ItemsDict.Values)
+            foreach (var item in bagComponent.AllItemsDict.Values)
             {
                 message.ItemInfoList.Add(item.ToMessage());
             }

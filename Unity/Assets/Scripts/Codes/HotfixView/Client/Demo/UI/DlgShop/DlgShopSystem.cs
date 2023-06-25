@@ -24,8 +24,17 @@ namespace ET.Client
             self.RemoveUIScrollItems(ref self.ScrollItemShopItems);
         }
 
-        public static void OnClickBuy(this DlgShop self)
+        public static async void OnClickBuy(this DlgShop self)
         {
+            var response = await ShopHelper.BuyItem(self.ClientScene(), self.SelectItem.ConfigId, self.SelectItem.Count);
+            if (response?.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error(response.ToString());
+                UIComponent.Instance.ShowErrorBox(response.Message);
+                return;
+            }
+            else
+                UIComponent.Instance.ShowInfoBox("购买成功");
         }
 
         public static void OnSelectTabGroup(this DlgShop self, int index)

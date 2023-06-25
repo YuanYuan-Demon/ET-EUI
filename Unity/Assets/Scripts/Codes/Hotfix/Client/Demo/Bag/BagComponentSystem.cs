@@ -6,7 +6,7 @@
     {
         #region 生命周期
 
-        public class BagComponentDestorySystem : DestroySystem<BagComponent>
+        public class BagComponentDestroySystem : DestroySystem<BagComponent>
         {
             protected override void Destroy(BagComponent self)
             {
@@ -16,27 +16,15 @@
 
         #endregion 生命周期
 
-        /// <summary>
-        /// 是否达到最大负载
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        public static bool IsMaxLoad(this BagComponent self)
-        {
-            NumericComponent numericComponent = self.GetMyNumericComponent();
-            return self.ItemsDict.Count == numericComponent[NumericType.MaxBagCapacity];
-        }
-
         public static void Clear(this BagComponent self)
         {
-            foreach ((_, Item item) in self.ItemsDict)
+            foreach (var item in self.AllItemsDict.Values)
             {
                 item?.Dispose();
             }
-
-            self.ItemsDict.Clear();
-            self.ItemsMap.Clear();
+            self.AllItemsDict.Clear();
             self.ItemTypeMap.Clear();
+            self.ItemsMap.Clear();
         }
 
         public static int GetItemCountByItemType(this BagComponent self, ItemType itemType)
@@ -50,29 +38,27 @@
 
         public static void AddItem(this BagComponent self, Item item)
         {
-            //如果是可堆叠的物品
+            self.AddChild(item);
+            self.AllItemsDict.Add(item.Id, item);
+            self.ItemTypeMap.Add(item.Config.Type, item);
             if (item.CanStack)
+                self.ItemsMap.Add(item.ConfigId, item);
+        }
+
+        public static void AddItem(this BagComponent self, ItemInfo itemInfo)
+        {
+            Item item = self.Create(itemInfo);
+            self.AllItemsDict.Add(item.Id, item);
+            self.ItemTypeMap.Add(item.Config.Type, item);
+            if (item.CanStack)
+                self.ItemsMap.Add(item.ConfigId, item);
+        }
+
+        public static void UpdateItem(this BagComponent self, ItemInfo itemInfo)
+        {
+            if (self.ContainItem(itemInfo.ItemUid))
             {
-                //如果已经存在该物品
-                if (self.ItemsMap.TryGetValue(item.ConfigId, out var item1))
-                {
-                    item1.Count += item.Count;
-                    return;
-                }
-                else //第一次添加
-                {
-                    self.AddChild(item);
-                    self.ItemsDict.Add(item.Id, item);
-                    self.ItemTypeMap.Add(item.Config.Type, item);
-                    self.ItemsMap.Add(item.ConfigId, item);
-                }
-            }
-            //不可堆叠的物品
-            else
-            {
-                self.AddChild(item);
-                self.ItemsDict.Add(item.Id, item);
-                self.ItemTypeMap.Add(item.Config.Type, item);
+                self.GetItemById(itemInfo.ItemUid).Count = itemInfo.Count;
             }
         }
 
@@ -83,40 +69,26 @@
                 Log.Error("bag item is null");
                 return;
             }
-            //如果是可堆叠的物品
+            self.AllItemsDict.Remove(item.Id);
+            self.ItemTypeMap.Remove(item.Config.Type, item);
             if (item.CanStack)
-            {
-                if (self.ItemsMap.TryGetValue(item.ConfigId, out var item1))
-                {
-                    item1.Count -= item.Count;
-                    if (item1.Count <= 0)
-                    {
-                        self.ItemsDict.Remove(item.Id);
-                        self.ItemTypeMap.Remove(item.Config.Type, item);
-                        self.ItemsMap.Remove(item.ConfigId);
-                        item?.Dispose();
-                    }
-                }
-                else
-                {
-                    Log.Error($"bag item is not exist, id: {item.Id}");
-                }
-            }
-            else
-            {
-                self.ItemsDict.Remove(item.Id);
-                self.ItemTypeMap.Remove(item.Config.Type, item);
-                item?.Dispose();
-            }
+                self.ItemsMap.Remove(item.ConfigId);
+            item?.Dispose();
         }
 
         public static Item GetItemById(this BagComponent self, long itemId)
         {
-            if (self.ItemsDict.TryGetValue(itemId, out Item item))
+            if (self.AllItemsDict.TryGetValue(itemId, out Item item))
             {
                 return item;
             }
             return null;
+        }
+
+        public static bool ContainItem(this BagComponent self, long itemId)
+        {
+            self.AllItemsDict.TryGetValue(itemId, out Item item);
+            return item != null && !item.IsDisposed;
         }
     }
 }

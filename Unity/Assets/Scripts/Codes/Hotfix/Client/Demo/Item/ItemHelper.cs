@@ -18,20 +18,17 @@
 
         public static Item GetItem(Scene ZoneScene, long itemId, ItemContainerType itemContainerType)
         {
-            switch (itemContainerType)
+            return itemContainerType switch
             {
-                case ItemContainerType.Bag:
-                    return ZoneScene.GetComponent<BagComponent>().GetItemById(itemId);
-
-                case ItemContainerType.RoleInfo:
-                    return ZoneScene.GetComponent<EquipmentsComponent>().GetItemById(itemId);
-            }
-
-            return null;
+                ItemContainerType.Bag => ZoneScene.GetComponent<BagComponent>().GetItemById(itemId),
+                ItemContainerType.RoleInfo => ZoneScene.GetComponent<EquipmentsComponent>().GetItemById(itemId),
+                _ => null,
+            };
         }
 
-        public static void AddItem(Scene ZoneScene, Item item, ItemContainerType itemContainerType)
+        public static void AddItem(Scene ZoneScene, ItemInfo itemInfo, ItemContainerType itemContainerType)
         {
+            Item item = ItemFactory.Create(ZoneScene, itemInfo);
             switch (itemContainerType)
             {
                 case ItemContainerType.Bag:
@@ -40,6 +37,20 @@
 
                 case ItemContainerType.RoleInfo:
                     ZoneScene.GetComponent<EquipmentsComponent>().AddEquipItem(item);
+                    break;
+            }
+        }
+
+        public static void UpdateItem(Scene ZoneScene, ItemInfo itemInfo, ItemContainerType itemContainerType)
+        {
+            switch (itemContainerType)
+            {
+                case ItemContainerType.Bag:
+                    ZoneScene.GetComponent<BagComponent>().UpdateItem(itemInfo);
+                    break;
+
+                default:
+                    Log.Error("不合法的容器类型");
                     break;
             }
         }

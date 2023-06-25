@@ -39,5 +39,11 @@
         {
             public RoleClass RoleClass;
         }
+
+        public struct SelectShopItem
+        {
+            public long Id;
+            public int Count;
+        }
     }
 }

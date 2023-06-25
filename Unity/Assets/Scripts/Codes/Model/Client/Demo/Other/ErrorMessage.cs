@@ -1,15 +1,18 @@
 ﻿namespace ET.Client
 {
-    public record ErrorMessage
+    public record ErrorMessage : IResponse
     {
-        public int Code;
-        public string Message;
         [StaticField]
         public readonly static ErrorMessage Success = new(0, "Success");
-        public ErrorMessage(int code = 0, string message = null)
+
+        public ErrorMessage(int err = 0, string message = null)
         {
-            Code = code;
+            Error = err;
             Message = message;
         }
+
+        public int Error { get; set; }
+        public string Message { get; set; }
+        public int RpcId { get; set; }
     }
 }

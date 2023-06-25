@@ -9,7 +9,7 @@ namespace ET.Client
     {
         #region 登录相关
 
-        public static async ETTask<ErrorMessage> Login(Scene clientScene, string account, string password)
+        public static async ETTask<IResponse> Login(Scene clientScene, string account, string password)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace ET.Client
                 IPEndPoint accountAddress = new(IPAddress.Parse(ConstValue.AccountHost), ConstValue.AccountPort);
 
                 Session session = await RouterHelper.CreateRouterSession(clientScene, accountAddress);
-                var response = await session.Call(
+                A2C_LoginAccount response = await session.Call(
                     new C2A_LoginAccount()
                     {
                         AccountName = account,
@@ -39,22 +39,23 @@ namespace ET.Client
                 if (response.Error != ErrorCode.ERR_Success)
                 {
                     session?.Dispose();
-                    return new() { Code = response.Error, Message = response.Message };
+                    return response;
                 }
                 clientScene.AddComponent<SessionComponent>().Session = session;
                 //clientScene.GetComponent<SessionComponent>().Session.AddComponent<PingComponent>();
 
                 clientScene.GetComponent<AccountInfoComponent>().AccountId = response.AccountId;
                 clientScene.GetComponent<AccountInfoComponent>().Token = response.Token;
+                return response;
             }
             catch (Exception e)
             {
                 Log.Error(e);
+                return new ErrorMessage(-1, "账号登录出错");
             }
-            return new() { Code = ErrorCode.ERR_Success };
         }
 
-        public static async ETTask<ErrorMessage> Register(Scene clientScene, string account, string password)
+        public static async ETTask<IResponse> Register(Scene clientScene, string account, string password)
         {
             try
             {
@@ -83,15 +84,15 @@ namespace ET.Client
                 if (response.Error != ErrorCode.ERR_Success)
                 {
                     session?.Dispose();
-                    return new() { Code = response.Error, Message = response.Message };
                 }
+                return response;
                 //clientScene.AddComponent<SessionComponent>().Session = session;
             }
             catch (Exception e)
             {
                 Log.Error(e);
+                return new ErrorMessage(-1, "账号注册出错");
             }
-            return new() { Code = ErrorCode.ERR_Success };
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace ET.Client
         /// </summary>
         /// <param name="zoneScene"> </param>
         /// <returns> 状态码 </returns>
-        public static async ETTask<ErrorMessage> GetServerInfos(Scene zoneScene)
+        public static async ETTask<IResponse> GetServerInfos(Scene zoneScene)
         {
             A2C_GetServerInfos response;
             try
@@ -113,22 +114,21 @@ namespace ET.Client
             catch (Exception e)
             {
                 Log.Error(e);
-                return new(ErrorCode.ERR_NetWorkError, "网络异常");
+                return new ErrorMessage(ErrorCode.ERR_NetWorkError, "网络异常");
             }
 
-            if (response.Error != ErrorCode.ERR_Success)
+            if (response.Error == ErrorCode.ERR_Success)
             {
-                return new(response.Error, response.Message);
+                //记录服务器列表信息
+                var serverInfoComponent = zoneScene.GetComponent<ServerInfosComponent>();
+                foreach (var nServerInfo in response.NServerInfos)
+                {
+                    var serverInfo = serverInfoComponent.AddChild<ServerInfo>();
+                    serverInfo.FromNServerInfo(nServerInfo);
+                    serverInfoComponent.Add(serverInfo);
+                }
             }
-            //记录服务器列表信息
-            var serverInfoComponent = zoneScene.GetComponent<ServerInfosComponent>();
-            foreach (var nServerInfo in response.NServerInfos)
-            {
-                var serverInfo = serverInfoComponent.AddChild<ServerInfo>();
-                serverInfo.FromNServerInfo(nServerInfo);
-                serverInfoComponent.Add(serverInfo);
-            }
-            return ErrorMessage.Success;
+            return response;
         }
 
         /// <summary>
@@ -138,8 +138,8 @@ namespace ET.Client
         /// <returns> </returns>
         public static async ETTask<int> GetRealmKey(Scene zoneScene)
         {
-            A2C_GetRealmKey response = null;
             AccountInfoComponent accountInfoComponent = zoneScene.GetComponent<AccountInfoComponent>();
+            A2C_GetRealmKey response;
             try
             {
                 response = await zoneScene.GetSession().Call(new C2A_GetRealmKey()
@@ -212,7 +212,7 @@ namespace ET.Client
         /// <returns> 状态码 </returns>
         public static async ETTask<int> CreateRole(Scene zoneScene, string roleName)
         {
-            A2C_CreateRole response = null;
+            A2C_CreateRole response;
             try
             {
                 response = await zoneScene.GetSession().Call(new C2A_CreateRole()
@@ -240,7 +240,7 @@ namespace ET.Client
 
         public static async ETTask<int> DeleteRole(Scene zoneScene, long roleId)
         {
-            A2C_DelteRole response = null;
+            A2C_DelteRole response;
             try
             {
                 response = await zoneScene.GetSession().Call(new C2A_DelteRole()

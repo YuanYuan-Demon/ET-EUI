@@ -11,7 +11,7 @@ namespace ET
         /// Value: Item
         /// </summary>
         [BsonIgnore]
-        public Dictionary<long, Item> ItemsDict = new();
+        public Dictionary<long, Item> AllItemsDict = new();
 
         /// <summary>
         /// Key: ItemType   (武器,防具,戒指,道具)

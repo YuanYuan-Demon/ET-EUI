@@ -528,8 +528,7 @@ message M2C_ItemUpdateOpInfo // IActorMessage
 
 	ItemInfo ItemInfo = 1;
 	ItemOp Op = 2;
-	int32 Count = 3;
-	ItemContainerType ContainerType = 4;
+	ItemContainerType ContainerType = 3;
 }
 
 //ResponseType M2C_SellItem
@@ -546,6 +545,25 @@ message M2C_SellItem // IActorLocationResponse
 	int32 Error = 91;
 	string Message = 92;
 }
+
+
+//============================================  商店系统  ============================================
+
+//ResponseType M2C_BuyItem
+message C2M_BuyItem // IActorLocationRequest
+{
+	int32 RpcId = 1;
+	int32 ConfigId = 2;
+	int32 Count = 3;
+}
+
+message M2C_BuyItem // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}
+
 
 
 //============================================  装备系统  ============================================

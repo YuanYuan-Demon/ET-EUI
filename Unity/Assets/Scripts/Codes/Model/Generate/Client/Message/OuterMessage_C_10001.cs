@@ -1044,9 +1044,6 @@ namespace ET
 		public ItemOp Op { get; set; }
 
 		[ProtoMember(3)]
-		public int Count { get; set; }
-
-		[ProtoMember(4)]
 		public ItemContainerType ContainerType { get; set; }
 
 	}
@@ -1070,6 +1067,38 @@ namespace ET
 	[Message(OuterMessage.M2C_SellItem)]
 	[ProtoContract]
 	public partial class M2C_SellItem: ProtoObject, IActorLocationResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
+//============================================  商店系统  ============================================
+	[ResponseType(nameof(M2C_BuyItem))]
+	[Message(OuterMessage.C2M_BuyItem)]
+	[ProtoContract]
+	public partial class C2M_BuyItem: ProtoObject, IActorLocationRequest
+	{
+		[ProtoMember(1)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(2)]
+		public int ConfigId { get; set; }
+
+		[ProtoMember(3)]
+		public int Count { get; set; }
+
+	}
+
+	[Message(OuterMessage.M2C_BuyItem)]
+	[ProtoContract]
+	public partial class M2C_BuyItem: ProtoObject, IActorLocationResponse
 	{
 		[ProtoMember(90)]
 		public int RpcId { get; set; }
@@ -1283,11 +1312,13 @@ namespace ET
 		 public const ushort M2C_ItemUpdateOpInfo = 10067;
 		 public const ushort C2M_SellItem = 10068;
 		 public const ushort M2C_SellItem = 10069;
-		 public const ushort AttributeEntryProto = 10070;
-		 public const ushort EquipInfoProto = 10071;
-		 public const ushort C2M_EquipItem = 10072;
-		 public const ushort M2C_EquipItem = 10073;
-		 public const ushort C2M_UnloadEquipItem = 10074;
-		 public const ushort M2C_UnloadEquipItem = 10075;
+		 public const ushort C2M_BuyItem = 10070;
+		 public const ushort M2C_BuyItem = 10071;
+		 public const ushort AttributeEntryProto = 10072;
+		 public const ushort EquipInfoProto = 10073;
+		 public const ushort C2M_EquipItem = 10074;
+		 public const ushort M2C_EquipItem = 10075;
+		 public const ushort C2M_UnloadEquipItem = 10076;
+		 public const ushort M2C_UnloadEquipItem = 10077;
 	}
 }
