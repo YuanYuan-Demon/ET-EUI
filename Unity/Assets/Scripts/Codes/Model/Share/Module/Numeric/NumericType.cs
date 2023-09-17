@@ -33,14 +33,14 @@
         public const int MaxMpFinalAdd = MaxMp * 10 + 4;
         public const int MaxMpFinalPct = MaxMp * 10 + 5;
 
-        public const int DamageValue = 1011;         //伤害
-        public const int DamageValueBase = DamageValue * 10 + 1;
-        public const int DamageValueAdd = DamageValue * 10 + 2;
-        public const int DamageValuePct = DamageValue * 10 + 3;
-        public const int DamageValueFinalAdd = DamageValue * 10 + 4;
-        public const int DamageValueFinalPct = DamageValue * 10 + 5;
+        public const int AD = 1011;         //物理攻击
+        public const int ADBase = AD * 10 + 1;
+        public const int ADAdd = AD * 10 + 2;
+        public const int ADPct = AD * 10 + 3;
+        public const int ADFinalAdd = AD * 10 + 4;
+        public const int ADFinalPct = AD * 10 + 5;
 
-        public const int AdditionalDdamage = 1012;         //伤害追加
+        public const int AdditionalAD = 1012;         //伤害追加
 
         public const int Hp = 1013;  // 生命值
         public const int HpBase = Hp * 10 + 1;
@@ -56,14 +56,14 @@
         public const int MPFinalAdd = MP * 10 + 4;
         public const int MPFinalPct = MP * 10 + 5;
 
-        public const int Armor = 1015; //护甲
-        public const int ArmorBase = Armor * 10 + 1;
-        public const int ArmorAdd = Armor * 10 + 2;
-        public const int ArmorPct = Armor * 10 + 3;
-        public const int ArmorFinalAdd = Armor * 10 + 4;
-        public const int ArmorFinalPct = Armor * 10 + 5;
+        public const int DEF = 1015; //护甲
+        public const int DEFBase = DEF * 10 + 1;
+        public const int DEFAdd = DEF * 10 + 2;
+        public const int DEFPct = DEF * 10 + 3;
+        public const int DEFFinalAdd = DEF * 10 + 4;
+        public const int DEFFinalPct = DEF * 10 + 5;
 
-        public const int ArmorAddition = 1015; //护甲追加
+        public const int DEFAddition = 1016; //护甲追加
 
         public const int Dodge = 1017;           //闪避
         public const int DodgeBase = Dodge * 10 + 1;
@@ -74,20 +74,34 @@
 
         public const int DodgeAddition = 1018;   // 闪避追加
 
-        public const int CriticalHitRate = 1019; //暴击率
-        public const int CriticalHitRateBase = CriticalHitRate * 10 + 1;
-        public const int CriticalHitRateAdd = CriticalHitRate * 10 + 2;
-        public const int CriticalHitRatePct = CriticalHitRate * 10 + 3;
-        public const int CriticalHitRateFinalAdd = CriticalHitRate * 10 + 4;
-        public const int CriticalHitRateFinalPct = CriticalHitRate * 10 + 5;
+        public const int CRI = 1019; //暴击率
+        public const int CRIBase = CRI * 10 + 1;
+        public const int CRIAdd = CRI * 10 + 2;
+        public const int CRIPct = CRI * 10 + 3;
+        public const int CRIFinalAdd = CRI * 10 + 4;
+        public const int CRIFinalPct = CRI * 10 + 5;
 
-        public const int Power = 3001; //力量
+        public const int AP = 1020; //魔法攻击
+        public const int APBase = AP * 10 + 1;
+        public const int APAdd = AP * 10 + 2;
+        public const int APPct = AP * 10 + 3;
+        public const int APFinalAdd = AP * 10 + 4;
+        public const int APFinalPct = AP * 10 + 5;
 
-        public const int PhysicalStrength = 3002; //体力
+        public const int MDEF = 1020; //魔抗
+        public const int MDEFBase = MDEF * 10 + 1;
+        public const int MDEFAdd = MDEF * 10 + 2;
+        public const int MDEFPct = MDEF * 10 + 3;
+        public const int MDEFFinalAdd = MDEF * 10 + 4;
+        public const int MDEFFinalPct = MDEF * 10 + 5;
 
-        public const int Agile = 3003; //敏捷值
+        public const int STR = 3001; //力量
 
-        public const int Spirit = 3004; //精神
+        public const int STA = 3002; //耐力
+
+        public const int DEX = 3003; //敏捷值
+
+        public const int INT = 3004; //智力
 
         public const int AttributePoints = 3005; //属性点
 

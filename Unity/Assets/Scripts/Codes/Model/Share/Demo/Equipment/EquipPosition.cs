@@ -5,40 +5,14 @@
     /// </summary>
     public enum EquipPosition
     {
-        /// <summary>
-        /// 不可装备
-        /// </summary>
-        None,
-
-        /// <summary>
-        /// 头盔
-        /// </summary>
-        Head,
-
-        /// <summary>
-        /// 衣服
-        /// </summary>
-        Clothes,
-
-        /// <summary>
-        /// 鞋子
-        /// </summary>
-        Shoes,
-
-        /// <summary>
-        /// 戒指
-        /// </summary>
-        Ring,
-
-        /// <summary>
-        /// 武器
-        /// </summary>
-        Weapon,
-
-        /// <summary>
-        /// 盾牌
-        /// </summary>
-        Shield,
+        无,
+        头盔,
+        衣服,
+        鞋子,
+        护肩,
+        武器,
+        副手,
+        裤子,
     }
 
     /// <summary>

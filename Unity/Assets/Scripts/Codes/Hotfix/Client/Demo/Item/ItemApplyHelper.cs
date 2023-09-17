@@ -5,6 +5,8 @@ namespace ET.Client
     [FriendOfAttribute(typeof(ET.EquipInfoComponent))]
     public static class ItemApplyHelper
     {
+        #region 装备
+
         /// <summary>
         /// 穿戴装备
         /// </summary>
@@ -69,6 +71,10 @@ namespace ET.Client
             return response.Error;
         }
 
+        #endregion 装备
+
+        #region 背包
+
         /// <summary>
         /// 售卖背包物品
         /// </summary>
@@ -96,5 +102,7 @@ namespace ET.Client
             }
             return m2cSellItem.Error;
         }
+
+        #endregion 背包
     }
 }

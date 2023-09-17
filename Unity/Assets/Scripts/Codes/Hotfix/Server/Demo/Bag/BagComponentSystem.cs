@@ -61,12 +61,12 @@ namespace ET.Server
             return true;
         }
 
-        public static void AddNewItem(this BagComponent self, int configId, int count = 1, bool isSync = true)
+        private static void AddNewItem(this BagComponent self, int configId, int count = 1, bool isSync = true)
         {
             var itemConfig = ItemConfigCategory.Instance.Get(configId);
             if (itemConfig.StackLimit > 1)
             {
-                Item newItem = ItemFactory.CreateOne(self, configId);
+                Item newItem = ItemFactory.CreateItem(self, configId);
                 if (!self.AddItem(newItem, count, isSync))
                 {
                     Log.Error("添加物品失败！");
@@ -77,7 +77,7 @@ namespace ET.Server
             {
                 for (int i = 0; i < count; i++)
                 {
-                    Item newItem = ItemFactory.CreateOne(self, configId);
+                    Item newItem = ItemFactory.CreateItem(self, configId);
                     if (!self.AddItem(newItem, 1, isSync))
                     {
                         Log.Error("添加物品失败！");
@@ -124,13 +124,13 @@ namespace ET.Server
             return true;
         }
 
-        public static bool AddContainer(this BagComponent self, Item item)
+        private static bool AddContainer(this BagComponent self, Item item)
         {
             if (self.ContainItem(item.Id))
                 return false;
 
             self.AllItemsDict.Add(item.Id, item);
-            self.ItemTypeMap.Add(item.Config.Type, item);
+            self.ItemTypeMap.Add((ItemType)item.Config.Type, item);
             if (item.CanStack)
                 self.ItemsMap.Add(item.ConfigId, item);
             return true;
@@ -171,10 +171,10 @@ namespace ET.Server
             }
         }
 
-        public static void RemoveContainer(this BagComponent self, Item item)
+        private static void RemoveContainer(this BagComponent self, Item item)
         {
             self.AllItemsDict.Remove(item.Id);
-            self.ItemTypeMap.Remove(item.Config.Type, item);
+            self.ItemTypeMap.Remove((ItemType)item.Config.Type, item);
         }
 
         #endregion 删除道具

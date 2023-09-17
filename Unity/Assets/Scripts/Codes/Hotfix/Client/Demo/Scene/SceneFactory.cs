@@ -1,3 +1,5 @@
+using ET.EventType;
+
 namespace ET.Client
 {
     public static class SceneFactory
@@ -16,8 +18,7 @@ namespace ET.Client
             clientScene.AddComponent<RoleInfosComponent>();
 
             clientScene.AddComponent<BagComponent>();
-            //Undone: AddComponent<EquipmentsComponent>();
-            //clientScene.AddComponent<EquipmentsComponent>();
+            clientScene.AddComponent<EquipmentsComponent>();
             //Undone: AddComponent<ForgeComponent>();
             //clientScene.AddComponent<ForgeComponent>();
             //Undone: AddComponent<TaskComponent>();
@@ -27,7 +28,7 @@ namespace ET.Client
             //Undone: AddComponent<ChatComponent>();
             //clientScene.AddComponent<ChatComponent>();
 
-            EventSystem.Instance.Publish(clientScene, new EventType.AfterCreateClientScene());
+            EventSystem.Instance.Publish(clientScene, new AfterCreateClientScene());
             return clientScene;
         }
 
@@ -36,7 +37,7 @@ namespace ET.Client
             Scene currentScene = EntitySceneFactory.CreateScene(id, IdGenerater.Instance.GenerateInstanceId(), zone, SceneType.Current, name, currentScenesComponent);
             currentScenesComponent.Scene = currentScene;
 
-            EventSystem.Instance.Publish(currentScene, new EventType.AfterCreateCurrentScene());
+            EventSystem.Instance.Publish(currentScene, new AfterCreateCurrentScene());
             return currentScene;
         }
     }

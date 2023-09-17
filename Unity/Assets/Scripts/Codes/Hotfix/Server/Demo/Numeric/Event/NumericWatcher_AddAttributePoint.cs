@@ -2,36 +2,40 @@
 
 namespace ET.Server
 {
-    [NumericWatcher(SceneType.Map, NumericType.Spirit)]
-    [NumericWatcher(SceneType.Map, NumericType.Agile)]
-    [NumericWatcher(SceneType.Map, NumericType.PhysicalStrength)]
-    [NumericWatcher(SceneType.Map, NumericType.Power)]
+    [NumericWatcher(SceneType.Map, NumericType.INT)]
+    [NumericWatcher(SceneType.Map, NumericType.DEX)]
+    [NumericWatcher(SceneType.Map, NumericType.STA)]
+    [NumericWatcher(SceneType.Map, NumericType.STR)]
     public class NumericWatcher_AddAttributePoint : INumericWatcher
     {
         public void Run(Unit unit, NumbericChange args)
         {
             var addValue = args.New - args.Old;
 
-            NumericComponent numericComponent = unit.GetComponent<NumericComponent>();
+            NumericComponent nc = unit.GetComponent<NumericComponent>();
             switch (args.NumericType)
             {
-                //力量+1点 伤害值+5
-                case NumericType.Power:
-                    numericComponent.Add(NumericType.DamageValueAdd, addValue * 5);
+                //力量+1点
+                //攻击+5 法强+5
+                case NumericType.STR:
+                    nc.Add(NumericType.ADAdd, addValue * 5);
+                    nc.Add(NumericType.APAdd, addValue * 5);
+
                     break;
                 //体力+1点 最大生命值 +1%
-                case NumericType.PhysicalStrength:
-                    numericComponent.Add(NumericType.MaxHpPct, addValue * 10000);
+                case NumericType.STA:
+                    nc.Add(NumericType.MaxHpPct, addValue * 1_0000);
                     break;
 
-                //敏捷+1点  闪避概率加0.1%
-                case NumericType.Agile:
-                    numericComponent.Add(NumericType.DodgeFinalAdd, addValue * 1000);
+                //敏捷+1点  防御+3 攻速+2
+                case NumericType.DEX:
+                    nc.Add(NumericType.DEFAdd, addValue * 3);
+                    nc.Add(NumericType.Speed, addValue * 2);
                     break;
 
-                //精神+1点 最大法力值 +1%
-                case NumericType.Spirit:
-                    numericComponent.Add(NumericType.MaxMpFinalPct, addValue * 10000);
+                //智力+1点 最大法力值 +1%
+                case NumericType.INT:
+                    nc.Add(NumericType.MaxMpFinalPct, addValue * 1_0000);
                     break;
 
                 default:

@@ -8,5 +8,6 @@ namespace ET.Client
         public List<RoleInfo> RoleInfos = new();
 
         public long CurRoleId = 0;
+        public RoleInfo CurrentRole = null;
     }
 }

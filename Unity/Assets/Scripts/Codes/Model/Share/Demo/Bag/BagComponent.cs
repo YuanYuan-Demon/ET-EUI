@@ -18,7 +18,7 @@ namespace ET
         /// Value: Item
         /// </summary>
         [BsonIgnore]
-        public MultiMap<int, Item> ItemTypeMap = new();
+        public MultiMap<ItemType, Item> ItemTypeMap = new();
 
         /// <summary>
         /// Key: ConfigId

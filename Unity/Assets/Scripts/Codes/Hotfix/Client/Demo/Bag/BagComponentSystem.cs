@@ -29,18 +29,18 @@
 
         public static int GetItemCountByItemType(this BagComponent self, ItemType itemType)
         {
-            if (!self.ItemTypeMap.ContainsKey((int)itemType))
+            if (!self.ItemTypeMap.ContainsKey(itemType))
             {
                 return 0;
             }
-            return self.ItemTypeMap[(int)itemType].Count;
+            return self.ItemTypeMap[itemType].Count;
         }
 
         public static void AddItem(this BagComponent self, Item item)
         {
             self.AddChild(item);
             self.AllItemsDict.Add(item.Id, item);
-            self.ItemTypeMap.Add(item.Config.Type, item);
+            self.ItemTypeMap.Add((ItemType)item.Config.Type, item);
             if (item.CanStack)
                 self.ItemsMap.Add(item.ConfigId, item);
         }
@@ -49,7 +49,7 @@
         {
             Item item = self.Create(itemInfo);
             self.AllItemsDict.Add(item.Id, item);
-            self.ItemTypeMap.Add(item.Config.Type, item);
+            self.ItemTypeMap.Add((ItemType)item.Config.Type, item);
             if (item.CanStack)
                 self.ItemsMap.Add(item.ConfigId, item);
         }
@@ -70,7 +70,7 @@
                 return;
             }
             self.AllItemsDict.Remove(item.Id);
-            self.ItemTypeMap.Remove(item.Config.Type, item);
+            self.ItemTypeMap.Remove((ItemType)item.Config.Type, item);
             if (item.CanStack)
                 self.ItemsMap.Remove(item.ConfigId);
             item?.Dispose();

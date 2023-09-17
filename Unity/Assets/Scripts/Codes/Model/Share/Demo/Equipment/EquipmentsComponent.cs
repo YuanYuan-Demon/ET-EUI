@@ -11,6 +11,6 @@ namespace ET
         /// Item: 装备道具
         /// </summary>
         [BsonIgnore]
-        public Dictionary<int, Item> EquipItems = new();
+        public Dictionary<EquipPosition, Item> EquipedItems = new();
     }
 }

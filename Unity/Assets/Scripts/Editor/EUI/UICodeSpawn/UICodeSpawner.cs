@@ -44,7 +44,7 @@ public partial class UICodeSpawner
             "UIWarpContent",
             "LoopVerticalScrollRect",
             "LoopHorizontalScrollRect",
-            "UnityEngine.EventSystems.EventTrigger"
+            "UnityEngine.EventSystems.EventTrigger",
         };
     }
 

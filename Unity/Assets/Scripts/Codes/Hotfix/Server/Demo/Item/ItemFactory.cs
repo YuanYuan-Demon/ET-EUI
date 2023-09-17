@@ -3,7 +3,7 @@
     [FriendOf(typeof(Item))]
     public static class ItemFactory
     {
-        public static Item CreateOne(BagComponent parent, int configId)
+        public static Item CreateItem(BagComponent parent, int configId)
         {
             if (!ItemConfigCategory.Instance.Contain(configId))
             {

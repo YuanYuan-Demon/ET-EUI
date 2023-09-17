@@ -58,8 +58,7 @@ namespace ET.Server
 
                     #endregion 背包测试
 
-                    //Undone: AddComponent<EquipmentsComponent>()
-                    //unit.AddComponent<EquipmentsComponent>();
+                    unit.AddComponent<EquipmentsComponent>();
                     //Undone: AddComponent<ForgeComponent>()
                     //unit.AddComponent<ForgeComponent>();
                     //Undone: AddComponent<TasksComponent>()
@@ -81,7 +80,7 @@ namespace ET.Server
 
             numericComponent.SetNoEvent(NumericType.MaxHp, unit.Config.MaxHP);
             numericComponent.SetNoEvent(NumericType.Hp, unit.Config.MaxHP);
-            numericComponent.SetNoEvent(NumericType.DamageValue, unit.Config.DamageValue);
+            numericComponent.SetNoEvent(NumericType.AD, unit.Config.DamageValue);
             numericComponent.SetNoEvent(NumericType.IsAlive, 1);
 
             unitComponent.Add(unit);

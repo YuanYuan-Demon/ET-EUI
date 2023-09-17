@@ -262,6 +262,12 @@ namespace ET.Client
             button.onClick.AddListener(clickEventHandler);
         }
 
+        public static void AddListener(this Dropdown button, UnityAction<int> onValueChanged)
+        {
+            button.onValueChanged.RemoveAllListeners();
+            button.onValueChanged.AddListener(onValueChanged);
+        }
+
         public static void AddListenerWithId(this Button button, Action<int> clickEventHandler, int id)
         {
             button.onClick.RemoveAllListeners();

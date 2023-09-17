@@ -4,7 +4,7 @@ namespace ET.Client
 {
     public static class EUIModelViewHelper
     {
-        public static void AddUIScrollItems<Dlg, Item>(this Dlg self, ref List<Item> list, int count) where Dlg : Entity, IUILogic where Item : Entity, IAwake, IUIScrollItem
+        public static void AddUIScrollItems<Dlg, T>(this Dlg self, ref List<T> list, int count) where Dlg : Entity, IUILogic where T : Entity, IAwake, IUIScrollItem
         {
             list ??= new();
 
@@ -20,7 +20,7 @@ namespace ET.Client
             list.Clear();
             for (int i = 0; i <= count; i++)
             {
-                Item itemServer = self.AddChild<Item>(true);
+                T itemServer = self.AddChild<T>(true);
                 list.Add(itemServer);
             }
         }

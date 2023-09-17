@@ -18,12 +18,14 @@
 
         public static void Clear(this EquipmentsComponent self)
         {
-            foreach (var (_, item) in self.EquipItems)
+            foreach (var item in self.EquipedItems.Values)
             {
                 item?.Dispose();
             }
-            self.EquipItems.Clear();
+            self.EquipedItems.Clear();
         }
+
+        #region 获取/查询
 
         public static Item GetItemById(this EquipmentsComponent self, long itemId)
         {
@@ -37,38 +39,46 @@
 
         public static Item GetItemByPosition(this EquipmentsComponent self, EquipPosition equipPosition)
         {
-            if (self.EquipItems.TryGetValue((int)equipPosition, out Item item))
-            {
-                return item;
-            }
-
-            return null;
+            return self.EquipedItems.TryGetValue(equipPosition, out Item item) ? item : null;
         }
+
+        /// <summary>
+        /// 对应位置处是否有装配Item
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="equipPosition"></param>
+        /// <returns></returns>
+        public static bool IsEquipItemByPosition(this EquipmentsComponent self, EquipPosition equipPosition)
+        {
+            self.EquipedItems.TryGetValue(equipPosition, out Item item);
+            return item != null && !item.IsDisposed;
+        }
+
+        #endregion 获取/查询
+
+        #region 装备/卸下(客户端专用)
 
         public static void AddEquipItem(this EquipmentsComponent self, Item item)
         {
-            int equipPosition = item.GetComponent<EquipInfoComponent>().Config.EquipPosition;
-            if (self.EquipItems.TryGetValue(equipPosition, out Item equipItem))
+            EquipPosition equipPosition = (EquipPosition)item.GetComponent<EquipInfoComponent>().Config.EquipPosition;
+            if (self.EquipedItems.TryGetValue(equipPosition, out Item equipItem))
             {
-                Log.Error($"当前位置[{(EquipPosition)equipPosition}]已有装备");
+                Log.Error($"当前位置[{equipPosition}]已装备[{equipItem.Config.Name}][{equipItem.Config.Id}]");
                 return;
             }
 
             self.AddChild(item);
-            self.EquipItems.Add(equipPosition, item);
-        }
-
-        public static bool IsEquipItemByPosition(this EquipmentsComponent self, EquipPosition equipPosition)
-        {
-            return self.EquipItems.ContainsKey((int)equipPosition);
+            self.EquipedItems.Add(equipPosition, item);
         }
 
         public static bool UnloadEquipItem(this EquipmentsComponent self, Item item)
         {
-            int equipPosition = item.GetComponent<EquipInfoComponent>().Config.EquipPosition;
-            self.EquipItems.Remove(equipPosition);
+            EquipPosition equipPosition = (EquipPosition)item.GetComponent<EquipInfoComponent>().Config.EquipPosition;
+            self.EquipedItems.Remove(equipPosition);
             item?.Dispose();
             return true;
         }
+
+        #endregion 装备/卸下(客户端专用)
     }
 }

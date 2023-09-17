@@ -878,11 +878,6 @@ PrefabInstance:
       propertyPath: m_Group
       value: 
       objectReference: {fileID: 7364464897073164200}
-    - target: {fileID: 1007397179261530359, guid: 9da3177af12a2e94e920367d5fa6cd3f,
-        type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1883643941434116741, guid: 9da3177af12a2e94e920367d5fa6cd3f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1023,20 +1018,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6636246621198373811}
     m_Modifications:
-    - target: {fileID: 202555008, guid: 9da3177af12a2e94e920367d5fa6cd3f, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
+    - target: {fileID: 1007397179261530359, guid: 9da3177af12a2e94e920367d5fa6cd3f,
+        type: 3}
+      propertyPath: m_IsOn
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1007397179261530359, guid: 9da3177af12a2e94e920367d5fa6cd3f,
         type: 3}
       propertyPath: m_Group
       value: 
       objectReference: {fileID: 7364464897073164200}
-    - target: {fileID: 1007397179261530359, guid: 9da3177af12a2e94e920367d5fa6cd3f,
-        type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1883643941434116741, guid: 9da3177af12a2e94e920367d5fa6cd3f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1466,11 +1457,6 @@ PrefabInstance:
       propertyPath: m_Group
       value: 
       objectReference: {fileID: 7364464897073164200}
-    - target: {fileID: 1007397179261530359, guid: 9da3177af12a2e94e920367d5fa6cd3f,
-        type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1883643941434116741, guid: 9da3177af12a2e94e920367d5fa6cd3f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1625,11 +1611,6 @@ PrefabInstance:
       propertyPath: m_Group
       value: 
       objectReference: {fileID: 7364464897073164200}
-    - target: {fileID: 1007397179261530359, guid: 9da3177af12a2e94e920367d5fa6cd3f,
-        type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1883643941434116741, guid: 9da3177af12a2e94e920367d5fa6cd3f,
         type: 3}
       propertyPath: m_Pivot.x

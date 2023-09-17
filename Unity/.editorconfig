@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# ET0020: 实体类禁止声明实体字段
+dotnet_diagnostic.ET0020.severity = none
+
+# ET0021: 禁止声明返回值为void的异步方法
+dotnet_diagnostic.ET0021.severity = none

@@ -1,4 +1,5 @@
 ﻿using System;
+using ET.EventType;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -96,7 +97,7 @@ namespace ET.Client
                 toggleTransform.GetChild(0).gameObject.SetActive(i != cla);
                 toggleTransform.GetChild(1).gameObject.SetActive(i == cla);
                 toggleTransform.GetComponent<Toggle>().targetGraphic = toggleTransform.GetComponentInChildren<Image>();
-                EventSystem.Instance.Publish(self.ClientScene(), new EventType.SelectRole { RoleClass = (RoleClass)cla });
+                EventSystem.Instance.Publish(self.ClientScene(), new SelectRole { RoleClass = (RoleClass)cla });
             }
         }
 
@@ -104,7 +105,7 @@ namespace ET.Client
         {
             self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId = roleInfo.Id;
             self.View.EL_Roles_LoopVerticalScrollRect.RefillCells();
-            EventSystem.Instance.Publish(self.ClientScene(), new EventType.SelectRole { RoleClass = roleInfo.RoleClass });
+            EventSystem.Instance.Publish(self.ClientScene(), new SelectRole { RoleClass = roleInfo.RoleClass });
         }
 
         private static void RefreshRoleItems(this DlgRoles self)

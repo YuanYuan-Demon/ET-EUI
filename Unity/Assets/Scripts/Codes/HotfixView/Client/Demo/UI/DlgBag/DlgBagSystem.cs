@@ -33,7 +33,6 @@ namespace ET.Client
 
         public static void Refresh(this DlgBag self)
         {
-            MultiMap<int, Item> itemsMap = self.ClientScene().GetComponent<BagComponent>().ItemTypeMap;
             switch (self.BagTab)
             {
                 case ItemType.All:
@@ -43,13 +42,17 @@ namespace ET.Client
                 case ItemType.Equip:
                 case ItemType.Consumable:
                 case ItemType.Material:
-                    itemsMap.TryGetValue((int)self.BagTab, out self.ItemList);
+                    self.ClientScene().GetComponent<BagComponent>().ItemTypeMap.TryGetValue(self.BagTab, out self.ItemList);
                     break;
             }
             if (self.ItemList != null && self.ItemList.Count != 0)
             {
                 self.AddUIScrollItems(ref self.ScrollItemBagItems, self.ItemList.Count);
                 self.View.EL_BagItem_LoopVerticalScrollRect.SetVisible(true, self.ItemList.Count);
+            }
+            else
+            {
+                self.View.EL_BagItem_LoopVerticalScrollRect.SetVisible(true, 0);
             }
         }
 

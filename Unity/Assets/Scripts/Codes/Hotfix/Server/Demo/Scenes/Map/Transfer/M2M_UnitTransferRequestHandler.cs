@@ -72,7 +72,7 @@ namespace ET.Server
             #endregion 背包测试
 
             ItemUpdateNoticeHelper.SyncAllBagItems(unit);
-            //ItemUpdateNoticeHelper.SyncAllEquipItems(unit);
+            ItemUpdateNoticeHelper.SyncAllEquipItems(unit);
 
             //通知客户端同步打造信息
             //ForgeHelper.SyncAllProduction(unit);

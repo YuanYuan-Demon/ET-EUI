@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using ET.EventType;
+
+namespace ET.Client
 {
     public static class Scroll_Item_ShopItemSystem
     {
@@ -34,7 +36,7 @@
                 self.ET_BuyCount_TextMeshProUGUI.text = self.Count.ToString();
             });
             self.EB_Select_Button.AddListener(() =>
-            EventSystem.Instance.Publish(self.DomainScene(), new EventType.SelectShopItem()
+            EventSystem.Instance.Publish(self.DomainScene(), new SelectShopItem()
             {
                 Id = self.DataId,
                 Count = self.Count

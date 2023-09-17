@@ -1,3 +1,5 @@
+using ET.EventType;
+
 namespace ET.Client
 {
     [Event(SceneType.Process)]
@@ -15,7 +17,7 @@ namespace ET.Client
 
             Scene clientScene = await SceneFactory.CreateClientScene(1, "Game");
 
-            await EventSystem.Instance.PublishAsync(clientScene, new EventType.AppStartInitFinish());
+            await EventSystem.Instance.PublishAsync(clientScene, new AppStartInitFinish());
         }
     }
 }

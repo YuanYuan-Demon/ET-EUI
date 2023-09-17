@@ -1,73 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
 
 namespace ET
 {
     public class EventSystem : Singleton<EventSystem>, ISingletonUpdate, ISingletonLateUpdate
     {
-        private class OneTypeSystems
-        {
-            public readonly UnOrderMultiMap<Type, object> Map = new();
-
-            // 这里不用hash，数量比较少，直接for循环速度更快
-            public readonly bool[] QueueFlag = new bool[(int)InstanceQueueIndex.Max];
-        }
-
-        private class TypeSystems
-        {
-            private readonly Dictionary<Type, OneTypeSystems> typeSystemsMap = new();
-
-            public OneTypeSystems GetOrCreateOneTypeSystems(Type type)
-            {
-                OneTypeSystems systems = null;
-                this.typeSystemsMap.TryGetValue(type, out systems);
-                if (systems != null)
-                {
-                    return systems;
-                }
-
-                systems = new OneTypeSystems();
-                this.typeSystemsMap.Add(type, systems);
-                return systems;
-            }
-
-            public OneTypeSystems GetOneTypeSystems(Type type)
-            {
-                OneTypeSystems systems = null;
-                this.typeSystemsMap.TryGetValue(type, out systems);
-                return systems;
-            }
-
-            public List<object> GetSystems(Type type, Type systemType)
-            {
-                OneTypeSystems oneTypeSystems = null;
-                if (!this.typeSystemsMap.TryGetValue(type, out oneTypeSystems))
-                {
-                    return null;
-                }
-
-                if (!oneTypeSystems.Map.TryGetValue(systemType, out List<object> systems))
-                {
-                    return null;
-                }
-
-                return systems;
-            }
-        }
-
-        private class EventInfo
-        {
-            public EventInfo(IEvent iEvent, SceneType sceneType)
-            {
-                this.IEvent = iEvent;
-                this.SceneType = sceneType;
-            }
-
-            public IEvent IEvent { get; }
-
-            public SceneType SceneType { get; }
-        }
-
         private readonly Dictionary<string, Type> allTypes = new();
 
         private readonly UnOrderMultiMapSet<Type, Type> types = new();
@@ -75,6 +13,7 @@ namespace ET
         private readonly Dictionary<Type, List<EventInfo>> allEvents = new();
 
         private readonly Queue<long>[] queues = new Queue<long>[(int)InstanceQueueIndex.Max];
+
         private Dictionary<Type, Dictionary<int, object>> allInvokes = new();
 
         private TypeSystems typeSystems = new();
@@ -620,7 +559,7 @@ namespace ET
 
         public void Publish<EventType>(Scene scene, EventType a) where EventType : struct
         {
-            Log.Debug($"发布事件: [{typeof(EventType)}]");
+            Log.Debug($"发布事件: [{a.ToJson()}]");
             List<EventInfo> iEvents;
             if (!this.allEvents.TryGetValue(typeof(EventType), out iEvents))
             {
@@ -698,6 +637,69 @@ namespace ET
         public T Invoke<A, T>(A args) where A : struct
         {
             return Invoke<A, T>(0, args);
+        }
+
+        private class OneTypeSystems
+        {
+            public readonly UnOrderMultiMap<Type, object> Map = new();
+
+            // 这里不用hash，数量比较少，直接for循环速度更快
+            public readonly bool[] QueueFlag = new bool[(int)InstanceQueueIndex.Max];
+        }
+
+        private class TypeSystems
+        {
+            private readonly Dictionary<Type, OneTypeSystems> typeSystemsMap = new();
+
+            public OneTypeSystems GetOrCreateOneTypeSystems(Type type)
+            {
+                OneTypeSystems systems = null;
+                this.typeSystemsMap.TryGetValue(type, out systems);
+                if (systems != null)
+                {
+                    return systems;
+                }
+
+                systems = new OneTypeSystems();
+                this.typeSystemsMap.Add(type, systems);
+                return systems;
+            }
+
+            public OneTypeSystems GetOneTypeSystems(Type type)
+            {
+                OneTypeSystems systems = null;
+                this.typeSystemsMap.TryGetValue(type, out systems);
+                return systems;
+            }
+
+            public List<object> GetSystems(Type type, Type systemType)
+            {
+                OneTypeSystems oneTypeSystems = null;
+                if (!this.typeSystemsMap.TryGetValue(type, out oneTypeSystems))
+                {
+                    return null;
+                }
+
+                if (!oneTypeSystems.Map.TryGetValue(systemType, out List<object> systems))
+                {
+                    return null;
+                }
+
+                return systems;
+            }
+        }
+
+        private class EventInfo
+        {
+            public EventInfo(IEvent iEvent, SceneType sceneType)
+            {
+                this.IEvent = iEvent;
+                this.SceneType = sceneType;
+            }
+
+            public IEvent IEvent { get; }
+
+            public SceneType SceneType { get; }
         }
     }
 }

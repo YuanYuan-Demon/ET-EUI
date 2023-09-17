@@ -13,6 +13,8 @@ namespace ET
         [BsonIgnore]
         public ItemConfig Config => ItemConfigCategory.Instance.Get(ConfigId);
 
+        public EquipConfig EquipConfig => EquipConfigCategory.Instance.Get(ConfigId);
+
         public bool IsEquip => Config.Type == ((int)ItemType.Equip);
 
         public bool CanStack => Config.StackLimit > 1;

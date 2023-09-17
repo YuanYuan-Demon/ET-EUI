@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 
@@ -275,6 +276,7 @@ namespace ET.Client
         /// <returns> </returns>
         public static async ETTask<int> EnterGame(Scene clientScene)
         {
+            RoleInfosComponent roleInfosComponent = clientScene.GetComponent<RoleInfosComponent>();
             AccountInfoComponent accountInfoComponent = clientScene.GetComponent<AccountInfoComponent>();
             string realmAddress = accountInfoComponent.RealmAddress;
 
@@ -319,7 +321,7 @@ namespace ET.Client
                 {
                     AccountId = accountInfoComponent.AccountId,
                     Key = r2c_LoginRealm.GateSessionToken,
-                    RoleId = clientScene.GetComponent<RoleInfosComponent>().CurRoleId
+                    RoleId = roleInfosComponent.CurRoleId
                 }) as G2C_LoginGameGate;
             }
             catch (Exception e)
@@ -358,6 +360,7 @@ namespace ET.Client
             }
 
             clientScene.GetComponent<PlayerComponent>().MyId = g2c_EnterGameResponse.UnitId;
+            roleInfosComponent.CurrentRole = roleInfosComponent.RoleInfos.FirstOrDefault(r => r.Id == g2c_EnterGameResponse.UnitId);
             await wait;
             Log.Debug("角色进入游戏成功");
 

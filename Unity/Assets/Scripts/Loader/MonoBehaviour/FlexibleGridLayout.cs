@@ -5,6 +5,22 @@ namespace ET.Client
 {
     public class FlexibleGridLayout : LayoutGroup
     {
+        private bool fitX;
+
+        private bool fitY;
+
+        public FitType fitType;
+
+        public int rows;
+
+        public int columns;
+
+        public Vector2 cellSize;
+
+        public Vector2 spacing;
+
+        public Vector2 size;
+
         public enum FitType
         {
             Uniform,
@@ -13,17 +29,6 @@ namespace ET.Client
             FixedRows,
             FixedCols,
         }
-
-        private bool fitX;
-        private bool fitY;
-        public FitType fitType;
-        public int rows;
-        public int columns;
-
-        public Vector2 cellSize;
-
-        public Vector2 spacing;
-        public Vector2 size;
 
         public override void CalculateLayoutInputVertical()
         {

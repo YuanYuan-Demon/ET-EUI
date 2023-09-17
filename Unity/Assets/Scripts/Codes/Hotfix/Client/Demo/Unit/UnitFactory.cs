@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using ET.EventType;
+
+namespace ET.Client
 {
     public static class UnitFactory
     {
@@ -33,7 +35,7 @@
             unit.AddComponent<XunLuoPathComponent>();
             unit.AddComponent<UnitInfoComponent, UnitInfo>(unitInfo);
 
-            EventSystem.Instance.Publish(unit.DomainScene(), new EventType.AfterUnitCreate() { Unit = unit });
+            EventSystem.Instance.Publish(unit.DomainScene(), new AfterUnitCreate() { Unit = unit });
             return unit;
         }
     }
