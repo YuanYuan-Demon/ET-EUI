@@ -33,23 +33,20 @@ namespace ET
     public class BuildEditor: EditorWindow
     {
         private PlatformType activePlatform;
-        private PlatformType platformType;
-        private ConfigFolder configFolder;
-        private bool clearFolder;
-        private bool isBuildExe;
-        private bool isContainAB;
-        private CodeOptimization codeOptimization = CodeOptimization.Debug;
-        private BuildOptions buildOptions;
         private BuildAssetBundleOptions buildAssetBundleOptions = BuildAssetBundleOptions.None;
+        private BuildOptions buildOptions;
+        private bool clearFolder;
+        private CodeOptimization codeOptimization = CodeOptimization.Debug;
+        private ConfigFolder configFolder;
 
         private GlobalConfig globalConfig;
-
-        [MenuItem("ET/Build Tool")]
-        public static void ShowWindow() => GetWindow<BuildEditor>(DockDefine.Types);
+        private bool isBuildExe;
+        private bool isContainAB;
+        private PlatformType platformType;
 
         private void OnEnable()
         {
-            globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
+            this.globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Resources/GlobalConfig.asset");
 
 #if UNITY_ANDROID
 			activePlatform = PlatformType.Android;
@@ -94,23 +91,23 @@ namespace ET
             {
                 if (this.platformType == PlatformType.None)
                 {
-                    ShowNotification(new GUIContent("please select platform!"));
+                    this.ShowNotification(new GUIContent("please select platform!"));
                     return;
                 }
 
-                if (platformType != activePlatform)
+                if (this.platformType != this.activePlatform)
                 {
                     switch (EditorUtility.DisplayDialogComplex("Warning!",
-                                $"current platform is {activePlatform}, if change to {platformType}, may be take a long time", "change", "cancel",
-                                "no change"))
+                                $"current platform is {this.activePlatform}, if change to {this.platformType}, may be take a long time", "change",
+                                "cancel", "no change"))
                     {
                         case 0:
-                            activePlatform = platformType;
+                            this.activePlatform = this.platformType;
                             break;
                         case 1:
                             return;
                         case 2:
-                            platformType = activePlatform;
+                            this.platformType = this.activePlatform;
                             break;
                     }
                 }
@@ -121,24 +118,24 @@ namespace ET
 
             GUILayout.Label("");
             GUILayout.Label("Code Compile：");
-
-            CodeMode codeMode = (CodeMode)EditorGUILayout.EnumPopup("CodeMode: ", this.globalConfig.CodeMode);
-            if (codeMode != this.globalConfig.CodeMode)
+            EditorGUI.BeginChangeCheck();
+            this.globalConfig.CodeMode = (CodeMode)EditorGUILayout.EnumPopup("CodeMode: ", this.globalConfig.CodeMode);
+            if (EditorGUI.EndChangeCheck())
             {
-                this.globalConfig.CodeMode = codeMode;
                 EditorUtility.SetDirty(this.globalConfig);
-                AssetDatabase.SaveAssets();
+                AssetDatabase.SaveAssetIfDirty(this.globalConfig);
+                AssetDatabase.Refresh();
             }
 
             if (GUILayout.Button("BuildModelAndHotfix"))
             {
                 if (Define.EnableCodes)
                 {
-                    throw new Exception("now in ENABLE_CODES mode, do not need Build!");
+                    throw new("now in ENABLE_CODES mode, do not need Build!");
                 }
 
-                BuildAssembliesHelper.BuildModel(this.codeOptimization, globalConfig);
-                BuildAssembliesHelper.BuildHotfix(this.codeOptimization, globalConfig);
+                BuildAssembliesHelper.BuildModel(this.codeOptimization, this.globalConfig);
+                BuildAssembliesHelper.BuildHotfix(this.codeOptimization, this.globalConfig);
 
                 AfterCompiling();
 
@@ -198,6 +195,9 @@ namespace ET
 
             GUILayout.Space(5);
         }
+
+        [MenuItem("ET/Build Tool")]
+        public static void ShowWindow() => GetWindow<BuildEditor>(DockDefine.Types);
 
         private static void AfterCompiling()
         {
