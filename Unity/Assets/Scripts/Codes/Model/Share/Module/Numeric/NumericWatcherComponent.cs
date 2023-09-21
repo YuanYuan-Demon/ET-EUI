@@ -16,7 +16,7 @@ namespace ET
             }
         }
 
-	
+
         public class NumericWatcherComponentLoadSystem : LoadSystem<NumericWatcherComponent>
         {
             protected override void Load(NumericWatcherComponent self)
@@ -27,7 +27,7 @@ namespace ET
 
         private static void Init(this NumericWatcherComponent self)
         {
-            self.allWatchers = new Dictionary<int, List<NumericWatcherInfo>>();
+            self.allWatchers = new ();
 
             HashSet<Type> types = EventSystem.Instance.GetTypes(typeof(NumericWatcherAttribute));
             foreach (Type type in types)
@@ -79,8 +79,8 @@ namespace ET
             this.INumericWatcher = numericWatcher;
         }
     }
-    
-    
+
+
     /// <summary>
     /// 监视数值变化组件,分发监听
     /// </summary>
@@ -88,7 +88,7 @@ namespace ET
     public class NumericWatcherComponent : Entity, IAwake, ILoad
     {
         public static NumericWatcherComponent Instance { get; set; }
-		
-        public Dictionary<int, List<NumericWatcherInfo>> allWatchers;
+
+        public Dictionary<NumericType, List<NumericWatcherInfo>> allWatchers;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using System;
+
+namespace ET.Client
 {
     [ComponentOf(typeof(Scene))]
     public class PlayerComponent: Entity, IAwake

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MongoDB.Bson;
 using Unity.Mathematics;
 
 namespace ET.Server
@@ -32,16 +33,16 @@ namespace ET.Server
                 }
             }
 
-            unitInfo.KV = new Dictionary<int, long>();
+            unitInfo.Numeric = new();
 
-            foreach ((int key, long value) in nc.NumericDic)
+            foreach ((NumericType numericType, long value) in nc.NumericDic)
             {
-                unitInfo.KV.Add(key, value);
+                unitInfo.Numeric.Add(numericType, value);
             }
 
             return unitInfo;
         }
-        
+
         // 获取看见unit的玩家，主要用于广播
         public static Dictionary<long, AOIEntity> GetBeSeePlayers(this Unit self)
         {

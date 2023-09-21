@@ -9,17 +9,17 @@ namespace ET.Client
 	        UnitComponent unitComponent = currentScene.GetComponent<UnitComponent>();
 	        Unit unit = unitComponent.AddChildWithId<Unit, int>(unitInfo.UnitId, unitInfo.ConfigId);
 	        unitComponent.Add(unit);
-	        
+
 	        unit.Position = unitInfo.Position;
 	        unit.Forward = unitInfo.Forward;
-	        
+
 	        NumericComponent numericComponent = unit.AddComponent<NumericComponent>();
 
-			foreach (var kv in unitInfo.KV)
+			foreach ((NumericType nt, long value)in unitInfo.Numeric)
 			{
-				numericComponent.Set(kv.Key, kv.Value);
+				numericComponent.Set(nt, value);
 			}
-	        
+
 	        unit.AddComponent<MoveComponent>();
 	        if (unitInfo.MoveInfo != null)
 	        {
@@ -33,7 +33,7 @@ namespace ET.Client
 	        unit.AddComponent<ObjectWait>();
 
 	        unit.AddComponent<XunLuoPathComponent>();
-	        
+
 	        EventSystem.Instance.Publish(unit.DomainScene(), new EventType.AfterUnitCreate() {Unit = unit});
             return unit;
         }

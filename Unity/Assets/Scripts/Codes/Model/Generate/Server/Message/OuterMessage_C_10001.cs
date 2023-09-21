@@ -151,7 +151,7 @@ namespace ET
 
 		[MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
 		[ProtoMember(6)]
-		public Dictionary<int, long> KV { get; set; }
+		public Dictionary<NumericType, long> Numeric { get; set; }
 		[ProtoMember(7)]
 		public MoveInfo MoveInfo { get; set; }
 

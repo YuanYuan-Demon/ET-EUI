@@ -11,7 +11,7 @@ namespace ET
         public int ConfigId { get; set; } //配置表id
 
         [BsonIgnore]
-        public UnitConfig Config => UnitConfigCategory.Instance.Get(this.ConfigId);
+        public UnitConfig Config =>  UnitConfigCategory.Instance.Get(this.ConfigId);
 
         public UnitType Type => (UnitType)UnitConfigCategory.Instance.Get(this.ConfigId).Type;
 
@@ -36,10 +36,10 @@ namespace ET
             get => math.mul(this.Rotation, math.forward());
             set => this.Rotation = quaternion.LookRotation(value, math.up());
         }
-        
+
         [BsonElement]
         private quaternion rotation;
-        
+
         [BsonIgnore]
         public quaternion Rotation
         {
