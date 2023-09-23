@@ -17,18 +17,17 @@ namespace ET
 			return this.AIConfigs[aiConfigId];
 		}
 
-		public override void AfterEndInit()
+		 partial  void PostInit()
 		{
-			foreach (var kv in this.GetAll())
+			foreach (var (id,aiConfig) in this.GetAll())
 			{
 				SortedDictionary<int, AIConfig> aiNodeConfig;
-				if (!this.AIConfigs.TryGetValue(kv.Value.AIConfigId, out aiNodeConfig))
+				if (!this.AIConfigs.TryGetValue(aiConfig.AIConfigId, out aiNodeConfig))
 				{
-					aiNodeConfig = new SortedDictionary<int, AIConfig>();
-					this.AIConfigs.Add(kv.Value.AIConfigId, aiNodeConfig);
+					aiNodeConfig = new();
+					this.AIConfigs.Add(aiConfig.AIConfigId, aiNodeConfig);
 				}
-				
-				aiNodeConfig.Add(kv.Key, kv.Value);
+				aiNodeConfig.Add(id, aiConfig);
 			}
 		}
 	}

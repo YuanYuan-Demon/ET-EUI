@@ -1,58 +1,46 @@
-set Workspace= ../..
-set Luban_Dll=%Workspace%\Tools\Luban\Luban.dll
-set Conf_Root=%WORKSPACE%\Unity\Assets\Config\Excel
-set Output_Code_Dir=%WORKSPACE%\Unity\Assets\Scripts\Codes\Model\Generate\ClientServer\Config
-set Output_Bin_Dir=%WORKSPACE%\Config\Excel\cs
-set Output_Json_Dir=%WORKSPACE%\Config\Json\cs
+@echo off
+set Workspace=..\..
+set Luban_Dll=%Workspace%\Tools\Luban\Luban\Luban.dll
+set Conf_Root=%Workspace%\Config\Excel
+set Output_Code_Dir=%Workspace%\Unity\Assets\Scripts\Codes\Model\Generate\ClientServer\Config
+set Output_Bin_Dir=%Workspace%\Config\Bytes\cs
+set Output_Json_Dir=%Workspace%\Config\Json\cs
 set Config_Folder=%1
 
-echo ====================================== 开始生成数据 ======================================
-
-
-echo ======================= ClientServer Code ==========================
+echo ======================= ClientServer GameConfig-%Config_Folder% Code ==========================
 dotnet %Luban_Dll% ^
-    -t all ^
+    -t GameConfig-%Config_Folder% ^
     --conf %Conf_Root%\luban.conf ^
-    -c cs-simple-json ^
+    -c cs-bin ^
+    --customTemplateDir CustomTemplate ^
     -x outputCodeDir=%Output_Code_Dir%
-if %ERRORLEVEL% NEQ 0 exit
 
 
 echo ======================= ClientServer GameConfig Json ==========================
 dotnet %Luban_Dll% ^
-    -t all ^
+    -t GameConfig ^
     --conf %Conf_Root%\luban.conf ^
     -d json ^
-    -e StartMachineConfigCategory,StartProcessConfigCategory,StartSceneConfigCategory,StartZoneConfigCategory ^
     -x outputDataDir=%Output_Json_Dir%\GameConfig
-if %ERRORLEVEL% NEQ 0 exit
 
 
 echo ======================= ClientServer GameConfig Bytes ==========================
 dotnet %Luban_Dll% ^
-    -t all ^
+    -t GameConfig ^
     --conf %Conf_Root%\luban.conf ^
     -d bin ^
-    -e StartMachineConfigCategory,StartProcessConfigCategory,StartSceneConfigCategory,StartZoneConfigCategory ^
     -x outputDataDir=%Output_Bin_Dir%\GameConfig
-if %ERRORLEVEL% NEQ 0 exit
-
 
 echo ======================= ClientServer StartConfig %Config_Folder% Json ==========================
 dotnet %Luban_Dll% ^
-    -t all ^
+    -t %Config_Folder% ^
     --conf %Conf_Root%\luban.conf ^
     -d json ^
-    -o StartMachineConfigCategory,StartProcessConfigCategory,StartSceneConfigCategory,StartZoneConfigCategory ^
     -x outputDataDir=%Output_Json_Dir%\StartConfig\%Config_Folder%
-if %ERRORLEVEL% NEQ 0 exit
-
 
 echo ======================= ClientServer StartConfig %Config_Folder% Bytes ==========================
 dotnet %Luban_Dll% ^
-    -t all ^
+    -t %Config_Folder% ^
     --conf %Conf_Root%\luban.conf ^
     -d bin ^
-    -o StartMachineConfigCategory,StartProcessConfigCategory,StartSceneConfigCategory,StartZoneConfigCategory ^
-    -x outputDataDir=%Output_Json_Dir%\StartConfig\%Config_Folder%
-if %ERRORLEVEL% NEQ 0 exit
+    -x outputDataDir=%Output_Bin_Dir%\StartConfig\%Config_Folder%

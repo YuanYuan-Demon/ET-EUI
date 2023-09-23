@@ -5,6 +5,7 @@ namespace ET
 {
     public static class ToolsEditor
     {
+        private const string ClientBytesDir = "../Unity/Assets/Bundles/Config";
         public static void ExcelExporter(CodeMode codeMode, ConfigFolder configFolder)
         {
             string genCode = string.Empty;
@@ -38,6 +39,7 @@ namespace ET
                 case CodeMode.Client:
                     genCode = $"gen_code_client.bat {configFolder}";
                     ShellHelper.Run($"{genCode}", "../Tools/Luban/");
+                    FileHelper.CopyDirectory("../Config/Bytes/c/GameConfig", ClientBytesDir);
                     break;
                 case CodeMode.Server:
                     genCode = $"gen_code_server.bat {configFolder}";
@@ -52,6 +54,7 @@ namespace ET
 
                     genCode = $"gen_code_client_server.bat {configFolder}";
                     ShellHelper.Run($"{genCode}", "../Tools/Luban/");
+                    FileHelper.CopyDirectory("../Config/Bytes/c/GameConfig", ClientBytesDir);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof (codeMode), codeMode, null);

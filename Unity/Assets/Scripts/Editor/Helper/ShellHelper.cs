@@ -1,6 +1,8 @@
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
+using Debug = UnityEngine.Debug;
 
 namespace ET
 {
@@ -26,7 +28,7 @@ namespace ET
                 {
                     foreach (string var in environmentVars)
                     {
-                        start.EnvironmentVariables["PATH"] += (splitChar + var);
+                        start.EnvironmentVariables["PATH"] += splitChar + var;
                     }
                 }
 
@@ -48,8 +50,8 @@ namespace ET
                     start.RedirectStandardOutput = true;
                     start.RedirectStandardError = true;
                     start.RedirectStandardInput = true;
-                    start.StandardOutputEncoding = System.Text.Encoding.UTF8;
-                    start.StandardErrorEncoding = System.Text.Encoding.UTF8;
+                    start.StandardOutputEncoding = Encoding.UTF8;
+                    start.StandardErrorEncoding = Encoding.UTF8;
                 }
 
                 bool endOutput = false;
@@ -59,7 +61,14 @@ namespace ET
                 {
                     if (args.Data != null)
                     {
-                        UnityEngine.Debug.Log(args.Data);
+                        if (args.Data.Contains("fail") || args.Data.Contains("不存在"))
+                        {
+                            Debug.LogError(args.Data);
+                        }
+                        else
+                        {
+                            Debug.Log(args.Data);
+                        }
                     }
                     else
                     {
@@ -71,7 +80,7 @@ namespace ET
                 {
                     if (args.Data != null)
                     {
-                        UnityEngine.Debug.LogError(args.Data);
+                        Debug.LogError(args.Data);
                     }
                     else
                     {
@@ -92,7 +101,7 @@ namespace ET
             }
             catch (Exception e)
             {
-                UnityEngine.Debug.LogException(e);
+                Debug.LogException(e);
             }
             finally
             {

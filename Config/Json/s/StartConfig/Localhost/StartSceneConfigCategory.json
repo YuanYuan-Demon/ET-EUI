@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Realm",
+    "name": "Realm",
+    "outer_port": 30002
+  },
+  {
+    "id": 2,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Gate",
+    "name": "Gate1",
+    "outer_port": 30003
+  },
+  {
+    "id": 3,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Gate",
+    "name": "Gate2",
+    "outer_port": 30004
+  },
+  {
+    "id": 4,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Location",
+    "name": "Location",
+    "outer_port": 0
+  },
+  {
+    "id": 5,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Map",
+    "name": "Map1",
+    "outer_port": 0
+  },
+  {
+    "id": 6,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Map",
+    "name": "Map2",
+    "outer_port": 0
+  },
+  {
+    "id": 200,
+    "process": 1,
+    "zone": 2,
+    "scene_type": "Robot",
+    "name": "Robot01",
+    "outer_port": 0
+  },
+  {
+    "id": 300,
+    "process": 1,
+    "zone": 3,
+    "scene_type": "RouterManager",
+    "name": "RouterManager",
+    "outer_port": 30300
+  },
+  {
+    "id": 301,
+    "process": 1,
+    "zone": 3,
+    "scene_type": "Router",
+    "name": "Router01",
+    "outer_port": 30301
+  },
+  {
+    "id": 302,
+    "process": 1,
+    "zone": 3,
+    "scene_type": "Router",
+    "name": "Router02",
+    "outer_port": 30302
+  },
+  {
+    "id": 303,
+    "process": 1,
+    "zone": 3,
+    "scene_type": "Router",
+    "name": "Router03",
+    "outer_port": 30303
+  },
+  {
+    "id": 304,
+    "process": 1,
+    "zone": 3,
+    "scene_type": "Router",
+    "name": "Router04",
+    "outer_port": 30304
+  }
+]

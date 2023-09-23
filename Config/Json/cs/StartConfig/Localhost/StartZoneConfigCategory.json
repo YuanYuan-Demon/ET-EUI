@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "d_b_connection": "mongodb://127.0.0.1",
+    "d_b_name": "ET1"
+  },
+  {
+    "id": 2,
+    "d_b_connection": "",
+    "d_b_name": ""
+  },
+  {
+    "id": 3,
+    "d_b_connection": "",
+    "d_b_name": ""
+  }
+]
