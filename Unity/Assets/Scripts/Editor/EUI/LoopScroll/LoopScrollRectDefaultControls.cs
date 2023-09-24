@@ -213,7 +213,7 @@ namespace UnityEditor.UI
             go.AddComponent<Image>();
             go.AddComponent<Button>();
 
-            go.name = "EButton_";
+            go.name = "EB_";
             GameObject go2 = new GameObject();
             go2.transform.SetParent(go.transform, false);
             go2.transform.SetAsLastSibling();

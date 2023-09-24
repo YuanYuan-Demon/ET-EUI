@@ -1,33 +1,33 @@
-﻿/* 
+﻿/*
  * Unless otherwise licensed, this file cannot be copied or redistributed in any format without the explicit consent of the author.
  * (c) Preet Kamal Singh Minhas, http://marchingbytes.com
  * contact@marchingbytes.com
  */
 // modified version by Kanglai Qian
-using UnityEngine;
+
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ET.Client
 {
-
-
     public enum PoolInflationType
     {
-        /// When a dynamic pool inflates, add one to the pool.
-        INCREMENT,
-        /// When a dynamic pool inflates, double the size of the pool
-        DOUBLE
+        /// 当动态池膨胀时，将其增加一个。
+        Increment,
+
+        /// 当动态池膨胀时，将池的大小加倍
+        Double,
     }
 
     public class GameObjectPool
     {
-        private Stack<PoolObject> availableObjStack = new Stack<PoolObject>();
+        private Stack<PoolObject> availableObjStack = new();
 
         //the root obj for unused obj
         private GameObject rootObj;
         private PoolInflationType inflationType;
         private string poolName;
-        private int objectsInUse = 0;
+        private int objectsInUse;
 
         public GameObjectPool(string poolName, GameObject poolObjectPrefab, GameObject rootPoolObj, int initialCount, PoolInflationType type)
         {
@@ -38,23 +38,25 @@ namespace ET.Client
 #endif
                 return;
             }
+
             this.poolName = poolName;
             this.inflationType = type;
-            this.rootObj = new GameObject(poolName + "Pool");
+            this.rootObj = new(poolName + "Pool");
             this.rootObj.transform.SetParent(rootPoolObj.transform, false);
 
             // In case the origin one is Destroyed, we should keep at least one
-            GameObject go = GameObject.Instantiate(poolObjectPrefab);
+            GameObject go = UnityEngine.Object.Instantiate(poolObjectPrefab);
             PoolObject po = go.GetComponent<PoolObject>();
             if (po == null)
             {
                 po = go.AddComponent<PoolObject>();
             }
+
             po.poolName = poolName;
-            AddObjectToPool(po);
+            this.AddObjectToPool(po);
 
             //populate the pool
-            populatePool(Mathf.Max(initialCount, 1));
+            this.populatePool(Mathf.Max(initialCount, 1));
         }
 
         //o(1)
@@ -62,57 +64,56 @@ namespace ET.Client
         {
             //add to pool
             po.gameObject.SetActive(false);
-            po.gameObject.name = poolName;
-            availableObjStack.Push(po);
+            po.gameObject.name = this.poolName;
+            this.availableObjStack.Push(po);
             po.isPooled = true;
             //add to a root obj
-            po.gameObject.transform.SetParent(rootObj.transform, false);
+            po.gameObject.transform.SetParent(this.rootObj.transform, false);
         }
 
         private void populatePool(int initialCount)
         {
-            for (int index = 0; index < initialCount; index++)
+            for (var index = 0; index < initialCount; index++)
             {
-                PoolObject po = GameObject.Instantiate(availableObjStack.Peek());
-                AddObjectToPool(po);
-                
+                PoolObject po = UnityEngine.Object.Instantiate(this.availableObjStack.Peek());
+                this.AddObjectToPool(po);
             }
         }
-        
+
         //o(1)
         public GameObject NextAvailableObject(bool autoActive)
         {
             PoolObject po = null;
-            if (availableObjStack.Count > 1)
+            if (this.availableObjStack.Count > 1)
             {
-                po = availableObjStack.Pop();
+                po = this.availableObjStack.Pop();
             }
             else
             {
-                int increaseSize = 0;
-                //increment size var, this is for info purpose only
-                if (inflationType == PoolInflationType.INCREMENT)
+                var increaseSize = 0;
+                //增加大小变量，仅供信息目的
+                if (this.inflationType == PoolInflationType.Increment)
                 {
                     increaseSize = 1;
                 }
-                else if (inflationType == PoolInflationType.DOUBLE)
+                else if (this.inflationType == PoolInflationType.Double)
                 {
-                    increaseSize = availableObjStack.Count + Mathf.Max(objectsInUse, 0);
+                    increaseSize = this.availableObjStack.Count + Mathf.Max(this.objectsInUse, 0);
                 }
 #if UNITY_EDITOR
-                Debug.Log(string.Format("Growing pool {0}: {1} populated", poolName, increaseSize));
+                Debug.Log($"Growing pool {this.poolName}: {increaseSize.ToString()} populated");
 #endif
                 if (increaseSize > 0)
                 {
-                    populatePool(increaseSize);
-                    po = availableObjStack.Pop();
+                    this.populatePool(increaseSize);
+                    po = this.availableObjStack.Pop();
                 }
             }
 
             GameObject result = null;
             if (po != null)
             {
-                objectsInUse++;
+                this.objectsInUse++;
                 po.isPooled = false;
                 result = po.gameObject;
                 if (autoActive)
@@ -124,16 +125,14 @@ namespace ET.Client
             return result;
         }
 
-        
-        
         //o(1)
         public void ReturnObjectToPool(PoolObject po)
         {
-            if (poolName.Equals(po.poolName))
+            if (this.poolName.Equals(po.poolName))
             {
-                objectsInUse--;
+                this.objectsInUse--;
                 /* we could have used availableObjStack.Contains(po) to check if this object is in pool.
-                 * While that would have been more robust, it would have made this method O(n) 
+                 * While that would have been more robust, it would have made this method O(n)
                  */
                 if (po.isPooled)
                 {
@@ -143,12 +142,12 @@ namespace ET.Client
                 }
                 else
                 {
-                    AddObjectToPool(po);
+                    this.AddObjectToPool(po);
                 }
             }
             else
             {
-                Debug.LogError(string.Format("Trying to add object to incorrect pool {0} {1}", po.poolName, poolName));
+                Debug.LogError(string.Format("Trying to add object to incorrect pool {0} {1}", po.poolName, this.poolName));
             }
         }
     }

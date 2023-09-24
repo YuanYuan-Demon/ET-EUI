@@ -1,36 +1,33 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections;
-using ET;
 using ET.Client;
 
 namespace UnityEngine.UI
 {
-    public interface LoopScrollPrefabSource
+    public interface ILoopScrollPrefabSource
     {
         GameObject GetObject(int index);
 
-        void ReturnObject(Transform trans,bool isDestroy = false);
+        void ReturnObject(Transform trans, bool isDestroy = false);
     }
-    
-    
-    
-    [System.Serializable]
-    public class LoopScrollPrefabSourceInstance : LoopScrollPrefabSource
+
+    [Serializable]
+    public class LoopScrollPrefabSourceInstance: ILoopScrollPrefabSource
     {
         public string prefabName;
         public int poolSize = 5;
 
-        private bool inited = false;
+        private bool inited;
+
         public virtual GameObject GetObject(int index)
         {
             try
             {
-                if(!inited)
+                if (!inited)
                 {
                     GameObjectPoolHelper.InitPool(prefabName, poolSize);
                     inited = true;
                 }
+
                 return GameObjectPoolHelper.GetObjectFromPool(prefabName);
             }
             catch (Exception e)
@@ -39,14 +36,14 @@ namespace UnityEngine.UI
                 return null;
             }
         }
-        
-        public virtual void ReturnObject(Transform go , bool isDestroy = false)
+
+        public virtual void ReturnObject(Transform go, bool isDestroy = false)
         {
             try
             {
                 if (isDestroy)
                 {
-                    UnityEngine.GameObject.Destroy(go.gameObject);
+                    GameObject.Destroy(go.gameObject);
                 }
                 else
                 {
@@ -59,5 +56,4 @@ namespace UnityEngine.UI
             }
         }
     }
-    
 }

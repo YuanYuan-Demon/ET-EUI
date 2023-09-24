@@ -4,7 +4,8 @@ namespace ET.Client
 {
     public static class EUIModelViewHelper
     {
-        public static void AddUIScrollItems<Dlg, T>(this Dlg self, ref List<T> list, int count) where Dlg : Entity, IUILogic where T : Entity, IAwake, IUIScrollItem
+        public static void AddUIScrollItems<Dlg, T>(this Dlg self, ref List<T> list, int count) where Dlg : Entity, IUILogic
+                where T : Entity, IAwake, IUIScrollItem
         {
             list ??= new();
 
@@ -13,19 +14,21 @@ namespace ET.Client
                 return;
             }
 
-            foreach (var item in list)
+            foreach (T item in list)
             {
                 item.Dispose();
             }
+
             list.Clear();
-            for (int i = 0; i <= count; i++)
+            for (var i = 0; i <= count; i++)
             {
                 T itemServer = self.AddChild<T>(true);
                 list.Add(itemServer);
             }
         }
 
-        public static void AddUIScrollItems<Dlg, Item>(this Dlg self, ref Dictionary<int, Item> dict, int count) where Dlg : Entity, IUILogic where Item : Entity, IAwake, IUIScrollItem
+        public static void AddUIScrollItems<Dlg, T>(this Dlg self, ref Dictionary<int, T> dict, int count) where Dlg : Entity, IUILogic
+                where T : Entity, IAwake, IUIScrollItem
         {
             dict ??= new();
 
@@ -38,10 +41,11 @@ namespace ET.Client
             {
                 item.Value.Dispose();
             }
+
             dict.Clear();
-            for (int i = 0; i <= count; i++)
+            for (var i = 0; i <= count; i++)
             {
-                Item itemServer = self.AddChild<Item>(true);
+                T itemServer = self.AddChild<T>(true);
                 dict.Add(i, itemServer);
             }
         }

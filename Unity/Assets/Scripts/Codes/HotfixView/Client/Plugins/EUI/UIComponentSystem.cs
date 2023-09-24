@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ET.Client
 {
-    [FriendOf(typeof(ShowWindowData))]
-    [FriendOf(typeof(WindowCoreData))]
-    [FriendOf(typeof(UIPathComponent))]
-    [FriendOf(typeof(UIBaseWindow))]
-    [FriendOf(typeof(UIComponent))]
+    [FriendOf(typeof (ShowWindowData))]
+    [FriendOf(typeof (WindowCoreData))]
+    [FriendOf(typeof (UIPathComponent))]
+    [FriendOf(typeof (UIBaseWindow))]
+    [FriendOf(typeof (UIComponent))]
     public static class UIComponentSystem
     {
         #region 生命周期
 
         [ObjectSystem]
-        public class UIComponentAwakeSystem : AwakeSystem<UIComponent>
+        public class UIComponentAwakeSystem: AwakeSystem<UIComponent>
         {
             protected override void Awake(UIComponent self)
             {
@@ -27,12 +26,14 @@ namespace ET.Client
         }
 
         [ObjectSystem]
-        public class UIComponentDestroySystem : DestroySystem<UIComponent>
+        public class UIComponentDestroySystem: DestroySystem<UIComponent>
         {
             protected override void Destroy(UIComponent self)
             {
                 if (UIComponent.Instance != null)
+                {
                     UIComponent.Instance = null;
+                }
 
                 self.Destroy();
             }
@@ -41,7 +42,7 @@ namespace ET.Client
         #endregion 生命周期
 
         /// <summary>
-        /// 弹出并显示一个栈队列中的界面
+        ///     弹出并显示一个栈队列中的界面
         /// </summary>
         /// <param name="self"></param>
         private static void PopStackUIBaseWindow(this UIComponent self)
@@ -60,7 +61,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 弹出并显示下一个栈队列中的界面
+        ///     弹出并显示下一个栈队列中的界面
         /// </summary>
         /// <param name="self"></param>
         /// <param name="id"></param>
@@ -89,6 +90,7 @@ namespace ET.Client
             {
                 self.LoadBaseWindows(baseWindow);
             }
+
             return baseWindow;
         }
 
@@ -113,6 +115,7 @@ namespace ET.Client
                 {
                     await self.LoadBaseWindowsAsync(baseWindow);
                 }
+
                 return baseWindow;
             }
             catch (Exception e)
@@ -127,16 +130,16 @@ namespace ET.Client
 
         private static void RealShowWindow(this UIComponent self, UIBaseWindow baseWindow, WindowID id, ShowWindowData showData = null)
         {
-            Entity contextData = showData == null ? null : showData.contextData;
-            baseWindow.UIPrefabGameObject?.SetActive(true);
+            Entity contextData = showData?.contextData;
             UIEventComponent.Instance.GetUIEventHandler(id).OnShowWindow(baseWindow, contextData);
+            baseWindow.UIPrefabGameObject?.SetActive(true);
 
             self.VisibleWindowsDic[(int)id] = baseWindow;
-            Debug.Log("<color=magenta>### current Navigation window </color>" + baseWindow.WindowID.ToString());
+            Debug.Log("<color=magenta>### current Navigation window </color>" + baseWindow.WindowID);
         }
 
         /// <summary>
-        /// 根据窗口Id获取UIBaseWindow
+        ///     根据窗口Id获取UIBaseWindow
         /// </summary>
         /// <param name="self"></param>
         /// <param name="id"></param>
@@ -147,11 +150,12 @@ namespace ET.Client
             {
                 return self.AllWindowsDic[(int)id];
             }
+
             return null;
         }
 
         /// <summary>
-        /// 同步加载UI窗口实例
+        ///     同步加载UI窗口实例
         /// </summary>
         private static void LoadBaseWindows(this UIComponent self, UIBaseWindow baseWindow)
         {
@@ -160,6 +164,7 @@ namespace ET.Client
                 Log.Error($"{baseWindow.WindowID} uiPath is not Exist!");
                 return;
             }
+
             ResourcesComponent.Instance.LoadBundle(value.StringToAB());
             GameObject go = ResourcesComponent.Instance.GetAsset(value.StringToAB(), value) as GameObject;
             baseWindow.UIPrefabGameObject = UnityEngine.Object.Instantiate(go);
@@ -177,7 +182,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 异步加载UI窗口实例
+        ///     异步加载UI窗口实例
         /// </summary>
         private static async ETTask LoadBaseWindowsAsync(this UIComponent self, UIBaseWindow baseWindow)
         {
@@ -186,6 +191,7 @@ namespace ET.Client
                 Log.Error($"{baseWindow.WindowID} is not Exist!");
                 return;
             }
+
             await ResourcesComponent.Instance.LoadBundleAsync(value.StringToAB());
             GameObject go = ResourcesComponent.Instance.GetAsset(value.StringToAB(), value) as GameObject;
             baseWindow.UIPrefabGameObject = UnityEngine.Object.Instantiate(go);
@@ -212,17 +218,14 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 窗口是否是正在显示的
+        ///     窗口是否是正在显示的
         /// </summary>
         /// <OtherParam name="id"></OtherParam>
         /// <returns></returns>
-        public static bool IsWindowVisible(this UIComponent self, WindowID id)
-        {
-            return self.VisibleWindowsDic.ContainsKey((int)id);
-        }
+        public static bool IsWindowVisible(this UIComponent self, WindowID id) => self.VisibleWindowsDic.ContainsKey((int)id);
 
         /// <summary>
-        /// 根据泛型获得UI窗口逻辑组件
+        ///     根据泛型获得UI窗口逻辑组件
         /// </summary>
         /// <param name="self"></param>
         /// <param name="isNeedShowState"></param>
@@ -237,6 +240,7 @@ namespace ET.Client
                 Log.Warning($"{windowsId} is not created!");
                 return null;
             }
+
             if (!baseWindow.IsPreLoad)
             {
                 Log.Warning($"{windowsId} is not loaded!");
@@ -256,23 +260,24 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 根据泛型类型获取窗口Id
+        ///     根据泛型类型获取窗口Id
         /// </summary>
         /// <param name="self"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public static WindowID GetWindowIdByGeneric<T>(this UIComponent self) where T : Entity
         {
-            if (UIPathComponent.Instance.WindowTypeIdDict.TryGetValue(typeof(T).Name, out int windowsId))
+            if (UIPathComponent.Instance.WindowTypeIdDict.TryGetValue(typeof (T).Name, out int windowsId))
             {
                 return (WindowID)windowsId;
             }
-            Log.Error($"{typeof(T).FullName} is not have any windowId!");
+
+            Log.Error($"{typeof (T).FullName} is not have any windowId!");
             return WindowID.WindowID_Invaild;
         }
 
         /// <summary>
-        /// 压入一个进栈队列界面
+        ///     压入一个进栈队列界面
         /// </summary>
         /// <param name="self"></param>
         /// <typeparam name="T"></typeparam>
@@ -283,7 +288,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 压入一个进栈队列界面
+        ///     压入一个进栈队列界面
         /// </summary>
         /// <param name="self"></param>
         /// <param name="id"></param>
@@ -295,12 +300,13 @@ namespace ET.Client
             {
                 return;
             }
+
             self.IsPopStackWndStatus = true;
             self.PopStackUIBaseWindow();
         }
 
         /// <summary>
-        /// 根据指定Id的显示UI窗口
+        ///     根据指定Id的显示UI窗口
         /// </summary>
         /// <OtherParam name="id"></OtherParam>
         /// <OtherParam name="showData"></OtherParam>
@@ -314,7 +320,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 根据泛型类型显示UI窗口
+        ///     根据泛型类型显示UI窗口
         /// </summary>
         /// <param name="self"></param>
         /// <param name="showData"></param>
@@ -326,7 +332,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 根据指定Id的异步加载显示UI窗口
+        ///     根据指定Id的异步加载显示UI窗口
         /// </summary>
         /// <param name="self"></param>
         /// <param name="id"></param>
@@ -349,7 +355,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 根据泛型类型异步加载显示UI窗口
+        ///     根据泛型类型异步加载显示UI窗口
         /// </summary>
         /// <param name="self"></param>
         /// <param name="showData"></param>
@@ -361,7 +367,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 隐藏ID指定的UI窗口
+        ///     隐藏ID指定的UI窗口
         /// </summary>
         /// <OtherParam name="id"></OtherParam>
         /// <OtherParam name="onComplete"></OtherParam>
@@ -389,7 +395,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 根据泛型类型隐藏UI窗口
+        ///     根据泛型类型隐藏UI窗口
         /// </summary>
         /// <param name="self"></param>
         /// <typeparam name="T"></typeparam>
@@ -400,7 +406,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 卸载指定的UI窗口实例
+        ///     卸载指定的UI窗口实例
         /// </summary>
         /// <OtherParam name="id"></OtherParam>
         public static void UnLoadWindow(this UIComponent self, WindowID id, bool isDispose = true)
@@ -411,6 +417,7 @@ namespace ET.Client
                 Log.Error($"UIBaseWindow WindowId {id} is null!!!");
                 return;
             }
+
             UIEventComponent.Instance.GetUIEventHandler(id).BeforeUnload(baseWindow);
             if (baseWindow.IsPreLoad)
             {
@@ -418,6 +425,7 @@ namespace ET.Client
                 UnityEngine.Object.Destroy(baseWindow.UIPrefabGameObject);
                 baseWindow.UIPrefabGameObject = null;
             }
+
             if (isDispose)
             {
                 self.AllWindowsDic.Remove((int)id);
@@ -427,7 +435,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 根据泛型类型卸载UI窗口实例
+        ///     根据泛型类型卸载UI窗口实例
         /// </summary>
         /// <param name="self"></param>
         /// <typeparam name="T"></typeparam>
@@ -437,13 +445,10 @@ namespace ET.Client
             self.UnLoadWindow(hideWindowId);
         }
 
-        public static void Destroy(this UIComponent self)
-        {
-            self.CloseAllWindow();
-        }
+        public static void Destroy(this UIComponent self) => self.CloseAllWindow();
 
         /// <summary>
-        /// 根据窗口Id隐藏并完全关闭卸载UI窗口实例
+        ///     根据窗口Id隐藏并完全关闭卸载UI窗口实例
         /// </summary>
         /// <param name="self"></param>
         /// <param name="windowId"></param>
@@ -453,13 +458,14 @@ namespace ET.Client
             {
                 return;
             }
+
             self.HideWindow(windowId);
             self.UnLoadWindow(windowId);
             Debug.Log($"<color=magenta>## close window[{windowId}] without PopNavigationWindow() ##</color>");
         }
 
         /// <summary>
-        /// 根据窗口泛型类型隐藏并完全关闭卸载UI窗口实例
+        ///     根据窗口泛型类型隐藏并完全关闭卸载UI窗口实例
         /// </summary>
         /// <param name="self"></param>
         /// <typeparam name="T"></typeparam>
@@ -470,7 +476,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 关闭并卸载所有的窗口实例
+        ///     关闭并卸载所有的窗口实例
         /// </summary>
         /// <param name="self"></param>
         public static void CloseAllWindow(this UIComponent self)
@@ -480,17 +486,20 @@ namespace ET.Client
             {
                 return;
             }
-            foreach (KeyValuePair<int, UIBaseWindow> window in self.AllWindowsDic)
+
+            foreach (var window in self.AllWindowsDic)
             {
                 UIBaseWindow baseWindow = window.Value;
                 if (baseWindow == null || baseWindow.IsDisposed)
                 {
                     continue;
                 }
+
                 self.HideWindow(baseWindow.WindowID);
                 self.UnLoadWindow(baseWindow.WindowID, false);
                 baseWindow?.Dispose();
             }
+
             self.AllWindowsDic.Clear();
             self.VisibleWindowsDic.Clear();
             self.StackWindowsQueue.Clear();
@@ -498,7 +507,7 @@ namespace ET.Client
         }
 
         /// <summary>
-        /// 隐藏所有已显示的窗口
+        ///     隐藏所有已显示的窗口
         /// </summary>
         /// <param name="self"></param>
         /// <param name="includeFixed"></param>
@@ -506,10 +515,13 @@ namespace ET.Client
         {
             self.IsPopStackWndStatus = false;
             self.UIBaseWindowlistCached.Clear();
-            foreach (KeyValuePair<int, UIBaseWindow> window in self.VisibleWindowsDic)
+            foreach (var window in self.VisibleWindowsDic)
             {
                 if (window.Value.WindowData.windowType == UIWindowType.Fixed && !includeFixed)
+                {
                     continue;
+                }
+
                 if (window.Value.IsDisposed)
                 {
                     continue;
@@ -519,13 +531,15 @@ namespace ET.Client
                 window.Value.UIPrefabGameObject?.SetActive(false);
                 UIEventComponent.Instance.GetUIEventHandler(window.Value.WindowID).OnHideWindow(window.Value);
             }
+
             if (self.UIBaseWindowlistCached.Count > 0)
             {
-                for (int i = 0; i < self.UIBaseWindowlistCached.Count; i++)
+                for (var i = 0; i < self.UIBaseWindowlistCached.Count; i++)
                 {
                     self.VisibleWindowsDic.Remove((int)self.UIBaseWindowlistCached[i]);
                 }
             }
+
             self.StackWindowsQueue.Clear();
         }
     }

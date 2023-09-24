@@ -3155,7 +3155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabSource:
     prefabName: Item_Equip
-    poolSize: 5
+    poolSize: 10
   totalCount: 0
   reverseDirection: 0
   m_Content: {fileID: 5672221648564903939}
