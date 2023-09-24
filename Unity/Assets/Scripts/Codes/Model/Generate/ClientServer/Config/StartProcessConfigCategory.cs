@@ -9,7 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-using Luban;
+using ET.Luban;
 
 
 namespace ET
@@ -76,8 +76,5 @@ public partial class StartProcessConfigCategory: ConfigSingleton<StartProcessCon
     }
 
     public override string ConfigName() => nameof (StartProcessConfig);
-    
-    partial void PostInit();
-    partial void PostResolve();
 }
 }

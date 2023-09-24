@@ -9,7 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-using Luban;
+using ET.Luban;
 
 
 namespace ET.Client
@@ -44,8 +44,5 @@ public partial class TGlobalConfigCategory: ConfigSingleton<TGlobalConfigCategor
         PostResolve();
     }
     public override string ConfigName() => nameof (TGlobalConfig);
-    
-    partial void PostInit();
-    partial void PostResolve();
 }
 }

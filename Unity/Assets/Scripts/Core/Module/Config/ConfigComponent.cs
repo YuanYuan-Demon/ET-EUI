@@ -1,15 +1,100 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Luban;
+using ET.Luban;
 
 namespace ET
 {
 	/// <summary>
-    /// Config组件会扫描所有的有ConfigAttribute标签的配置,加载进来
-    /// </summary>
-    public class ConfigComponent: Singleton<ConfigComponent>
+	///     Config组件会扫描所有的有ConfigAttribute标签的配置,加载进来
+	/// </summary>
+	public class ConfigComponent: Singleton<ConfigComponent>
     {
+        private readonly Dictionary<Type, IConfigSingleton> allConfig = new();
+
+        public override void Dispose()
+        {
+            foreach (var kv in this.allConfig)
+            {
+                kv.Value.Destroy();
+            }
+        }
+
+        public object LoadOneConfig(Type configType)
+        {
+            this.allConfig.TryGetValue(configType, out IConfigSingleton oneConfig);
+            if (oneConfig != null)
+            {
+                oneConfig.Destroy();
+            }
+
+            ByteBuf oneConfigBytes = EventSystem.Instance.Invoke<GetOneConfigBytes, ByteBuf>(new() { ConfigName = configType.FullName });
+
+            object category = Activator.CreateInstance(configType, oneConfigBytes);
+            IConfigSingleton singleton = category as IConfigSingleton;
+            singleton.Register();
+
+            this.allConfig[configType] = singleton;
+            return category;
+        }
+
+        public void Load()
+        {
+            this.allConfig.Clear();
+            var configBytes = EventSystem.Instance.Invoke<GetAllConfigBytes, Dictionary<Type, ByteBuf>>(new());
+
+            foreach (Type type in configBytes.Keys)
+            {
+                ByteBuf oneConfigBytes = configBytes[type];
+                this.LoadOneInThread(type, oneConfigBytes);
+            }
+
+            foreach (IConfigSingleton category in this.allConfig.Values)
+            {
+                category.Register();
+                category.Resolve(this.allConfig);
+            }
+        }
+
+        public async ETTask LoadAsync()
+        {
+            this.allConfig.Clear();
+            var configBytes = EventSystem.Instance.Invoke<GetAllConfigBytes, Dictionary<Type, ByteBuf>>(new());
+
+            using var listTasks = ListComponent<Task>.Create();
+
+            foreach (Type type in configBytes.Keys)
+            {
+                ByteBuf oneConfigBytes = configBytes[type];
+                Task task = Task.Run(() => this.LoadOneInThread(type, oneConfigBytes));
+                listTasks.Add(task);
+            }
+
+            await Task.WhenAll(listTasks.ToArray());
+
+            foreach (IConfigSingleton category in this.allConfig.Values)
+            {
+                category.Register();
+            }
+
+            foreach (IConfigSingleton category in this.allConfig.Values)
+            {
+                category.Resolve(this.allConfig);
+            }
+        }
+
+        private void LoadOneInThread(Type configType, ByteBuf oneConfigBytes)
+        {
+            object category = Activator.CreateInstance(configType, oneConfigBytes);
+
+            lock (this)
+            {
+                IConfigSingleton singleton = category as IConfigSingleton;
+                // singleton.Register();
+                this.allConfig[configType] = singleton;
+            }
+        }
+
         public struct GetAllConfigBytes
         {
         }
@@ -18,90 +103,5 @@ namespace ET
         {
             public string ConfigName;
         }
-
-        private readonly Dictionary<Type, IConfigSingleton> allConfig = new ();
-
-		public override void Dispose()
-		{
-			foreach (var kv in this.allConfig)
-			{
-				kv.Value.Destroy();
-			}
-		}
-
-		public object LoadOneConfig(Type configType)
-		{
-			this.allConfig.TryGetValue(configType, out IConfigSingleton oneConfig);
-			if (oneConfig != null)
-			{
-				oneConfig.Destroy();
-			}
-
-			ByteBuf oneConfigBytes = EventSystem.Instance.Invoke<GetOneConfigBytes, ByteBuf>(new() {ConfigName = configType.FullName});
-
-			object category = Activator.CreateInstance(configType, oneConfigBytes);
-			IConfigSingleton singleton = category as IConfigSingleton;
-			singleton.Register();
-
-			this.allConfig[configType] = singleton;
-			return category;
-		}
-
-		public void Load()
-		{
-			this.allConfig.Clear();
-			var configBytes = EventSystem.Instance.Invoke<GetAllConfigBytes, Dictionary<Type, ByteBuf>>(new GetAllConfigBytes());
-
-			foreach (Type type in configBytes.Keys)
-			{
-				var oneConfigBytes = configBytes[type];
-				this.LoadOneInThread(type, oneConfigBytes);
-			}
-
-			foreach (IConfigSingleton category in this.allConfig.Values)
-			{
-				category.Register();
-				category.Resolve(this.allConfig);
-			}
-		}
-
-		public async ETTask LoadAsync()
-		{
-			this.allConfig.Clear();
-			var configBytes = EventSystem.Instance.Invoke<GetAllConfigBytes, Dictionary<Type, ByteBuf>>(new GetAllConfigBytes());
-
-			using ListComponent<Task> listTasks = ListComponent<Task>.Create();
-
-			foreach (Type type in configBytes.Keys)
-			{
-				var oneConfigBytes = configBytes[type];
-				Task task = Task.Run(() => LoadOneInThread(type, oneConfigBytes));
-				listTasks.Add(task);
-			}
-
-			await Task.WhenAll(listTasks.ToArray());
-
-			foreach (IConfigSingleton category in this.allConfig.Values)
-			{
-				category.Register();
-			}
-
-			foreach (IConfigSingleton category in this.allConfig.Values)
-			{
-				category.Resolve(allConfig);
-			}
-		}
-
-		private void LoadOneInThread(Type configType, ByteBuf oneConfigBytes)
-		{
-			object category = Activator.CreateInstance(configType, oneConfigBytes);
-
-			lock (this)
-			{
-				IConfigSingleton singleton = category as IConfigSingleton;
-				// singleton.Register();
-				this.allConfig[configType] = singleton;
-			}
-		}
-	}
+    }
 }

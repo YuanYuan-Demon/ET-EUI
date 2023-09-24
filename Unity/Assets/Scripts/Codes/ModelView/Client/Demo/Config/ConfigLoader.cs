@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Luban;
+using ET.Luban;
 using UnityEngine;
 
 namespace ET.Client
@@ -11,8 +11,8 @@ namespace ET.Client
     {
         public override Dictionary<Type, ByteBuf> Handle(ConfigComponent.GetAllConfigBytes args)
         {
-            Dictionary<Type, ByteBuf> output = new Dictionary<Type, ByteBuf>();
-            HashSet<Type> configTypes = EventSystem.Instance.GetTypes(typeof (ConfigAttribute));
+            var output = new Dictionary<Type, ByteBuf>();
+            var configTypes = EventSystem.Instance.GetTypes(typeof (ConfigAttribute));
 
             if (Define.IsEditor)
             {
@@ -33,12 +33,10 @@ namespace ET.Client
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                List<string> startConfigs = new List<string>()
+
+                var startConfigs = new List<string>()
                 {
-                    "StartMachineConfigCategory",
-                    "StartProcessConfigCategory",
-                    "StartSceneConfigCategory",
-                    "StartZoneConfigCategory",
+                    "StartMachineConfigCategory", "StartProcessConfigCategory", "StartSceneConfigCategory", "StartZoneConfigCategory",
                 };
                 foreach (Type configType in configTypes)
                 {
@@ -51,7 +49,8 @@ namespace ET.Client
                     {
                         configFilePath = $"../Config/Bytes/{ct}/GameConfig/{configType.Name}.bytes";
                     }
-                    output[configType] = new ByteBuf(File.ReadAllBytes(configFilePath));
+
+                    output[configType] = new(File.ReadAllBytes(configFilePath));
                 }
             }
             else
@@ -64,7 +63,7 @@ namespace ET.Client
                     foreach (Type configType in configTypes)
                     {
                         TextAsset v = ResourcesComponent.Instance.GetAsset(configBundleName, configType.Name) as TextAsset;
-                        output[configType] = new (v.bytes);
+                        output[configType] = new(v.bytes);
                     }
                 }
             }
@@ -76,9 +75,6 @@ namespace ET.Client
     [Invoke]
     public class GetOneConfigBytes: AInvokeHandler<ConfigComponent.GetOneConfigBytes, ByteBuf>
     {
-        public override ByteBuf Handle(ConfigComponent.GetOneConfigBytes args)
-        {
-            throw new NotImplementedException("client cant use LoadOneConfig");
-        }
+        public override ByteBuf Handle(ConfigComponent.GetOneConfigBytes args) => throw new NotImplementedException("client cant use LoadOneConfig");
     }
 }

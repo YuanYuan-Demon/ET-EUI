@@ -27,9 +27,9 @@ namespace ET
 
         public StartMachineConfig StartMachineConfig => StartMachineConfigCategory.Instance.Get(this.MachineId);
 
-        partial void PostInit()
+        protected override void PostInit()
         {
-            InstanceIdStruct instanceIdStruct = new InstanceIdStruct((int)this.Id, 0);
+            InstanceIdStruct instanceIdStruct = new(this.Id, 0);
             this.SceneId = instanceIdStruct.ToLong();
             Log.Info($"StartProcess info: {this.MachineId} {this.Id} {this.SceneId}");
         }

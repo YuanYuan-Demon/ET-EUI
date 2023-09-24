@@ -9,7 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-using Luban;
+using ET.Luban;
 
 
 namespace ET
@@ -69,9 +69,6 @@ public sealed partial class StartMachineConfig: Luban.BeanBase
         + "watcherPort:" + WatcherPort + ","
         + "}";
     }
-    
-    partial void PostInit();
-    partial void PostResolve();
 }
 
 }

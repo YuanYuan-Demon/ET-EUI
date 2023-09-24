@@ -58,5 +58,13 @@ namespace ET
 
         public virtual string ConfigName() => string.Empty;
         public abstract void Resolve(Dictionary<Type, IConfigSingleton> tables);
+
+        protected virtual void PostInit()
+        {
+        }
+
+        protected virtual void PostResolve()
+        {
+        }
     }
 }

@@ -9,7 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-using Luban;
+using ET.Luban;
 
 
 namespace ET
@@ -62,9 +62,6 @@ public sealed partial class StartProcessConfig: Luban.BeanBase
         + "innerPort:" + InnerPort + ","
         + "}";
     }
-    
-    partial void PostInit();
-    partial void PostResolve();
 }
 
 }

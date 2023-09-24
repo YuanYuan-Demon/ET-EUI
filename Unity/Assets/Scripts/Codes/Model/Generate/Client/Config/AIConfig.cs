@@ -9,7 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-using Luban;
+using ET.Luban;
 
 
 namespace ET.Client
@@ -76,9 +76,6 @@ public sealed partial class AIConfig: Luban.BeanBase
         + "nodeParams:" + Luban.StringUtil.CollectionToString(NodeParams) + ","
         + "}";
     }
-    
-    partial void PostInit();
-    partial void PostResolve();
 }
 
 }

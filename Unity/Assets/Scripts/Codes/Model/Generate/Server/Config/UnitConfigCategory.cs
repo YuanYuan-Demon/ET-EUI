@@ -9,7 +9,7 @@
 
 using System;
 using System.Collections.Generic;
-using Luban;
+using ET.Luban;
 
 
 namespace ET
@@ -76,8 +76,5 @@ public partial class UnitConfigCategory: ConfigSingleton<UnitConfigCategory>
     }
 
     public override string ConfigName() => nameof (UnitConfig);
-    
-    partial void PostInit();
-    partial void PostResolve();
 }
 }

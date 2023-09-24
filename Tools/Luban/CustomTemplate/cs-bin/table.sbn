@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Luban;
+using ET.Luban;
 
 {{ 
     key_type = __table.key_ttype
@@ -191,8 +191,5 @@ public partial class {{__name}}: ConfigSingleton<{{__name}}>
     }
     {{~end~}}
     public override string ConfigName() => nameof ({{declaring_type_name value_type}});
-    
-    partial void PostInit();
-    partial void PostResolve();
 }
 {{namespace_with_grace_end __namespace_with_top_module}}

@@ -1,12 +1,10 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Luban
+namespace ET.Luban
 {
-
     public enum EDeserializeError
     {
         OK,
@@ -15,12 +13,17 @@ namespace Luban
         // UNMARSHAL_ERR,
     }
 
-    public class SerializationException : Exception
+    public class SerializationException: Exception
     {
-        public SerializationException() { }
-        public SerializationException(string msg) : base(msg) { }
+        public SerializationException()
+        {
+        }
 
-        public SerializationException(string message, Exception innerException) : base(message, innerException)
+        public SerializationException(string msg): base(msg)
+        {
+        }
+
+        public SerializationException(string message, Exception innerException): base(message, innerException)
         {
         }
     }
@@ -38,7 +41,7 @@ namespace Luban
         public int WriterIndex { get; }
     }
 
-    public sealed class ByteBuf : ICloneable, IEquatable<ByteBuf>
+    public sealed class ByteBuf: ICloneable, IEquatable<ByteBuf>
     {
         public ByteBuf()
         {
@@ -48,7 +51,7 @@ namespace Luban
 
         public ByteBuf(int capacity)
         {
-            Bytes = capacity > 0 ? new byte[capacity] : Array.Empty<byte>();
+            Bytes = capacity > 0? new byte[capacity] : Array.Empty<byte>();
             ReaderIndex = 0;
             WriterIndex = 0;
         }
@@ -67,15 +70,12 @@ namespace Luban
             WriterIndex = writeIndex;
         }
 
-        public ByteBuf(int capacity, Action<ByteBuf> releaser) : this(capacity)
+        public ByteBuf(int capacity, Action<ByteBuf> releaser): this(capacity)
         {
             _releaser = releaser;
         }
 
-        public static ByteBuf Wrap(byte[] bytes)
-        {
-            return new ByteBuf(bytes, 0, bytes.Length);
-        }
+        public static ByteBuf Wrap(byte[] bytes) => new(bytes, 0, bytes.Length);
 
         public void Replace(byte[] bytes)
         {
@@ -99,22 +99,15 @@ namespace Luban
 
         public int Capacity => Bytes.Length;
 
-        public int Size { get { return WriterIndex - ReaderIndex; } }
+        public int Size => WriterIndex - ReaderIndex;
 
         public bool Empty => WriterIndex <= ReaderIndex;
 
         public bool NotEmpty => WriterIndex > ReaderIndex;
 
+        public void AddWriteIndex(int add) => WriterIndex += add;
 
-        public void AddWriteIndex(int add)
-        {
-            WriterIndex += add;
-        }
-
-        public void AddReadIndex(int add)
-        {
-            ReaderIndex += add;
-        }
+        public void AddReadIndex(int add) => ReaderIndex += add;
 
 #pragma warning disable CA1819 // 属性不应返回数组
         public byte[] Bytes { get; private set; }
@@ -122,20 +115,18 @@ namespace Luban
 
         public byte[] CopyData()
         {
-            var n = Remaining;
+            int n = Remaining;
             if (n > 0)
             {
-                var arr = new byte[n];
+                byte[] arr = new byte[n];
                 Buffer.BlockCopy(Bytes, ReaderIndex, arr, 0, n);
                 return arr;
             }
-            else
-            {
-                return Array.Empty<byte>();
-            }
+
+            return Array.Empty<byte>();
         }
 
-        public int Remaining { get { return WriterIndex - ReaderIndex; } }
+        public int Remaining => WriterIndex - ReaderIndex;
 
         public void DiscardReadBytes()
         {
@@ -144,12 +135,9 @@ namespace Luban
             ReaderIndex = 0;
         }
 
-        public int NotCompactWritable { get { return Capacity - WriterIndex; } }
+        public int NotCompactWritable => Capacity - WriterIndex;
 
-        public void WriteBytesWithoutSize(byte[] bs)
-        {
-            WriteBytesWithoutSize(bs, 0, bs.Length);
-        }
+        public void WriteBytesWithoutSize(byte[] bs) => WriteBytesWithoutSize(bs, 0, bs.Length);
 
         public void WriteBytesWithoutSize(byte[] bs, int offset, int len)
         {
@@ -158,16 +146,13 @@ namespace Luban
             WriterIndex += len;
         }
 
-        public void Clear()
-        {
-            ReaderIndex = WriterIndex = 0;
-        }
+        public void Clear() => ReaderIndex = WriterIndex = 0;
 
         private const int MIN_CAPACITY = 16;
 
         private static int PropSize(int initSize, int needSize)
         {
-            for (int i = Math.Max(initSize, MIN_CAPACITY); ; i <<= 1)
+            for (int i = Math.Max(initSize, MIN_CAPACITY);; i <<= 1)
             {
                 if (i >= needSize)
                 {
@@ -178,7 +163,7 @@ namespace Luban
 
         private void EnsureWrite0(int size)
         {
-            var needSize = WriterIndex + size - ReaderIndex;
+            int needSize = WriterIndex + size - ReaderIndex;
             if (needSize < Capacity)
             {
                 WriterIndex -= ReaderIndex;
@@ -188,7 +173,7 @@ namespace Luban
             else
             {
                 int newCapacity = PropSize(Capacity, needSize);
-                var newBytes = new byte[newCapacity];
+                byte[] newBytes = new byte[newCapacity];
                 WriterIndex -= ReaderIndex;
                 Buffer.BlockCopy(Bytes, ReaderIndex, newBytes, 0, WriterIndex);
                 ReaderIndex = 0;
@@ -215,10 +200,7 @@ namespace Luban
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool CanRead(int size)
-        {
-            return (ReaderIndex + size <= WriterIndex);
-        }
+        private bool CanRead(int size) => this.ReaderIndex + size <= this.WriterIndex;
 
         public void Append(byte x)
         {
@@ -229,7 +211,7 @@ namespace Luban
         public void WriteBool(bool b)
         {
             EnsureWrite(1);
-            Bytes[WriterIndex++] = (byte)(b ? 1 : 0);
+            Bytes[WriterIndex++] = (byte)(b? 1 : 0);
         }
 
         public bool ReadBool()
@@ -250,7 +232,6 @@ namespace Luban
             return Bytes[ReaderIndex++];
         }
 
-
         public void WriteShort(short x)
         {
             if (x >= 0)
@@ -261,15 +242,17 @@ namespace Luban
                     Bytes[WriterIndex++] = (byte)x;
                     return;
                 }
-                else if (x < 0x4000)
+
+                if (x < 0x4000)
                 {
-                    EnsureWrite(2);
-                    Bytes[WriterIndex + 1] = (byte)x;
-                    Bytes[WriterIndex] = (byte)((x >> 8) | 0x80);
-                    WriterIndex += 2;
+                    this.EnsureWrite(2);
+                    this.Bytes[this.WriterIndex + 1] = (byte)x;
+                    this.Bytes[this.WriterIndex] = (byte)((x >> 8) | 0x80);
+                    this.WriterIndex += 2;
                     return;
                 }
             }
+
             EnsureWrite(3);
             Bytes[WriterIndex] = 0xff;
             Bytes[WriterIndex + 2] = (byte)x;
@@ -286,24 +269,24 @@ namespace Luban
                 ReaderIndex++;
                 return (short)h;
             }
-            else if (h < 0xc0)
+
+            if (h < 0xc0)
             {
-                EnsureRead(2);
-                int x = ((h & 0x3f) << 8) | Bytes[ReaderIndex + 1];
-                ReaderIndex += 2;
+                this.EnsureRead(2);
+                int x = ((h & 0x3f) << 8) | this.Bytes[this.ReaderIndex + 1];
+                this.ReaderIndex += 2;
                 return (short)x;
             }
-            else if ((h == 0xff))
+
+            if (h == 0xff)
             {
-                EnsureRead(3);
-                int x = (Bytes[ReaderIndex + 1] << 8) | Bytes[ReaderIndex + 2];
-                ReaderIndex += 3;
+                this.EnsureRead(3);
+                int x = (this.Bytes[this.ReaderIndex + 1] << 8) | this.Bytes[this.ReaderIndex + 2];
+                this.ReaderIndex += 3;
                 return (short)x;
             }
-            else
-            {
-                throw new SerializationException();
-            }
+
+            throw new SerializationException();
         }
 
         public short ReadFshort()
@@ -345,17 +328,10 @@ namespace Luban
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void WriteInt(int x)
-        {
-            WriteUint((uint)x);
-        }
+        public void WriteInt(int x) => WriteUint((uint)x);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int ReadInt()
-        {
-            return (int)ReadUint();
-        }
-
+        public int ReadInt() => (int)ReadUint();
 
         public void WriteUint(uint x)
         {
@@ -413,33 +389,37 @@ namespace Luban
                 ReaderIndex++;
                 return h;
             }
-            else if (h < 0xc0)
-            {
-                EnsureRead(2);
-                uint x = ((h & 0x3f) << 8) | Bytes[ReaderIndex + 1];
-                ReaderIndex += 2;
-                return x;
-            }
-            else if (h < 0xe0)
-            {
-                EnsureRead(3);
-                uint x = ((h & 0x1f) << 16) | ((uint)Bytes[ReaderIndex + 1] << 8) | Bytes[ReaderIndex + 2];
-                ReaderIndex += 3;
-                return x;
-            }
-            else if (h < 0xf0)
-            {
 
-                EnsureRead(4);
-                uint x = ((h & 0x0f) << 24) | ((uint)Bytes[ReaderIndex + 1] << 16) | ((uint)Bytes[ReaderIndex + 2] << 8) | Bytes[ReaderIndex + 3];
-                ReaderIndex += 4;
+            if (h < 0xc0)
+            {
+                this.EnsureRead(2);
+                uint x = ((h & 0x3f) << 8) | this.Bytes[this.ReaderIndex + 1];
+                this.ReaderIndex += 2;
+                return x;
+            }
+
+            if (h < 0xe0)
+            {
+                this.EnsureRead(3);
+                uint x = ((h & 0x1f) << 16) | ((uint)this.Bytes[this.ReaderIndex + 1] << 8) | this.Bytes[this.ReaderIndex + 2];
+                this.ReaderIndex += 3;
+                return x;
+            }
+
+            if (h < 0xf0)
+            {
+                this.EnsureRead(4);
+                uint x = ((h & 0x0f) << 24) | ((uint)this.Bytes[this.ReaderIndex + 1] << 16) | ((uint)this.Bytes[this.ReaderIndex + 2] << 8) |
+                        this.Bytes[this.ReaderIndex + 3];
+                this.ReaderIndex += 4;
                 return x;
             }
             else
             {
-                EnsureRead(5);
-                uint x = ((uint)Bytes[ReaderIndex + 1] << 24) | ((uint)(Bytes[ReaderIndex + 2] << 16)) | ((uint)Bytes[ReaderIndex + 3] << 8) | Bytes[ReaderIndex + 4];
-                ReaderIndex += 5;
+                this.EnsureRead(5);
+                uint x = ((uint)this.Bytes[this.ReaderIndex + 1] << 24) | (uint)(this.Bytes[this.ReaderIndex + 2] << 16) |
+                        ((uint)this.Bytes[this.ReaderIndex + 3] << 8) | this.Bytes[this.ReaderIndex + 4];
+                this.ReaderIndex += 5;
                 return x;
             }
         }
@@ -452,13 +432,13 @@ namespace Luban
                 EnsureWrite(1);
                 Bytes[WriterIndex++] = (byte)(x << 1);
             }
-            else if (x < 0x4000)// 10 11 1111, -
+            else if (x < 0x4000) // 10 11 1111, -
             {
                 EnsureWrite(2);
 
                 fixed (byte* wb = &Bytes[WriterIndex])
                 {
-                    *(uint*)(wb) = (x << 2 | 0b01);
+                    *(uint*)wb = (x << 2) | 0b01;
                 }
 
                 WriterIndex += 2;
@@ -469,8 +449,9 @@ namespace Luban
 
                 fixed (byte* wb = &Bytes[WriterIndex])
                 {
-                    *(uint*)(wb) = (x << 3 | 0b011);
+                    *(uint*)wb = (x << 3) | 0b011;
                 }
+
                 WriterIndex += 3;
             }
             else if (x < 0x10000000) // 1110 1111,-,-,-
@@ -478,8 +459,9 @@ namespace Luban
                 EnsureWrite(4);
                 fixed (byte* wb = &Bytes[WriterIndex])
                 {
-                    *(uint*)(wb) = (x << 4 | 0b0111);
+                    *(uint*)wb = (x << 4) | 0b0111;
                 }
+
                 WriterIndex += 4;
             }
             else
@@ -487,8 +469,9 @@ namespace Luban
                 EnsureWrite(5);
                 fixed (byte* wb = &Bytes[WriterIndex])
                 {
-                    *(uint*)(wb) = (x << 5 | 0b01111);
+                    *(uint*)wb = (x << 5) | 0b01111;
                 }
+
                 WriterIndex += 5;
             }
         }
@@ -502,43 +485,44 @@ namespace Luban
             if ((h & 0b1) == 0b0)
             {
                 ReaderIndex++;
-                return (h >> 1);
+                return h >> 1;
             }
-            else if ((h & 0b11) == 0b01)
+
+            if ((h & 0b11) == 0b01)
             {
-                EnsureRead(2);
-                fixed (byte* rb = &Bytes[ReaderIndex])
+                this.EnsureRead(2);
+                fixed (byte* rb = &this.Bytes[this.ReaderIndex])
                 {
-                    ReaderIndex += 2;
-                    return (*(uint*)rb) >> 2;
+                    this.ReaderIndex += 2;
+                    return *(uint*)rb >> 2;
                 }
             }
-            else if ((h & 0b111) == 0b011)
+
+            if ((h & 0b111) == 0b011)
             {
-                EnsureRead(3);
-                fixed (byte* rb = &Bytes[ReaderIndex])
+                this.EnsureRead(3);
+                fixed (byte* rb = &this.Bytes[this.ReaderIndex])
                 {
-                    ReaderIndex += 3;
-                    return (*(uint*)rb) >> 3;
+                    this.ReaderIndex += 3;
+                    return *(uint*)rb >> 3;
                 }
             }
-            else if ((h & 0b1111) == 0b0111)
+
+            if ((h & 0b1111) == 0b0111)
             {
-                EnsureRead(4);
-                fixed (byte* rb = &Bytes[ReaderIndex])
+                this.EnsureRead(4);
+                fixed (byte* rb = &this.Bytes[this.ReaderIndex])
                 {
-                    ReaderIndex += 4;
-                    return (*(uint*)rb) >> 4;
+                    this.ReaderIndex += 4;
+                    return *(uint*)rb >> 4;
                 }
             }
-            else
+
+            this.EnsureRead(5);
+            fixed (byte* rb = &this.Bytes[this.ReaderIndex])
             {
-                EnsureRead(5);
-                fixed (byte* rb = &Bytes[ReaderIndex])
-                {
-                    ReaderIndex += 5;
-                    return (*(uint*)rb) >> 5;
-                }
+                this.ReaderIndex += 5;
+                return *(uint*)rb >> 5;
             }
         }
 
@@ -555,13 +539,12 @@ namespace Luban
                 }
             }
 #else
-            x = (Bytes[ReaderIndex + 3] << 24) | (Bytes[ReaderIndex + 2] << 16) | (Bytes[ReaderIndex + 1] << 8) | (Bytes[ReaderIndex]);
+            x = (Bytes[ReaderIndex + 3] << 24) | (Bytes[ReaderIndex + 2] << 16) | (Bytes[ReaderIndex + 1] << 8) | this.Bytes[this.ReaderIndex];
 
 #endif
             ReaderIndex += 4;
             return x;
         }
-
 
         public void WriteFint(int x)
         {
@@ -588,12 +571,11 @@ namespace Luban
             EnsureRead(4);
             int x;
 
-            x = (Bytes[ReaderIndex + 3] << 24) | (Bytes[ReaderIndex + 2] << 16) | (Bytes[ReaderIndex + 1] << 8) | (Bytes[ReaderIndex]);
+            x = (Bytes[ReaderIndex + 3] << 24) | (Bytes[ReaderIndex + 2] << 16) | (Bytes[ReaderIndex + 1] << 8) | this.Bytes[this.ReaderIndex];
 
             ReaderIndex += 4;
             return x;
         }
-
 
         public void WriteFint_Safe(int x)
         {
@@ -605,25 +587,13 @@ namespace Luban
             WriterIndex += 4;
         }
 
-        public void WriteLong(long x)
-        {
-            WriteUlong((ulong)x);
-        }
+        public void WriteLong(long x) => WriteUlong((ulong)x);
 
-        public long ReadLong()
-        {
-            return (long)ReadUlong();
-        }
+        public long ReadLong() => (long)ReadUlong();
 
-        public void WriteNumberAsLong(double x)
-        {
-            WriteLong((long)x);
-        }
+        public void WriteNumberAsLong(double x) => WriteLong((long)x);
 
-        public double ReadLongAsNumber()
-        {
-            return ReadLong();
-        }
+        public double ReadLongAsNumber() => ReadLong();
 
         private void WriteUlong(ulong x)
         {
@@ -667,7 +637,7 @@ namespace Luban
                 Bytes[WriterIndex] = (byte)((x >> 32) | 0xf0);
                 WriterIndex += 5;
             }
-            else if (x < 0x40000000000L) // 1111 10xx, 
+            else if (x < 0x40000000000L) // 1111 10xx,
             {
                 EnsureWrite(6);
                 Bytes[WriterIndex + 5] = (byte)x;
@@ -728,69 +698,83 @@ namespace Luban
                 ReaderIndex++;
                 return h;
             }
-            else if (h < 0xc0)
+
+            if (h < 0xc0)
             {
-                EnsureRead(2);
-                uint x = ((h & 0x3f) << 8) | Bytes[ReaderIndex + 1];
-                ReaderIndex += 2;
+                this.EnsureRead(2);
+                uint x = ((h & 0x3f) << 8) | this.Bytes[this.ReaderIndex + 1];
+                this.ReaderIndex += 2;
                 return x;
             }
-            else if (h < 0xe0)
+
+            if (h < 0xe0)
             {
-                EnsureRead(3);
-                uint x = ((h & 0x1f) << 16) | ((uint)Bytes[ReaderIndex + 1] << 8) | Bytes[ReaderIndex + 2];
-                ReaderIndex += 3;
+                this.EnsureRead(3);
+                uint x = ((h & 0x1f) << 16) | ((uint)this.Bytes[this.ReaderIndex + 1] << 8) | this.Bytes[this.ReaderIndex + 2];
+                this.ReaderIndex += 3;
                 return x;
             }
-            else if (h < 0xf0)
+
+            if (h < 0xf0)
             {
-                EnsureRead(4);
-                uint x = ((h & 0x0f) << 24) | ((uint)Bytes[ReaderIndex + 1] << 16) | ((uint)Bytes[ReaderIndex + 2] << 8) | Bytes[ReaderIndex + 3];
-                ReaderIndex += 4;
+                this.EnsureRead(4);
+                uint x = ((h & 0x0f) << 24) | ((uint)this.Bytes[this.ReaderIndex + 1] << 16) | ((uint)this.Bytes[this.ReaderIndex + 2] << 8) |
+                        this.Bytes[this.ReaderIndex + 3];
+                this.ReaderIndex += 4;
                 return x;
             }
-            else if (h < 0xf8)
+
+            if (h < 0xf8)
             {
-                EnsureRead(5);
-                uint xl = ((uint)Bytes[ReaderIndex + 1] << 24) | ((uint)(Bytes[ReaderIndex + 2] << 16)) | ((uint)Bytes[ReaderIndex + 3] << 8) | (Bytes[ReaderIndex + 4]);
+                this.EnsureRead(5);
+                uint xl = ((uint)this.Bytes[this.ReaderIndex + 1] << 24) | (uint)(this.Bytes[this.ReaderIndex + 2] << 16) |
+                        ((uint)this.Bytes[this.ReaderIndex + 3] << 8) | this.Bytes[this.ReaderIndex + 4];
                 uint xh = h & 0x07;
-                ReaderIndex += 5;
+                this.ReaderIndex += 5;
                 return ((ulong)xh << 32) | xl;
             }
-            else if (h < 0xfc)
+
+            if (h < 0xfc)
             {
-                EnsureRead(6);
-                uint xl = ((uint)Bytes[ReaderIndex + 2] << 24) | ((uint)(Bytes[ReaderIndex + 3] << 16)) | ((uint)Bytes[ReaderIndex + 4] << 8) | (Bytes[ReaderIndex + 5]);
-                uint xh = ((h & 0x03) << 8) | Bytes[ReaderIndex + 1];
-                ReaderIndex += 6;
+                this.EnsureRead(6);
+                uint xl = ((uint)this.Bytes[this.ReaderIndex + 2] << 24) | (uint)(this.Bytes[this.ReaderIndex + 3] << 16) |
+                        ((uint)this.Bytes[this.ReaderIndex + 4] << 8) | this.Bytes[this.ReaderIndex + 5];
+                uint xh = ((h & 0x03) << 8) | this.Bytes[this.ReaderIndex + 1];
+                this.ReaderIndex += 6;
                 return ((ulong)xh << 32) | xl;
             }
-            else if (h < 0xfe)
+
+            if (h < 0xfe)
             {
-                EnsureRead(7);
-                uint xl = ((uint)Bytes[ReaderIndex + 3] << 24) | ((uint)(Bytes[ReaderIndex + 4] << 16)) | ((uint)Bytes[ReaderIndex + 5] << 8) | (Bytes[ReaderIndex + 6]);
-                uint xh = ((h & 0x01) << 16) | ((uint)Bytes[ReaderIndex + 1] << 8) | Bytes[ReaderIndex + 2];
-                ReaderIndex += 7;
+                this.EnsureRead(7);
+                uint xl = ((uint)this.Bytes[this.ReaderIndex + 3] << 24) | (uint)(this.Bytes[this.ReaderIndex + 4] << 16) |
+                        ((uint)this.Bytes[this.ReaderIndex + 5] << 8) | this.Bytes[this.ReaderIndex + 6];
+                uint xh = ((h & 0x01) << 16) | ((uint)this.Bytes[this.ReaderIndex + 1] << 8) | this.Bytes[this.ReaderIndex + 2];
+                this.ReaderIndex += 7;
                 return ((ulong)xh << 32) | xl;
             }
-            else if (h < 0xff)
+
+            if (h < 0xff)
             {
-                EnsureRead(8);
-                uint xl = ((uint)Bytes[ReaderIndex + 4] << 24) | ((uint)(Bytes[ReaderIndex + 5] << 16)) | ((uint)Bytes[ReaderIndex + 6] << 8) | (Bytes[ReaderIndex + 7]);
-                uint xh = /*((h & 0x01) << 24) |*/ ((uint)Bytes[ReaderIndex + 1] << 16) | ((uint)Bytes[ReaderIndex + 2] << 8) | Bytes[ReaderIndex + 3];
-                ReaderIndex += 8;
+                this.EnsureRead(8);
+                uint xl = ((uint)this.Bytes[this.ReaderIndex + 4] << 24) | (uint)(this.Bytes[this.ReaderIndex + 5] << 16) |
+                        ((uint)this.Bytes[this.ReaderIndex + 6] << 8) | this.Bytes[this.ReaderIndex + 7];
+                uint xh = /*((h & 0x01) << 24) |*/ ((uint)this.Bytes[this.ReaderIndex + 1] << 16) | ((uint)this.Bytes[this.ReaderIndex + 2] << 8) |
+                        this.Bytes[this.ReaderIndex + 3];
+                this.ReaderIndex += 8;
                 return ((ulong)xh << 32) | xl;
             }
             else
             {
-                EnsureRead(9);
-                uint xl = ((uint)Bytes[ReaderIndex + 5] << 24) | ((uint)(Bytes[ReaderIndex + 6] << 16)) | ((uint)Bytes[ReaderIndex + 7] << 8) | (Bytes[ReaderIndex + 8]);
-                uint xh = ((uint)Bytes[ReaderIndex + 1] << 24) | ((uint)Bytes[ReaderIndex + 2] << 16) | ((uint)Bytes[ReaderIndex + 3] << 8) | Bytes[ReaderIndex + 4];
-                ReaderIndex += 9;
+                this.EnsureRead(9);
+                uint xl = ((uint)this.Bytes[this.ReaderIndex + 5] << 24) | (uint)(this.Bytes[this.ReaderIndex + 6] << 16) |
+                        ((uint)this.Bytes[this.ReaderIndex + 7] << 8) | this.Bytes[this.ReaderIndex + 8];
+                uint xh = ((uint)this.Bytes[this.ReaderIndex + 1] << 24) | ((uint)this.Bytes[this.ReaderIndex + 2] << 16) |
+                        ((uint)this.Bytes[this.ReaderIndex + 3] << 8) | this.Bytes[this.ReaderIndex + 4];
+                this.ReaderIndex += 9;
                 return ((ulong)xh << 32) | xl;
             }
         }
-
 
         public void WriteFlong(long x)
         {
@@ -830,9 +814,10 @@ namespace Luban
                 }
             }
 #else
-            int xl = (Bytes[ReaderIndex + 3] << 24) | ((Bytes[ReaderIndex + 2] << 16)) | (Bytes[ReaderIndex + 1] << 8) | (Bytes[ReaderIndex]);
+            int xl = (Bytes[ReaderIndex + 3] << 24) | (this.Bytes[this.ReaderIndex + 2] << 16) | (Bytes[ReaderIndex + 1] << 8) |
+                    this.Bytes[this.ReaderIndex];
             int xh = (Bytes[ReaderIndex + 7] << 24) | (Bytes[ReaderIndex + 6] << 16) | (Bytes[ReaderIndex + 5] << 8) | Bytes[ReaderIndex + 4];
-            x = ((long)xh << 32) | (long)xl;
+            x = ((long)xh << 32) | xl;
 #endif
             ReaderIndex += 8;
             return x;
@@ -857,7 +842,6 @@ namespace Luban
             dst[2] = src[2];
             dst[3] = src[3];
         }
-
 
         //const bool isLittleEndian = true;
         public void WriteFloat(float x)
@@ -908,7 +892,7 @@ namespace Luban
                     }
                     else
                     {
-                        *((int*)&x) = (b[0]) | (b[1] << 8) | (b[2] << 16) | (b[3] << 24);
+                        *(int*)&x = b[0] | (b[1] << 8) | (b[2] << 16) | (b[3] << 24);
                     }
 #else
                     x = *(float*)b;
@@ -968,9 +952,9 @@ namespace Luban
                     }
                     else
                     {
-                        int low = (b[0]) | (b[1] << 8) | (b[2] << 16) | (b[3] << 24);
-                        int high = (b[4]) | (b[5] << 8) | (b[6] << 16) | (b[7] << 24);
-                        *((long*)&x) = ((long)high << 32) | (uint)low;
+                        int low = b[0] | (b[1] << 8) | (b[2] << 16) | (b[3] << 24);
+                        int high = b[4] | (b[5] << 8) | (b[6] << 16) | (b[7] << 24);
+                        *(long*)&x = ((long)high << 32) | (uint)low;
                     }
 #else
                     x = *(double*)b;
@@ -982,25 +966,16 @@ namespace Luban
             return x;
         }
 
-        public void WriteSize(int n)
-        {
-            WriteUint((uint)n);
-        }
+        public void WriteSize(int n) => WriteUint((uint)n);
 
-        public int ReadSize()
-        {
-            return (int)ReadUint();
-        }
+        public int ReadSize() => (int)ReadUint();
 
-        // marshal int 
+        // marshal int
         // n -> (n << 1) ^ (n >> 31)
         // Read
         // (x >>> 1) ^ ((x << 31) >> 31)
         // (x >>> 1) ^ -(n&1)
-        public void WriteSint(int x)
-        {
-            WriteUint(((uint)x << 1) ^ ((uint)x >> 31));
-        }
+        public void WriteSint(int x) => WriteUint(((uint)x << 1) ^ ((uint)x >> 31));
 
         public int ReadSint()
         {
@@ -1008,26 +983,22 @@ namespace Luban
             return (int)((x >> 1) ^ ((x & 1) << 31));
         }
 
-
         // marshal long
         // n -> (n << 1) ^ (n >> 63)
         // Read
         // (x >>> 1) ^((x << 63) >> 63)
         // (x >>> 1) ^ -(n&1L)
-        public void WriteSlong(long x)
-        {
-            WriteUlong(((ulong)x << 1) ^ ((ulong)x >> 63));
-        }
+        public void WriteSlong(long x) => WriteUlong(((ulong)x << 1) ^ ((ulong)x >> 63));
 
         public long ReadSlong()
         {
             long x = ReadLong();
-            return ((long)((ulong)x >> 1) ^ ((x & 1) << 63));
+            return (long)((ulong)x >> 1) ^ ((x & 1) << 63);
         }
 
         public void WriteString(string x)
         {
-            var n = x != null ? Encoding.UTF8.GetByteCount(x) : 0;
+            int n = x != null? Encoding.UTF8.GetByteCount(x) : 0;
             WriteSize(n);
             if (n > 0)
             {
@@ -1042,7 +1013,7 @@ namespace Luban
 
         public string ReadString()
         {
-            var n = ReadSize();
+            int n = ReadSize();
             if (n > 0)
             {
                 EnsureRead(n);
@@ -1057,18 +1028,17 @@ namespace Luban
                     // 只缓存比较小的字符串
                     s = StringCacheFinder(Bytes, ReaderIndex, n);
                 }
+
                 ReaderIndex += n;
                 return s;
             }
-            else
-            {
-                return string.Empty;
-            }
+
+            return string.Empty;
         }
 
         public void WriteBytes(byte[] x)
         {
-            var n = x != null ? x.Length : 0;
+            int n = x != null? x.Length : 0;
             WriteSize(n);
             if (n > 0)
             {
@@ -1080,19 +1050,17 @@ namespace Luban
 
         public byte[] ReadBytes()
         {
-            var n = ReadSize();
+            int n = ReadSize();
             if (n > 0)
             {
                 EnsureRead(n);
-                var x = new byte[n];
+                byte[] x = new byte[n];
                 Buffer.BlockCopy(Bytes, ReaderIndex, x, 0, n);
                 ReaderIndex += n;
                 return x;
             }
-            else
-            {
-                return Array.Empty<byte>();
-            }
+
+            return Array.Empty<byte>();
         }
 
         // 以下是一些特殊类型
@@ -1105,8 +1073,8 @@ namespace Luban
 
         public Complex ReadComplex()
         {
-            var x = ReadDouble();
-            var y = ReadDouble();
+            double x = ReadDouble();
+            double y = ReadDouble();
             return new Complex(x, y);
         }
 
@@ -1155,7 +1123,6 @@ namespace Luban
             return new Vector4(x, y, z, w);
         }
 
-
         public void WriteQuaternion(Quaternion x)
         {
             WriteFloat(x.X);
@@ -1172,7 +1139,6 @@ namespace Luban
             float w = ReadFloat();
             return new Quaternion(x, y, z, w);
         }
-
 
         public void WriteMatrix4x4(Matrix4x4 x)
         {
@@ -1225,7 +1191,6 @@ namespace Luban
             ReaderIndex += n;
         }
 
-
         public void WriteByteBufWithSize(ByteBuf o)
         {
             int n = o.Size;
@@ -1256,11 +1221,9 @@ namespace Luban
                 x = Bytes[ReaderIndex++];
                 return true;
             }
-            else
-            {
-                x = 0;
-                return false;
-            }
+
+            x = 0;
+            return false;
         }
 
         public EDeserializeError TryDeserializeInplaceByteBuf(int maxSize, ByteBuf inplaceTempBody)
@@ -1279,19 +1242,31 @@ namespace Luban
                 }
                 else if (h < 0xc0)
                 {
-                    if (!CanRead(2)) { return EDeserializeError.NOT_ENOUGH; }
+                    if (!CanRead(2))
+                    {
+                        return EDeserializeError.NOT_ENOUGH;
+                    }
+
                     n = ((h & 0x3f) << 8) | Bytes[ReaderIndex + 1];
                     ReaderIndex += 2;
                 }
                 else if (h < 0xe0)
                 {
-                    if (!CanRead(3)) { return EDeserializeError.NOT_ENOUGH; }
+                    if (!CanRead(3))
+                    {
+                        return EDeserializeError.NOT_ENOUGH;
+                    }
+
                     n = ((h & 0x1f) << 16) | (Bytes[ReaderIndex + 1] << 8) | Bytes[ReaderIndex + 2];
                     ReaderIndex += 3;
                 }
                 else if (h < 0xf0)
                 {
-                    if (!CanRead(4)) { return EDeserializeError.NOT_ENOUGH; }
+                    if (!CanRead(4))
+                    {
+                        return EDeserializeError.NOT_ENOUGH;
+                    }
+
                     n = ((h & 0x0f) << 24) | (Bytes[ReaderIndex + 1] << 16) | (Bytes[ReaderIndex + 2] << 8) | Bytes[ReaderIndex + 3];
                     ReaderIndex += 4;
                 }
@@ -1304,6 +1279,7 @@ namespace Luban
                 {
                     return EDeserializeError.EXCEED_SIZE;
                 }
+
                 if (Remaining < n)
                 {
                     return EDeserializeError.NOT_ENOUGH;
@@ -1350,7 +1326,6 @@ namespace Luban
         }
 
         #region segment
-
 
         public void BeginWriteSegment(out int oldSize)
         {
@@ -1434,7 +1409,7 @@ namespace Luban
             else if (h < 0xe0)
             {
                 EnsureRead(2);
-                segmentSize = ((h & 0x1f) << 16) | ((int)Bytes[ReaderIndex] << 8) | Bytes[ReaderIndex + 1];
+                segmentSize = ((h & 0x1f) << 16) | (this.Bytes[this.ReaderIndex] << 8) | Bytes[ReaderIndex + 1];
                 int endPos = ReaderIndex + segmentSize;
                 Bytes[ReaderIndex] = Bytes[endPos];
                 Bytes[ReaderIndex + 1] = Bytes[endPos + 1];
@@ -1443,7 +1418,8 @@ namespace Luban
             else if (h < 0xf0)
             {
                 EnsureRead(3);
-                segmentSize = ((h & 0x0f) << 24) | ((int)Bytes[ReaderIndex] << 16) | ((int)Bytes[ReaderIndex + 1] << 8) | Bytes[ReaderIndex + 2];
+                segmentSize = ((h & 0x0f) << 24) | (this.Bytes[this.ReaderIndex] << 16) | (this.Bytes[this.ReaderIndex + 1] << 8) |
+                        Bytes[ReaderIndex + 2];
                 int endPos = ReaderIndex + segmentSize;
                 Bytes[ReaderIndex] = Bytes[endPos];
                 Bytes[ReaderIndex + 1] = Bytes[endPos + 1];
@@ -1454,6 +1430,7 @@ namespace Luban
             {
                 throw new SerializationException("exceed max size");
             }
+
             if (ReaderIndex > WriterIndex)
             {
                 throw new SerializationException("segment data not enough");
@@ -1462,7 +1439,7 @@ namespace Luban
 
         public void ReadSegment(ByteBuf buf)
         {
-            ReadSegment(out int startPos, out var size);
+            ReadSegment(out int startPos, out int size);
             buf.Bytes = Bytes;
             buf.ReaderIndex = startPos;
             buf.WriterIndex = startPos + size;
@@ -1488,17 +1465,15 @@ namespace Luban
         public override string ToString()
         {
             string[] datas = new string[WriterIndex - ReaderIndex];
-            for (var i = ReaderIndex; i < WriterIndex; i++)
+            for (int i = ReaderIndex; i < WriterIndex; i++)
             {
                 datas[i - ReaderIndex] = Bytes[i].ToString("X2");
             }
+
             return string.Join(".", datas);
         }
 
-        public override bool Equals(object obj)
-        {
-            return (obj is ByteBuf other) && Equals(other);
-        }
+        public override bool Equals(object obj) => obj is ByteBuf other && Equals(other);
 
         public bool Equals(ByteBuf other)
         {
@@ -1506,10 +1481,12 @@ namespace Luban
             {
                 return false;
             }
+
             if (Size != other.Size)
             {
                 return false;
             }
+
             for (int i = 0, n = Size; i < n; i++)
             {
                 if (Bytes[ReaderIndex + i] != other.Bytes[other.ReaderIndex + i])
@@ -1517,23 +1494,21 @@ namespace Luban
                     return false;
                 }
             }
+
             return true;
         }
 
-        public object Clone()
-        {
-            return new ByteBuf(CopyData());
-        }
-
+        public object Clone() => new ByteBuf(CopyData());
 
         public static ByteBuf FromString(string value)
         {
-            var ss = value.Split(',');
+            string[] ss = value.Split(',');
             byte[] data = new byte[ss.Length];
             for (int i = 0; i < data.Length; i++)
             {
                 data[i] = byte.Parse(ss[i]);
             }
+
             return new ByteBuf(data);
         }
 
@@ -1544,13 +1519,11 @@ namespace Luban
             {
                 hash = hash * 23 + Bytes[i];
             }
+
             return hash;
         }
 
-        public void Release()
-        {
-            _releaser?.Invoke(this);
-        }
+        public void Release() => _releaser?.Invoke(this);
 
 #if SUPPORT_PUERTS_ARRAYBUF
         // -- add for puerts

@@ -1,4 +1,4 @@
-﻿namespace Luban
+﻿namespace ET.Luban
 {
     public interface ITypeId
     {
