@@ -14,8 +14,7 @@ public partial class UICodeSpawner
 
         string strDlgName = objPanel.name;
 
-        string strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UIBehaviour/CommonUI" +
-                "";
+        string strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UIBehaviour/CommonUI";
 
         if (!Directory.Exists(strFilePath))
         {
@@ -75,24 +74,24 @@ public partial class UICodeSpawner
             Directory.CreateDirectory(strFilePath);
         }
 
-        strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Demo/UIBehaviour/CommonUI/" + strDlgName + ".cs";
+        strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Demo/UIBehaviour/CommonUI/" + strDlgName + ".Designer.cs";
 
         StreamWriter sw = new(strFilePath, false, Encoding.UTF8);
 
         StringBuilder strBuilder = new();
         strBuilder.AppendLine()
-                .AppendLine("using UnityEngine;");
-        strBuilder.AppendLine("using UnityEngine.UI;");
-        strBuilder.AppendLine("namespace ET.Client");
-        strBuilder.AppendLine("{");
-        strBuilder.AppendLine("\t[EnableMethod]");
-        strBuilder.AppendLine("\t[ChildOf]");
-        strBuilder.AppendFormat("\tpublic  class {0} : Entity,ET.IAwake<UnityEngine.Transform>,IDestroy \r\n", strDlgName)
+                .AppendLine("using UnityEngine;")
+                .AppendLine("using UnityEngine.UI;")
+                .AppendLine("namespace ET.Client")
+                .AppendLine("{")
+                .AppendLine("\t[EnableMethod]")
+                .AppendLine("\t[ChildOf]")
+                .AppendFormat("\tpublic partial class {0} : Entity,ET.IAwake<UnityEngine.Transform>,IDestroy \r\n", strDlgName)
                 .AppendLine("\t{");
 
+        CreateDeclareCode(ref strBuilder);
         CreateWidgetBindCode(ref strBuilder, objPanel.transform);
         CreateDestroyWidgetCode(ref strBuilder);
-        CreateDeclareCode(ref strBuilder);
         strBuilder.AppendLine("\t\tpublic Transform uiTransform = null;");
         strBuilder.AppendLine("\t}");
         strBuilder.AppendLine("}");

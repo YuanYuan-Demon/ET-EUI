@@ -2,33 +2,12 @@
 
 namespace ET.Server
 {
-    [FriendOf(typeof(NetServerComponent))]
+    [FriendOf(typeof (NetServerComponent))]
     public static class NetServerComponentSystem
     {
-        [ObjectSystem]
-        public class AwakeSystem: AwakeSystem<NetServerComponent, IPEndPoint>
-        {
-            protected override void Awake(NetServerComponent self, IPEndPoint address)
-            {
-                self.ServiceId = NetServices.Instance.AddService(new KService(address, ServiceType.Outer));
-                NetServices.Instance.RegisterAcceptCallback(self.ServiceId, self.OnAccept);
-                NetServices.Instance.RegisterReadCallback(self.ServiceId, self.OnRead);
-                NetServices.Instance.RegisterErrorCallback(self.ServiceId, self.OnError);
-            }
-        }
-
-        [ObjectSystem]
-        public class NetKcpComponentDestroySystem: DestroySystem<NetServerComponent>
-        {
-            protected override void Destroy(NetServerComponent self)
-            {
-                NetServices.Instance.RemoveService(self.ServiceId);
-            }
-        }
-
         private static void OnError(this NetServerComponent self, long channelId, int error)
         {
-            Session session = self.GetChild<Session>(channelId);
+            var session = self.GetChild<Session>(channelId);
             if (session == null)
             {
                 return;
@@ -52,19 +31,38 @@ namespace ET.Server
                 session.AddComponent<SessionIdleCheckerComponent>();
             }
         }
-        
+
         private static void OnRead(this NetServerComponent self, long channelId, long actorId, object message)
         {
-            Session session = self.GetChild<Session>(channelId);
+            var session = self.GetChild<Session>(channelId);
             if (session == null)
             {
                 return;
             }
+
             session.LastRecvTime = TimeHelper.ClientNow();
-            
+
             OpcodeHelper.LogMsg(self.DomainZone(), message);
-			
-            EventSystem.Instance.Publish(Root.Instance.Scene, new NetServerComponentOnRead() {Session = session, Message = message});
+
+            EventSystem.Instance.Publish(Root.Instance.Scene, new NetServerComponentOnRead() { Session = session, Message = message });
+        }
+
+        [ObjectSystem]
+        public class AwakeSystem: AwakeSystem<NetServerComponent, IPEndPoint>
+        {
+            protected override void Awake(NetServerComponent self, IPEndPoint name)
+            {
+                self.ServiceId = NetServices.Instance.AddService(new KService(name, ServiceType.Outer));
+                NetServices.Instance.RegisterAcceptCallback(self.ServiceId, self.OnAccept);
+                NetServices.Instance.RegisterReadCallback(self.ServiceId, self.OnRead);
+                NetServices.Instance.RegisterErrorCallback(self.ServiceId, self.OnError);
+            }
+        }
+
+        [ObjectSystem]
+        public class NetKcpComponentDestroySystem: DestroySystem<NetServerComponent>
+        {
+            protected override void Destroy(NetServerComponent self) => NetServices.Instance.RemoveService(self.ServiceId);
         }
     }
 }

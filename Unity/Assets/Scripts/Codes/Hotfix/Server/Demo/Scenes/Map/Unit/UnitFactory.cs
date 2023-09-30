@@ -4,13 +4,15 @@
     {
         public static Unit Create(Scene scene, long id, UnitType unitType)
         {
-            UnitComponent unitComponent = scene.GetComponent<UnitComponent>();
+            var unitComponent = scene.GetComponent<UnitComponent>();
             switch (unitType)
             {
                 case UnitType.Player:
                 {
-                    Unit unit = unitComponent.AddChildWithId<Unit, int>(id, 1001);
-                    NumericComponent numericComponent = unit.AddComponent<NumericComponent>();
+                    Unit unit = unitComponent.Create(id, 1001);
+                    var numericComponent = unit.AddComponent<NumericComponent>();
+                    numericComponent.Set(NumericType.Speed, 6f);  // 速度是6米每秒
+                    numericComponent.Set(NumericType.AOI, 15000); // 视野15米
                     foreach (PlayerNumericConfig config in PlayerNumericConfigCategory.Instance.GetAll().Values)
                     {
                         if (config.BaseValue == 0)
@@ -20,7 +22,7 @@
 
                         if (config.Id < 3000) //小于3000的值都用加成属性推导
                         {
-                            NumericType baseKey = (NumericType)(config.Id * 10 + 1);
+                            var baseKey = (NumericType)(config.Id * 10 + 1);
                             numericComponent.SetNoEvent(baseKey, config.BaseValue);
                         }
                         else
@@ -30,16 +32,39 @@
                         }
                     }
 
-                    //Undone: AddComponent<BagComponent>()
-                    //unit.AddComponent<BagComponent>();
-                    //Undone: AddComponent<EquipmentsComponent>()
-                    //unit.AddComponent<EquipmentsComponent>();
+                    unit.Position = new(50, 8, 40);
+
+                    unit.AddComponent<BagComponent>();
+                    unit.AddComponent<EquipmentsComponent>();
                     //Undone: AddComponent<ForgeComponent>()
                     //unit.AddComponent<ForgeComponent>();
                     //Undone: AddComponent<TasksComponent>()
                     //unit.AddComponent<TasksComponent>();
 
-                    unitComponent.Add(unit);
+#region 背包测试
+
+                    //添加装备
+                    for (var i = 0; i < 10; i++)
+                    {
+                        int equipId = RandomHelper.RandomInt32(1, 8) + 1000 * RandomHelper.RandomInt32(1, 4) + 10 * RandomHelper.RandomInt32(0, 2);
+                        if (!BagHelper.AddItemByConfigId(unit, equipId, isSync: false))
+                        {
+                            Log.Error("增加背包物品失败");
+                        }
+                    }
+
+                    //添加道具
+                    for (var i = 0; i < 30; i++)
+                    {
+                        int itemId = RandomHelper.RandomInt32(1, 11);
+                        if (!BagHelper.AddItemByConfigId(unit, itemId, isSync: false))
+                        {
+                            Log.Error("增加背包物品失败");
+                        }
+                    }
+
+#endregion 背包测试
+
                     return unit;
                 }
                 default:
@@ -49,16 +74,15 @@
 
         public static Unit CreateMonster(Scene scene, int configId)
         {
-            UnitComponent unitComponent = scene.GetComponent<UnitComponent>();
-            Unit unit = unitComponent.AddChildWithId<Unit, int>(IdGenerater.Instance.GenerateId(), configId);
-            NumericComponent numericComponent = unit.AddComponent<NumericComponent>();
+            var unitComponent = scene.GetComponent<UnitComponent>();
+            Unit unit = unitComponent.Create(configId);
+            var numericComponent = unit.AddComponent<NumericComponent>();
 
             numericComponent.SetNoEvent(NumericType.MaxHp, unit.Config.MaxHp);
             numericComponent.SetNoEvent(NumericType.Hp, unit.Config.MaxHp);
-            numericComponent.SetNoEvent(NumericType.DamageValue, unit.Config.AD);
+            numericComponent.SetNoEvent(NumericType.AD, unit.Config.AD);
             numericComponent.SetNoEvent(NumericType.IsAlive, 1);
 
-            unitComponent.Add(unit);
             return unit;
         }
     }

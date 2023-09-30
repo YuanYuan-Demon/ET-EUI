@@ -1,9 +1,16 @@
-namespace ET
+﻿namespace ET
 {
     public enum RoleInfoStatus
     {
         Normal,
-        Freeze
+        Freeze,
+    }
+
+    public enum RoleClass
+    {
+        Warrior,
+        Wizard,
+        Archer,
     }
 
     [ComponentOf(typeof (Unit))]
@@ -13,8 +20,10 @@ namespace ET
         public long AccountId;
         public long CreateTime;
         public long LastLoginTIme;
+        public int Level;
         public string Name;
+        public RoleClass RoleClass;
         public int ServerId;
-        public int Status;
+        public RoleInfoStatus Status;
     }
 }

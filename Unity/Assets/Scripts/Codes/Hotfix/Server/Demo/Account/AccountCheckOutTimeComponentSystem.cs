@@ -6,10 +6,10 @@ namespace ET.Server
     {
         public static void DeleteSession(this AccountCheckOutTimeComponent self)
         {
-            Session session = self.GetParent<Session>();
-            AccountSessionsComponent accountSessionsComponent = session.DomainScene().GetComponent<AccountSessionsComponent>();
+            var session = self.GetParent<Session>();
+            var accountSessionsComponent = session.DomainScene().GetComponent<AccountSessionsComponent>();
 
-            var instanceId = accountSessionsComponent.Get(self.AccountId);
+            long instanceId = accountSessionsComponent.Get(self.AccountId);
             if (session.InstanceId == instanceId)
             {
                 accountSessionsComponent.Remove(self.AccountId);
@@ -19,7 +19,7 @@ namespace ET.Server
             session.Disconnect();
         }
 
-        #region 定时任务
+#region 定时任务
 
         [Invoke(TimerInvokeType.AccountSessionCheckOutTime)]
         public class AccountSessionCheckOutTimer: ATimer<AccountCheckOutTimeComponent>
@@ -37,15 +37,15 @@ namespace ET.Server
             }
         }
 
-        #endregion 定时任务
+#endregion 定时任务
 
-        #region 生命周期
+#region 生命周期
 
         public class AccountCheckOutTimeComponentAwakeSystem: AwakeSystem<AccountCheckOutTimeComponent, long>
         {
-            protected override void Awake(AccountCheckOutTimeComponent self, long acccountId)
+            protected override void Awake(AccountCheckOutTimeComponent self, long name)
             {
-                self.AccountId = acccountId;
+                self.AccountId = name;
                 TimerComponent.Instance.Remove(ref self.Timer);
                 self.Timer = TimerComponent.Instance.NewOnceTimer(TimeHelper.ServerNow() + 10 * TimeHelper.Minute,
                     TimerInvokeType.AccountSessionCheckOutTime, self);
@@ -61,6 +61,6 @@ namespace ET.Server
             }
         }
 
-        #endregion 生命周期
+#endregion 生命周期
     }
 }

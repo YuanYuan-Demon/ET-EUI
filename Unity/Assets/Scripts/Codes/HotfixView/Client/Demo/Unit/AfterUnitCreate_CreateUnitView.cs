@@ -1,22 +1,31 @@
-﻿using UnityEngine;
+﻿using ET.EventType;
+using UnityEngine;
 
 namespace ET.Client
 {
     [Event(SceneType.Current)]
-    public class AfterUnitCreate_CreateUnitView: AEvent<EventType.AfterUnitCreate>
+    [FriendOfAttribute(typeof (HeadHUDViewComponent))]
+    [FriendOfAttribute(typeof (RoleInfo))]
+    public class AfterUnitCreate_CreateUnitView: AEvent<AfterUnitCreate>
     {
-        protected override async ETTask Run(Scene scene, EventType.AfterUnitCreate args)
+        protected override async ETTask Run(Scene scene, AfterUnitCreate args)
         {
             Unit unit = args.Unit;
+            //unit.Config
             // Unit View层
             // 这里可以改成异步加载，demo就不搞了
-            GameObject bundleGameObject = (GameObject)ResourcesComponent.Instance.GetAsset("Unit.unity3d", "Unit");
-            GameObject prefab = bundleGameObject.Get<GameObject>("Skeleton");
-	        
-            GameObject go = UnityEngine.Object.Instantiate(prefab, GlobalComponent.Instance.Unit, true);
-            go.transform.position = unit.Position;
-            unit.AddComponent<GameObjectComponent>().GameObject = go;
+            var bundleUnitGO = ResourcesComponent.Instance.GetAsset($"Unit.unity3d", "Unit") as GameObject;
+            var prefab = bundleUnitGO.Get<GameObject>("Warrior");
+
+            GameObject unitGO = UnityEngine.Object.Instantiate(bundleUnitGO, GlobalComponent.Instance.Unit, true);
+            GameObject modelGO = UnityEngine.Object.Instantiate(prefab, unitGO.transform, true);
+
+            unitGO.transform.position = unit.Position;
+            unit.AddComponent<GameObjectComponent>().GameObject = unitGO;
+            unit.GetComponent<ObjectWait>().Notify(new Wait_UnitAddGOComponent());
             unit.AddComponent<AnimatorComponent>();
+            unit.AddComponent<HeadHUDViewComponent, string>(unit.GetComponent<RoleInfo>().Name);
+
             await ETTask.CompletedTask;
         }
     }

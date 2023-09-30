@@ -14,7 +14,7 @@ namespace ET.Client
 
         private static async ETTask GetAllRouter(this RouterAddressComponent self)
         {
-            string url = $"http://{self.RouterManagerHost}:{self.RouterManagerPort}/get_router?v={RandomHelper.RandUInt32()}";
+            string url = $"http://{self.RouterManagerHost}:{self.RouterManagerPort}/get_router?v={RandomHelper.RandomUInt32()}";
             Log.Debug($"start get router info: {url}");
             string routerInfo = await HttpClientHelper.Get(url);
             Log.Debug($"recv router info: {routerInfo}");

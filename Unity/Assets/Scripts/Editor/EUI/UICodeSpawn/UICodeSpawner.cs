@@ -153,7 +153,6 @@ public partial class UICodeSpawner
 
         strBuilder.AppendLine("namespace ET.Client");
         strBuilder.AppendLine("{");
-        strBuilder.AppendLine("\t[FriendOf(typeof(WindowCoreData))]");
         strBuilder.AppendLine("\t[FriendOf(typeof(UIBaseWindow))]");
         strBuilder.AppendFormat("\t[AUIEvent(WindowID.WindowID_{0})]\n", strDlgName.Substring(3));
         strBuilder.AppendFormat("\tpublic  class {0}EventHandler : IAUIEventHandler\r\n", strDlgName);
@@ -163,7 +162,7 @@ public partial class UICodeSpawner
         strBuilder.AppendLine("\t\tpublic void OnInitWindowCoreData(UIBaseWindow uiBaseWindow)")
                 .AppendLine("\t\t{");
 
-        strBuilder.AppendFormat("\t\t  uiBaseWindow.WindowData.windowType = UIWindowType.Normal; \r\n");
+        strBuilder.AppendFormat("\t\t  uiBaseWindow.windowType = UIWindowType.Normal; \r\n");
 
         strBuilder.AppendLine("\t\t}")
                 .AppendLine();
@@ -186,7 +185,7 @@ public partial class UICodeSpawner
 
         strBuilder.AppendLine("\t\tpublic void OnShowWindow(UIBaseWindow uiBaseWindow, ShowWindowData windowData = null)")
                 .AppendLine("\t\t{");
-        strBuilder.AppendFormat("\t\t  uiBaseWindow.GetComponent<{0}>().ShowWindow(contextData); \r\n", strDlgName);
+        strBuilder.AppendFormat("\t\t  uiBaseWindow.GetComponent<{0}>().ShowWindow(windowData); \r\n", strDlgName);
         strBuilder.AppendLine("\t\t}")
                 .AppendLine();
 
@@ -372,7 +371,7 @@ public partial class UICodeSpawner
 
         strBuilder.AppendFormat("     			if( this.m_{0} == null )\n", widget.ToLower());
         strBuilder.AppendLine("     			{");
-        strBuilder.AppendFormat("		    	   Transform subTrans = UIFindHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,\"{0}\");\r\n",
+        strBuilder.AppendFormat("		    	   Transform subTrans = UIHelper.FindDeepChild<Transform>(this.uiTransform.gameObject,\"{0}\");\r\n",
             strPath);
         strBuilder.AppendFormat("		    	   this.m_{0} = this.AddChild<{1},Transform>(subTrans);\r\n", widget.ToLower(), subUIClassType);
         strBuilder.AppendLine("     			}");
@@ -447,7 +446,7 @@ public partial class UICodeSpawner
         Match match = regex.Match(content);
         Regex regex1 = new("}");
         MatchCollection matchCollection = regex1.Matches(content);
-        for (int i = 0; i < matchCollection.Count; i++)
+        for (var i = 0; i < matchCollection.Count; i++)
         {
             if (matchCollection[i].Index > match.Index)
             {
@@ -475,12 +474,12 @@ public partial class UICodeSpawner
     public static void CreateDlgWidgetDisposeCode(ref StringBuilder strBuilder, bool isSelf = false)
     {
         string pointStr = isSelf? "self" : "this";
-        foreach (var pair in Path2WidgetCachedDict)
+        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
         {
             foreach (Component info in pair.Value)
             {
                 Component widget = info;
-                string strClassType = widget.GetType().ToString();
+                var strClassType = widget.GetType().ToString();
 
                 if (pair.Key.StartsWith(CommonUIPrefix))
                 {
@@ -489,7 +488,7 @@ public partial class UICodeSpawner
                     continue;
                 }
 
-                string widgetName = $"{widget.name}_{strClassType.Split('.').ToList().Last()}";
+                var widgetName = $"{widget.name}_{strClassType.Split('.').ToList().Last()}";
                 strBuilder.AppendFormat("\t\t	{0}.m_{1} = null;\r\n", pointStr, widgetName);
             }
         }
@@ -497,13 +496,13 @@ public partial class UICodeSpawner
 
     public static void CreateWidgetBindCode(ref StringBuilder strBuilder, Transform transRoot)
     {
-        foreach (var pair in Path2WidgetCachedDict)
+        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
         {
             foreach (Component info in pair.Value)
             {
                 Component widget = info;
                 string strPath = GetWidgetPath(widget.transform, transRoot);
-                string strClassType = widget.GetType().ToString();
+                var strClassType = widget.GetType().ToString();
                 string strInterfaceType = strClassType;
 
                 if (pair.Key.StartsWith(CommonUIPrefix))
@@ -519,7 +518,7 @@ public partial class UICodeSpawner
                     continue;
                 }
 
-                string widgetName = $"{widget.name}_{strClassType.Split('.').ToList().Last()}";
+                var widgetName = $"{widget.name}_{strClassType.Split('.').ToList().Last()}";
 
                 strBuilder.AppendFormat("		public {0} {1}\r\n", strInterfaceType, widgetName);
                 strBuilder.AppendLine("     	{");
@@ -538,14 +537,14 @@ public partial class UICodeSpawner
                     strBuilder.AppendLine("     			{");
                     strBuilder.AppendFormat("     				if( this.m_{0} == null )\n", widgetName);
                     strBuilder.AppendLine("     				{");
-                    strBuilder.AppendFormat("		    			this.m_{0} = UIFindHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n",
+                    strBuilder.AppendFormat("		    			this.m_{0} = UIHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n",
                         widgetName, strPath, strInterfaceType);
                     strBuilder.AppendLine("     				}");
                     strBuilder.AppendFormat("     				return this.m_{0};\n", widgetName);
                     strBuilder.AppendLine("     			}");
                     strBuilder.AppendLine("     			else");
                     strBuilder.AppendLine("     			{");
-                    strBuilder.AppendFormat("		    		return UIFindHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n", widgetName,
+                    strBuilder.AppendFormat("		    		return UIHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n", widgetName,
                         strPath, strInterfaceType);
                     strBuilder.AppendLine("     			}");
                 }
@@ -553,7 +552,7 @@ public partial class UICodeSpawner
                 {
                     strBuilder.AppendFormat("     			if( this.m_{0} == null )\n", widgetName);
                     strBuilder.AppendLine("     			{");
-                    strBuilder.AppendFormat("		    		this.m_{0} = UIFindHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n",
+                    strBuilder.AppendFormat("		    		this.m_{0} = UIHelper.FindDeepChild<{2}>(this.uiTransform.gameObject,\"{1}\");\r\n",
                         widgetName, strPath, strInterfaceType);
                     strBuilder.AppendLine("     			}");
                     strBuilder.AppendFormat("     			return this.m_{0};\n", widgetName);
@@ -567,12 +566,12 @@ public partial class UICodeSpawner
 
     public static void CreateDeclareCode(ref StringBuilder strBuilder)
     {
-        foreach (var pair in Path2WidgetCachedDict)
+        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
         {
             foreach (Component info in pair.Value)
             {
                 Component widget = info;
-                string strClassType = widget.GetType().ToString();
+                var strClassType = widget.GetType().ToString();
 
                 if (pair.Key.StartsWith(CommonUIPrefix))
                 {
@@ -588,7 +587,7 @@ public partial class UICodeSpawner
                     continue;
                 }
 
-                string widgetName = $"{widget.name}_{strClassType.Split('.').ToList().Last()}";
+                var widgetName = $"{widget.name}_{strClassType.Split('.').ToList().Last()}";
                 strBuilder.AppendFormat("\t\tprivate {0} m_{1} = null;\r\n", strClassType, widgetName);
             }
         }
@@ -601,7 +600,7 @@ public partial class UICodeSpawner
             return;
         }
 
-        for (int nIndex = 0; nIndex < trans.childCount; ++nIndex)
+        for (var nIndex = 0; nIndex < trans.childCount; ++nIndex)
         {
             Transform child = trans.GetChild(nIndex);
             string strTemp = strPath + "/" + child.name;

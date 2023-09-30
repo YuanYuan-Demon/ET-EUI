@@ -1,4 +1,4 @@
-﻿using Unity.Mathematics;
+﻿using ET.EventType;
 
 namespace ET.Client
 {
@@ -6,35 +6,33 @@ namespace ET.Client
     {
         public static Unit Create(Scene currentScene, UnitInfo unitInfo)
         {
-	        UnitComponent unitComponent = currentScene.GetComponent<UnitComponent>();
-	        Unit unit = unitComponent.AddChildWithId<Unit, int>(unitInfo.UnitId, unitInfo.ConfigId);
-	        unitComponent.Add(unit);
+            var unitComponent = currentScene.GetComponent<UnitComponent>();
+            Unit unit = unitComponent.Create(unitInfo.UnitId, unitInfo.ConfigId);
+            unit.AddComponent<RoleInfo>().FromNRoleInfo(unitInfo.NRoleInfo);
+            unit.Position = unitInfo.Position;
+            unit.Forward = unitInfo.Forward;
 
-	        unit.Position = unitInfo.Position;
-	        unit.Forward = unitInfo.Forward;
+            var numericComponent = unit.AddComponent<NumericComponent>();
+            foreach ((NumericType nt, long value)in unitInfo.Numeric)
+            {
+                numericComponent.Set(nt, value);
+            }
 
-	        NumericComponent numericComponent = unit.AddComponent<NumericComponent>();
+            unit.AddComponent<MoveComponent>();
+            if (unitInfo.MoveInfo != null)
+            {
+                if (unitInfo.MoveInfo.Targets.Count > 0)
+                {
+                    unitInfo.MoveInfo.Targets[0] = unit.Position;
+                    unit.MoveToAsync(unitInfo.MoveInfo.Targets).Coroutine();
+                }
+            }
 
-			foreach ((NumericType nt, long value)in unitInfo.Numeric)
-			{
-				numericComponent.Set(nt, value);
-			}
+            unit.AddComponent<ObjectWait>();
 
-	        unit.AddComponent<MoveComponent>();
-	        if (unitInfo.MoveInfo != null)
-	        {
-		        if (unitInfo.MoveInfo.Points.Count > 0)
-				{
-					unitInfo.MoveInfo.Points[0] = unit.Position;
-					unit.MoveToAsync(unitInfo.MoveInfo.Points).Coroutine();
-				}
-	        }
+            unit.AddComponent<XunLuoPathComponent>();
 
-	        unit.AddComponent<ObjectWait>();
-
-	        unit.AddComponent<XunLuoPathComponent>();
-
-	        EventSystem.Instance.Publish(unit.DomainScene(), new EventType.AfterUnitCreate() {Unit = unit});
+            EventSystem.Instance.Publish(unit.DomainScene(), new AfterUnitCreate() { Unit = unit });
             return unit;
         }
     }

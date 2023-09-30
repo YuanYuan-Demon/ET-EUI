@@ -1,4 +1,4 @@
-namespace ET
+﻿namespace ET
 {
     public interface IUnitCache
     {

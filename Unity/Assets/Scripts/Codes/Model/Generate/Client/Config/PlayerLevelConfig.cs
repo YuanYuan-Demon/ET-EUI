@@ -43,8 +43,6 @@ public sealed partial class PlayerLevelConfig: Luban.BeanBase
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
-        
-        
         PostResolve();
     }
 

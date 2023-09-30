@@ -19,35 +19,51 @@ namespace ET
         /// <summary>
         /// 无
         /// </summary>
+        [Display("无")]
         None = 0,
+        
         /// <summary>
         /// 头盔
         /// </summary>
+        [Display("头盔")]
         Helmet = 1,
+        
         /// <summary>
         /// 衣服
         /// </summary>
+        [Display("衣服")]
         Cloth = 2,
+        
         /// <summary>
         /// 鞋子
         /// </summary>
+        [Display("鞋子")]
         Shoe = 3,
+        
         /// <summary>
         /// 护肩
         /// </summary>
+        [Display("护肩")]
         Shoulder = 4,
+        
         /// <summary>
         /// 武器
         /// </summary>
+        [Display("武器")]
         Weapon = 5,
+        
         /// <summary>
         /// 副手
         /// </summary>
+        [Display("副手")]
         OffHands = 6,
+        
         /// <summary>
         /// 裤子
         /// </summary>
+        [Display("裤子")]
         Pants = 7,
+        
     }
 
 } 

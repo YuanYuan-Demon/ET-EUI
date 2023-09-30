@@ -62,14 +62,14 @@ namespace ET
             }
         }
 
-        #region 主线程kcp id生成
+#region 主线程kcp id生成
 
         // 这个因为是NetClientComponent中使用，不会与Accept冲突
-        public uint CreateConnectChannelId() => RandomHelper.RandUInt32();
+        public uint CreateConnectChannelId() => RandomHelper.RandomUInt32();
 
-        #endregion
+#endregion
 
-        #region 线程安全
+#region 线程安全
 
         // 初始化后不变，所以主线程，网络线程都可以读
         private readonly DoubleMap<Type, ushort> typeOpcode = new();
@@ -78,9 +78,9 @@ namespace ET
 
         public Type GetType(ushort opcode) => this.typeOpcode.GetKeyByValue(opcode);
 
-        #endregion
+#endregion
 
-        #region 主线程
+#region 主线程
 
         private readonly Dictionary<int, Action<long, IPEndPoint>> acceptCallback = new();
         private readonly Dictionary<int, Action<long, long, object>> readCallback = new();
@@ -201,9 +201,9 @@ namespace ET
             }
         }
 
-        #endregion
+#endregion
 
-        #region 网络线程
+#region 网络线程
 
         private readonly Dictionary<int, AService> services = new();
         private readonly Queue<int> queue = new();
@@ -367,14 +367,14 @@ namespace ET
             this.mainThreadOperators.Enqueue(netOperator);
         }
 
-        #endregion
+#endregion
 
-        #region 网络线程kcp id生成
+#region 网络线程kcp id生成
 
         // 防止与内网进程号的ChannelId冲突，所以设置为一个大的随机数
         private uint acceptIdGenerator = uint.MaxValue;
         public uint CreateAcceptChannelId() => --this.acceptIdGenerator;
 
-        #endregion
+#endregion
     }
 }

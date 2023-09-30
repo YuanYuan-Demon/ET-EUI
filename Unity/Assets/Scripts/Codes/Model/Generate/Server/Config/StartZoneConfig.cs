@@ -48,9 +48,6 @@ public sealed partial class StartZoneConfig: Luban.BeanBase
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
-        
-        
-        
         PostResolve();
     }
 

@@ -73,14 +73,6 @@ public sealed partial class TaskConfig: Luban.BeanBase
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
-        
-        
-        
-        
-        
-        
-        
-        
         PostResolve();
     }
 

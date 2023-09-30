@@ -1,58 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using ET.EventType;
 using Unity.Mathematics;
 
 namespace ET
 {
-    [FriendOf(typeof(MoveComponent))]
+    [FriendOf(typeof (MoveComponent))]
     public static class MoveComponentSystem
     {
-        [Invoke(TimerInvokeType.MoveTimer)]
-        public class MoveTimer: ATimer<MoveComponent>
-        {
-            protected override void Run(MoveComponent self)
-            {
-                try
-                {
-                    self.MoveForward(true);
-                }
-                catch (Exception e)
-                {
-                    Log.Error($"move timer error: {self.Id}\n{e}");
-                }
-            }
-        }
-    
-        [ObjectSystem]
-        public class DestroySystem: DestroySystem<MoveComponent>
-        {
-            protected override void Destroy(MoveComponent self)
-            {
-                self.MoveFinish(true);
-            }
-        }
-
-        [ObjectSystem]
-        public class AwakeSystem: AwakeSystem<MoveComponent>
-        {
-            protected override void Awake(MoveComponent self)
-            {
-                self.StartTime = 0;
-                self.StartPos = float3.zero;
-                self.NeedTime = 0;
-                self.MoveTimer = 0;
-                self.tcs = null;
-                self.Targets.Clear();
-                self.Speed = 0;
-                self.N = 0;
-                self.TurnTime = 0;
-            }
-        }
-        
-        public static bool IsArrived(this MoveComponent self)
-        {
-            return self.Targets.Count == 0;
-        }
+        public static bool IsArrived(this MoveComponent self) => self.Targets.Count == 0;
 
         public static bool ChangeSpeed(this MoveComponent self, float speed)
         {
@@ -65,18 +21,19 @@ namespace ET
             {
                 return false;
             }
-            
-            Unit unit = self.GetParent<Unit>();
 
-            using ListComponent<float3> path = ListComponent<float3>.Create();
-            
+            var unit = self.GetParent<Unit>();
+
+            using var path = ListComponent<float3>.Create();
+
             self.MoveForward(false);
-                
+
             path.Add(unit.Position); // 第一个是Unit的pos
             for (int i = self.N; i < self.Targets.Count; ++i)
             {
                 path.Add(self.Targets[i]);
             }
+
             self.MoveToAsync(path, speed).Coroutine();
             return true;
         }
@@ -96,24 +53,25 @@ namespace ET
             self.Speed = speed;
             self.tcs = ETTask<bool>.Create(true);
 
-            EventSystem.Instance.Publish(self.DomainScene(), new EventType.MoveStart() {Unit = self.GetParent<Unit>()});
-            
+            EventSystem.Instance.Publish(self.DomainScene(), new MoveStart() { Unit = self.GetParent<Unit>() });
+
             self.StartMove();
-            
+
             bool moveRet = await self.tcs;
 
             if (moveRet)
             {
-                EventSystem.Instance.Publish(self.DomainScene(), new EventType.MoveStop() {Unit = self.GetParent<Unit>()});
+                EventSystem.Instance.Publish(self.DomainScene(), new MoveStop() { Unit = self.GetParent<Unit>() });
             }
+
             return moveRet;
         }
 
         // ret: 停止的时候，移动协程的返回值
         private static void MoveForward(this MoveComponent self, bool ret)
         {
-            Unit unit = self.GetParent<Unit>();
-            
+            var unit = self.GetParent<Unit>();
+
             long timeNow = TimeHelper.ClientNow();
             long moveTime = timeNow - self.StartTime;
 
@@ -123,7 +81,7 @@ namespace ET
                 {
                     return;
                 }
-                
+
                 // 计算位置插值
                 if (moveTime >= self.NeedTime)
                 {
@@ -142,7 +100,7 @@ namespace ET
                         float3 newPos = math.lerp(self.StartPos, self.NextTarget, amount);
                         unit.Position = newPos;
                     }
-                    
+
                     // 计算方向插值
                     if (self.TurnTime > 0)
                     {
@@ -151,6 +109,7 @@ namespace ET
                         {
                             amount = 1f;
                         }
+
                         quaternion q = math.slerp(self.From, self.To, amount);
                         unit.Rotation = q;
                     }
@@ -163,9 +122,9 @@ namespace ET
                 {
                     return;
                 }
-                
+
                 // 到这里说明这个点已经走完
-                
+
                 // 如果是最后一个点
                 if (self.N >= self.Targets.Count - 1)
                 {
@@ -191,22 +150,21 @@ namespace ET
 
         private static void SetNextTarget(this MoveComponent self)
         {
-
-            Unit unit = self.GetParent<Unit>();
+            var unit = self.GetParent<Unit>();
 
             ++self.N;
 
             // 时间计算用服务端的位置, 但是移动要用客户端的位置来插值
             float3 v = self.GetFaceV();
             float distance = math.length(v);
-            
+
             // 插值的起始点要以unit的真实位置来算
             self.StartPos = unit.Position;
 
             self.StartTime += self.NeedTime;
-            
-            self.NeedTime = (long) (distance / self.Speed * 1000);
-            
+
+            self.NeedTime = (long)(distance / self.Speed * 1000);
+
             if (self.TurnTime > 0)
             {
                 // 要用unit的位置
@@ -215,8 +173,9 @@ namespace ET
                 {
                     return;
                 }
+
                 self.From = unit.Rotation;
-                
+
                 if (self.IsTurnHorizontal)
                 {
                     faceV.y = 0;
@@ -229,7 +188,7 @@ namespace ET
 
                 return;
             }
-            
+
             if (self.TurnTime == 0) // turn time == 0 立即转向
             {
                 float3 faceV = self.GetFaceV();
@@ -246,14 +205,11 @@ namespace ET
             }
         }
 
-        private static float3 GetFaceV(this MoveComponent self)
-        {
-            return self.NextTarget - self.PreTarget;
-        }
+        private static float3 GetFaceV(this MoveComponent self) => self.NextTarget - self.PreTarget;
 
         public static bool FlashTo(this MoveComponent self, float3 target)
         {
-            Unit unit = self.GetParent<Unit>();
+            var unit = self.GetParent<Unit>();
             unit.Position = target;
             return true;
         }
@@ -269,13 +225,17 @@ namespace ET
             self.MoveFinish(ret);
         }
 
+        public static void StopForce(this MoveComponent self) =>
+                //self.MoveFinish(false);
+                self.Stop(false);
+
         private static void MoveFinish(this MoveComponent self, bool ret)
         {
             if (self.StartTime == 0)
             {
                 return;
             }
-            
+
             self.StartTime = 0;
             self.StartPos = float3.zero;
             self.BeginTime = 0;
@@ -289,9 +249,48 @@ namespace ET
 
             if (self.tcs != null)
             {
-                var tcs = self.tcs;
+                ETTask<bool> tcs = self.tcs;
                 self.tcs = null;
                 tcs.SetResult(ret);
+            }
+        }
+
+        [Invoke(TimerInvokeType.MoveTimer)]
+        public class MoveTimer: ATimer<MoveComponent>
+        {
+            protected override void Run(MoveComponent self)
+            {
+                try
+                {
+                    self.MoveForward(true);
+                }
+                catch (Exception e)
+                {
+                    Log.Error($"move timer error: {self.Id}\n{e}");
+                }
+            }
+        }
+
+        [ObjectSystem]
+        public class DestroySystem: DestroySystem<MoveComponent>
+        {
+            protected override void Destroy(MoveComponent self) => self.MoveFinish(true);
+        }
+
+        [ObjectSystem]
+        public class AwakeSystem: AwakeSystem<MoveComponent>
+        {
+            protected override void Awake(MoveComponent self)
+            {
+                self.StartTime = 0;
+                self.StartPos = float3.zero;
+                self.NeedTime = 0;
+                self.MoveTimer = 0;
+                self.tcs = null;
+                self.Targets.Clear();
+                self.Speed = 0;
+                self.N = 0;
+                self.TurnTime = 0;
             }
         }
     }

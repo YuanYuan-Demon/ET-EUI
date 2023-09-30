@@ -21,6 +21,11 @@ public sealed partial class TGlobalConfig: Luban.BeanBase
     {
         BagCapacityLimit = _buf.ReadInt();
         BagCapacityStart = _buf.ReadInt();
+        RouterHttpHost = _buf.ReadString();
+        RouterHttpPort = _buf.ReadInt();
+        AccountHost = _buf.ReadString();
+        AccountPort = _buf.ReadInt();
+        SessionTimeoutTime = _buf.ReadInt();
         PostInit();
     }
 
@@ -37,14 +42,32 @@ public sealed partial class TGlobalConfig: Luban.BeanBase
     /// 背包起始容量
     /// </summary>
     public int BagCapacityStart { get; private set; }
+    /// <summary>
+    /// RouterManager地址
+    /// </summary>
+    public string RouterHttpHost { get; private set; }
+    /// <summary>
+    /// RouterManager端口
+    /// </summary>
+    public int RouterHttpPort { get; private set; }
+    /// <summary>
+    /// 账号服务器地址
+    /// </summary>
+    public string AccountHost { get; private set; }
+    /// <summary>
+    /// 账号服务器端口
+    /// </summary>
+    public int AccountPort { get; private set; }
+    /// <summary>
+    /// 连接超时时间
+    /// </summary>
+    public int SessionTimeoutTime { get; private set; }
 
     public const int __ID__ = 165700409;
     public override int GetTypeId() => __ID__;
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
-        
-        
         PostResolve();
     }
 
@@ -53,6 +76,11 @@ public sealed partial class TGlobalConfig: Luban.BeanBase
         return "{ "
         + "bagCapacityLimit:" + BagCapacityLimit + ","
         + "bagCapacityStart:" + BagCapacityStart + ","
+        + "RouterHttpHost:" + RouterHttpHost + ","
+        + "RouterHttpPort:" + RouterHttpPort + ","
+        + "AccountHost:" + AccountHost + ","
+        + "AccountPort:" + AccountPort + ","
+        + "SessionTimeoutTime:" + SessionTimeoutTime + ","
         + "}";
     }
 }

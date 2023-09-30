@@ -28,7 +28,7 @@ namespace ET
         private const string serverMessagePath = "../Unity/Assets/Scripts/Codes/Model/Generate/Server/Message/";
         private const string clientServerMessagePath = "../Unity/Assets/Scripts/Codes/Model/Generate/ClientServer/Message/";
         private static readonly char[] splitChars = { ' ', '\t' };
-        private static readonly List<OpcodeInfo> msgOpcode = new List<OpcodeInfo>();
+        private static readonly List<OpcodeInfo> msgOpcode = new();
 
         public static void Proto2CS()
         {
@@ -43,7 +43,7 @@ namespace ET
             {
                 Directory.Delete(serverMessagePath, true);
             }
-            
+
             if (Directory.Exists(clientServerMessagePath))
             {
                 Directory.Delete(clientServerMessagePath, true);
@@ -56,6 +56,7 @@ namespace ET
                 {
                     continue;
                 }
+
                 string fileName = Path.GetFileNameWithoutExtension(s);
                 string[] ss2 = fileName.Split('_');
                 string protoName = ss2[0];
@@ -70,16 +71,16 @@ namespace ET
             string ns = "ET";
             msgOpcode.Clear();
             string proto = Path.Combine(protoDir, $"{fileName}.proto");
-            
+
             string s = File.ReadAllText(proto);
 
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.Append("using ET;\n");
             sb.Append("using ProtoBuf;\n");
             sb.Append("using System.Collections.Generic;\n");
             sb.Append($"namespace {ns}\n");
             sb.Append("{\n");
-            
+
             bool isMsgStart = false;
             foreach (string line in s.Split('\n'))
             {
@@ -115,7 +116,7 @@ namespace ET
                         parentClass = ss[1].Trim();
                     }
 
-                    msgOpcode.Add(new OpcodeInfo() { Name = msgName, Opcode = ++startOpcode });
+                    msgOpcode.Add(new() { Name = msgName, Opcode = ++startOpcode });
 
                     sb.Append($"\t[Message({protoName}.{msgName})]\n");
                     sb.Append($"\t[ProtoContract]\n");
@@ -175,7 +176,6 @@ namespace ET
                 }
             }
 
-
             sb.Append("\tpublic static class " + protoName + "\n\t{\n");
             foreach (OpcodeInfo info in msgOpcode)
             {
@@ -183,7 +183,6 @@ namespace ET
             }
 
             sb.Append("\t}\n");
-            
 
             sb.Append("}\n");
 
@@ -193,7 +192,7 @@ namespace ET
                 GenerateCS(sb, serverMessagePath, proto);
                 GenerateCS(sb, clientServerMessagePath, proto);
             }
-            
+
             if (cs.Contains("S"))
             {
                 GenerateCS(sb, serverMessagePath, proto);
@@ -209,8 +208,8 @@ namespace ET
             }
 
             string csPath = Path.Combine(path, Path.GetFileNameWithoutExtension(proto) + ".cs");
-            using FileStream txt = new FileStream(csPath, FileMode.Create, FileAccess.ReadWrite);
-            using StreamWriter sw = new StreamWriter(txt);
+            using FileStream txt = new(csPath, FileMode.Create, FileAccess.ReadWrite);
+            using StreamWriter sw = new(txt);
             sw.Write(sb.ToString());
         }
 
@@ -226,12 +225,13 @@ namespace ET
             ss = tail.Trim().Replace(";", "").Split(" ");
             string v = ss[0];
             string n = ss[2];
-            
-            sb.Append("\t\t[MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]\n");
+
+            sb.Append(
+                "\t\t[MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]\n");
             sb.Append($"\t\t[ProtoMember({n})]\n");
-            sb.Append($"\t\tpublic Dictionary<{keyType}, {valueType}> {v} {{ get; set; }}\n");
+            sb.Append($"\t\tpublic Dictionary<{keyType}, {valueType}> {v} {{ get; set; }} = new();\n");
         }
-        
+
         private static void Repeated(StringBuilder sb, string ns, string newline)
         {
             try
@@ -245,7 +245,7 @@ namespace ET
                 int n = int.Parse(ss[4]);
 
                 sb.Append($"\t\t[ProtoMember({n})]\n");
-                sb.Append($"\t\tpublic List<{type}> {name} {{ get; set; }}\n\n");
+                sb.Append($"\t\tpublic List<{type}> {name} {{ get; set; }} = new();\n\n");
             }
             catch (Exception e)
             {

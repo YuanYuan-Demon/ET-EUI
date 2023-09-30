@@ -2,9 +2,8 @@
 
 namespace ET.Client
 {
-    
     [ObjectSystem]
-    public class UIPathComponentAwakeSystem : AwakeSystem<UIPathComponent>
+    public class UIPathComponentAwakeSystem: AwakeSystem<UIPathComponent>
     {
         protected override void Awake(UIPathComponent self)
         {
@@ -12,9 +11,9 @@ namespace ET.Client
             self.Awake();
         }
     }
-    
+
     [ObjectSystem]
-    public class UIPathComponentDestroySystem : DestroySystem<UIPathComponent>
+    public class UIPathComponentDestroySystem: DestroySystem<UIPathComponent>
     {
         protected override void Destroy(UIPathComponent self)
         {
@@ -23,17 +22,17 @@ namespace ET.Client
             UIPathComponent.Instance = null;
         }
     }
-    
-    [FriendOf(typeof(UIPathComponent))]
+
+    [FriendOf(typeof (UIPathComponent))]
     public static class UIPathComponentSystem
     {
         public static void Awake(this UIPathComponent self)
         {
-            foreach (WindowID windowID in Enum.GetValues(typeof(WindowID)))
+            foreach (WindowID windowID in Enum.GetValues(typeof (WindowID)))
             {
                 string dlgName = "Dlg" + windowID.ToString().Split('_')[1];
-                self.WindowPrefabPath.Add((int)windowID , dlgName);
-                self.WindowTypeIdDict.Add(dlgName, (int)windowID );
+                self.WindowPrefabPath.Add(windowID, dlgName);
+                self.WindowTypeIdDict.Add(dlgName, (int)windowID);
             }
         }
     }

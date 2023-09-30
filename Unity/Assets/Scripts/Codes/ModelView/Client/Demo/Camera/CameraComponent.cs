@@ -1,20 +1,33 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using UnityEngine;
 
 namespace ET.Client
 {
-	public class CameraComponent : Entity, IAwake, ILateUpdate
-	{
-		// 战斗摄像机
-		public Camera mainCamera;
+    [ComponentOf(typeof (Scene))]
+    public class CameraComponent: Entity, IAwake, IUpdate
+    {
+        public CinemachineBrain BrainCamera;
 
-		public Unit Unit;
+        /// <summary>
+        ///     摄像机与角色的距离
+        /// </summary>
+        public float CameraDistance = 10;
 
-		public Camera MainCamera
-		{
-			get
-			{
-				return this.mainCamera;
-			}
-		}
-	}
+        public CinemachineFramingTransposer FramingTransposer;
+
+        public bool IsEnableRotate = false;
+        public Camera MainCamera;
+
+        /// <summary>
+        ///     摄像机X轴的旋转
+        /// </summary>
+        public float TargetPitch = 45;
+
+        /// <summary>
+        ///     摄像机Y轴的旋转
+        /// </summary>
+        public float TargetYaw;
+
+        public CinemachineVirtualCamera VirtualCamera;
+    }
 }

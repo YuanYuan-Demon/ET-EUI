@@ -4,7 +4,7 @@
     "entry_type": 1,
     "entry_level": 1,
     "entry_score": 1,
-    "attribute_type": 1002,
+    "attribute_type": 5,
     "attribute_min_value": 1,
     "attribute_max_value": 1
   },
@@ -13,7 +13,7 @@
     "entry_type": 1,
     "entry_level": 1,
     "entry_score": 1,
-    "attribute_type": 1016,
+    "attribute_type": 48,
     "attribute_min_value": 1,
     "attribute_max_value": 1
   },
@@ -22,7 +22,7 @@
     "entry_type": 1,
     "entry_level": 1,
     "entry_score": 1,
-    "attribute_type": 1017,
+    "attribute_type": 49,
     "attribute_min_value": 2000,
     "attribute_max_value": 2000
   },
@@ -31,7 +31,7 @@
     "entry_type": 1,
     "entry_level": 2,
     "entry_score": 2,
-    "attribute_type": 1011,
+    "attribute_type": 23,
     "attribute_min_value": 1,
     "attribute_max_value": 1
   },
@@ -40,7 +40,7 @@
     "entry_type": 1,
     "entry_level": 2,
     "entry_score": 2,
-    "attribute_type": 1019,
+    "attribute_type": 56,
     "attribute_min_value": 2000,
     "attribute_max_value": 2000
   },
@@ -49,7 +49,7 @@
     "entry_type": 1,
     "entry_level": 2,
     "entry_score": 2,
-    "attribute_type": 1002,
+    "attribute_type": 5,
     "attribute_min_value": 1,
     "attribute_max_value": 1
   },
@@ -58,7 +58,7 @@
     "entry_type": 1,
     "entry_level": 2,
     "entry_score": 2,
-    "attribute_type": 1016,
+    "attribute_type": 48,
     "attribute_min_value": 2,
     "attribute_max_value": 2
   },
@@ -67,7 +67,7 @@
     "entry_type": 1,
     "entry_level": 3,
     "entry_score": 3,
-    "attribute_type": 1017,
+    "attribute_type": 49,
     "attribute_min_value": 3000,
     "attribute_max_value": 3000
   },
@@ -76,7 +76,7 @@
     "entry_type": 2,
     "entry_level": 1,
     "entry_score": 3,
-    "attribute_type": 1011,
+    "attribute_type": 23,
     "attribute_min_value": 3,
     "attribute_max_value": 3
   },
@@ -85,7 +85,7 @@
     "entry_type": 2,
     "entry_level": 1,
     "entry_score": 3,
-    "attribute_type": 1019,
+    "attribute_type": 56,
     "attribute_min_value": 3000,
     "attribute_max_value": 3000
   },
@@ -94,7 +94,7 @@
     "entry_type": 2,
     "entry_level": 2,
     "entry_score": 3,
-    "attribute_type": 1002,
+    "attribute_type": 5,
     "attribute_min_value": 4,
     "attribute_max_value": 4
   },
@@ -103,7 +103,7 @@
     "entry_type": 2,
     "entry_level": 2,
     "entry_score": 3,
-    "attribute_type": 1016,
+    "attribute_type": 48,
     "attribute_min_value": 4,
     "attribute_max_value": 4
   },
@@ -112,7 +112,7 @@
     "entry_type": 2,
     "entry_level": 3,
     "entry_score": 3,
-    "attribute_type": 1017,
+    "attribute_type": 49,
     "attribute_min_value": 4000,
     "attribute_max_value": 4000
   }

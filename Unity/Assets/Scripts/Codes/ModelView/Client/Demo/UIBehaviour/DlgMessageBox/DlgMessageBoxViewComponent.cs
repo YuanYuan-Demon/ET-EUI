@@ -1,4 +1,6 @@
+﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ET.Client
 {
@@ -6,23 +8,21 @@ namespace ET.Client
     [EnableMethod]
     public class DlgMessageBoxViewComponent: Entity, IAwake, IDestroy
     {
-        private UnityEngine.UI.Button m_EB_CancelButton = null;
-        private UnityEngine.UI.Image m_EB_CancelImage = null;
-        private UnityEngine.UI.Button m_EB_OKButton = null;
-        private UnityEngine.UI.Image m_EB_OKImage = null;
-        private UnityEngine.RectTransform m_EG_IconsRectTransform = null;
+        private Button m_EB_Cancel_Button;
+        private Button m_EB_OK_Button;
+        private RectTransform m_EG_Icons_RectTransform;
 
-        private UnityEngine.RectTransform m_EG_PanelRectTransform = null;
-        private UnityEngine.UI.Image m_EI_ErrorImage = null;
-        private UnityEngine.UI.Image m_EI_InformationImage = null;
-        private UnityEngine.UI.Image m_EI_QuestionImage = null;
-        private TMPro.TextMeshProUGUI m_ET_CancelTextMeshProUGUI = null;
-        private TMPro.TextMeshProUGUI m_ET_MessageTextMeshProUGUI = null;
-        private TMPro.TextMeshProUGUI m_ET_OKTextMeshProUGUI = null;
-        private TMPro.TextMeshProUGUI m_ET_TitleTextMeshProUGUI = null;
-        public Transform uiTransform = null;
+        private RectTransform m_EG_Panel_RectTransform;
+        private Image m_EI_Error_Image;
+        private Image m_EI_Information_Image;
+        private Image m_EI_Question_Image;
+        private TextMeshProUGUI m_ET_Cancel_TextMeshProUGUI;
+        private TextMeshProUGUI m_ET_Message_TextMeshProUGUI;
+        private TextMeshProUGUI m_ET_OK_TextMeshProUGUI;
+        private TextMeshProUGUI m_ET_Title_TextMeshProUGUI;
+        public Transform uiTransform;
 
-        public UnityEngine.RectTransform EG_PanelRectTransform
+        public RectTransform EG_Panel_RectTransform
         {
             get
             {
@@ -32,16 +32,16 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EG_PanelRectTransform == null)
+                if (this.m_EG_Panel_RectTransform == null)
                 {
-                    this.m_EG_PanelRectTransform = UIFindHelper.FindDeepChild<UnityEngine.RectTransform>(this.uiTransform.gameObject, "EG_Panel");
+                    this.m_EG_Panel_RectTransform = UIHelper.FindDeepChild<RectTransform>(this.uiTransform.gameObject, "EG_Panel");
                 }
 
-                return this.m_EG_PanelRectTransform;
+                return this.m_EG_Panel_RectTransform;
             }
         }
 
-        public TMPro.TextMeshProUGUI ET_TitleTextMeshProUGUI
+        public TextMeshProUGUI ET_Title_TextMeshProUGUI
         {
             get
             {
@@ -51,17 +51,17 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_ET_TitleTextMeshProUGUI == null)
+                if (this.m_ET_Title_TextMeshProUGUI == null)
                 {
-                    this.m_ET_TitleTextMeshProUGUI =
-                            UIFindHelper.FindDeepChild<TMPro.TextMeshProUGUI>(this.uiTransform.gameObject, "EG_Panel/TitleBar/ET_Title");
+                    this.m_ET_Title_TextMeshProUGUI =
+                            UIHelper.FindDeepChild<TextMeshProUGUI>(this.uiTransform.gameObject, "EG_Panel/TitleBar/ET_Title");
                 }
 
-                return this.m_ET_TitleTextMeshProUGUI;
+                return this.m_ET_Title_TextMeshProUGUI;
             }
         }
 
-        public UnityEngine.RectTransform EG_IconsRectTransform
+        public RectTransform EG_Icons_RectTransform
         {
             get
             {
@@ -71,17 +71,16 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EG_IconsRectTransform == null)
+                if (this.m_EG_Icons_RectTransform == null)
                 {
-                    this.m_EG_IconsRectTransform =
-                            UIFindHelper.FindDeepChild<UnityEngine.RectTransform>(this.uiTransform.gameObject, "EG_Panel/Message/EG_Icons");
+                    this.m_EG_Icons_RectTransform = UIHelper.FindDeepChild<RectTransform>(this.uiTransform.gameObject, "EG_Panel/Message/EG_Icons");
                 }
 
-                return this.m_EG_IconsRectTransform;
+                return this.m_EG_Icons_RectTransform;
             }
         }
 
-        public UnityEngine.UI.Image EI_InformationImage
+        public Image EI_Information_Image
         {
             get
             {
@@ -91,17 +90,17 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EI_InformationImage == null)
+                if (this.m_EI_Information_Image == null)
                 {
-                    this.m_EI_InformationImage =
-                            UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject, "EG_Panel/Message/EG_Icons/EI_Information");
+                    this.m_EI_Information_Image =
+                            UIHelper.FindDeepChild<Image>(this.uiTransform.gameObject, "EG_Panel/Message/EG_Icons/EI_Information");
                 }
 
-                return this.m_EI_InformationImage;
+                return this.m_EI_Information_Image;
             }
         }
 
-        public UnityEngine.UI.Image EI_QuestionImage
+        public Image EI_Question_Image
         {
             get
             {
@@ -111,17 +110,16 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EI_QuestionImage == null)
+                if (this.m_EI_Question_Image == null)
                 {
-                    this.m_EI_QuestionImage =
-                            UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject, "EG_Panel/Message/EG_Icons/EI_Question");
+                    this.m_EI_Question_Image = UIHelper.FindDeepChild<Image>(this.uiTransform.gameObject, "EG_Panel/Message/EG_Icons/EI_Question");
                 }
 
-                return this.m_EI_QuestionImage;
+                return this.m_EI_Question_Image;
             }
         }
 
-        public UnityEngine.UI.Image EI_ErrorImage
+        public Image EI_Error_Image
         {
             get
             {
@@ -131,17 +129,16 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EI_ErrorImage == null)
+                if (this.m_EI_Error_Image == null)
                 {
-                    this.m_EI_ErrorImage =
-                            UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject, "EG_Panel/Message/EG_Icons/EI_Error");
+                    this.m_EI_Error_Image = UIHelper.FindDeepChild<Image>(this.uiTransform.gameObject, "EG_Panel/Message/EG_Icons/EI_Error");
                 }
 
-                return this.m_EI_ErrorImage;
+                return this.m_EI_Error_Image;
             }
         }
 
-        public TMPro.TextMeshProUGUI ET_MessageTextMeshProUGUI
+        public TextMeshProUGUI ET_Message_TextMeshProUGUI
         {
             get
             {
@@ -151,17 +148,17 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_ET_MessageTextMeshProUGUI == null)
+                if (this.m_ET_Message_TextMeshProUGUI == null)
                 {
-                    this.m_ET_MessageTextMeshProUGUI =
-                            UIFindHelper.FindDeepChild<TMPro.TextMeshProUGUI>(this.uiTransform.gameObject, "EG_Panel/Message/ET_Message");
+                    this.m_ET_Message_TextMeshProUGUI =
+                            UIHelper.FindDeepChild<TextMeshProUGUI>(this.uiTransform.gameObject, "EG_Panel/Message/ET_Message");
                 }
 
-                return this.m_ET_MessageTextMeshProUGUI;
+                return this.m_ET_Message_TextMeshProUGUI;
             }
         }
 
-        public UnityEngine.UI.Button EB_OKButton
+        public Button EB_OK_Button
         {
             get
             {
@@ -171,16 +168,16 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EB_OKButton == null)
+                if (this.m_EB_OK_Button == null)
                 {
-                    this.m_EB_OKButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject, "EG_Panel/Buttons/EB_OK");
+                    this.m_EB_OK_Button = UIHelper.FindDeepChild<Button>(this.uiTransform.gameObject, "EG_Panel/Buttons/EB_OK");
                 }
 
-                return this.m_EB_OKButton;
+                return this.m_EB_OK_Button;
             }
         }
 
-        public UnityEngine.UI.Image EB_OKImage
+        public TextMeshProUGUI ET_OK_TextMeshProUGUI
         {
             get
             {
@@ -190,16 +187,17 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EB_OKImage == null)
+                if (this.m_ET_OK_TextMeshProUGUI == null)
                 {
-                    this.m_EB_OKImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject, "EG_Panel/Buttons/EB_OK");
+                    this.m_ET_OK_TextMeshProUGUI =
+                            UIHelper.FindDeepChild<TextMeshProUGUI>(this.uiTransform.gameObject, "EG_Panel/Buttons/EB_OK/ET_OK");
                 }
 
-                return this.m_EB_OKImage;
+                return this.m_ET_OK_TextMeshProUGUI;
             }
         }
 
-        public TMPro.TextMeshProUGUI ET_OKTextMeshProUGUI
+        public Button EB_Cancel_Button
         {
             get
             {
@@ -209,17 +207,16 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_ET_OKTextMeshProUGUI == null)
+                if (this.m_EB_Cancel_Button == null)
                 {
-                    this.m_ET_OKTextMeshProUGUI =
-                            UIFindHelper.FindDeepChild<TMPro.TextMeshProUGUI>(this.uiTransform.gameObject, "EG_Panel/Buttons/EB_OK/ET_OK");
+                    this.m_EB_Cancel_Button = UIHelper.FindDeepChild<Button>(this.uiTransform.gameObject, "EG_Panel/Buttons/EB_Cancel");
                 }
 
-                return this.m_ET_OKTextMeshProUGUI;
+                return this.m_EB_Cancel_Button;
             }
         }
 
-        public UnityEngine.UI.Button EB_CancelButton
+        public TextMeshProUGUI ET_Cancel_TextMeshProUGUI
         {
             get
             {
@@ -229,71 +226,29 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EB_CancelButton == null)
+                if (this.m_ET_Cancel_TextMeshProUGUI == null)
                 {
-                    this.m_EB_CancelButton =
-                            UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject, "EG_Panel/Buttons/EB_Cancel");
+                    this.m_ET_Cancel_TextMeshProUGUI =
+                            UIHelper.FindDeepChild<TextMeshProUGUI>(this.uiTransform.gameObject, "EG_Panel/Buttons/EB_Cancel/ET_Cancel");
                 }
 
-                return this.m_EB_CancelButton;
-            }
-        }
-
-        public UnityEngine.UI.Image EB_CancelImage
-        {
-            get
-            {
-                if (this.uiTransform == null)
-                {
-                    Log.Error("uiTransform is null.");
-                    return null;
-                }
-
-                if (this.m_EB_CancelImage == null)
-                {
-                    this.m_EB_CancelImage =
-                            UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject, "EG_Panel/Buttons/EB_Cancel");
-                }
-
-                return this.m_EB_CancelImage;
-            }
-        }
-
-        public TMPro.TextMeshProUGUI ET_CancelTextMeshProUGUI
-        {
-            get
-            {
-                if (this.uiTransform == null)
-                {
-                    Log.Error("uiTransform is null.");
-                    return null;
-                }
-
-                if (this.m_ET_CancelTextMeshProUGUI == null)
-                {
-                    this.m_ET_CancelTextMeshProUGUI =
-                            UIFindHelper.FindDeepChild<TMPro.TextMeshProUGUI>(this.uiTransform.gameObject, "EG_Panel/Buttons/EB_Cancel/ET_Cancel");
-                }
-
-                return this.m_ET_CancelTextMeshProUGUI;
+                return this.m_ET_Cancel_TextMeshProUGUI;
             }
         }
 
         public void DestroyWidget()
         {
-            this.m_EG_PanelRectTransform = null;
-            this.m_ET_TitleTextMeshProUGUI = null;
-            this.m_EG_IconsRectTransform = null;
-            this.m_EI_InformationImage = null;
-            this.m_EI_QuestionImage = null;
-            this.m_EI_ErrorImage = null;
-            this.m_ET_MessageTextMeshProUGUI = null;
-            this.m_EB_OKButton = null;
-            this.m_EB_OKImage = null;
-            this.m_ET_OKTextMeshProUGUI = null;
-            this.m_EB_CancelButton = null;
-            this.m_EB_CancelImage = null;
-            this.m_ET_CancelTextMeshProUGUI = null;
+            this.m_EG_Panel_RectTransform = null;
+            this.m_ET_Title_TextMeshProUGUI = null;
+            this.m_EG_Icons_RectTransform = null;
+            this.m_EI_Information_Image = null;
+            this.m_EI_Question_Image = null;
+            this.m_EI_Error_Image = null;
+            this.m_ET_Message_TextMeshProUGUI = null;
+            this.m_EB_OK_Button = null;
+            this.m_ET_OK_TextMeshProUGUI = null;
+            this.m_EB_Cancel_Button = null;
+            this.m_ET_Cancel_TextMeshProUGUI = null;
             this.uiTransform = null;
         }
     }

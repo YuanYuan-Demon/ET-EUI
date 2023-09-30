@@ -5,23 +5,20 @@ namespace ET
     public static class OpcodeHelper
     {
         [StaticField]
-        private static readonly HashSet<ushort> ignoreDebugLogMessageSet = new HashSet<ushort>
+        private static readonly HashSet<ushort> ignoreDebugLogMessageSet = new()
         {
             OuterMessage.C2G_Ping,
             OuterMessage.G2C_Ping,
             OuterMessage.C2G_Benchmark,
             OuterMessage.G2C_Benchmark,
-            ushort.MaxValue, // ActorResponse
+            OuterMessage.C2M_PathfindingResult,
+            OuterMessage.M2C_PathfindingResult,
+            ushort.MaxValue // ActorResponse
         };
 
         private static bool IsNeedLogMessage(ushort opcode)
         {
-            if (ignoreDebugLogMessageSet.Contains(opcode))
-            {
-                return false;
-            }
-
-            return true;
+            return !ignoreDebugLogMessageSet.Contains(opcode);
         }
 
         public static bool IsOuterMessage(ushort opcode)
@@ -36,23 +33,23 @@ namespace ET
 
         public static void LogMsg(int zone, object message)
         {
-            ushort opcode = NetServices.Instance.GetOpcode(message.GetType());
+            var opcode = NetServices.Instance.GetOpcode(message.GetType());
             if (!IsNeedLogMessage(opcode))
             {
                 return;
             }
-            
+
             Logger.Instance.Debug("zone: {0} {1}", zone, message);
         }
-        
+
         public static void LogMsg(long actorId, object message)
         {
-            ushort opcode = NetServices.Instance.GetOpcode(message.GetType());
+            var opcode = NetServices.Instance.GetOpcode(message.GetType());
             if (!IsNeedLogMessage(opcode))
             {
                 return;
             }
-            
+
             Logger.Instance.Debug("actorId: {0} {1}", actorId, message);
         }
     }

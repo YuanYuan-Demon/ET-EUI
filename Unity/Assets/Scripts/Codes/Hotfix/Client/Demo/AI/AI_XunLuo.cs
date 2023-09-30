@@ -11,6 +11,7 @@ namespace ET.Client
             {
                 return 0;
             }
+
             return 1;
         }
 
@@ -18,23 +19,24 @@ namespace ET.Client
         {
             Scene clientScene = aiComponent.DomainScene();
 
-            Unit myUnit = UnitHelper.GetMyUnitFromClientScene(clientScene);
+            Unit myUnit = clientScene.GetMyUnit();
             if (myUnit == null)
             {
                 return;
             }
-            
+
             Log.Debug("开始巡逻");
 
             while (true)
             {
-                XunLuoPathComponent xunLuoPathComponent = myUnit.GetComponent<XunLuoPathComponent>();
+                var xunLuoPathComponent = myUnit.GetComponent<XunLuoPathComponent>();
                 float3 nextTarget = xunLuoPathComponent.GetCurrent();
                 await myUnit.MoveToAsync(nextTarget, cancellationToken);
                 if (cancellationToken.IsCancel())
                 {
                     return;
                 }
+
                 xunLuoPathComponent.MoveNext();
             }
         }

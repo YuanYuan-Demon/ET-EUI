@@ -12,9 +12,6 @@
         SpeedFinalAdd = Speed * 10 + 4,
         SpeedFinalPct = Speed * 10 + 5,
 
-        Hp = 1001,
-        HpBase = Hp * 10 + 1,
-
         MaxHp = 1002,
         MaxHpBase = MaxHp * 10 + 1,
         MaxHpAdd = MaxHp * 10 + 2,
@@ -36,14 +33,21 @@
         MaxMpFinalAdd = MaxMp * 10 + 4,
         MaxMpFinalPct = MaxMp * 10 + 5,
 
-        DamageValue = 1011, //伤害
-        DamageValueBase = DamageValue * 10 + 1,
-        DamageValueAdd = DamageValue * 10 + 2,
-        DamageValuePct = DamageValue * 10 + 3,
-        DamageValueFinalAdd = DamageValue * 10 + 4,
-        DamageValueFinalPct = DamageValue * 10 + 5,
+        AD = 1011, //物理攻击
+        ADBase = AD * 10 + 1,
+        ADAdd = AD * 10 + 2,
+        ADPct = AD * 10 + 3,
+        ADFinalAdd = AD * 10 + 4,
+        ADFinalPct = AD * 10 + 5,
 
-        AdditionalDdamage = 1012, //伤害追加
+        AdditionalAD = 1012, //伤害追加
+
+        Hp = 1013, // 生命值
+        HpBase = Hp * 10 + 1,
+        HpAdd = Hp * 10 + 2,
+        HpPct = Hp * 10 + 3,
+        HpFinalAdd = Hp * 10 + 4,
+        HpFinalPct = Hp * 10 + 5,
 
         MP = 1014, //法力值
         MPBase = MP * 10 + 1,
@@ -52,14 +56,14 @@
         MPFinalAdd = MP * 10 + 4,
         MPFinalPct = MP * 10 + 5,
 
-        Armor = 1015, //护甲
-        ArmorBase = Armor * 10 + 1,
-        ArmorAdd = Armor * 10 + 2,
-        ArmorPct = Armor * 10 + 3,
-        ArmorFinalAdd = Armor * 10 + 4,
-        ArmorFinalPct = Armor * 10 + 5,
+        DEF = 1015, //护甲
+        DEFBase = DEF * 10 + 1,
+        DEFAdd = DEF * 10 + 2,
+        DEFPct = DEF * 10 + 3,
+        DEFFinalAdd = DEF * 10 + 4,
+        DEFFinalPct = DEF * 10 + 5,
 
-        ArmorAddition = 1015, //护甲追加
+        DEFAddition = 1016, //护甲追加
 
         Dodge = 1017, //闪避
         DodgeBase = Dodge * 10 + 1,
@@ -70,20 +74,34 @@
 
         DodgeAddition = 1018, // 闪避追加
 
-        CriticalHitRate = 1019, //暴击率
-        CriticalHitRateBase = CriticalHitRate * 10 + 1,
-        CriticalHitRateAdd = CriticalHitRate * 10 + 2,
-        CriticalHitRatePct = CriticalHitRate * 10 + 3,
-        CriticalHitRateFinalAdd = CriticalHitRate * 10 + 4,
-        CriticalHitRateFinalPct = CriticalHitRate * 10 + 5,
+        CRI = 1019, //暴击率
+        CRIBase = CRI * 10 + 1,
+        CRIAdd = CRI * 10 + 2,
+        CRIPct = CRI * 10 + 3,
+        CRIFinalAdd = CRI * 10 + 4,
+        CRIFinalPct = CRI * 10 + 5,
 
-        Power = 3001, //力量
+        AP = 1020, //魔法攻击
+        APBase = AP * 10 + 1,
+        APAdd = AP * 10 + 2,
+        APPct = AP * 10 + 3,
+        APFinalAdd = AP * 10 + 4,
+        APFinalPct = AP * 10 + 5,
 
-        PhysicalStrength = 3002, //体力
+        MDEF = 1020, //魔抗
+        MDEFBase = MDEF * 10 + 1,
+        MDEFAdd = MDEF * 10 + 2,
+        MDEFPct = MDEF * 10 + 3,
+        MDEFFinalAdd = MDEF * 10 + 4,
+        MDEFFinalPct = MDEF * 10 + 5,
 
-        Agile = 3003, //敏捷值
+        STR = 3001, //力量
 
-        Spirit = 3004, //精神
+        STA = 3002, //耐力
+
+        DEX = 3003, //敏捷值
+
+        INT = 3004, //智力
 
         AttributePoints = 3005, //属性点
 

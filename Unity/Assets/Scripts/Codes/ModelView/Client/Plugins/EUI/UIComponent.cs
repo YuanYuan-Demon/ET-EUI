@@ -17,10 +17,10 @@ namespace ET.Client
         [StaticField]
         public static UIComponent Instance;
 
-        public Dictionary<int, UIBaseWindow> AllWindowsDic = new();
+        public Dictionary<WindowID, UIBaseWindow> AllWindowsDic = new();
         public bool IsPopStackWndStatus = false;
         public Queue<WindowID> StackWindowsQueue = new();
         public List<WindowID> UIBaseWindowlistCached = new();
-        public Dictionary<int, UIBaseWindow> VisibleWindowsDic = new();
+        public Dictionary<WindowID, UIBaseWindow> VisibleWindowsDic = new();
     }
 }

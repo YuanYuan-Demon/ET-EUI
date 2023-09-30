@@ -58,11 +58,6 @@ public sealed partial class AIConfig: Luban.BeanBase
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
-        
-        
-        
-        
-        
         PostResolve();
     }
 

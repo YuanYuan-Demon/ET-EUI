@@ -20,22 +20,27 @@ namespace ET
         /// 全部
         /// </summary>
         All = 0,
+        
         /// <summary>
         /// 装备
         /// </summary>
         Equip = 1,
+        
         /// <summary>
         /// 消耗品
         /// </summary>
         Consumable = 2,
+        
         /// <summary>
         /// 材料
         /// </summary>
         Material = 3,
+        
         /// <summary>
         /// 坐骑
         /// </summary>
         Rider = 4,
+        
     }
 
 } 

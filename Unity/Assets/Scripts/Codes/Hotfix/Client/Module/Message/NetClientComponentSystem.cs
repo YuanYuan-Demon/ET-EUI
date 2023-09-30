@@ -3,47 +3,27 @@ using System.Net.Sockets;
 
 namespace ET.Client
 {
-    [FriendOf(typeof(NetClientComponent))]
+    [FriendOf(typeof (NetClientComponent))]
     public static class NetClientComponentSystem
     {
-        [ObjectSystem]
-        public class AwakeSystem: AwakeSystem<NetClientComponent, AddressFamily>
-        {
-            protected override void Awake(NetClientComponent self, AddressFamily addressFamily)
-            {
-                self.ServiceId = NetServices.Instance.AddService(new KService(addressFamily, ServiceType.Outer));
-                NetServices.Instance.RegisterReadCallback(self.ServiceId, self.OnRead);
-                NetServices.Instance.RegisterErrorCallback(self.ServiceId, self.OnError);
-            }
-        }
-
-        [ObjectSystem]
-        public class DestroySystem: DestroySystem<NetClientComponent>
-        {
-            protected override void Destroy(NetClientComponent self)
-            {
-                NetServices.Instance.RemoveService(self.ServiceId);
-            }
-        }
-
         private static void OnRead(this NetClientComponent self, long channelId, long actorId, object message)
         {
-            Session session = self.GetChild<Session>(channelId);
+            var session = self.GetChild<Session>(channelId);
             if (session == null)
             {
                 return;
             }
 
             session.LastRecvTime = TimeHelper.ClientNow();
-            
+
             OpcodeHelper.LogMsg(self.DomainZone(), message);
-            
-            EventSystem.Instance.Publish(Root.Instance.Scene, new NetClientComponentOnRead() {Session = session, Message = message});
+
+            EventSystem.Instance.Publish(Root.Instance.Scene, new NetClientComponentOnRead() { Session = session, Message = message });
         }
 
         private static void OnError(this NetClientComponent self, long channelId, int error)
         {
-            Session session = self.GetChild<Session>(channelId);
+            var session = self.GetChild<Session>(channelId);
             if (session == null)
             {
                 return;
@@ -62,11 +42,12 @@ namespace ET.Client
             {
                 session.AddComponent<SessionIdleCheckerComponent>();
             }
+
             NetServices.Instance.CreateChannel(self.ServiceId, session.Id, realIPEndPoint);
 
             return session;
         }
-        
+
         public static Session Create(this NetClientComponent self, IPEndPoint routerIPEndPoint, IPEndPoint realIPEndPoint, uint localConn)
         {
             long channelId = localConn;
@@ -76,9 +57,27 @@ namespace ET.Client
             {
                 session.AddComponent<SessionIdleCheckerComponent>();
             }
+
             NetServices.Instance.CreateChannel(self.ServiceId, session.Id, routerIPEndPoint);
 
             return session;
+        }
+
+        [ObjectSystem]
+        public class AwakeSystem: AwakeSystem<NetClientComponent, AddressFamily>
+        {
+            protected override void Awake(NetClientComponent self, AddressFamily name)
+            {
+                self.ServiceId = NetServices.Instance.AddService(new KService(name, ServiceType.Outer));
+                NetServices.Instance.RegisterReadCallback(self.ServiceId, self.OnRead);
+                NetServices.Instance.RegisterErrorCallback(self.ServiceId, self.OnError);
+            }
+        }
+
+        [ObjectSystem]
+        public class DestroySystem: DestroySystem<NetClientComponent>
+        {
+            protected override void Destroy(NetClientComponent self) => NetServices.Instance.RemoveService(self.ServiceId);
         }
     }
 }

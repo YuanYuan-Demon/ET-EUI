@@ -4,61 +4,12 @@ using System.Net;
 
 namespace ET.Server
 {
-    [FriendOf(typeof(HttpComponent))]
+    [FriendOf(typeof (HttpComponent))]
     public static class HttpComponentSystem
     {
-        public class HttpComponentAwakeSystem : AwakeSystem<HttpComponent, string>
-        {
-            protected override void Awake(HttpComponent self, string address)
-            {
-                try
-                {
-                    self.Load();
-                
-                    self.Listener = new HttpListener();
-
-                    foreach (string s in address.Split(';'))
-                    {
-                        if (s.Trim() == "")
-                        {
-                            continue;
-                        }
-                        self.Listener.Prefixes.Add(s);
-                    }
-
-                    self.Listener.Start();
-
-                    self.Accept().Coroutine();
-                }
-                catch (HttpListenerException e)
-                {
-                    throw new Exception($"请先在cmd中运行: netsh http add urlacl url=http://*:你的address中的端口/ user=Everyone, address: {address}", e);
-                }
-            }
-        }
-
-        [ObjectSystem]
-        public class HttpComponentLoadSystem: LoadSystem<HttpComponent>
-        {
-            protected override void Load(HttpComponent self)
-            {
-                self.Load();
-            }
-        }
-
-        [ObjectSystem]
-        public class HttpComponentDestroySystem: DestroySystem<HttpComponent>
-        {
-            protected override void Destroy(HttpComponent self)
-            {
-                self.Listener.Stop();
-                self.Listener.Close();
-            }
-        }
-        
         public static void Load(this HttpComponent self)
         {
-            self.dispatcher = new Dictionary<string, IHttpHandler>();
+            self.dispatcher = new();
 
             HashSet<Type> types = EventSystem.Instance.GetTypes(typeof (HttpHandlerAttribute));
 
@@ -66,13 +17,13 @@ namespace ET.Server
 
             foreach (Type type in types)
             {
-                object[] attrs = type.GetCustomAttributes(typeof(HttpHandlerAttribute), false);
+                object[] attrs = type.GetCustomAttributes(typeof (HttpHandlerAttribute), false);
                 if (attrs.Length == 0)
                 {
                     continue;
                 }
 
-                HttpHandlerAttribute httpHandlerAttribute = (HttpHandlerAttribute)attrs[0];
+                var httpHandlerAttribute = (HttpHandlerAttribute)attrs[0];
 
                 if (httpHandlerAttribute.SceneType != sceneType)
                 {
@@ -81,15 +32,16 @@ namespace ET.Server
 
                 object obj = Activator.CreateInstance(type);
 
-                IHttpHandler ihttpHandler = obj as IHttpHandler;
+                var ihttpHandler = obj as IHttpHandler;
                 if (ihttpHandler == null)
                 {
-                    throw new Exception($"HttpHandler handler not inherit IHttpHandler class: {obj.GetType().FullName}");
+                    throw new($"HttpHandler handler not inherit IHttpHandler class: {obj.GetType().FullName}");
                 }
+
                 self.dispatcher.Add(httpHandlerAttribute.Path, ihttpHandler);
             }
         }
-        
+
         public static async ETTask Accept(this HttpComponent self)
         {
             long instanceId = self.InstanceId;
@@ -124,8 +76,56 @@ namespace ET.Server
             {
                 Log.Error(e);
             }
+
             context.Request.InputStream.Dispose();
             context.Response.OutputStream.Dispose();
+        }
+
+        public class HttpComponentAwakeSystem: AwakeSystem<HttpComponent, string>
+        {
+            protected override void Awake(HttpComponent self, string name)
+            {
+                try
+                {
+                    self.Load();
+
+                    self.Listener = new();
+
+                    foreach (string s in name.Split(';'))
+                    {
+                        if (s.Trim() == "")
+                        {
+                            continue;
+                        }
+
+                        self.Listener.Prefixes.Add(s);
+                    }
+
+                    self.Listener.Start();
+
+                    self.Accept().Coroutine();
+                }
+                catch (HttpListenerException e)
+                {
+                    throw new($"请先在cmd中运行: netsh http add urlacl url=http://*:你的address中的端口/ user=Everyone, address: {name}", e);
+                }
+            }
+        }
+
+        [ObjectSystem]
+        public class HttpComponentLoadSystem: LoadSystem<HttpComponent>
+        {
+            protected override void Load(HttpComponent self) => self.Load();
+        }
+
+        [ObjectSystem]
+        public class HttpComponentDestroySystem: DestroySystem<HttpComponent>
+        {
+            protected override void Destroy(HttpComponent self)
+            {
+                self.Listener.Stop();
+                self.Listener.Close();
+            }
         }
     }
 }

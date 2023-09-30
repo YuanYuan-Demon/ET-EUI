@@ -7,21 +7,6 @@ namespace ET
     [ChildOf]
     public sealed class Scene: Entity
     {
-        public int Zone
-        {
-            get;
-        }
-
-        public SceneType SceneType
-        {
-            get;
-        }
-
-        public string Name
-        {
-            get;
-        }
-
         public Scene(long instanceId, int zone, SceneType sceneType, string name, Entity parent)
         {
             this.Id = instanceId;
@@ -49,15 +34,14 @@ namespace ET
             this.Parent = parent;
             this.Domain = this;
             this.IsRegister = true;
-            Log.Info($"scene create: {this.SceneType} {this.Name} {this.Id} {this.InstanceId} {this.Zone}");
+            // Log.Info($"scene create: {this.SceneType} {this.Name} {this.Id} {this.InstanceId} {this.Zone}");
         }
 
-        public override void Dispose()
-        {
-            base.Dispose();
-            
-            Log.Info($"scene dispose: {this.SceneType} {this.Name} {this.Id} {this.InstanceId} {this.Zone}");
-        }
+        public int Zone { get; }
+
+        public SceneType SceneType { get; }
+
+        public string Name { get; }
 
         public new Entity Domain
         {
@@ -67,10 +51,7 @@ namespace ET
 
         public new Entity Parent
         {
-            get
-            {
-                return this.parent;
-            }
+            get => this.parent;
             private set
             {
                 if (value == null)
@@ -83,13 +64,14 @@ namespace ET
                 this.parent.Children.Add(this.Id, this);
             }
         }
-        
-        protected override string ViewName
+
+        protected override string ViewName => $"{this.GetType().Name} ({this.SceneType})";
+
+        public override void Dispose()
         {
-            get
-            {
-                return $"{this.GetType().Name} ({this.SceneType})";    
-            }
+            base.Dispose();
+
+            Log.Info($"scene dispose: {this.SceneType} {this.Name} {this.Id} {this.InstanceId} {this.Zone}");
         }
     }
 }

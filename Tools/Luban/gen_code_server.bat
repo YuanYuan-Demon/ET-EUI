@@ -12,7 +12,7 @@ dotnet %Luban_Dll% ^
     -t GameConfig-%Config_Folder% ^
     --conf %Conf_Root%\luban.conf ^
     -c cs-bin ^
-    --customTemplateDir CustomTemplate ^
+    --customTemplateDir  %Conf_Root%\CustomTemplate ^
     -x outputCodeDir=%Output_Code_Dir%
 
 

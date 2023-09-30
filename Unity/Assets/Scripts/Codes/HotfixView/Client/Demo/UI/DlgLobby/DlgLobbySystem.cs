@@ -12,7 +12,7 @@
         public static async ETTask EnterMap(this DlgLobby self)
         {
             await EnterMapHelper.EnterMapAsync(self.ClientScene());
-            self.ClientScene().GetComponent<UIComponent>().HideWindow(WindowID.WindowID_Lobby);
+            UIComponent.Instance.HideWindow(WindowID.WindowID_Lobby);
         }
     }
 }

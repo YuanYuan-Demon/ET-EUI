@@ -15,8 +15,8 @@ namespace ET.Server
                 return;
             }
 
-            List<float3> list = new List<float3>();
-            
+            var list = new List<float3>();
+
             unit.GetComponent<PathfindingComponent>().Find(unit.Position, target, list);
 
             if (list.Count < 2)
@@ -24,14 +24,14 @@ namespace ET.Server
                 unit.SendStop(3);
                 return;
             }
-                
+
             // 广播寻路路径
-            M2C_PathfindingResult m2CPathfindingResult = new M2C_PathfindingResult() { Points = list };
+            var m2CPathfindingResult = new M2C_PathfindingResult() { Points = list };
             m2CPathfindingResult.Id = unit.Id;
             MessageHelper.Broadcast(unit, m2CPathfindingResult);
 
-            MoveComponent moveComponent = unit.GetComponent<MoveComponent>();
-            
+            var moveComponent = unit.GetComponent<MoveComponent>();
+
             bool ret = await moveComponent.MoveToAsync(list, speed);
             if (ret) // 如果返回false，说明被其它移动取消了，这时候不需要通知客户端stop
             {
@@ -46,15 +46,9 @@ namespace ET.Server
         }
 
         // error: 0表示协程走完正常停止
-        public static void SendStop(this Unit unit, int error)
+        public static void SendStop(this Unit unit, int error) => MessageHelper.Broadcast(unit, new M2C_Stop()
         {
-            MessageHelper.Broadcast(unit, new M2C_Stop()
-            {
-                Error = error,
-                Id = unit.Id, 
-                Position = unit.Position,
-                Rotation = unit.Rotation,
-            });
-        }
+            Error = error, Id = unit.Id, Position = unit.Position, Rotation = unit.Rotation,
+        });
     }
 }

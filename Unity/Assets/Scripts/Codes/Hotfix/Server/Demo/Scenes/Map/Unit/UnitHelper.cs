@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 
 namespace ET.Server
@@ -7,36 +8,30 @@ namespace ET.Server
     [FriendOf(typeof (NumericComponent))]
     public static class UnitHelper
     {
-        public static UnitInfo CreateUnitInfo(Unit unit)
+        public static UnitInfo ToNUnit(this Unit unit)
         {
-            UnitInfo unitInfo = new();
-            NumericComponent nc = unit.GetComponent<NumericComponent>();
-            unitInfo.UnitId = unit.Id;
-            unitInfo.ConfigId = unit.ConfigId;
-            unitInfo.Type = (int)unit.Type;
-            unitInfo.Position = unit.Position;
-            unitInfo.Forward = unit.Forward;
-
-            MoveComponent moveComponent = unit.GetComponent<MoveComponent>();
-            if (moveComponent != null)
+            var nc = unit.GetComponent<NumericComponent>();
+            UnitInfo unitInfo = new()
             {
-                if (!moveComponent.IsArrived())
+                UnitId = unit.Id,
+                ConfigId = unit.ConfigId,
+                Type = unit.Type,
+                Position = unit.Position,
+                Forward = unit.Forward,
+                Numeric = nc.NumericDic.ToDictionary(pair => pair.Key, pair => pair.Value),
+                NRoleInfo = unit.GetComponent<RoleInfo>().ToNRoleInfo(false),
+            };
+
+            var moveComponent = unit.GetComponent<MoveComponent>();
+            if (moveComponent != null && !moveComponent.IsArrived())
+            {
+                unitInfo.MoveInfo = new() { Targets = new() };
+                unitInfo.MoveInfo.Targets.Add(unit.Position);
+                for (int i = moveComponent.N; i < moveComponent.Targets.Count; ++i)
                 {
-                    unitInfo.MoveInfo = new() { Points = new() };
-                    unitInfo.MoveInfo.Points.Add(unit.Position);
-                    for (int i = moveComponent.N; i < moveComponent.Targets.Count; ++i)
-                    {
-                        float3 pos = moveComponent.Targets[i];
-                        unitInfo.MoveInfo.Points.Add(pos);
-                    }
+                    float3 pos = moveComponent.Targets[i];
+                    unitInfo.MoveInfo.Targets.Add(pos);
                 }
-            }
-
-            unitInfo.Numeric = new();
-
-            foreach ((NumericType numericType, long value) in nc.NumericDic)
-            {
-                unitInfo.Numeric.Add(numericType, value);
             }
 
             return unitInfo;

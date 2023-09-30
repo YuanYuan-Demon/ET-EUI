@@ -25,7 +25,7 @@ namespace ET.Server
             }
 
             //加载服务器信息
-            foreach (var serverInfo in scene.GetComponent<ServerInfoManagerComponent>().ServerInfos)
+            foreach (ServerInfo serverInfo in scene.GetComponent<ServerInfoManagerComponent>().ServerInfos)
             {
                 response.NServerInfos.Add(serverInfo.ToNServerInfo());
             }

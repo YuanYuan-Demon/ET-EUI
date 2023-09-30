@@ -7,7 +7,7 @@ namespace ET
     [ResponseType(nameof (ObjectQueryResponse))]
     [Message(InnerMessage.ObjectQueryRequest)]
     [ProtoContract]
-    public class ObjectQueryRequest: ProtoObject, IActorRequest
+    public partial class ObjectQueryRequest: ProtoObject, IActorRequest
     {
         [ProtoMember(2)]
         public long Key { get; set; }
@@ -22,7 +22,7 @@ namespace ET
     [ResponseType(nameof (A2M_Reload))]
     [Message(InnerMessage.M2A_Reload)]
     [ProtoContract]
-    public class M2A_Reload: ProtoObject, IActorRequest
+    public partial class M2A_Reload: ProtoObject, IActorRequest
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -30,7 +30,7 @@ namespace ET
 
     [Message(InnerMessage.A2M_Reload)]
     [ProtoContract]
-    public class A2M_Reload: ProtoObject, IActorResponse
+    public partial class A2M_Reload: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -45,7 +45,7 @@ namespace ET
     [ResponseType(nameof (G2G_LockResponse))]
     [Message(InnerMessage.G2G_LockRequest)]
     [ProtoContract]
-    public class G2G_LockRequest: ProtoObject, IActorRequest
+    public partial class G2G_LockRequest: ProtoObject, IActorRequest
     {
         [ProtoMember(2)]
         public long Id { get; set; }
@@ -59,7 +59,7 @@ namespace ET
 
     [Message(InnerMessage.G2G_LockResponse)]
     [ProtoContract]
-    public class G2G_LockResponse: ProtoObject, IActorResponse
+    public partial class G2G_LockResponse: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -74,7 +74,7 @@ namespace ET
     [ResponseType(nameof (G2G_LockReleaseResponse))]
     [Message(InnerMessage.G2G_LockReleaseRequest)]
     [ProtoContract]
-    public class G2G_LockReleaseRequest: ProtoObject, IActorRequest
+    public partial class G2G_LockReleaseRequest: ProtoObject, IActorRequest
     {
         [ProtoMember(2)]
         public long Id { get; set; }
@@ -88,7 +88,7 @@ namespace ET
 
     [Message(InnerMessage.G2G_LockReleaseResponse)]
     [ProtoContract]
-    public class G2G_LockReleaseResponse: ProtoObject, IActorResponse
+    public partial class G2G_LockReleaseResponse: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -103,7 +103,7 @@ namespace ET
     [ResponseType(nameof (ObjectAddResponse))]
     [Message(InnerMessage.ObjectAddRequest)]
     [ProtoContract]
-    public class ObjectAddRequest: ProtoObject, IActorRequest
+    public partial class ObjectAddRequest: ProtoObject, IActorRequest
     {
         [ProtoMember(2)]
         public long Key { get; set; }
@@ -117,7 +117,7 @@ namespace ET
 
     [Message(InnerMessage.ObjectAddResponse)]
     [ProtoContract]
-    public class ObjectAddResponse: ProtoObject, IActorResponse
+    public partial class ObjectAddResponse: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -132,7 +132,7 @@ namespace ET
     [ResponseType(nameof (ObjectLockResponse))]
     [Message(InnerMessage.ObjectLockRequest)]
     [ProtoContract]
-    public class ObjectLockRequest: ProtoObject, IActorRequest
+    public partial class ObjectLockRequest: ProtoObject, IActorRequest
     {
         [ProtoMember(2)]
         public long Key { get; set; }
@@ -149,7 +149,7 @@ namespace ET
 
     [Message(InnerMessage.ObjectLockResponse)]
     [ProtoContract]
-    public class ObjectLockResponse: ProtoObject, IActorResponse
+    public partial class ObjectLockResponse: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -164,7 +164,7 @@ namespace ET
     [ResponseType(nameof (ObjectUnLockResponse))]
     [Message(InnerMessage.ObjectUnLockRequest)]
     [ProtoContract]
-    public class ObjectUnLockRequest: ProtoObject, IActorRequest
+    public partial class ObjectUnLockRequest: ProtoObject, IActorRequest
     {
         [ProtoMember(2)]
         public long Key { get; set; }
@@ -181,7 +181,7 @@ namespace ET
 
     [Message(InnerMessage.ObjectUnLockResponse)]
     [ProtoContract]
-    public class ObjectUnLockResponse: ProtoObject, IActorResponse
+    public partial class ObjectUnLockResponse: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -196,7 +196,7 @@ namespace ET
     [ResponseType(nameof (ObjectRemoveResponse))]
     [Message(InnerMessage.ObjectRemoveRequest)]
     [ProtoContract]
-    public class ObjectRemoveRequest: ProtoObject, IActorRequest
+    public partial class ObjectRemoveRequest: ProtoObject, IActorRequest
     {
         [ProtoMember(2)]
         public long Key { get; set; }
@@ -207,7 +207,7 @@ namespace ET
 
     [Message(InnerMessage.ObjectRemoveResponse)]
     [ProtoContract]
-    public class ObjectRemoveResponse: ProtoObject, IActorResponse
+    public partial class ObjectRemoveResponse: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -222,7 +222,7 @@ namespace ET
     [ResponseType(nameof (ObjectGetResponse))]
     [Message(InnerMessage.ObjectGetRequest)]
     [ProtoContract]
-    public class ObjectGetRequest: ProtoObject, IActorRequest
+    public partial class ObjectGetRequest: ProtoObject, IActorRequest
     {
         [ProtoMember(2)]
         public long Key { get; set; }
@@ -233,7 +233,7 @@ namespace ET
 
     [Message(InnerMessage.ObjectGetResponse)]
     [ProtoContract]
-    public class ObjectGetResponse: ProtoObject, IActorResponse
+    public partial class ObjectGetResponse: ProtoObject, IActorResponse
     {
         [ProtoMember(4)]
         public long InstanceId { get; set; }
@@ -251,7 +251,7 @@ namespace ET
     [ResponseType(nameof (G2R_GetLoginKey))]
     [Message(InnerMessage.R2G_GetLoginKey)]
     [ProtoContract]
-    public class R2G_GetLoginKey: ProtoObject, IActorRequest
+    public partial class R2G_GetLoginKey: ProtoObject, IActorRequest
     {
         [ProtoMember(2)]
         public string Account { get; set; }
@@ -262,7 +262,7 @@ namespace ET
 
     [Message(InnerMessage.G2R_GetLoginKey)]
     [ProtoContract]
-    public class G2R_GetLoginKey: ProtoObject, IActorResponse
+    public partial class G2R_GetLoginKey: ProtoObject, IActorResponse
     {
         [ProtoMember(4)]
         public long Key { get; set; }
@@ -282,7 +282,7 @@ namespace ET
 
     [Message(InnerMessage.G2M_SessionDisconnect)]
     [ProtoContract]
-    public class G2M_SessionDisconnect: ProtoObject, IActorLocationMessage
+    public partial class G2M_SessionDisconnect: ProtoObject, IActorLocationMessage
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -290,7 +290,7 @@ namespace ET
 
     [Message(InnerMessage.ObjectQueryResponse)]
     [ProtoContract]
-    public class ObjectQueryResponse: ProtoObject, IActorResponse
+    public partial class ObjectQueryResponse: ProtoObject, IActorResponse
     {
         [ProtoMember(4)]
         public byte[] Entity { get; set; }
@@ -308,7 +308,7 @@ namespace ET
     [ResponseType(nameof (M2M_UnitTransferResponse))]
     [Message(InnerMessage.M2M_UnitTransferRequest)]
     [ProtoContract]
-    public class M2M_UnitTransferRequest: ProtoObject, IActorRequest
+    public partial class M2M_UnitTransferRequest: ProtoObject, IActorRequest
     {
         [ProtoMember(2)]
         public long OldInstanceId { get; set; }
@@ -325,7 +325,7 @@ namespace ET
 
     [Message(InnerMessage.M2M_UnitTransferResponse)]
     [ProtoContract]
-    public class M2M_UnitTransferResponse: ProtoObject, IActorResponse
+    public partial class M2M_UnitTransferResponse: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -341,7 +341,7 @@ namespace ET
     [ResponseType(nameof (L2A_LoginAccountResponse))]
     [Message(InnerMessage.A2L_LoginAccountRequest)]
     [ProtoContract]
-    public class A2L_LoginAccountRequest: ProtoObject, IActorRequest
+    public partial class A2L_LoginAccountRequest: ProtoObject, IActorRequest
     {
         [ProtoMember(1)]
         public long AccountId { get; set; }
@@ -352,7 +352,7 @@ namespace ET
 
     [Message(InnerMessage.L2A_LoginAccountResponse)]
     [ProtoContract]
-    public class L2A_LoginAccountResponse: ProtoObject, IActorResponse
+    public partial class L2A_LoginAccountResponse: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -367,7 +367,7 @@ namespace ET
     [ResponseType(nameof (G2L_DisconnectGateUnit))]
     [Message(InnerMessage.L2G_DisconnectGateUnit)]
     [ProtoContract]
-    public class L2G_DisconnectGateUnit: ProtoObject, IActorRequest
+    public partial class L2G_DisconnectGateUnit: ProtoObject, IActorRequest
     {
         [ProtoMember(1)]
         public long AccountId { get; set; }
@@ -378,7 +378,7 @@ namespace ET
 
     [Message(InnerMessage.G2L_DisconnectGateUnit)]
     [ProtoContract]
-    public class G2L_DisconnectGateUnit: ProtoObject, IActorResponse
+    public partial class G2L_DisconnectGateUnit: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -393,7 +393,7 @@ namespace ET
     [ResponseType(nameof (R2A_GetRealmKey))]
     [Message(InnerMessage.A2R_GetRealmKey)]
     [ProtoContract]
-    public class A2R_GetRealmKey: ProtoObject, IActorRequest
+    public partial class A2R_GetRealmKey: ProtoObject, IActorRequest
     {
         [ProtoMember(1)]
         public long AccountId { get; set; }
@@ -404,7 +404,7 @@ namespace ET
 
     [Message(InnerMessage.R2A_GetRealmKey)]
     [ProtoContract]
-    public class R2A_GetRealmKey: ProtoObject, IActorResponse
+    public partial class R2A_GetRealmKey: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public string RealmToken { get; set; }
@@ -422,7 +422,7 @@ namespace ET
     [ResponseType(nameof (G2R_GetLoginGateKey))]
     [Message(InnerMessage.R2G_GetLoginGateKey)]
     [ProtoContract]
-    public class R2G_GetLoginGateKey: ProtoObject, IActorRequest
+    public partial class R2G_GetLoginGateKey: ProtoObject, IActorRequest
     {
         [ProtoMember(1)]
         public long AccountId { get; set; }
@@ -433,7 +433,7 @@ namespace ET
 
     [Message(InnerMessage.G2R_GetLoginGateKey)]
     [ProtoContract]
-    public class G2R_GetLoginGateKey: ProtoObject, IActorResponse
+    public partial class G2R_GetLoginGateKey: ProtoObject, IActorResponse
     {
         [ProtoMember(1)]
         public string GateSessionToken { get; set; }
@@ -451,7 +451,7 @@ namespace ET
     [ResponseType(nameof (L2G_AddLoginRecord))]
     [Message(InnerMessage.G2L_AddLoginRecord)]
     [ProtoContract]
-    public class G2L_AddLoginRecord: ProtoObject, IActorRequest
+    public partial class G2L_AddLoginRecord: ProtoObject, IActorRequest
     {
         [ProtoMember(1)]
         public long AccountId { get; set; }
@@ -465,7 +465,7 @@ namespace ET
 
     [Message(InnerMessage.L2G_AddLoginRecord)]
     [ProtoContract]
-    public class L2G_AddLoginRecord: ProtoObject, IActorResponse
+    public partial class L2G_AddLoginRecord: ProtoObject, IActorResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -480,7 +480,7 @@ namespace ET
     [ResponseType(nameof (M2G_RequestEnterGameStatus))]
     [Message(InnerMessage.G2M_RequestEnterGameStatus)]
     [ProtoContract]
-    public class G2M_RequestEnterGameStatus: ProtoObject, IActorLocationRequest
+    public partial class G2M_RequestEnterGameStatus: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -488,7 +488,7 @@ namespace ET
 
     [Message(InnerMessage.M2G_RequestEnterGameStatus)]
     [ProtoContract]
-    public class M2G_RequestEnterGameStatus: ProtoObject, IActorLocationResponse
+    public partial class M2G_RequestEnterGameStatus: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -503,7 +503,7 @@ namespace ET
     [ResponseType(nameof (M2G_RequestExitGame))]
     [Message(InnerMessage.G2M_RequestExitGame)]
     [ProtoContract]
-    public class G2M_RequestExitGame: ProtoObject, IActorLocationRequest
+    public partial class G2M_RequestExitGame: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -511,7 +511,7 @@ namespace ET
 
     [Message(InnerMessage.M2G_RequestExitGame)]
     [ProtoContract]
-    public class M2G_RequestExitGame: ProtoObject, IActorLocationResponse
+    public partial class M2G_RequestExitGame: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -526,7 +526,7 @@ namespace ET
     [ResponseType(nameof (L2G_RemoveLoginRecord))]
     [Message(InnerMessage.G2L_RemoveLoginRecord)]
     [ProtoContract]
-    public class G2L_RemoveLoginRecord: ProtoObject, IActorRequest
+    public partial class G2L_RemoveLoginRecord: ProtoObject, IActorRequest
     {
         [ProtoMember(1)]
         public long AccountId { get; set; }
@@ -540,7 +540,7 @@ namespace ET
 
     [Message(InnerMessage.L2G_RemoveLoginRecord)]
     [ProtoContract]
-    public class L2G_RemoveLoginRecord: ProtoObject, IActorResponse
+    public partial class L2G_RemoveLoginRecord: ProtoObject, IActorResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -557,7 +557,7 @@ namespace ET
     [ResponseType(nameof (UnitCache2Other_AddOrUpdateUnit))]
     [Message(InnerMessage.Other2UnitCache_AddOrUpdateUnit)]
     [ProtoContract]
-    public class Other2UnitCache_AddOrUpdateUnit: ProtoObject, IActorRequest
+    public partial class Other2UnitCache_AddOrUpdateUnit: ProtoObject, IActorRequest
     {
         [ProtoMember(1)]
         public long UnitId { get; set; }
@@ -574,7 +574,7 @@ namespace ET
 
     [Message(InnerMessage.UnitCache2Other_AddOrUpdateUnit)]
     [ProtoContract]
-    public class UnitCache2Other_AddOrUpdateUnit: ProtoObject, IActorResponse
+    public partial class UnitCache2Other_AddOrUpdateUnit: ProtoObject, IActorResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -590,7 +590,7 @@ namespace ET
     [ResponseType(nameof (UnitCache2Other_GetUnit))]
     [Message(InnerMessage.Other2UnitCache_GetUnit)]
     [ProtoContract]
-    public class Other2UnitCache_GetUnit: ProtoObject, IActorRequest
+    public partial class Other2UnitCache_GetUnit: ProtoObject, IActorRequest
     {
         [ProtoMember(1)]
         public long UnitId { get; set; }
@@ -604,7 +604,7 @@ namespace ET
 
     [Message(InnerMessage.UnitCache2Other_GetUnit)]
     [ProtoContract]
-    public class UnitCache2Other_GetUnit: ProtoObject, IActorResponse
+    public partial class UnitCache2Other_GetUnit: ProtoObject, IActorResponse
     {
         [ProtoMember(4)]
         public List<Entity> Entities { get; set; } = new();
@@ -626,7 +626,7 @@ namespace ET
     [ResponseType(nameof (UnitCache2Other_DeleteUnit))]
     [Message(InnerMessage.Other2UnitCache_DeleteUnit)]
     [ProtoContract]
-    public class Other2UnitCache_DeleteUnit: ProtoObject, IActorRequest
+    public partial class Other2UnitCache_DeleteUnit: ProtoObject, IActorRequest
     {
         [ProtoMember(1)]
         public long UnitId { get; set; }
@@ -637,7 +637,7 @@ namespace ET
 
     [Message(InnerMessage.UnitCache2Other_DeleteUnit)]
     [ProtoContract]
-    public class UnitCache2Other_DeleteUnit: ProtoObject, IActorResponse
+    public partial class UnitCache2Other_DeleteUnit: ProtoObject, IActorResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }

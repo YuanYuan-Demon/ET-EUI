@@ -1,4 +1,4 @@
-namespace ET.Client
+﻿namespace ET.Client
 {
     [ObjectSystem]
     public class DlgMessageBoxViewComponentAwakeSystem: AwakeSystem<DlgMessageBoxViewComponent>

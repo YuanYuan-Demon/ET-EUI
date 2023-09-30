@@ -4,19 +4,19 @@ using UnityEngine.UI;
 
 public class UITool
 {
-    [MenuItem("Assets/去除RaycastTarget")]
+    [MenuItem("Assets/EUI/去除RaycastTarget")]
     private static void UncheckRaycastTarget()
     {
-        var selectedObjs = Selection.GetFiltered<GameObject>(SelectionMode.DeepAssets);
+        GameObject[] selectedObjs = Selection.GetFiltered<GameObject>(SelectionMode.DeepAssets);
         foreach (GameObject go in selectedObjs)
         {
-            var mkgs = go.GetComponentsInChildren<Graphic>();
+            Graphic[] mkgs = go.GetComponentsInChildren<Graphic>();
             foreach (Graphic mkg in mkgs)
             {
                 mkg.raycastTarget = false;
             }
 
-            var selelctObjs = go.GetComponentsInChildren<Selectable>();
+            Selectable[] selelctObjs = go.GetComponentsInChildren<Selectable>();
             foreach (Selectable s in selelctObjs)
             {
                 Navigation nav = s.navigation;
@@ -43,14 +43,14 @@ public class UITool
             //        infd.targetGraphic.raycastTarget = true;
             //}
 
-            var loopList = go.GetComponentsInChildren<LoopScrollRectBase>();
+            LoopScrollRectBase[] loopList = go.GetComponentsInChildren<LoopScrollRectBase>();
             foreach (LoopScrollRectBase list in loopList)
             {
                 list.transform.GetComponentInChildren<Image>().raycastTarget = true;
             }
 
             Transform mask = go.transform.Find("Mask");
-            if (mask != null && mask.TryGetComponent<Image>(out Image image))
+            if (mask != null && mask.TryGetComponent(out Image image))
             {
                 image.raycastTarget = true;
             }

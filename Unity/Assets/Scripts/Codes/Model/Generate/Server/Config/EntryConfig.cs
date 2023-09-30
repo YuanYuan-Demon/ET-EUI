@@ -23,7 +23,7 @@ public sealed partial class EntryConfig: Luban.BeanBase
         EntryType = _buf.ReadInt();
         EntryLevel = _buf.ReadInt();
         EntryScore = _buf.ReadInt();
-        AttributeType = _buf.ReadInt();
+        AttributeType = (NumericType)_buf.ReadInt();
         AttributeMinValue = _buf.ReadInt();
         AttributeMaxValue = _buf.ReadInt();
         PostInit();
@@ -53,7 +53,7 @@ public sealed partial class EntryConfig: Luban.BeanBase
     /// <summary>
     /// 属性类型
     /// </summary>
-    public int AttributeType { get; private set; }
+    public NumericType AttributeType { get; private set; }
     /// <summary>
     /// 属性值最小范围
     /// </summary>
@@ -68,13 +68,6 @@ public sealed partial class EntryConfig: Luban.BeanBase
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
-        
-        
-        
-        
-        
-        
-        
         PostResolve();
     }
 

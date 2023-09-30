@@ -817,7 +817,7 @@ namespace ET.Luban
             int xl = (Bytes[ReaderIndex + 3] << 24) | (this.Bytes[this.ReaderIndex + 2] << 16) | (Bytes[ReaderIndex + 1] << 8) |
                     this.Bytes[this.ReaderIndex];
             int xh = (Bytes[ReaderIndex + 7] << 24) | (Bytes[ReaderIndex + 6] << 16) | (Bytes[ReaderIndex + 5] << 8) | Bytes[ReaderIndex + 4];
-            x = ((long)xh << 32) | xl;
+            x = ((long)xh << 32) | (uint)xl;
 #endif
             ReaderIndex += 8;
             return x;
@@ -1075,7 +1075,7 @@ namespace ET.Luban
         {
             double x = ReadDouble();
             double y = ReadDouble();
-            return new Complex(x, y);
+            return new(x, y);
         }
 
         public void WriteVector2(Vector2 x)
@@ -1088,7 +1088,7 @@ namespace ET.Luban
         {
             float x = ReadFloat();
             float y = ReadFloat();
-            return new Vector2(x, y);
+            return new(x, y);
         }
 
         public void WriteVector3(Vector3 x)
@@ -1103,7 +1103,7 @@ namespace ET.Luban
             float x = ReadFloat();
             float y = ReadFloat();
             float z = ReadFloat();
-            return new Vector3(x, y, z);
+            return new(x, y, z);
         }
 
         public void WriteVector4(Vector4 x)
@@ -1120,7 +1120,7 @@ namespace ET.Luban
             float y = ReadFloat();
             float z = ReadFloat();
             float w = ReadFloat();
-            return new Vector4(x, y, z, w);
+            return new(x, y, z, w);
         }
 
         public void WriteQuaternion(Quaternion x)
@@ -1137,7 +1137,7 @@ namespace ET.Luban
             float y = ReadFloat();
             float z = ReadFloat();
             float w = ReadFloat();
-            return new Quaternion(x, y, z, w);
+            return new(x, y, z, w);
         }
 
         public void WriteMatrix4x4(Matrix4x4 x)
@@ -1178,7 +1178,7 @@ namespace ET.Luban
             float m42 = ReadFloat();
             float m43 = ReadFloat();
             float m44 = ReadFloat();
-            return new Matrix4x4(m11, m12, m13, m14,
+            return new(m11, m12, m13, m14,
                 m21, m22, m23, m24,
                 m31, m32, m33, m34,
                 m41, m42, m43, m44);
@@ -1325,7 +1325,7 @@ namespace ET.Luban
             WriterIndex += 3;
         }
 
-        #region segment
+#region segment
 
         public void BeginWriteSegment(out int oldSize)
         {
@@ -1449,7 +1449,7 @@ namespace ET.Luban
         {
             ReadSegment(out int startPos, out int size);
 
-            saveState = new SegmentSaveState(ReaderIndex, WriterIndex);
+            saveState = new(ReaderIndex, WriterIndex);
             ReaderIndex = startPos;
             WriterIndex = startPos + size;
         }
@@ -1460,7 +1460,7 @@ namespace ET.Luban
             WriterIndex = saveState.WriterIndex;
         }
 
-        #endregion
+#endregion
 
         public override string ToString()
         {
@@ -1509,7 +1509,7 @@ namespace ET.Luban
                 data[i] = byte.Parse(ss[i]);
             }
 
-            return new ByteBuf(data);
+            return new(data);
         }
 
         public override int GetHashCode()

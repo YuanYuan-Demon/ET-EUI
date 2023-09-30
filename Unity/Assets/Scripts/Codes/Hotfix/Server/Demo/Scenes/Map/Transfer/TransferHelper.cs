@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 
 namespace ET.Server
 {
@@ -9,17 +8,16 @@ namespace ET.Server
         {
             await Game.WaitFrameFinish();
 
-            await TransferHelper.Transfer(unit, sceneInstanceId, sceneName);
+            await Transfer(unit, sceneInstanceId, sceneName);
         }
-        
 
         public static async ETTask Transfer(Unit unit, long sceneInstanceId, string sceneName)
         {
             // location加锁
             long unitId = unit.Id;
             long unitInstanceId = unit.InstanceId;
-            
-            M2M_UnitTransferRequest request = new M2M_UnitTransferRequest() {Entitys = new List<byte[]>()};
+
+            var request = new M2M_UnitTransferRequest() { Entitys = new() };
             request.OldInstanceId = unitInstanceId;
             request.Unit = unit.ToBson();
             foreach (Entity entity in unit.Components.Values)
@@ -29,8 +27,9 @@ namespace ET.Server
                     request.Entitys.Add(entity.ToBson());
                 }
             }
+
             unit.Dispose();
-            
+
             await LocationProxyComponent.Instance.Lock(unitId, unitInstanceId);
             await ActorMessageSenderComponent.Instance.Call(sceneInstanceId, request);
         }

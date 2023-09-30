@@ -59,7 +59,7 @@ message G2C_EnterMap // IResponse
 
 message MoveInfo
 {
-	repeated Unity.Mathematics.float3 Points = 1;
+	repeated Unity.Mathematics.float3 Targets = 1;
 	Unity.Mathematics.quaternion Rotation = 2;
 	int32 TurnSpeed = 3;
 }
@@ -68,12 +68,12 @@ message UnitInfo
 {
 	int64 UnitId = 1;
 	int32 ConfigId = 2;
-	int32 Type = 3;
+	UnitType Type = 3;
 	Unity.Mathematics.float3 Position = 4;
 	Unity.Mathematics.float3 Forward = 5;
-	map<int32, int64> KV = 6;
+	map<NumericType, int64> Numeric = 6;
 	MoveInfo MoveInfo = 7;
-	string Name = 8;
+	NRoleInfo NRoleInfo = 8;
 }
 
 message M2C_CreateUnits // IActorMessage
@@ -310,10 +310,10 @@ message A2C_GetServerInfos	//	IResponse
 
 message NRoleInfo
 {
-	int64 Id = 1;
+	int64 RoleId = 1;
 	string Name = 2;
 	int32 ServerId = 3;
-	int32 Status = 4;
+	RoleInfoStatus Status = 4;
 	int64 AccountId = 5;
 	RoleClass RoleClass = 6;
 	int32 Level = 7;
@@ -469,7 +469,7 @@ message C2M_JoyStop // IActorLocationMessage
 message M2C_NoticeUnitNumeric // IActorMessage
 {
 	int64 UnitId = 1;
-	int32 NumericType = 2;
+	NumericType NumericType = 2;
 	int64 NewValue = 3;
 }
 
@@ -480,7 +480,7 @@ message C2M_AddAttributePoints // IActorLocationRequest
 {
 	int32 RpcId = 90;
 
-	repeated int32 NumericTypes = 1;
+	repeated NumericType NumericTypes = 1;
 	repeated int64 AddValues = 2;
 }
 
@@ -572,7 +572,7 @@ message AttributeEntryProto
 {
 	int64 Id = 1;
 	EntryType EntryType = 2; 
-	int32 AttributeName = 3;
+	NumericType AttributeName = 3;
 	int64 AttributeValue = 4;
 }
 
@@ -605,7 +605,7 @@ message C2M_UnloadEquipItem // IActorLocationRequest
 {
 	int32 RpcId = 90;
 
-	int32 EquipPosition = 1;
+	EquipPosition EquipPosition = 1;
 }
 
 message M2C_UnloadEquipItem // IActorLocationResponse

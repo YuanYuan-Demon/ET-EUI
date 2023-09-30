@@ -48,6 +48,54 @@
     "outer_port": 0
   },
   {
+    "id": 7,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Account",
+    "name": "Account",
+    "outer_port": 30005
+  },
+  {
+    "id": 8,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "LoginCenter",
+    "name": "LoginCenter",
+    "outer_port": 0
+  },
+  {
+    "id": 9,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "UnitCache",
+    "name": "UnitCache",
+    "outer_port": 0
+  },
+  {
+    "id": 10,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Map",
+    "name": "MainCity",
+    "outer_port": 0
+  },
+  {
+    "id": 11,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Rank",
+    "name": "Rank",
+    "outer_port": 0
+  },
+  {
+    "id": 12,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Chat",
+    "name": "Chat",
+    "outer_port": 0
+  },
+  {
     "id": 200,
     "process": 1,
     "zone": 2,

@@ -37,6 +37,26 @@ public partial class TGlobalConfigCategory: ConfigSingleton<TGlobalConfigCategor
     /// 背包起始容量
     /// </summary>
      public int BagCapacityStart => _data.BagCapacityStart;
+    /// <summary>
+    /// RouterManager地址
+    /// </summary>
+     public string RouterHttpHost => _data.RouterHttpHost;
+    /// <summary>
+    /// RouterManager端口
+    /// </summary>
+     public int RouterHttpPort => _data.RouterHttpPort;
+    /// <summary>
+    /// 账号服务器地址
+    /// </summary>
+     public string AccountHost => _data.AccountHost;
+    /// <summary>
+    /// 账号服务器端口
+    /// </summary>
+     public int AccountPort => _data.AccountPort;
+    /// <summary>
+    /// 连接超时时间
+    /// </summary>
+     public int SessionTimeoutTime => _data.SessionTimeoutTime;
 
     public override void Resolve(Dictionary<Type, IConfigSingleton> tables)
     {

@@ -1,0 +1,37 @@
+﻿namespace ET.Client
+{
+    [FriendOf(typeof (Item))]
+    public static class ItemSystem
+    {
+        public static void FromMessage(this Item self, ItemInfo itemInfo)
+        {
+            self.Id = itemInfo.ItemUid;
+            self.ConfigId = itemInfo.ItemConfigId;
+            self.Count = itemInfo.Count;
+
+            if (itemInfo.EquipInfo != null)
+            {
+                EquipInfoComponent equipInfoComponent = self.GetComponent<EquipInfoComponent>() ?? self.AddComponent<EquipInfoComponent>();
+                equipInfoComponent.FromMessage(itemInfo.EquipInfo);
+            }
+        }
+
+#region 生命周期
+
+        public class ItemAwakeSystem: AwakeSystem<Item, int>
+        {
+            protected override void Awake(Item self, int name) => self.ConfigId = name;
+        }
+
+        public class ItemDestorySystem: DestroySystem<Item>
+        {
+            protected override void Destroy(Item self)
+            {
+                self.ConfigId = 0;
+                self.Count = 0;
+            }
+        }
+
+#endregion 生命周期
+    }
+}

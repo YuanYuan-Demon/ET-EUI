@@ -63,12 +63,6 @@ public sealed partial class StartSceneConfig: Luban.BeanBase
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
-        
-        
-        
-        
-        
-        
         PostResolve();
     }
 

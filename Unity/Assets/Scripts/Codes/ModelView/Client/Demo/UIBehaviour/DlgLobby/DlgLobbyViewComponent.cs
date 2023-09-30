@@ -1,74 +1,81 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+
 namespace ET.Client
 {
-	[ComponentOf(typeof(DlgLobby))]
-	[EnableMethod]
-	public  class DlgLobbyViewComponent : Entity,IAwake,IDestroy 
-	{
-		public UnityEngine.RectTransform EGBackGroundRectTransform
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_EGBackGroundRectTransform == null )
-     			{
-		    		this.m_EGBackGroundRectTransform = UIFindHelper.FindDeepChild<UnityEngine.RectTransform>(this.uiTransform.gameObject,"EGBackGround");
-     			}
-     			return this.m_EGBackGroundRectTransform;
-     		}
-     	}
+    [ComponentOf(typeof (DlgLobby))]
+    [EnableMethod]
+    public class DlgLobbyViewComponent: Entity, IAwake, IDestroy
+    {
+        private Button m_E_EnterMapButton;
+        private Image m_E_EnterMapImage;
 
-		public UnityEngine.UI.Button E_EnterMapButton
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_E_EnterMapButton == null )
-     			{
-		    		this.m_E_EnterMapButton = UIFindHelper.FindDeepChild<UnityEngine.UI.Button>(this.uiTransform.gameObject,"EGBackGround/E_EnterMap");
-     			}
-     			return this.m_E_EnterMapButton;
-     		}
-     	}
+        private RectTransform m_EGBackGroundRectTransform;
+        public Transform uiTransform;
 
-		public UnityEngine.UI.Image E_EnterMapImage
-     	{
-     		get
-     		{
-     			if (this.uiTransform == null)
-     			{
-     				Log.Error("uiTransform is null.");
-     				return null;
-     			}
-     			if( this.m_E_EnterMapImage == null )
-     			{
-		    		this.m_E_EnterMapImage = UIFindHelper.FindDeepChild<UnityEngine.UI.Image>(this.uiTransform.gameObject,"EGBackGround/E_EnterMap");
-     			}
-     			return this.m_E_EnterMapImage;
-     		}
-     	}
+        public RectTransform EGBackGroundRectTransform
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
 
-		public void DestroyWidget()
-		{
-			this.m_EGBackGroundRectTransform = null;
-			this.m_E_EnterMapButton = null;
-			this.m_E_EnterMapImage = null;
-			this.uiTransform = null;
-		}
+                if (this.m_EGBackGroundRectTransform == null)
+                {
+                    this.m_EGBackGroundRectTransform = UIHelper.FindDeepChild<RectTransform>(this.uiTransform.gameObject, "EGBackGround");
+                }
 
-		private UnityEngine.RectTransform m_EGBackGroundRectTransform = null;
-		private UnityEngine.UI.Button m_E_EnterMapButton = null;
-		private UnityEngine.UI.Image m_E_EnterMapImage = null;
-		public Transform uiTransform = null;
-	}
+                return this.m_EGBackGroundRectTransform;
+            }
+        }
+
+        public Button E_EnterMapButton
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_E_EnterMapButton == null)
+                {
+                    this.m_E_EnterMapButton = UIHelper.FindDeepChild<Button>(this.uiTransform.gameObject, "EGBackGround/E_EnterMap");
+                }
+
+                return this.m_E_EnterMapButton;
+            }
+        }
+
+        public Image E_EnterMapImage
+        {
+            get
+            {
+                if (this.uiTransform == null)
+                {
+                    Log.Error("uiTransform is null.");
+                    return null;
+                }
+
+                if (this.m_E_EnterMapImage == null)
+                {
+                    this.m_E_EnterMapImage = UIHelper.FindDeepChild<Image>(this.uiTransform.gameObject, "EGBackGround/E_EnterMap");
+                }
+
+                return this.m_E_EnterMapImage;
+            }
+        }
+
+        public void DestroyWidget()
+        {
+            this.m_EGBackGroundRectTransform = null;
+            this.m_E_EnterMapButton = null;
+            this.m_E_EnterMapImage = null;
+            this.uiTransform = null;
+        }
+    }
 }

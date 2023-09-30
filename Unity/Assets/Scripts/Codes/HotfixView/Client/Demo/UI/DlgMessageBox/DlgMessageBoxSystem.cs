@@ -9,22 +9,22 @@ namespace ET.Client
     {
         private static void SetMessageType(MessageBoxType type, DlgMessageBoxViewComponent view)
         {
-            for (int i = 0; i < view.EG_IconsRectTransform.childCount; i++)
+            for (var i = 0; i < view.EG_Icons_RectTransform.childCount; i++)
             {
-                view.EG_IconsRectTransform.GetChild(i).gameObject.SetActive(i == (int)type);
+                view.EG_Icons_RectTransform.GetChild(i).gameObject.SetActive(i == (int)type);
             }
 
             switch (type)
             {
                 case MessageBoxType.Infomation:
                 case MessageBoxType.Error:
-                    view.EB_OKButton.SetVisible(true);
-                    view.EB_CancelButton.SetVisible(false);
+                    view.EB_OK_Button.SetVisible(true);
+                    view.EB_Cancel_Button.SetVisible(false);
                     break;
 
                 case MessageBoxType.Question:
-                    view.EB_OKButton.SetVisible(true);
-                    view.EB_CancelButton.SetVisible(true);
+                    view.EB_OK_Button.SetVisible(true);
+                    view.EB_Cancel_Button.SetVisible(true);
                     break;
             }
         }
@@ -39,20 +39,20 @@ namespace ET.Client
 
         public static void RegisterUIEvent(this DlgMessageBox self)
         {
-            self.RegisterCloseEvent<DlgMessageBox>(self.View.EB_CancelButton);
-            self.RegisterCloseEvent<DlgMessageBox>(self.View.EB_OKButton);
-            self.View.EB_OKButton.onClick.AddListener(self.OnClickOK);
-            self.View.EB_CancelButton.onClick.AddListener(self.OnClickCancel);
+            self.RegisterCloseEvent<DlgMessageBox>(self.View.EB_Cancel_Button);
+            self.RegisterCloseEvent<DlgMessageBox>(self.View.EB_OK_Button);
+            self.View.EB_OK_Button.onClick.AddListener(self.OnClickOK);
+            self.View.EB_Cancel_Button.onClick.AddListener(self.OnClickCancel);
         }
 
         public static void ShowWindow(this DlgMessageBox self, ShowWindowData contextData = null)
         {
             self.Refresh(contextData as MessageBoxData);
-            self.View.EG_PanelRectTransform.DOScale(Vector3.one, 0.3f);
+            self.View.EG_Panel_RectTransform.DOScale(Vector3.one, 0.3f);
         }
 
         public static void HideWindow(this DlgMessageBox self, Entity contextData = null) =>
-                self.View.EG_PanelRectTransform.DOScale(Vector3.zero, 0.3f);
+                self.View.EG_Panel_RectTransform.DOScale(Vector3.zero, 0.3f);
 
         /// <summary>
         ///     刷新UI
@@ -66,17 +66,16 @@ namespace ET.Client
                 DlgMessageBoxViewComponent view = self.View;
 
                 SetMessageType(messageBoxData.MessageType, view);
-                view.ET_TitleTextMeshProUGUI.SetText(messageBoxData.Title);
-                view.ET_MessageTextMeshProUGUI.SetText(messageBoxData.Message);
-
+                view.ET_Title_TextMeshProUGUI.SetText(messageBoxData.Title);
+                view.ET_Message_TextMeshProUGUI.SetText(messageBoxData.Message);
                 if (!string.IsNullOrEmpty(messageBoxData.OKText))
                 {
-                    view.ET_OKTextMeshProUGUI.SetText(messageBoxData.OKText);
+                    view.ET_OK_TextMeshProUGUI.SetText(messageBoxData.OKText);
                 }
 
                 if (!string.IsNullOrEmpty(messageBoxData.CancelText))
                 {
-                    view.ET_CancelTextMeshProUGUI.SetText(messageBoxData.CancelText);
+                    view.ET_Cancel_TextMeshProUGUI.SetText(messageBoxData.CancelText);
                 }
             }
         }

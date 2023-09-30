@@ -24,7 +24,7 @@ namespace ET.Server
         {
             Scene scene = session.DomainScene();
 
-            #region 校验
+#region 校验
 
             //避免重复请求
             if (session.GetComponent<SessionLoginComponent>() != null)
@@ -34,7 +34,7 @@ namespace ET.Server
             }
 
             //检测是否存在Session到Player的映射
-            SessionPlayerComponent sessionPlayerComponent = session.GetComponent<SessionPlayerComponent>();
+            var sessionPlayerComponent = session.GetComponent<SessionPlayerComponent>();
             if (sessionPlayerComponent is null)
             {
                 response.Error = ErrorCode.ERR_SessionPlayerError;
@@ -42,14 +42,14 @@ namespace ET.Server
             }
 
             //校验Player是否在线
-            Player player = Root.Instance.Get(sessionPlayerComponent.PlayerInstanceId) as Player;
+            var player = Root.Instance.Get(sessionPlayerComponent.PlayerInstanceId) as Player;
             if (player is null || player.IsDisposed)
             {
                 response.Error = ErrorCode.ERR_NonePlayerError;
                 return;
             }
 
-            #endregion 校验
+#endregion 校验
 
             long instanceId = session.InstanceId;
             using (session.AddComponent<SessionLoginComponent>())
@@ -73,7 +73,7 @@ namespace ET.Server
                 {
                     try
                     {
-                        var reqEnter = await MessageHelper.CallLocationActor(player.UnitId, new G2M_RequestEnterGameStatus());
+                        IActorResponse reqEnter = await MessageHelper.CallLocationActor(player.UnitId, new G2M_RequestEnterGameStatus());
                         if (reqEnter.Error == ErrorCode.ERR_Success)
                         {
                             return;
@@ -121,7 +121,7 @@ namespace ET.Server
 
                     //将游戏对象传送至游戏逻辑服
                     long unitId = unit.Id;
-                    StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(session.DomainZone(), "Game");
+                    StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(session.DomainZone(), "MainCity");
                     await TransferHelper.Transfer(unit, startSceneConfig.InstanceId, startSceneConfig.Name);
 
                     player.UnitId = unitId;
@@ -140,7 +140,6 @@ namespace ET.Server
                     response.Error = ErrorCode.ERR_EnterGameError;
                     await DisconnectHelper.KickPlayer(player, true);
                     session.Disconnect();
-                    return;
                 }
             }
         }

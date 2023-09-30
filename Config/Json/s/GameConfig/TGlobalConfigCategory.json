@@ -1,6 +1,11 @@
 [
   {
     "bag_capacity_limit": 100,
-    "bag_capacity_start": 20
+    "bag_capacity_start": 20,
+    "Router_Http_Host": "127.0.0.1",
+    "Router_Http_Port": 30300,
+    "Account_Host": "127.0.0.1",
+    "Account_Port": 30005,
+    "Session_Timeout_Time": 301000
   }
 ]

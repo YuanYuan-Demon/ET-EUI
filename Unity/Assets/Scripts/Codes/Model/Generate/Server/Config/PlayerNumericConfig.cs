@@ -63,12 +63,6 @@ public sealed partial class PlayerNumericConfig: Luban.BeanBase
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
-        
-        
-        
-        
-        
-        
         PostResolve();
     }
 

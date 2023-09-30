@@ -1,11 +1,17 @@
-﻿namespace ET.Client
+﻿using ET.EventType;
+
+namespace ET.Client
 {
     [Event(SceneType.Current)]
-    public class SceneChangeFinishEvent_CreateUIHelp : AEvent<EventType.SceneChangeFinish>
+    public class SceneChangeFinishEvent_CreateUIHelp: AEvent<SceneChangeFinish>
     {
-        protected override async ETTask Run(Scene scene, EventType.SceneChangeFinish args)
+        protected override async ETTask Run(Scene scene, SceneChangeFinish args)
         {
-            await scene.GetComponent<UIComponent>().ShowWindowAsync(WindowID.WindowID_Helper);
+            await ETTask.CompletedTask;
+
+            //UIComponent.Instance.HideWindow(WindowID.WindowID_Loading);
+            UIComponent.Instance.ShowWindow(WindowID.WindowID_Main);
+            scene.AddComponent<CameraComponent>();
         }
     }
 }

@@ -171,7 +171,6 @@ message M2M_UnitTransferResponse // IActorResponse
 	string Message = 3;
 }
 
-
 //============================================  登录流程  ============================================
 
 //ResponseType L2A_LoginAccountResponse

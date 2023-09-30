@@ -1,4 +1,6 @@
-﻿namespace ET.Server
+﻿using System.Collections.Generic;
+
+namespace ET.Server
 {
     public static class RealmGateAddressHelper
     {
@@ -10,7 +12,7 @@
         /// <returns></returns>
         public static StartSceneConfig GetGate(int zone, long accountId)
         {
-            var zoneGates = StartSceneConfigCategory.Instance.Gates[zone];
+            List<StartSceneConfig> zoneGates = StartSceneConfigCategory.Instance.Gates[zone];
 
             //int n = RandomHelper.RandomNumber(0, zoneGates.Level);
             int n = accountId.GetHashCode() % zoneGates.Count;
@@ -20,9 +22,9 @@
 
         public static StartSceneConfig GetGate(int zone)
         {
-            var zoneGates = StartSceneConfigCategory.Instance.Gates[zone];
+            List<StartSceneConfig> zoneGates = StartSceneConfigCategory.Instance.Gates[zone];
 
-            int n = RandomHelper.RandomNumber(0, zoneGates.Count);
+            int n = RandomHelper.RandomInt32(0, zoneGates.Count);
 
             return zoneGates[n];
         }

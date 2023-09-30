@@ -23,11 +23,11 @@ namespace ET
             self.EndPos[1] = target.y;
             self.EndPos[2] = target.z;
             //Log.Debug($"start find path: {self.GetParent<Unit>().Id}");
-            int n = Recast.RecastFind(self.NavMesh, PathfindingComponent.extents, self.StartPos, self.EndPos, self.Result);
-            for (int i = 0; i < n; ++i)
+            var n = Recast.RecastFind(self.NavMesh, PathfindingComponent.extents, self.StartPos, self.EndPos, self.Result);
+            for (var i = 0; i < n; ++i)
             {
-                int index = i * 3;
-                result.Add(new(-self.Result[index], self.Result[index + 1], self.Result[index + 2]));
+                var index = i * 3;
+                result.Add(new(-self.Result[index], self.Result[index + 1] - 0.1f, self.Result[index + 2]));
             }
             //Log.Debug($"finish find path: {self.GetParent<Unit>().Id} {result.ListToString()}");
         }
@@ -35,9 +35,9 @@ namespace ET
         public static void FindWithAdjust(this PathfindingComponent self, float3 start, float3 target, List<float3> result, float adjustRaduis)
         {
             self.Find(start, target, result);
-            for (int i = 0; i < result.Count; i++)
+            for (var i = 0; i < result.Count; i++)
             {
-                float3 adjust = self.FindRandomPointWithRaduis(result[i], adjustRaduis);
+                var adjust = self.FindRandomPointWithRaduis(result[i], adjustRaduis);
                 result[i] = adjust;
             }
         }
@@ -54,11 +54,11 @@ namespace ET
                 throw new($"pathfinding raduis is too large，cur: {raduis}, max: {PathfindingComponent.FindRandomNavPosMaxRadius}");
             }
 
-            int degrees = RandomHelper.RandomNumber(0, 360);
-            float r = RandomHelper.RandomNumber(0, (int)(raduis * 1000)) / 1000f;
+            var degrees = RandomHelper.RandomInt32(0, 360);
+            var r = RandomHelper.RandomInt32(0, (int)(raduis * 1000)) / 1000f;
 
-            float x = r * math.cos(math.radians(degrees));
-            float z = r * math.sin(math.radians(degrees));
+            var x = r * math.cos(math.radians(degrees));
+            var z = r * math.sin(math.radians(degrees));
 
             float3 findpos = new(pos.x + x, pos.y, pos.z + z);
 
@@ -87,8 +87,8 @@ namespace ET
                     $"pathfinding rectangle is too large，width: {width} height: {height}, max: {PathfindingComponent.FindRandomNavPosMaxRadius}");
             }
 
-            float x = RandomHelper.RandomNumber(-width, width);
-            float z = RandomHelper.RandomNumber(-height, height);
+            float x = RandomHelper.RandomInt32(-width, width);
+            float z = RandomHelper.RandomInt32(-height, height);
 
             float3 findpos = new(pos.x + x, pos.y, pos.z + z);
 
@@ -107,11 +107,11 @@ namespace ET
                 throw new($"pathfinding raduis is too large，cur: {maxRadius}, max: {PathfindingComponent.FindRandomNavPosMaxRadius}");
             }
 
-            int degrees = RandomHelper.RandomNumber(0, 360);
-            float r = RandomHelper.RandomNumber((int)(minRadius * 1000), (int)(maxRadius * 1000)) / 1000f;
+            var degrees = RandomHelper.RandomInt32(0, 360);
+            var r = RandomHelper.RandomInt32((int)(minRadius * 1000), (int)(maxRadius * 1000)) / 1000f;
 
-            float x = r * math.cos(math.radians(degrees));
-            float z = r * math.sin(math.radians(degrees));
+            var x = r * math.cos(math.radians(degrees));
+            var z = r * math.sin(math.radians(degrees));
 
             float3 findpos = new(pos.x + x, pos.y, pos.z + z);
 
@@ -129,7 +129,7 @@ namespace ET
             self.StartPos[1] = pos.y;
             self.StartPos[2] = pos.z;
 
-            int ret = Recast.RecastFindNearestPoint(self.NavMesh, PathfindingComponent.extents, self.StartPos, self.EndPos);
+            var ret = Recast.RecastFindNearestPoint(self.NavMesh, PathfindingComponent.extents, self.StartPos, self.EndPos);
             if (ret == 0)
             {
                 throw new(

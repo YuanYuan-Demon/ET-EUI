@@ -9,7 +9,7 @@ namespace ET.Server
         {
             Scene scene = session.DomainScene();
 
-            #region 校验
+#region 校验
 
             session.RemoveComponent<SessionAcceptTimeoutComponent>();
 
@@ -39,9 +39,9 @@ namespace ET.Server
                 return;
             }
 
-            #endregion 校验
+#endregion 校验
 
-            #region 登录/创建帐号
+#region 登录/创建帐号
 
             using (session.AddComponent<SessionLoginComponent>())
             {
@@ -84,7 +84,7 @@ namespace ET.Server
 
                     //通知登录中心
                     long loginCenterInstanceId = StartSceneConfigCategory.Instance.LoginCenterConfig.InstanceId;
-                    var loginAccountResponse = await MessageHelper.CallActor(loginCenterInstanceId,
+                    L2A_LoginAccountResponse loginAccountResponse = await MessageHelper.CallActor(loginCenterInstanceId,
                         new A2L_LoginAccountRequest() { AccountId = account.Id }) as L2A_LoginAccountResponse;
                     if (loginAccountResponse?.Error != ErrorCode.ERR_Success)
                     {
@@ -97,7 +97,7 @@ namespace ET.Server
 
                     //获取当前帐号登陆情况并强制下线
                     long accountSessionInstanceId = scene.GetComponent<AccountSessionsComponent>().Get(account.Id);
-                    var otherSession = Root.Instance.Get(accountSessionInstanceId) as Session;
+                    Session otherSession = Root.Instance.Get(accountSessionInstanceId) as Session;
                     otherSession?.Send(new A2C_Disconnect() { Error = 0 });
                     otherSession?.Disconnect();
                     //账号服务器添加记录
@@ -107,7 +107,7 @@ namespace ET.Server
                     session.AddComponent<AccountCheckOutTimeComponent, long>(account.Id);
 
                     //发放登陆令牌
-                    string token = TimeHelper.ServerNow().ToString() + RandomHelper.RandomNumber(int.MinValue, int.MinValue).ToString();
+                    string token = TimeHelper.ServerNow() + RandomHelper.RandomInt32(int.MinValue, int.MinValue).ToString();
                     //scene.GetComponent<TokenComponent>().Remove(account.Id);
                     scene.GetComponent<TokenComponent>().AddOrModify(account.Id, token);
 
@@ -118,7 +118,7 @@ namespace ET.Server
                 }
             }
 
-            #endregion 登录/创建帐号
+#endregion 登录/创建帐号
         }
     }
 }

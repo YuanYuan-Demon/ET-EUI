@@ -53,10 +53,6 @@ public sealed partial class StartMachineConfig: Luban.BeanBase
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
-        
-        
-        
-        
         PostResolve();
     }
 

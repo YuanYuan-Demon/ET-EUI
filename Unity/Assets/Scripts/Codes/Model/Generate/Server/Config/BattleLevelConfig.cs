@@ -58,11 +58,6 @@ public sealed partial class BattleLevelConfig: Luban.BeanBase
 
     public  void Resolve(Dictionary<Type, IConfigSingleton> _tables)
     {
-        
-        
-        
-        
-        
         PostResolve();
     }
 

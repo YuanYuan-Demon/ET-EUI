@@ -1,34 +1,54 @@
-using System;
+using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace ET.Client
 {
-    [FriendOf(typeof(OperaComponent))]
+    [FriendOf(typeof (OperaComponent))]
     public static class OperaComponentSystem
     {
-        [ObjectSystem]
-        public class OperaComponentAwakeSystem : AwakeSystem<OperaComponent>
+        public static void JoyMove(this OperaComponent self, float3 moveDir)
         {
-            protected override void Awake(OperaComponent self)
-            {
-                self.mapMask = LayerMask.GetMask("Map");
-            }
+            Unit unit = self.GetMyUnit();
+            float3 unitPos = unit.Position;
+            float3 newPos = unitPos + moveDir * 2;
+
+            List<float3> list = new() { unit.Position, newPos };
+            unit.MoveToAsync(list).Coroutine();
+
+            self.ClientScene().GetComponent<SessionComponent>().Session.Send(new C2M_PathfindingResult() { Position = newPos });
+        }
+
+        public static void Stop(this OperaComponent self)
+        {
+            Unit unit = self.GetMyUnit();
+            unit.GetComponent<MoveComponent>().StopForce();
+
+            self.ClientScene().GetComponent<SessionComponent>().Session.Send(new C2M_JoyStop() { Position = unit.Position, Forward = unit.Forward });
+        }
+
+#region 生命周期
+
+        [ObjectSystem]
+        public class OperaComponentAwakeSystem: AwakeSystem<OperaComponent>
+        {
+            protected override void Awake(OperaComponent self) => self.mapMask = LayerMask.GetMask("Map");
         }
 
         [ObjectSystem]
-        public class OperaComponentUpdateSystem : UpdateSystem<OperaComponent>
+        public class OperaComponentUpdateSystem: UpdateSystem<OperaComponent>
         {
             protected override void Update(OperaComponent self)
             {
-                if (Input.GetMouseButtonDown(1))
+                if (!UIHelper.IsTouchedUI())
                 {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, 1000, self.mapMask))
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        C2M_PathfindingResult c2MPathfindingResult = new C2M_PathfindingResult();
-                        c2MPathfindingResult.Position = hit.point;
-                        self.ClientScene().GetComponent<SessionComponent>().Session.Send(c2MPathfindingResult);
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        if (Physics.Raycast(ray, out RaycastHit hit, 1000, self.mapMask))
+                        {
+                            self.ClientScene().GetComponent<SessionComponent>().Session.Send(new C2M_PathfindingResult() { Position = hit.point });
+                        }
                     }
                 }
 
@@ -38,13 +58,15 @@ namespace ET.Client
                     EventSystem.Instance.Load();
                     Log.Debug("hot reload success!");
                 }
-            
+
                 if (Input.GetKeyDown(KeyCode.T))
                 {
-                    C2M_TransferMap c2MTransferMap = new C2M_TransferMap();
+                    C2M_TransferMap c2MTransferMap = new();
                     self.ClientScene().GetComponent<SessionComponent>().Session.Call(c2MTransferMap).Coroutine();
                 }
             }
         }
+
+#endregion
     }
 }

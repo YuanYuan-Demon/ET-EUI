@@ -2,18 +2,15 @@
 {
     public static class ServerInfosComponentSystem
     {
-        public static void Add(this ServerInfosComponent self, ServerInfo serverInfo)
-        {
-            self.ServerInfos.Add(serverInfo);
-        }
+        public static void Add(this ServerInfosComponent self, ServerInfo serverInfo) => self.ServerInfos.Add(serverInfo);
 
-        #region 生命周期
+#region 生命周期
 
         public class ServerInfosComponentDestroySystem: DestroySystem<ServerInfosComponent>
         {
             protected override void Destroy(ServerInfosComponent self)
             {
-                for (int i = 0; i < self.ServerInfos.Count; i++)
+                for (var i = 0; i < self.ServerInfos.Count; i++)
                 {
                     self.ServerInfos[i]?.Dispose();
                 }
@@ -23,6 +20,6 @@
             }
         }
 
-        #endregion 生命周期
+#endregion 生命周期
     }
 }

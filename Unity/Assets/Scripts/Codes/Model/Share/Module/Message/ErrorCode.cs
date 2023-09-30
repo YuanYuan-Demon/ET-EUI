@@ -98,5 +98,10 @@ namespace ET
         public const int ERR_TaskRewarded = 200044;
 
         public const int ERR_ChatMessageEmpty = 200045;
+
+        public const int ERR_ItemConfigNotExist = 200046;
+        public const int ERR_GoldNotEnough = 200047;
+        public const int ERR_BagFull = 200048;
+        public const int ERR_BuyItemError = 200049;
     }
 }
