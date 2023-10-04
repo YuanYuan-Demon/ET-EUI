@@ -26,12 +26,12 @@ namespace ET
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// 区服名称
         /// </summary>
-        public string ServerName { get; private set; }
+        public string ServerName { get; }
 
         public static ServerInfoConfig DeserializeServerInfoConfig(ByteBuf _buf)
         {

@@ -18,15 +18,15 @@ namespace ET
                 string splitChar = ":";
                 string arguments = "-c";
 #elif UNITY_EDITOR_WIN
-                string app = "cmd.exe";
-                string splitChar = ";";
-                string arguments = "/c";
+                var app = "cmd.exe";
+                var splitChar = ";";
+                var arguments = "/c";
 #endif
-                ProcessStartInfo start = new ProcessStartInfo(app);
+                var start = new ProcessStartInfo(app);
 
                 if (environmentVars != null)
                 {
-                    foreach (string var in environmentVars)
+                    foreach (var var in environmentVars)
                     {
                         start.EnvironmentVariables["PATH"] += splitChar + var;
                     }
@@ -54,14 +54,14 @@ namespace ET
                     start.StandardErrorEncoding = Encoding.UTF8;
                 }
 
-                bool endOutput = false;
-                bool endError = false;
+                var endOutput = false;
+                var endError = false;
 
                 process.OutputDataReceived += (sender, args) =>
                 {
                     if (args.Data != null)
                     {
-                        if (args.Data.Contains("fail") || args.Data.Contains("不存在"))
+                        if (args.Data.Contains("Err") || args.Data.Contains("失败") || args.Data.Contains("错误") || args.Data.Contains("error"))
                         {
                             Debug.LogError(args.Data);
                         }

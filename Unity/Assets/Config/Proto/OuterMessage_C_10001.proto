@@ -89,7 +89,7 @@ message M2C_CreateMyUnit // IActorMessage
 message M2C_StartSceneChange // IActorMessage
 {
 	int64 SceneInstanceId = 1;
-	string SceneName = 2;	
+	string SceneName = 2;
 }
 
 message M2C_RemoveUnits // IActorMessage
@@ -336,7 +336,7 @@ message A2C_GetRoles	//	IResponse
 	int32 RpcId = 90;
 	int32 Error = 91;
 	string Message = 92;
-	
+
 	repeated NRoleInfo NRoleInfos = 1;
 }
 
@@ -511,13 +511,13 @@ message ItemInfo
 	int64 ItemUid      = 1;
 	int32 ItemConfigId = 2;
 	int32 Count = 3;
-	EquipInfoProto EquipInfo = 4; 
+	EquipInfoProto EquipInfo = 4;
 }
 
 message M2C_AllItemsList // IActorMessage
 {
 	int32 RpcId = 90;
-	
+
 	repeated ItemInfo ItemInfoList = 1;
 	ItemContainerType ContainerType = 2;
 }
@@ -571,7 +571,7 @@ message M2C_BuyItem // IActorLocationResponse
 message AttributeEntryProto
 {
 	int64 Id = 1;
-	EntryType EntryType = 2; 
+	EntryType EntryType = 2;
 	NumericType AttributeName = 3;
 	int64 AttributeValue = 4;
 }
@@ -615,6 +615,47 @@ message M2C_UnloadEquipItem // IActorLocationResponse
 	string Message = 92;
 }
 
+//============================================  任务系统  ============================================
+message NTaskTarget
+{
+	TaskTargetType Type = 1;
+	int32 Target = 2;
+	int32 Count = 3;
+}
+
+message NTaskInfo
+{
+	int32 ConfigId  = 1;
+	TaskState TaskState = 2;
+	repeated NTaskTarget Process = 3;
+}
+
+message M2C_UpdateTaskInfo // IActorMessage
+{
+	NTaskInfo NTaskInfo = 1;
+}
+
+
+message M2C_AllTaskInfoList // IActorMessage
+{
+	repeated NTaskInfo NTaskInfos = 1;
+}
+
+
+//ResponseType M2C_ReceiveTaskReward
+message C2M_ReceiveTaskReward // IActorLocationRequest
+{
+	int32 RpcId        = 90;
+
+	int32 TaskConfigId = 1;
+}
+
+message M2C_ReceiveTaskReward // IActorLocationResponse
+{
+	int32 RpcId    = 90;
+	int32 Error    = 91;
+	string Message = 92;
+}
 
 // //============================================  排行榜系统  ============================================
 // message RankInfoProto
@@ -648,7 +689,7 @@ message M2C_UnloadEquipItem // IActorLocationResponse
 // message C2Chat_SendChatInfo // IActorChatInfoRequest
 // {
 // 	int32 RpcId         = 90;
-	
+
 // 	string ChatMessage  = 1;
 // }
 

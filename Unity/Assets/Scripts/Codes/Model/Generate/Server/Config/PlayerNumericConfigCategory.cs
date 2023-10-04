@@ -20,6 +20,7 @@ public partial class PlayerNumericConfigCategory: ConfigSingleton<PlayerNumericC
     private readonly Dictionary<int, PlayerNumericConfig> _dataMap;
     private readonly List<PlayerNumericConfig> _dataList;
 
+
     public PlayerNumericConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

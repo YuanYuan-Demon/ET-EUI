@@ -12,13 +12,13 @@ namespace ET.Client
 
         private Button m_EB_Close_Button;
         private Image m_EB_Close_Image;
-        private LoopVerticalScrollRect m_EL_ShopItem_LoopVerticalScrollRect;
         private Toggle m_ET_All_Toggle;
         private Toggle m_ET_Consumables_Toggle;
         private Toggle m_ET_Equip_Toggle;
         private Toggle m_ET_Material_Toggle;
         private TextMeshProUGUI m_ET_Money_TextMeshProUGUI;
         private ToggleGroup m_ETG_TabButton_ToggleGroup;
+        private LoopVList mElShopItemLoopVList;
         public Transform uiTransform;
 
         public Button EB_Close_Button
@@ -154,7 +154,7 @@ namespace ET.Client
             }
         }
 
-        public LoopVerticalScrollRect EL_ShopItem_LoopVerticalScrollRect
+        public LoopVList ElShopItemLoopVList
         {
             get
             {
@@ -164,13 +164,13 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EL_ShopItem_LoopVerticalScrollRect == null)
+                if (this.mElShopItemLoopVList == null)
                 {
-                    this.m_EL_ShopItem_LoopVerticalScrollRect =
-                            UIHelper.FindDeepChild<LoopVerticalScrollRect>(this.uiTransform.gameObject, "Panel/EL_ShopItem");
+                    this.mElShopItemLoopVList =
+                            UIHelper.FindDeepChild<LoopVList>(this.uiTransform.gameObject, "Panel/EL_ShopItem");
                 }
 
-                return this.m_EL_ShopItem_LoopVerticalScrollRect;
+                return this.mElShopItemLoopVList;
             }
         }
 
@@ -221,7 +221,7 @@ namespace ET.Client
             this.m_ET_Equip_Toggle = null;
             this.m_ET_Consumables_Toggle = null;
             this.m_ET_Material_Toggle = null;
-            this.m_EL_ShopItem_LoopVerticalScrollRect = null;
+            this.mElShopItemLoopVList = null;
             this.m_ET_Money_TextMeshProUGUI = null;
             this.m_EB_Buy_Button = null;
             this.uiTransform = null;

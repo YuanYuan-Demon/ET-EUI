@@ -1,5 +1,7 @@
 ﻿namespace ET.EventType
 {
+#region Scene
+
     public struct SceneChangeStart
     {
     }
@@ -20,6 +22,10 @@
     {
     }
 
+#endregion
+
+#region 登录
+
     public struct LoginFinish
     {
     }
@@ -27,6 +33,10 @@
     public struct EnterMapFinish
     {
     }
+
+#endregion
+
+#region 角色管理
 
     public struct AfterUnitCreate
     {
@@ -43,9 +53,15 @@
         public RoleClass RoleClass;
     }
 
+#endregion
+
+#region 商店
+
     public struct SelectShopItem
     {
         public long Id;
         public int Count;
     }
+
+#endregion
 }

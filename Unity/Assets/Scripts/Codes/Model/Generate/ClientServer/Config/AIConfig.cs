@@ -38,27 +38,27 @@ namespace ET
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// 所属ai
         /// </summary>
-        public int AIConfigID { get; private set; }
+        public int AIConfigID { get; }
 
         /// <summary>
         /// 此ai中的顺序
         /// </summary>
-        public int Order { get; private set; }
+        public int Order { get; }
 
         /// <summary>
         /// 节点名字
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// 节点参数
         /// </summary>
-        public System.Collections.Generic.List<int> NodeParam { get; private set; }
+        public System.Collections.Generic.List<int> NodeParam { get; }
 
         public static AIConfig DeserializeAIConfig(ByteBuf _buf)
         {

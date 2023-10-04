@@ -17,8 +17,9 @@ namespace ET
 [Config]
 public partial class TaskActionConfigCategory: ConfigSingleton<TaskActionConfigCategory>
 {
-    private readonly Dictionary<int, TaskActionConfig> _dataMap;
+    private readonly Dictionary<TaskTargetType, TaskActionConfig> _dataMap;
     private readonly List<TaskActionConfig> _dataList;
+
 
     public TaskActionConfigCategory(ByteBuf _buf)
     {
@@ -30,26 +31,26 @@ public partial class TaskActionConfigCategory: ConfigSingleton<TaskActionConfigC
             TaskActionConfig _v;
             _v = TaskActionConfig.DeserializeTaskActionConfig(_buf);
             _dataList.Add(_v);
-            _dataMap.Add(_v.Id, _v);
+            _dataMap.Add(_v.TargetType, _v);
         }
         PostInit();
     }
 
-    public bool Contain(int id)
+    public bool Contain(TaskTargetType id)
     {
         return _dataMap.ContainsKey(id);
     }
 
-    public Dictionary<int, TaskActionConfig> GetAll()
+    public Dictionary<TaskTargetType, TaskActionConfig> GetAll()
     {
         return _dataMap;
     }
 
     public List<TaskActionConfig> DataList => _dataList;
 
-    public TaskActionConfig GetOrDefault(int key) => _dataMap.TryGetValue(key, out var v) ? v : null;
-    public TaskActionConfig Get(int key) => _dataMap[key];
-    public TaskActionConfig GetOne(int key)
+    public TaskActionConfig GetOrDefault(TaskTargetType key) => _dataMap.TryGetValue(key, out var v) ? v : null;
+    public TaskActionConfig Get(TaskTargetType key) => _dataMap[key];
+    public TaskActionConfig GetOne(TaskTargetType key)
     {
         if(this._dataMap is not { Count: > 0 })
         {
@@ -58,7 +59,7 @@ public partial class TaskActionConfigCategory: ConfigSingleton<TaskActionConfigC
         return _dataMap.Values.GetEnumerator().Current;
     }
 
-    public TaskActionConfig this[int key] => _dataMap[key];
+    public TaskActionConfig this[TaskTargetType key] => _dataMap[key];
 
     public override void Resolve(Dictionary<Type, IConfigSingleton> tables)
     {

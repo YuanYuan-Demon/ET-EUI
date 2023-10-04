@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace ET.Client
@@ -11,7 +10,7 @@ namespace ET.Client
         {
             self.RegisterCloseEvent<DlgShop>(self.View.EB_Close_Button);
             self.View.ETG_TabButton_ToggleGroup.AddListener(self.OnSelectTabGroup);
-            self.View.EL_ShopItem_LoopVerticalScrollRect.AddItemRefreshListener(self.OnRefreshShopItem);
+            self.View.ElShopItemLoopVList.AddItemRefreshListener(self.OnRefreshShopItem);
             self.View.EB_Buy_Button.onClick.AddListener(self.OnClickBuy);
         }
 
@@ -21,7 +20,7 @@ namespace ET.Client
 
         public static async void OnClickBuy(this DlgShop self)
         {
-            IResponse response = await ShopHelper.BuyItem(self.ClientScene(), self.SelectItem.ConfigId, self.SelectItem.Count);
+            var response = await ShopHelper.BuyItem(self.ClientScene(), self.SelectItem.ConfigId, self.SelectItem.Count);
             if (response?.Error != ErrorCode.ERR_Success)
             {
                 Log.Error(response.ToString());
@@ -40,7 +39,7 @@ namespace ET.Client
 
         public static void Refresh(this DlgShop self)
         {
-            Dictionary<int, ItemConfig>.ValueCollection itemConfigs = ItemConfigCategory.Instance.GetAll().Values;
+            var itemConfigs = ItemConfigCategory.Instance.GetAll().Values;
             self.ConfigList.Clear();
             if (self.ShopTab == ItemType.All)
             {
@@ -54,13 +53,13 @@ namespace ET.Client
             if (self.ConfigList != null && self.ConfigList.Count != 0)
             {
                 self.AddUIScrollItems(ref self.ScrollItemShopItems, self.ConfigList.Count);
-                self.View.EL_ShopItem_LoopVerticalScrollRect.SetVisible(true, self.ConfigList.Count);
+                self.View.ElShopItemLoopVList.SetVisible(true, self.ConfigList.Count);
             }
         }
 
         public static void OnRefreshShopItem(this DlgShop self, Transform transform, int index)
         {
-            Scroll_Item_ShopItem scrollItemBagItem = self.ScrollItemShopItems[index].BindTrans(transform);
+            var scrollItemBagItem = self.ScrollItemShopItems[index].BindTrans(transform);
             scrollItemBagItem.Refresh(self.ConfigList[index]);
         }
     }

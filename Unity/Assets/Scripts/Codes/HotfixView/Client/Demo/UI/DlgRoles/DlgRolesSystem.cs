@@ -15,7 +15,7 @@ namespace ET.Client
             self.View.EB_Create_Button.AddListener(self.OnClickCreateRole);
             //self.View.EB_DeleteRoleButton.AddListener(() => self.OnClickDeleteRole());
             self.View.EB_EnterGame_Button.AddListener(self.OnClickEnter);
-            self.View.EL_Roles_LoopVerticalScrollRect.AddItemRefreshListener(self.OnRoleListRefreshHandler);
+            self.View.ElRolesLoopVList.AddItemRefreshListener(self.OnRoleListRefreshHandler);
             ;
             self.View.EB_Back_Button.AddListener(() => self.ShowSelectPanel());
             self.View.EG_Toggles_RectTransform.GetComponent<ToggleGroup>().AddListener(self.OnSelectClass);
@@ -31,15 +31,15 @@ namespace ET.Client
         {
             //在最后添加一个创建角色按钮
             self.RoleInfos = self.ClientScene().GetComponent<RoleInfosComponent>().RoleInfos;
-            int count = self.RoleInfos.Count + 1;
+            var count = self.RoleInfos.Count + 1;
             self.AddUIScrollItems(ref self.ScrollItemRoleInfos, count);
-            self.View.EL_Roles_LoopVerticalScrollRect.SetVisible(true, count);
+            self.View.ElRolesLoopVList.SetVisible(true, count);
         }
 
         private static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)
         {
-            Scroll_Item_RoleInfo itemRole = self.ScrollItemRoleInfos[index].BindTrans(transform);
-            RoleInfo roleInfo = index == self.RoleInfos.Count? default : self.RoleInfos[index];
+            var itemRole = self.ScrollItemRoleInfos[index].BindTrans(transform);
+            var roleInfo = index == self.RoleInfos.Count? default : self.RoleInfos[index];
             itemRole.Refresh(roleInfo);
         }
 
@@ -49,7 +49,7 @@ namespace ET.Client
             for (var i = 0; i < 3; i++)
             {
                 self.View.EG_Class_RectTransform.GetChild(i).gameObject.SetActive(i == cla);
-                Transform toggleTransform = self.View.EG_Toggles_RectTransform.GetChild(i);
+                var toggleTransform = self.View.EG_Toggles_RectTransform.GetChild(i);
                 toggleTransform.GetChild(0).gameObject.SetActive(i != cla);
                 toggleTransform.GetChild(1).gameObject.SetActive(i == cla);
                 toggleTransform.GetComponent<Toggle>().targetGraphic = toggleTransform.GetComponentInChildren<Image>();
@@ -74,7 +74,7 @@ namespace ET.Client
 
         private static async void OnClickEnter(this DlgRoles self)
         {
-            bool isSelect = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId != 0;
+            var isSelect = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId != 0;
             if (!isSelect)
             {
                 UIComponent.Instance.ShowErrorBox("请先选择角色");
@@ -84,7 +84,7 @@ namespace ET.Client
             try
             {
                 //申请网关负载均衡服务器的token
-                int errorCode = await LoginHelper.GetRealmKey(self.ClientScene());
+                var errorCode = await LoginHelper.GetRealmKey(self.ClientScene());
                 if (errorCode != ErrorCode.ERR_Success)
                 {
                     Log.Error(errorCode.ToString());
@@ -114,7 +114,7 @@ namespace ET.Client
 
         private static async void OnClickCreateRole(this DlgRoles self)
         {
-            string roleName = self.View.EInput_RoleName_TMP_InputField.text;
+            var roleName = self.View.EInput_RoleName_TMP_InputField.text;
             if (string.IsNullOrEmpty(roleName))
             {
                 UIComponent.Instance.ShowErrorBox("角色名不能为空");
@@ -123,7 +123,7 @@ namespace ET.Client
 
             try
             {
-                int errorCode = await LoginHelper.CreateRole(self.ClientScene(), roleName, (RoleClass)self.index);
+                var errorCode = await LoginHelper.CreateRole(self.ClientScene(), roleName, (RoleClass)self.index);
                 if (errorCode != ErrorCode.ERR_Success)
                 {
                     Log.Error(errorCode.ToString());
@@ -147,7 +147,7 @@ namespace ET.Client
         /// <param name="self"> </param>
         private static async void OnClickDeleteRole(this DlgRoles self)
         {
-            long roleId = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId;
+            var roleId = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId;
             if (roleId == 0)
             {
                 UIComponent.Instance.ShowErrorBox("请选择需要删除的角色");
@@ -156,7 +156,7 @@ namespace ET.Client
 
             try
             {
-                int errorCode = await LoginHelper.DeleteRole(self.ClientScene(), roleId);
+                var errorCode = await LoginHelper.DeleteRole(self.ClientScene(), roleId);
                 if (errorCode != ErrorCode.ERR_Success)
                 {
                     Log.Error(errorCode.ToString());

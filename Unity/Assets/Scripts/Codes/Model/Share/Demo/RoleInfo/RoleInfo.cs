@@ -3,14 +3,7 @@
     public enum RoleInfoStatus
     {
         Normal,
-        Freeze,
-    }
-
-    public enum RoleClass
-    {
-        Warrior,
-        Wizard,
-        Archer,
+        Freeze
     }
 
     [ComponentOf(typeof (Unit))]

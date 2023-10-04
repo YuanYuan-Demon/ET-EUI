@@ -26,12 +26,12 @@ namespace ET
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// 所需经验值
         /// </summary>
-        public long NeedExp { get; private set; }
+        public long NeedExp { get; }
 
         public static PlayerLevelConfig DeserializePlayerLevelConfig(ByteBuf _buf)
         {

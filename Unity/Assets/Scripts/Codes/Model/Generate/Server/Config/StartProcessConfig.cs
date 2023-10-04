@@ -17,6 +17,7 @@ namespace ET
 
 public sealed partial class StartProcessConfig: Luban.BeanBase
 {
+
     public StartProcessConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
@@ -33,15 +34,15 @@ public sealed partial class StartProcessConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public int Id { get; }
     /// <summary>
     /// 所属机器
     /// </summary>
-    public int MachineId { get; private set; }
+    public int MachineId { get; }
     /// <summary>
     /// 内网端口
     /// </summary>
-    public int InnerPort { get; private set; }
+    public int InnerPort { get; }
 
     public const int __ID__ = 2140444015;
     public override int GetTypeId() => __ID__;

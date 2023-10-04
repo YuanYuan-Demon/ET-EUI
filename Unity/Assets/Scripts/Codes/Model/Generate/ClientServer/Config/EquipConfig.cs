@@ -40,82 +40,82 @@ namespace ET
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// 名称
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// 位置
         /// </summary>
-        public EquipPosition EquipPosition { get; private set; }
+        public EquipPosition EquipPosition { get; }
 
         /// <summary>
         /// 职业
         /// </summary>
-        public string Role { get; private set; }
+        public string Role { get; }
 
         /// <summary>
         /// 生命
         /// </summary>
-        public int MaxHp { get; private set; }
+        public int MaxHp { get; }
 
         /// <summary>
         /// 法力
         /// </summary>
-        public int MaxMp { get; private set; }
+        public int MaxMp { get; }
 
         /// <summary>
         /// 力量
         /// </summary>
-        public int Strength { get; private set; }
+        public int Strength { get; }
 
         /// <summary>
         /// 智力
         /// </summary>
-        public int Intelligence { get; private set; }
+        public int Intelligence { get; }
 
         /// <summary>
         /// 敏捷
         /// </summary>
-        public int Agility { get; private set; }
+        public int Agility { get; }
 
         /// <summary>
         /// 物理攻击
         /// </summary>
-        public int AD { get; private set; }
+        public int AD { get; }
 
         /// <summary>
         /// 法术攻击
         /// </summary>
-        public int AP { get; private set; }
+        public int AP { get; }
 
         /// <summary>
         /// 物理防御
         /// </summary>
-        public int DEF { get; private set; }
+        public int DEF { get; }
 
         /// <summary>
         /// 法术防御
         /// </summary>
-        public int MDEF { get; private set; }
+        public int MDEF { get; }
 
         /// <summary>
         /// 攻击速度
         /// </summary>
-        public int Rate { get; private set; }
+        public int Rate { get; }
 
         /// <summary>
         /// 暴击概率
         /// </summary>
-        public int CRI { get; private set; }
+        public int CRI { get; }
 
         /// <summary>
         /// 词条随机Id
         /// </summary>
-        public int EntryRandomId { get; private set; }
+        public int EntryRandomId { get; }
 
         public static EquipConfig DeserializeEquipConfig(ByteBuf _buf)
         {

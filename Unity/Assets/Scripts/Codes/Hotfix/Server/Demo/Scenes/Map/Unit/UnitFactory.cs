@@ -1,4 +1,7 @@
-﻿namespace ET.Server
+﻿using System;
+using Unity.Mathematics;
+
+namespace ET.Server
 {
     public static class UnitFactory
     {
@@ -9,11 +12,11 @@
             {
                 case UnitType.Player:
                 {
-                    Unit unit = unitComponent.Create(id, 1001);
+                    var unit = unitComponent.Create(id, 1001);
                     var numericComponent = unit.AddComponent<NumericComponent>();
                     numericComponent.Set(NumericType.Speed, 6f);  // 速度是6米每秒
                     numericComponent.Set(NumericType.AOI, 15000); // 视野15米
-                    foreach (PlayerNumericConfig config in PlayerNumericConfigCategory.Instance.GetAll().Values)
+                    foreach (var config in PlayerNumericConfigCategory.Instance.GetAll().Values)
                     {
                         if (config.BaseValue == 0)
                         {
@@ -32,21 +35,20 @@
                         }
                     }
 
-                    unit.Position = new(50, 8, 40);
+                    unit.Position = new float3(50, 8, 40);
 
                     unit.AddComponent<BagComponent>();
                     unit.AddComponent<EquipmentsComponent>();
                     //Undone: AddComponent<ForgeComponent>()
                     //unit.AddComponent<ForgeComponent>();
-                    //Undone: AddComponent<TasksComponent>()
-                    //unit.AddComponent<TasksComponent>();
+                    unit.AddComponent<TasksComponent>();
 
 #region 背包测试
 
                     //添加装备
                     for (var i = 0; i < 10; i++)
                     {
-                        int equipId = RandomHelper.RandomInt32(1, 8) + 1000 * RandomHelper.RandomInt32(1, 4) + 10 * RandomHelper.RandomInt32(0, 2);
+                        var equipId = RandomHelper.RandomInt32(1, 8) + 1000 * RandomHelper.RandomInt32(1, 4) + 10 * RandomHelper.RandomInt32(0, 2);
                         if (!BagHelper.AddItemByConfigId(unit, equipId, isSync: false))
                         {
                             Log.Error("增加背包物品失败");
@@ -56,7 +58,7 @@
                     //添加道具
                     for (var i = 0; i < 30; i++)
                     {
-                        int itemId = RandomHelper.RandomInt32(1, 11);
+                        var itemId = RandomHelper.RandomInt32(1, 11);
                         if (!BagHelper.AddItemByConfigId(unit, itemId, isSync: false))
                         {
                             Log.Error("增加背包物品失败");
@@ -68,14 +70,14 @@
                     return unit;
                 }
                 default:
-                    throw new($"not such unit type: {unitType}");
+                    throw new Exception($"not such unit type: {unitType}");
             }
         }
 
         public static Unit CreateMonster(Scene scene, int configId)
         {
             var unitComponent = scene.GetComponent<UnitComponent>();
-            Unit unit = unitComponent.Create(configId);
+            var unit = unitComponent.Create(configId);
             var numericComponent = unit.AddComponent<NumericComponent>();
 
             numericComponent.SetNoEvent(NumericType.MaxHp, unit.Config.MaxHp);

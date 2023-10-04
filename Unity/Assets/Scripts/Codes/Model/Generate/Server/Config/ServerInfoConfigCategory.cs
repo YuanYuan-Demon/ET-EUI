@@ -20,6 +20,7 @@ public partial class ServerInfoConfigCategory: ConfigSingleton<ServerInfoConfigC
     private readonly Dictionary<int, ServerInfoConfig> _dataMap;
     private readonly List<ServerInfoConfig> _dataList;
 
+
     public ServerInfoConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

@@ -17,6 +17,7 @@ namespace ET
 
 public sealed partial class StartMachineConfig: Luban.BeanBase
 {
+
     public StartMachineConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
@@ -34,19 +35,19 @@ public sealed partial class StartMachineConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public int Id { get; }
     /// <summary>
     /// 内网地址
     /// </summary>
-    public string InnerIP { get; private set; }
+    public string InnerIP { get; }
     /// <summary>
     /// 外网地址
     /// </summary>
-    public string OuterIP { get; private set; }
+    public string OuterIP { get; }
     /// <summary>
     /// 守护进程端口
     /// </summary>
-    public string WatcherPort { get; private set; }
+    public string WatcherPort { get; }
 
     public const int __ID__ = 1628109127;
     public override int GetTypeId() => __ID__;

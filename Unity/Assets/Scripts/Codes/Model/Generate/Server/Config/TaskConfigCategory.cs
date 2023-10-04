@@ -20,6 +20,7 @@ public partial class TaskConfigCategory: ConfigSingleton<TaskConfigCategory>
     private readonly Dictionary<int, TaskConfig> _dataMap;
     private readonly List<TaskConfig> _dataList;
 
+
     public TaskConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

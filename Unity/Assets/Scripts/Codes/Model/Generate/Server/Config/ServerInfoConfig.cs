@@ -17,6 +17,7 @@ namespace ET
 
 public sealed partial class ServerInfoConfig: Luban.BeanBase
 {
+
     public ServerInfoConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
@@ -32,11 +33,11 @@ public sealed partial class ServerInfoConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public int Id { get; }
     /// <summary>
     /// 区服名称
     /// </summary>
-    public string ServerName { get; private set; }
+    public string ServerName { get; }
 
     public const int __ID__ = -1669631661;
     public override int GetTypeId() => __ID__;

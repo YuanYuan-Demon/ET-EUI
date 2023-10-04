@@ -20,6 +20,7 @@ public partial class EntryConfigCategory: ConfigSingleton<EntryConfigCategory>
     private readonly Dictionary<int, EntryConfig> _dataMap;
     private readonly List<EntryConfig> _dataList;
 
+
     public EntryConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

@@ -11,7 +11,7 @@ namespace ET.Client
         {
             self.RegisterCloseEvent<DlgBag>(self.View.EB_Close_Button);
             self.View.ETG_TabButton_ToggleGroup.AddListener(self.OnSelectTabGroup);
-            self.View.EL_BagItem_LoopVerticalScrollRect.AddItemRefreshListener(self.OnRefreshBagItem);
+            self.View.ElBagItemLoopVList.AddItemRefreshListener(self.OnRefreshBagItem);
             self.View.EB_Sort_Button.AddListener(self.OnSortBagItem);
         }
 
@@ -43,17 +43,17 @@ namespace ET.Client
             if (self.ItemList != null && self.ItemList.Count != 0)
             {
                 self.AddUIScrollItems(ref self.ScrollItemBagItems, self.ItemList.Count);
-                self.View.EL_BagItem_LoopVerticalScrollRect.SetVisible(true, self.ItemList.Count);
+                self.View.ElBagItemLoopVList.SetVisible(true, self.ItemList.Count);
             }
             else
             {
-                self.View.EL_BagItem_LoopVerticalScrollRect.SetVisible(true);
+                self.View.ElBagItemLoopVList.SetVisible(true);
             }
         }
 
         public static void OnRefreshBagItem(this DlgBag self, Transform transform, int index)
         {
-            Scroll_Item_BagItem scrollItemBagItem = self.ScrollItemBagItems[index].BindTrans(transform);
+            var scrollItemBagItem = self.ScrollItemBagItems[index].BindTrans(transform);
             scrollItemBagItem.Refresh(self.ItemList[index]);
         }
 

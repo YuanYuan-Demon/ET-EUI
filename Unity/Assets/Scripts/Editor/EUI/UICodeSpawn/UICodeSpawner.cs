@@ -22,36 +22,33 @@ public partial class UICodeSpawner
 
     private static List<string> WidgetInterfaceList;
 
-    static UICodeSpawner()
+    static UICodeSpawner() => WidgetInterfaceList = new List<string>
     {
-        WidgetInterfaceList = new()
-        {
-            "Button",
-            "Text",
-            "TMPro.TextMeshProUGUI",
-            "TMPro.TMP_InputField",
-            "Input",
-            "InputField",
-            "Scrollbar",
-            "ToggleGroup",
-            "Toggle",
-            "Dropdown",
-            "Slider",
-            "ScrollRect",
-            "Image",
-            "RawImage",
-            "Canvas",
-            "UIWarpContent",
-            "LoopVerticalScrollRect",
-            "LoopHorizontalScrollRect",
-            "UnityEngine.EventSystems.EventTrigger",
-        };
-    }
+        "Button",
+        "Text",
+        "TMPro.TextMeshProUGUI",
+        "TMPro.TMP_InputField",
+        "Input",
+        "InputField",
+        "Scrollbar",
+        "ToggleGroup",
+        "Toggle",
+        "Dropdown",
+        "Slider",
+        "ScrollRect",
+        "Image",
+        "RawImage",
+        "Canvas",
+        "UIWarpContent",
+        "LoopVList",
+        "LoopHList",
+        "UnityEngine.EventSystems.EventTrigger"
+    };
 
     private static void SpawnCodeForDlg(GameObject gameObject)
     {
-        string strDlgName = gameObject.name;
-        string strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName;
+        var strDlgName = gameObject.name;
+        var strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName;
 
         if (!Directory.Exists(strFilePath))
         {
@@ -110,8 +107,8 @@ public partial class UICodeSpawner
     /// <param name="gameObject"></param>
     private static void SpawnWindowIdCode(GameObject gameObject)
     {
-        string strDlgName = gameObject.name;
-        string strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Plugins/EUI/WindowId.cs";
+        var strDlgName = gameObject.name;
+        var strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Plugins/EUI/WindowId.cs";
 
         if (!File.Exists(strFilePath))
         {
@@ -119,21 +116,21 @@ public partial class UICodeSpawner
             return;
         }
 
-        string originWindowIdContent = File.ReadAllText(strFilePath);
+        var originWindowIdContent = File.ReadAllText(strFilePath);
         if (originWindowIdContent.Contains(strDlgName.Substring(3)))
         {
             return;
         }
 
-        int windowIdEndIndex = GetWindowIdEndIndex(originWindowIdContent);
-        originWindowIdContent = originWindowIdContent.Insert(windowIdEndIndex, "\tWindowID_" + strDlgName.Substring(3) + ",\n\t");
+        var windowIdEndIndex = GetWindowIdEndIndex(originWindowIdContent);
+        originWindowIdContent = originWindowIdContent.Insert(windowIdEndIndex, "\tWindowID_" + strDlgName[3..] + ",\n\t");
         File.WriteAllText(strFilePath, originWindowIdContent);
     }
 
     private static void SpawnCodeForDlgEventHandle(GameObject gameObject)
     {
-        string strDlgName = gameObject.name;
-        string strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName + "/Event";
+        var strDlgName = gameObject.name;
+        var strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName + "/Event";
 
         if (!Directory.Exists(strFilePath))
         {
@@ -211,8 +208,8 @@ public partial class UICodeSpawner
 
     private static void SpawnCodeForDlgModel(GameObject gameObject)
     {
-        string strDlgName = gameObject.name;
-        string strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Demo/UI/" + strDlgName;
+        var strDlgName = gameObject.name;
+        var strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Demo/UI/" + strDlgName;
 
         if (!Directory.Exists(strFilePath))
         {
@@ -255,10 +252,10 @@ public partial class UICodeSpawner
             return;
         }
 
-        string strDlgName = gameObject.name;
-        string strDlgComponentName = gameObject.name + "ViewComponent";
+        var strDlgName = gameObject.name;
+        var strDlgComponentName = gameObject.name + "ViewComponent";
 
-        string strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UIBehaviour/" + strDlgName;
+        var strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UIBehaviour/" + strDlgName;
 
         if (!Directory.Exists(strFilePath))
         {
@@ -307,10 +304,10 @@ public partial class UICodeSpawner
             return;
         }
 
-        string strDlgName = gameObject.name;
-        string strDlgComponentName = gameObject.name + "ViewComponent";
+        var strDlgName = gameObject.name;
+        var strDlgComponentName = gameObject.name + "ViewComponent";
 
-        string strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Demo/UIBehaviour/" + strDlgName;
+        var strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Demo/UIBehaviour/" + strDlgName;
         if (!Directory.Exists(strFilePath))
         {
             Directory.CreateDirectory(strFilePath);
@@ -345,7 +342,7 @@ public partial class UICodeSpawner
 
     private static string GetWidgetPath(Transform obj, Transform root)
     {
-        string path = obj.name;
+        var path = obj.name;
 
         while (obj.parent != null && obj.parent != root)
         {
@@ -391,7 +388,7 @@ public partial class UICodeSpawner
 
         try
         {
-            string uiName = gameObject.name;
+            var uiName = gameObject.name;
             if (uiName.StartsWith(UIPanelPrefix))
             {
                 Debug.LogWarning($"----------开始生成Dlg{uiName} 相关代码 ----------");
@@ -426,7 +423,7 @@ public partial class UICodeSpawner
     public static void SpawnDlgCode(GameObject gameObject)
     {
         Path2WidgetCachedDict?.Clear();
-        Path2WidgetCachedDict = new();
+        Path2WidgetCachedDict = new Dictionary<string, List<Component>>();
 
         FindAllWidgets(gameObject.transform, "");
 
@@ -443,9 +440,9 @@ public partial class UICodeSpawner
     public static int GetWindowIdEndIndex(string content)
     {
         Regex regex = new("WindowID");
-        Match match = regex.Match(content);
+        var match = regex.Match(content);
         Regex regex1 = new("}");
-        MatchCollection matchCollection = regex1.Matches(content);
+        var matchCollection = regex1.Matches(content);
         for (var i = 0; i < matchCollection.Count; i++)
         {
             if (matchCollection[i].Index > match.Index)
@@ -473,12 +470,12 @@ public partial class UICodeSpawner
 
     public static void CreateDlgWidgetDisposeCode(ref StringBuilder strBuilder, bool isSelf = false)
     {
-        string pointStr = isSelf? "self" : "this";
-        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
+        var pointStr = isSelf? "self" : "this";
+        foreach (var pair in Path2WidgetCachedDict)
         {
-            foreach (Component info in pair.Value)
+            foreach (var info in pair.Value)
             {
-                Component widget = info;
+                var widget = info;
                 var strClassType = widget.GetType().ToString();
 
                 if (pair.Key.StartsWith(CommonUIPrefix))
@@ -496,18 +493,18 @@ public partial class UICodeSpawner
 
     public static void CreateWidgetBindCode(ref StringBuilder strBuilder, Transform transRoot)
     {
-        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
+        foreach (var pair in Path2WidgetCachedDict)
         {
-            foreach (Component info in pair.Value)
+            foreach (var info in pair.Value)
             {
-                Component widget = info;
-                string strPath = GetWidgetPath(widget.transform, transRoot);
+                var widget = info;
+                var strPath = GetWidgetPath(widget.transform, transRoot);
                 var strClassType = widget.GetType().ToString();
-                string strInterfaceType = strClassType;
+                var strInterfaceType = strClassType;
 
                 if (pair.Key.StartsWith(CommonUIPrefix))
                 {
-                    Component subUIClassPrefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(widget);
+                    var subUIClassPrefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(widget);
                     if (subUIClassPrefab == null)
                     {
                         Debug.LogError($"公共UI找不到所属的Prefab! {pair.Key}");
@@ -566,23 +563,23 @@ public partial class UICodeSpawner
 
     public static void CreateDeclareCode(ref StringBuilder strBuilder)
     {
-        foreach (KeyValuePair<string, List<Component>> pair in Path2WidgetCachedDict)
+        foreach (var pair in Path2WidgetCachedDict)
         {
-            foreach (Component info in pair.Value)
+            foreach (var info in pair.Value)
             {
-                Component widget = info;
+                var widget = info;
                 var strClassType = widget.GetType().ToString();
 
                 if (pair.Key.StartsWith(CommonUIPrefix))
                 {
-                    Component subUIClassPrefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(widget);
+                    var subUIClassPrefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(widget);
                     if (subUIClassPrefab == null)
                     {
                         Debug.LogError($"公共UI找不到所属的Prefab! {pair.Key}");
                         return;
                     }
 
-                    string subUIClassType = subUIClassPrefab.name;
+                    var subUIClassType = subUIClassPrefab.name;
                     strBuilder.AppendFormat("\t\tprivate {0} m_{1} = null;\r\n", subUIClassType, pair.Key.ToLower());
                     continue;
                 }
@@ -602,10 +599,10 @@ public partial class UICodeSpawner
 
         for (var nIndex = 0; nIndex < trans.childCount; ++nIndex)
         {
-            Transform child = trans.GetChild(nIndex);
-            string strTemp = strPath + "/" + child.name;
+            var child = trans.GetChild(nIndex);
+            var strTemp = strPath + "/" + child.name;
 
-            bool isSubUI = child.name.StartsWith(CommonUIPrefix);
+            var isSubUI = child.name.StartsWith(CommonUIPrefix);
             if (isSubUI || child.name.StartsWith(UIGameObjectPrefix))
             {
                 var rectTransfomrComponents = new List<Component>();
@@ -614,9 +611,9 @@ public partial class UICodeSpawner
             }
             else if (child.name.StartsWith(UIWidgetPrefix))
             {
-                foreach (string uiComponent in WidgetInterfaceList)
+                foreach (var uiComponent in WidgetInterfaceList)
                 {
-                    Component component = child.GetComponent(uiComponent);
+                    var component = child.GetComponent(uiComponent);
                     if (null == component)
                     {
                         continue;

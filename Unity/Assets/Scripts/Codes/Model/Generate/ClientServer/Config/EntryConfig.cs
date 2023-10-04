@@ -31,37 +31,37 @@ namespace ET
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// 词条类型
         /// </summary>
-        public int EntryType { get; private set; }
+        public int EntryType { get; }
 
         /// <summary>
         /// 词条等级
         /// </summary>
-        public int EntryLevel { get; private set; }
+        public int EntryLevel { get; }
 
         /// <summary>
         /// 词条评分
         /// </summary>
-        public int EntryScore { get; private set; }
+        public int EntryScore { get; }
 
         /// <summary>
         /// 属性类型
         /// </summary>
-        public NumericType AttributeType { get; private set; }
+        public NumericType AttributeType { get; }
 
         /// <summary>
         /// 属性值最小范围
         /// </summary>
-        public int AttributeMinValue { get; private set; }
+        public int AttributeMinValue { get; }
 
         /// <summary>
         /// 属性值最大范围
         /// </summary>
-        public int AttributeMaxValue { get; private set; }
+        public int AttributeMaxValue { get; }
 
         public static EntryConfig DeserializeEntryConfig(ByteBuf _buf)
         {

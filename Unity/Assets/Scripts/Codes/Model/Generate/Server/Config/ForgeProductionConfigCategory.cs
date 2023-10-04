@@ -20,6 +20,7 @@ public partial class ForgeProductionConfigCategory: ConfigSingleton<ForgeProduct
     private readonly Dictionary<int, ForgeProductionConfig> _dataMap;
     private readonly List<ForgeProductionConfig> _dataList;
 
+
     public ForgeProductionConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

@@ -21,5 +21,6 @@ namespace ET.Client
         WindowID_Ride,
         WindowID_Shop,
         WindowID_Register,
+        WindowID_Task,
     }
 }

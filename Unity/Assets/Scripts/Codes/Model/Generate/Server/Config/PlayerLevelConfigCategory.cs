@@ -20,6 +20,7 @@ public partial class PlayerLevelConfigCategory: ConfigSingleton<PlayerLevelConfi
     private readonly Dictionary<int, PlayerLevelConfig> _dataMap;
     private readonly List<PlayerLevelConfig> _dataList;
 
+
     public PlayerLevelConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

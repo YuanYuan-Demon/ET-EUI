@@ -17,6 +17,7 @@ namespace ET
 
 public sealed partial class TGlobalConfig: Luban.BeanBase
 {
+
     public TGlobalConfig(ByteBuf _buf) 
     {
         BagCapacityLimit = _buf.ReadInt();
@@ -37,31 +38,31 @@ public sealed partial class TGlobalConfig: Luban.BeanBase
     /// <summary>
     /// 背包容量上限
     /// </summary>
-    public int BagCapacityLimit { get; private set; }
+    public int BagCapacityLimit { get; }
     /// <summary>
     /// 背包起始容量
     /// </summary>
-    public int BagCapacityStart { get; private set; }
+    public int BagCapacityStart { get; }
     /// <summary>
     /// RouterManager地址
     /// </summary>
-    public string RouterHttpHost { get; private set; }
+    public string RouterHttpHost { get; }
     /// <summary>
     /// RouterManager端口
     /// </summary>
-    public int RouterHttpPort { get; private set; }
+    public int RouterHttpPort { get; }
     /// <summary>
     /// 账号服务器地址
     /// </summary>
-    public string AccountHost { get; private set; }
+    public string AccountHost { get; }
     /// <summary>
     /// 账号服务器端口
     /// </summary>
-    public int AccountPort { get; private set; }
+    public int AccountPort { get; }
     /// <summary>
     /// 连接超时时间
     /// </summary>
-    public int SessionTimeoutTime { get; private set; }
+    public int SessionTimeoutTime { get; }
 
     public const int __ID__ = 165700409;
     public override int GetTypeId() => __ID__;

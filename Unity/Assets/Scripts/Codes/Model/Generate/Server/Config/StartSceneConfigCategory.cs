@@ -20,6 +20,7 @@ public partial class StartSceneConfigCategory: ConfigSingleton<StartSceneConfigC
     private readonly Dictionary<int, StartSceneConfig> _dataMap;
     private readonly List<StartSceneConfig> _dataList;
 
+
     public StartSceneConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

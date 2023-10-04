@@ -28,22 +28,22 @@ namespace ET
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// 内网地址
         /// </summary>
-        public string InnerIP { get; private set; }
+        public string InnerIP { get; }
 
         /// <summary>
         /// 外网地址
         /// </summary>
-        public string OuterIP { get; private set; }
+        public string OuterIP { get; }
 
         /// <summary>
         /// 守护进程端口
         /// </summary>
-        public string WatcherPort { get; private set; }
+        public string WatcherPort { get; }
 
         public static StartMachineConfig DeserializeStartMachineConfig(ByteBuf _buf)
         {

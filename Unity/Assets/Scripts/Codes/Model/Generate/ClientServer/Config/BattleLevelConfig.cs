@@ -47,27 +47,27 @@ namespace ET
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// 怪物列表
         /// </summary>
-        public System.Collections.Generic.List<int> MonsterId { get; private set; }
+        public System.Collections.Generic.List<int> MonsterId { get; }
 
         /// <summary>
         /// 关卡名字
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// 准入等级范围
         /// </summary>
-        public System.Collections.Generic.List<int> EnterLevelRang { get; private set; }
+        public System.Collections.Generic.List<int> EnterLevelRang { get; }
 
         /// <summary>
         /// 战斗胜利获取的经验值
         /// </summary>
-        public int RewardExp { get; private set; }
+        public int RewardExp { get; }
 
         public static BattleLevelConfig DeserializeBattleLevelConfig(ByteBuf _buf)
         {

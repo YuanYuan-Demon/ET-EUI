@@ -1,172 +1,416 @@
 [
   {
-    "id": 1,
-    "task_name": "升级",
-    "task_desc": "升到2级",
-    "task_action_type": 1,
-    "task_target_id": 0,
-    "task_target_count": 2,
-    "task_before": 0,
-    "reward_gold": 10
+    "id": 1001,
+    "name": "拜访埃布尔",
+    "limit_level": 1,
+    "limit_class": 0,
+    "pre_task": 0,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 1,
+    "submit_npc": 3,
+    "overview": "前往拜访埃布尔，听取他的建议",
+    "dialog": "“XXX，你终于成年啦！以后你就要开始为村庄贡献一份自己的力量啦！但是，在这之前，你需要去拜访一些长辈，他们会给到你一些建议和帮助~你可以先去拜访下埃布尔，他可是落日空间的看守者。不过他行踪不定，快去找找吧，去晚了可能就碰不到了，我在这等你回来哟。”",
+    "dialog_accept": "“等你回来哟”",
+    "dialog_deny": "“我建议你还是要去拜访下埃布尔哦~”",
+    "dialog_in_progress": "",
+    "dialog_finish": "“是莉莉丝让你来的吧，她总是介绍刚成年的孩子到我这来（埃布尔脸上出现无奈的表情）。自我介绍下，我是落日空间的看守者，我估计你连落日空间是什么都不知道吧？现在还不是告知你这些的时候，等你再强大一些再来找我吧！”",
+    "targets": [],
+    "reward_items": [
+      {
+        "ItemId": 3,
+        "Count": 5
+      }
+    ],
+    "reward_gold": 300,
+    "reward_exp": 2000
   },
   {
-    "id": 2,
-    "task_name": "升级",
-    "task_desc": "升到3级",
-    "task_action_type": 1,
-    "task_target_id": 0,
-    "task_target_count": 3,
-    "task_before": 1,
-    "reward_gold": 20
+    "id": 1002,
+    "name": "拜访奥德利奇",
+    "limit_level": 1,
+    "limit_class": 0,
+    "pre_task": 1001,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 3,
+    "submit_npc": 4,
+    "overview": "找到奥德利奇，获取装备",
+    "dialog": "“我建议你先去落日森林游历一翻，提升下自己的实力。不过在你去落日森林之前，我建议你去找下奥德利奇，他那出售一些装备，可以给你提供一些基础的防护。快去吧，他就在村庄的西北部。”",
+    "dialog_accept": "“奥德利奇又要出血啦，哈哈”",
+    "dialog_deny": "“奥德利奇那有能保护你的东西，新人都会他那里逛一逛”",
+    "dialog_in_progress": "",
+    "dialog_finish": "“哟哟哟，这是谁呀，我们的XXX长这么大啦，怎么，准备出村庄历练一翻吗？真勇敢！我看好你！这样，我这装备也有限，暂且先送你一把武器和一个副手好了，其他的得你花钱来我这买了，不然我都没钱进材料了！（奥德里奇慢慢递过来了武器和副手，脸上出现肉疼的表情）”",
+    "targets": [],
+    "reward_items": [
+      {
+        "ItemId": 4,
+        "Count": 10
+      }
+    ],
+    "reward_gold": 500,
+    "reward_exp": 2000
   },
   {
-    "id": 3,
-    "task_name": "升级",
-    "task_desc": "升到4级",
-    "task_action_type": 1,
-    "task_target_id": 0,
-    "task_target_count": 4,
-    "task_before": 2,
-    "reward_gold": 30
+    "id": 1003,
+    "name": "拜访多丽丝",
+    "limit_level": 1,
+    "limit_class": 0,
+    "pre_task": 1002,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 4,
+    "submit_npc": 2,
+    "overview": "找到多丽丝，获取一些补给",
+    "dialog": "“等等，别急着走，听我把话说完，你光有装备不行，出门在外总要带些食物和药品做补给。去找多丽丝吧，她是莉莉丝的孪生姐妹，她会送你些补给的（不能光让我一个人出血，奥德利奇小声嘀咕着）”",
+    "dialog_accept": "“不能只有我一个人出血,哈哈”",
+    "dialog_deny": "“唉唉唉，你要听我的，总不能饿死吧”",
+    "dialog_in_progress": "",
+    "dialog_finish": "“我猜肯定是奥德里奇让你来找我的吧，还和你说我这能免费给你食物和药品对吧。唉，算了算了，谁让莉莉丝看中你了呢，作为她的姐姐，我也不能太小气（多丽丝跺了跺脚）。诺，拿着吧，这是你要的补给，虽然不多，但是也够你用一阵子了。对了，后面需要补给记得来照顾我生意哦~嘻嘻。”",
+    "targets": [],
+    "reward_items": [],
+    "reward_gold": 700,
+    "reward_exp": 2000
   },
   {
-    "id": 4,
-    "task_name": "升级",
-    "task_desc": "升到5级",
-    "task_action_type": 1,
-    "task_target_id": 0,
-    "task_target_count": 5,
-    "task_before": 3,
-    "reward_gold": 40
+    "id": 1004,
+    "name": "回访莉莉丝",
+    "limit_level": 1,
+    "limit_class": 0,
+    "pre_task": 1003,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 2,
+    "submit_npc": 1,
+    "overview": "回访莉莉丝，看看她有什么烦恼",
+    "dialog": "“我听说最近我妹妹那里有一些烦心事，\n你最好还是去看看她，说不定能帮上\n一些忙。对了，千万不要让她知道我\n和你说的哦”",
+    "dialog_accept": "“你真好”",
+    "dialog_deny": "“莉莉丝太不容易了，好希望有个人能帮帮她”",
+    "dialog_in_progress": "",
+    "dialog_finish": "“你怎么知道我有烦心事？肯定是多丽丝和你说的吧！别不承认！~我这个姐姐啊表面冷淡，其实还是很关心我的呢~嘻嘻。对了，这些钱你拿着，再去补给些装备和药品。我的确有个任务给你，等你回来我再和你说具体的情况”",
+    "targets": [],
+    "reward_items": [],
+    "reward_gold": 900,
+    "reward_exp": 2000
   },
   {
-    "id": 5,
-    "task_name": "升级",
-    "task_desc": "升到6级",
-    "task_action_type": 1,
-    "task_target_id": 0,
-    "task_target_count": 6,
-    "task_before": 4,
-    "reward_gold": 50
+    "id": 2001,
+    "name": "莉莉丝的困扰",
+    "limit_level": 5,
+    "limit_class": 0,
+    "pre_task": 1004,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 1,
+    "submit_npc": 1,
+    "overview": "探索落日森林，找到一只恶鬼并击杀",
+    "dialog": "“补给买完了吗？事情是这样的，最近有村民反映落日森林有恶鬼出没，不知道是真是假。我希望你能去趟落日森林帮我证实一下。”",
+    "dialog_accept": "“快去快回”",
+    "dialog_deny": "“怎么办，村庄存在安全隐患，谁能帮忙呢？”",
+    "dialog_in_progress": "“找到恶鬼了吗”",
+    "dialog_finish": "“天呐，落日森林真的有恶鬼存在！而且你还看到了不止一只？！（莉莉丝脸上浮现疑惑的表情）",
+    "targets": [
+      {
+        "Type": 1,
+        "TargetId": 1,
+        "Count": 1
+      }
+    ],
+    "reward_items": [],
+    "reward_gold": 1000,
+    "reward_exp": 3000
   },
   {
-    "id": 6,
-    "task_name": "升级",
-    "task_desc": "升到7级",
-    "task_action_type": 1,
-    "task_target_id": 0,
-    "task_target_count": 7,
-    "task_before": 5,
-    "reward_gold": 60
+    "id": 2002,
+    "name": "深入落日森林",
+    "limit_level": 5,
+    "limit_class": 0,
+    "pre_task": 2001,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 1,
+    "submit_npc": 1,
+    "overview": "深入落日森林，杀死10只恶鬼",
+    "dialog": "“XXX，恐怕要再麻烦你一趟了，村里有一些村民要上山采药，麻烦你帮他们把恶鬼都清理干净，避免他们受到恶鬼的伤害。”",
+    "dialog_accept": "“靠你了”",
+    "dialog_deny": "“村民出了门，这可怎么办呢？”",
+    "dialog_in_progress": "“恶鬼清理干净了吗”",
+    "dialog_finish": "“XXX，你真的是太厉害了！不过村民上山采药发现了更了不得的事情，你听我说。。。”",
+    "targets": [
+      {
+        "Type": 1,
+        "TargetId": 1,
+        "Count": 10
+      }
+    ],
+    "reward_items": [],
+    "reward_gold": 1000,
+    "reward_exp": 5000
   },
   {
-    "id": 7,
-    "task_name": "升级",
-    "task_desc": "升到8级",
-    "task_action_type": 1,
-    "task_target_id": 0,
-    "task_target_count": 8,
-    "task_before": 6,
-    "reward_gold": 70
+    "id": 2003,
+    "name": "消灭山丘巨人",
+    "limit_level": 5,
+    "limit_class": 1,
+    "pre_task": 2002,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 1,
+    "submit_npc": 1,
+    "overview": "到落日森林尽头消灭山丘巨人",
+    "dialog": "“村民上山采药的时候居然在森林的尽头发现了山丘巨人！普通的山丘巨人是一种很友善的生物，但是这只却不同！它的外表貌似发生了些变异，而且具有攻击性！XXX，你能帮消灭掉这只山丘巨人吗？”",
+    "dialog_accept": "“多加小心”",
+    "dialog_deny": "“森林里居然有变异的山丘巨人！太可怕了！”",
+    "dialog_in_progress": "“打倒山丘巨人了吗？”",
+    "dialog_finish": "“呼，XXX，你终于平安归来了！害我担心死了。落日森林的异常我已经和埃布尔说明了，他好像知道些什么，他让我转告你回来了去找他一趟”",
+    "targets": [
+      {
+        "Type": 1,
+        "TargetId": 2,
+        "Count": 1
+      }
+    ],
+    "reward_items": [
+      {
+        "ItemId": 1011,
+        "Count": 1
+      },
+      {
+        "ItemId": 1012,
+        "Count": 1
+      }
+    ],
+    "reward_gold": 2000,
+    "reward_exp": 10000
   },
   {
-    "id": 8,
-    "task_name": "打造1",
-    "task_desc": "打造一把宝鱼小剑",
-    "task_action_type": 2,
-    "task_target_id": 1,
-    "task_target_count": 1,
-    "task_before": 0,
-    "reward_gold": 10
+    "id": 2004,
+    "name": "进入落日空间",
+    "limit_level": 10,
+    "limit_class": 1,
+    "pre_task": 2003,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 3,
+    "submit_npc": 3,
+    "overview": "进入落日空间，并探查能量异常的源头",
+    "dialog": "“XXX，你来了，你是一个真正的勇士，因为只有真正的勇士才能独立战胜山丘巨人！落日森林的异变和落日空间脱离不了关系。近期，我感受到了落日空间中有异常的能量波动。我需要你带一队人马去落日空间查看一番，帮我找到异常能量的源头。\n",
+    "dialog_accept": "“多喊几个朋友帮忙，希望你们平安归来”",
+    "dialog_deny": "“真正的勇士是敢于接受挑战的！”",
+    "dialog_in_progress": "“找到异常能量的源头了吗？”",
+    "dialog_finish": "“落日空间居然孕育出了死神这样的邪恶物种！幸好它还不是很强大。你在这次任务中表现的很出色，请接受布林镇村民的馈赠”",
+    "targets": [
+      {
+        "Type": 1,
+        "TargetId": 3,
+        "Count": 5
+      },
+      {
+        "Type": 1,
+        "TargetId": 4,
+        "Count": 5
+      },
+      {
+        "Type": 1,
+        "TargetId": 5,
+        "Count": 5
+      }
+    ],
+    "reward_items": [
+      {
+        "ItemId": 1013,
+        "Count": 1
+      }
+    ],
+    "reward_gold": 10000,
+    "reward_exp": 50000
   },
   {
-    "id": 9,
-    "task_name": "打造2",
-    "task_desc": "打造两把宝鱼小剑",
-    "task_action_type": 2,
-    "task_target_id": 1,
-    "task_target_count": 2,
-    "task_before": 8,
-    "reward_gold": 20
+    "id": 2005,
+    "name": "消灭山丘巨人",
+    "limit_level": 5,
+    "limit_class": 2,
+    "pre_task": 2004,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 1,
+    "submit_npc": 1,
+    "overview": "到落日森林尽头消灭山丘巨人",
+    "dialog": "“村民上山采药的时候居然在森林的尽头发现了山丘巨人！普通的山丘巨人是一种很友善的生物，但是这只却不同！它的外表貌似发生了些变异，而且具有攻击性！XXX，你能帮消灭掉这只山丘巨人吗？”",
+    "dialog_accept": "“多加小心”",
+    "dialog_deny": "“森林里居然有变异的山丘巨人！太可怕了！”",
+    "dialog_in_progress": "“打倒山丘巨人了吗？”",
+    "dialog_finish": "“呼，XXX，你终于平安归来了！害我担心死了。落日森林的异常我已经和埃布尔说明了，他好像知道些什么，他让我转告你回来了去找他一趟”",
+    "targets": [
+      {
+        "Type": 1,
+        "TargetId": 4,
+        "Count": 9
+      }
+    ],
+    "reward_items": [
+      {
+        "ItemId": 2011,
+        "Count": 1
+      },
+      {
+        "ItemId": 2012,
+        "Count": 1
+      }
+    ],
+    "reward_gold": 18000,
+    "reward_exp": 90000
   },
   {
-    "id": 10,
-    "task_name": "打造3",
-    "task_desc": "打造三把宝鱼小剑",
-    "task_action_type": 2,
-    "task_target_id": 1,
-    "task_target_count": 3,
-    "task_before": 9,
-    "reward_gold": 30
+    "id": 2006,
+    "name": "进入落日空间",
+    "limit_level": 10,
+    "limit_class": 2,
+    "pre_task": 2005,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 3,
+    "submit_npc": 3,
+    "overview": "进入落日空间，并探查能量异常的源头",
+    "dialog": "“XXX，你来了，你是一个真正的勇士，因为只有真正的勇士才能独立战胜山丘巨人！落日森林的异变和落日空间脱离不了关系。近期，我感受到了落日空间中有异常的能量波动。我需要你带一队人马去落日空间查看一番，帮我找到异常能量的源头。\n",
+    "dialog_accept": "“多喊几个朋友帮忙，希望你们平安归来”",
+    "dialog_deny": "“真正的勇士是敢于接受挑战的！”",
+    "dialog_in_progress": "“找到异常能量的源头了吗？”",
+    "dialog_finish": "“落日空间居然孕育出了死神这样的邪恶物种！幸好它还不是很强大。你在这次任务中表现的很出色，请接受布林镇村民的馈赠”",
+    "targets": [
+      {
+        "Type": 1,
+        "TargetId": 5,
+        "Count": 13
+      },
+      {
+        "Type": 1,
+        "TargetId": 8,
+        "Count": 15
+      },
+      {
+        "Type": 1,
+        "TargetId": 15,
+        "Count": 15
+      }
+    ],
+    "reward_items": [
+      {
+        "ItemId": 2013,
+        "Count": 1
+      }
+    ],
+    "reward_gold": 26000,
+    "reward_exp": 130000
   },
   {
-    "id": 11,
-    "task_name": "打造4",
-    "task_desc": "打造四把宝鱼小剑",
-    "task_action_type": 2,
-    "task_target_id": 1,
-    "task_target_count": 4,
-    "task_before": 10,
-    "reward_gold": 40
+    "id": 2007,
+    "name": "消灭山丘巨人",
+    "limit_level": 5,
+    "limit_class": 3,
+    "pre_task": 2006,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 1,
+    "submit_npc": 1,
+    "overview": "到落日森林尽头消灭山丘巨人",
+    "dialog": "“村民上山采药的时候居然在森林的尽头发现了山丘巨人！普通的山丘巨人是一种很友善的生物，但是这只却不同！它的外表貌似发生了些变异，而且具有攻击性！XXX，你能帮消灭掉这只山丘巨人吗？”",
+    "dialog_accept": "“多加小心”",
+    "dialog_deny": "“森林里居然有变异的山丘巨人！太可怕了！”",
+    "dialog_in_progress": "“打倒山丘巨人了吗？”",
+    "dialog_finish": "“呼，XXX，你终于平安归来了！害我担心死了。落日森林的异常我已经和埃布尔说明了，他好像知道些什么，他让我转告你回来了去找他一趟”",
+    "targets": [
+      {
+        "Type": 1,
+        "TargetId": 6,
+        "Count": 17
+      }
+    ],
+    "reward_items": [
+      {
+        "ItemId": 3011,
+        "Count": 1
+      },
+      {
+        "ItemId": 3012,
+        "Count": 1
+      }
+    ],
+    "reward_gold": 34000,
+    "reward_exp": 170000
   },
   {
-    "id": 12,
-    "task_name": "打造5",
-    "task_desc": "打造五把宝鱼小剑",
-    "task_action_type": 2,
-    "task_target_id": 1,
-    "task_target_count": 5,
-    "task_before": 11,
-    "reward_gold": 50
+    "id": 2008,
+    "name": "进入落日空间",
+    "limit_level": 10,
+    "limit_class": 3,
+    "pre_task": 2007,
+    "post_task": 0,
+    "type": 0,
+    "accept_npc": 3,
+    "submit_npc": 3,
+    "overview": "进入落日空间，并探查能量异常的源头",
+    "dialog": "“XXX，你来了，你是一个真正的勇士，因为只有真正的勇士才能独立战胜山丘巨人！落日森林的异变和落日空间脱离不了关系。近期，我感受到了落日空间中有异常的能量波动。我需要你带一队人马去落日空间查看一番，帮我找到异常能量的源头。”",
+    "dialog_accept": "“多喊几个朋友帮忙，希望你们平安归来”",
+    "dialog_deny": "“真正的勇士是敢于接受挑战的！”",
+    "dialog_in_progress": "“找到异常能量的源头了吗？”",
+    "dialog_finish": "“落日空间居然孕育出了死神这样的邪恶物种！幸好它还不是很强大。你在这次任务中表现的很出色，请接受布林镇村民的馈赠”",
+    "targets": [
+      {
+        "Type": 1,
+        "TargetId": 7,
+        "Count": 21
+      },
+      {
+        "Type": 1,
+        "TargetId": 12,
+        "Count": 25
+      },
+      {
+        "Type": 1,
+        "TargetId": 25,
+        "Count": 25
+      }
+    ],
+    "reward_items": [
+      {
+        "ItemId": 3013,
+        "Count": 1
+      }
+    ],
+    "reward_gold": 42000,
+    "reward_exp": 210000
   },
   {
-    "id": 13,
-    "task_name": "打造6",
-    "task_desc": "打造六把宝鱼小剑",
-    "task_action_type": 2,
-    "task_target_id": 1,
-    "task_target_count": 6,
-    "task_before": 12,
-    "reward_gold": 60
-  },
-  {
-    "id": 14,
-    "task_name": "打造7",
-    "task_desc": "打造七把宝鱼小剑",
-    "task_action_type": 2,
-    "task_target_id": 1,
-    "task_target_count": 7,
-    "task_before": 13,
-    "reward_gold": 70
-  },
-  {
-    "id": 15,
-    "task_name": "冒险1",
-    "task_desc": "通关冒险一层",
-    "task_action_type": 3,
-    "task_target_id": 1,
-    "task_target_count": 1,
-    "task_before": 0,
-    "reward_gold": 70
-  },
-  {
-    "id": 16,
-    "task_name": "冒险2",
-    "task_desc": "通关冒险二层",
-    "task_action_type": 3,
-    "task_target_id": 2,
-    "task_target_count": 1,
-    "task_before": 15,
-    "reward_gold": 70
-  },
-  {
-    "id": 17,
-    "task_name": "冒险3",
-    "task_desc": "通关冒险三层",
-    "task_action_type": 3,
-    "task_target_id": 3,
-    "task_target_count": 1,
-    "task_before": 16,
-    "reward_gold": 70
+    "id": 3001,
+    "name": "帮多丽丝送信",
+    "limit_level": 5,
+    "limit_class": 0,
+    "pre_task": 0,
+    "post_task": 0,
+    "type": 1,
+    "accept_npc": 1,
+    "submit_npc": 1,
+    "overview": "将多丽丝的信安全送到莉莉丝手上",
+    "dialog": "“XXX，能不能帮我一个小忙，帮我给我的妹妹莉莉丝送一封信，一定要送到她手上哦！~”",
+    "dialog_accept": "“不许偷看哦~”",
+    "dialog_deny": "“这年头，连邮差都找不到！~”",
+    "dialog_in_progress": "“你找我有什么事吗？”",
+    "dialog_finish": "“咦，这是多丽丝给我的信吗？都在一个村里还写信，我这个姐姐啊真是个文艺范。~”",
+    "targets": [
+      {
+        "Type": 2,
+        "TargetId": 1001,
+        "Count": 1
+      }
+    ],
+    "reward_items": [
+      {
+        "ItemId": 9,
+        "Count": 1
+      }
+    ],
+    "reward_gold": 1000,
+    "reward_exp": 3000
   }
 ]

@@ -12,7 +12,7 @@ namespace ET.Server
 
             unitComponent.Add(unit);
 
-            foreach (byte[] bytes in request.Entitys)
+            foreach (var bytes in request.Entitys)
             {
                 var entity = MongoHelper.Deserialize<Entity>(bytes);
                 unit.AddComponent(entity);
@@ -24,7 +24,7 @@ namespace ET.Server
             //添加自动保存数据组件
             unit.AddComponent<UnitDBSaveComponent>();
             //添加数值监听组件
-            //unit.AddComponent<NumericNoticeComponent>();
+            unit.AddComponent<NumericNoticeComponent>();
             //添加冒险闯关校验组件
             //unit.AddComponent<AdventureCheckComponent>();
 
@@ -73,7 +73,7 @@ namespace ET.Server
             //ForgeHelper.SyncAllProduction(unit);
 
             //通知客户端同步任务信息
-            //TaskNoticeHelper.SyncAllTaskInfo(unit);
+            TaskNoticeHelper.SyncAllTaskInfo(unit);
 
             // 加入aoi
             unit.AddComponent<AOIEntity, int, float3>(9 * 1000, unit.Position);

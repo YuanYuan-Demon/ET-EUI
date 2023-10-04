@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace ET.Client
@@ -14,7 +13,7 @@ namespace ET.Client
         public static void RegisterUIEvent(this DlgEquip self)
         {
             self.RegisterCloseEvent<DlgEquip>(self.View.EB_Close_Button);
-            self.View.EL_Equips_LoopVerticalScrollRect.AddItemRefreshListener(self.OnRefreshEquipItem);
+            self.View.EL_Equips_LoopVList.AddItemRefreshListener(self.OnRefreshEquipItem);
             self.View.ED_EqiupTab_Dropdown.AddListener((a) =>
             {
                 self.EquipPosition = (EquipPosition)a;
@@ -30,7 +29,6 @@ namespace ET.Client
                 { EquipPosition.OffHands, self.View.ES_EquipSlot_副手 },
                 { EquipPosition.Pants, self.View.ES_EquipSlot_裤子 },
             };
-            self.Refresh();
         }
 
         public static void ShowWindow(this DlgEquip self, ShowWindowData contextData = null)
@@ -49,10 +47,10 @@ namespace ET.Client
         public static void RefreshRoleInfo(this DlgEquip self)
         {
             var rc = self.ClientScene().GetComponent<RoleInfosComponent>();
-            DlgEquipViewComponent view = self.View;
+            var view = self.View;
 
             view.ET_CharName_Level_Text.text = $"{rc.CurrentRole.Name} Lv.{rc.CurrentRole.Level}"; //角色名称 等级
-            NumericComponent nc = self.GetMyNumericComponent();
+            var nc = self.GetMyNumericComponent();
             view.ES_STR.ET_Value_Text.text = nc.GetAsInt(NumericType.STR).ToString();
             view.ES_INT.ET_Value_Text.text = nc.GetAsInt(NumericType.INT).ToString();
             view.ES_DEX.ET_Value_Text.text = nc.GetAsInt(NumericType.DEX).ToString();
@@ -76,7 +74,7 @@ namespace ET.Client
 
         public static void RefreshEquipSlot(this DlgEquip self)
         {
-            foreach ((EquipPosition slot, ES_EquipSlot es_slot) in self.EquipSlots)
+            foreach (var (slot, es_slot) in self.EquipSlots)
             {
                 es_slot.Init(slot);
             }
@@ -84,13 +82,13 @@ namespace ET.Client
 
         private static void OnRefreshEquipItem(this DlgEquip self, Transform transform, int index)
         {
-            Scroll_Item_Equip scrollItemEquip = self.ScrollItemEquipItems[index].BindTrans(transform);
+            var scrollItemEquip = self.ScrollItemEquipItems[index].BindTrans(transform);
             scrollItemEquip.Refresh(self.EquipList[index]);
         }
 
         public static void RefreshEquipList(this DlgEquip self)
         {
-            List<Item> eqiups = self.ClientScene().GetComponent<BagComponent>().ItemTypeMap[ItemType.Equip].ToList();
+            var eqiups = self.ClientScene().GetComponent<BagComponent>().ItemTypeMap[ItemType.Equip].ToList();
             self.EquipList = self.EquipPosition switch
             {
                 EquipPosition.None => eqiups,
@@ -99,11 +97,11 @@ namespace ET.Client
             if (self.EquipList?.Count != 0)
             {
                 self.AddUIScrollItems(ref self.ScrollItemEquipItems, self.EquipList.Count);
-                self.View.EL_Equips_LoopVerticalScrollRect.SetVisible(true, self.EquipList.Count);
+                self.View.EL_Equips_LoopVList.SetVisible(true, self.EquipList.Count);
             }
             else
             {
-                self.View.EL_Equips_LoopVerticalScrollRect.SetVisible(true, self.EquipList.Count);
+                self.View.EL_Equips_LoopVList.SetVisible(true, self.EquipList.Count);
             }
         }
     }

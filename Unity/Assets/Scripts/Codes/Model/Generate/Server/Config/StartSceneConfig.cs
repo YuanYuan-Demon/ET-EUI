@@ -17,6 +17,7 @@ namespace ET
 
 public sealed partial class StartSceneConfig: Luban.BeanBase
 {
+
     public StartSceneConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
@@ -36,27 +37,27 @@ public sealed partial class StartSceneConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public int Id { get; }
     /// <summary>
     /// 所属进程
     /// </summary>
-    public int Process { get; private set; }
+    public int Process { get; }
     /// <summary>
     /// 所属区
     /// </summary>
-    public int Zone { get; private set; }
+    public int Zone { get; }
     /// <summary>
     /// 类型
     /// </summary>
-    public string SceneType { get; private set; }
+    public string SceneType { get; }
     /// <summary>
     /// 名字
     /// </summary>
-    public string Name { get; private set; }
+    public string Name { get; }
     /// <summary>
     /// 外网端口
     /// </summary>
-    public int OuterPort { get; private set; }
+    public int OuterPort { get; }
 
     public const int __ID__ = 1499456844;
     public override int GetTypeId() => __ID__;

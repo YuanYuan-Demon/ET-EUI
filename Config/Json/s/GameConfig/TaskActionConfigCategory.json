@@ -1,14 +1,18 @@
 [
   {
-    "id": 1,
-    "task_process_action": 3
+    "target_type": 1,
+    "process_action": 0
   },
   {
-    "id": 2,
-    "task_process_action": 1
+    "target_type": 2,
+    "process_action": 2
   },
   {
-    "id": 3,
-    "task_process_action": 1
+    "target_type": 3,
+    "process_action": 2
+  },
+  {
+    "target_type": 4,
+    "process_action": 2
   }
 ]

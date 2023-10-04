@@ -17,10 +17,11 @@ namespace ET
 
 public sealed partial class TaskActionConfig: Luban.BeanBase
 {
+
     public TaskActionConfig(ByteBuf _buf) 
     {
-        Id = _buf.ReadInt();
-        TaskProcessAction = _buf.ReadInt();
+        TargetType = (TaskTargetType)_buf.ReadInt();
+        ProcessAction = (TaskProgressType)_buf.ReadInt();
         PostInit();
     }
 
@@ -32,11 +33,11 @@ public sealed partial class TaskActionConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public TaskTargetType TargetType { get; }
     /// <summary>
     /// 任务进度更新行为
     /// </summary>
-    public int TaskProcessAction { get; private set; }
+    public TaskProgressType ProcessAction { get; }
 
     public const int __ID__ = 2139003741;
     public override int GetTypeId() => __ID__;
@@ -49,8 +50,8 @@ public sealed partial class TaskActionConfig: Luban.BeanBase
     public override string ToString()
     {
         return "{ "
-        + "id:" + Id + ","
-        + "taskProcessAction:" + TaskProcessAction + ","
+        + "targetType:" + TargetType + ","
+        + "processAction:" + ProcessAction + ","
         + "}";
     }
 }

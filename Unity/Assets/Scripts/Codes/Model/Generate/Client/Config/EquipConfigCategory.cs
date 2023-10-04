@@ -20,6 +20,7 @@ public partial class EquipConfigCategory: ConfigSingleton<EquipConfigCategory>
     private readonly Dictionary<int, EquipConfig> _dataMap;
     private readonly List<EquipConfig> _dataList;
 
+
     public EquipConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

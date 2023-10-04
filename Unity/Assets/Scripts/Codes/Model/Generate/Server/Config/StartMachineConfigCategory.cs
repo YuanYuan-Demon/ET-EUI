@@ -20,6 +20,7 @@ public partial class StartMachineConfigCategory: ConfigSingleton<StartMachineCon
     private readonly Dictionary<int, StartMachineConfig> _dataMap;
     private readonly List<StartMachineConfig> _dataList;
 
+
     public StartMachineConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

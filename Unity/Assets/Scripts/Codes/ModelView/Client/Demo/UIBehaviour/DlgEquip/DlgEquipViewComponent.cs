@@ -11,7 +11,7 @@ namespace ET.Client
         private Image m_EB_Close_Image;
         private Dropdown m_ED_EqiupTab_Dropdown;
         private Image m_ED_EqiupTab_Image;
-        private LoopVerticalScrollRect m_EL_Equips_LoopVerticalScrollRect;
+        private LoopVList m_EL_Equips_LoopVList;
         private ES_Attribute m_es_ad;
         private ES_Attribute m_es_ap;
         private ES_Attribute m_es_cri;
@@ -86,7 +86,7 @@ namespace ET.Client
                 if (this.m_ED_EqiupTab_Dropdown == null)
                 {
                     this.m_ED_EqiupTab_Dropdown =
-                            UIHelper.FindDeepChild<Dropdown>(this.uiTransform.gameObject, "Panel/Content/S_EquipList/ED_EqiupTab");
+                            UIHelper.FindDeepChild<Dropdown>(this.uiTransform.gameObject, "Panel/Content/EquipList/ED_EqiupTab");
                 }
 
                 return this.m_ED_EqiupTab_Dropdown;
@@ -105,14 +105,14 @@ namespace ET.Client
 
                 if (this.m_ED_EqiupTab_Image == null)
                 {
-                    this.m_ED_EqiupTab_Image = UIHelper.FindDeepChild<Image>(this.uiTransform.gameObject, "Panel/Content/S_EquipList/ED_EqiupTab");
+                    this.m_ED_EqiupTab_Image = UIHelper.FindDeepChild<Image>(this.uiTransform.gameObject, "Panel/Content/EquipList/ED_EqiupTab");
                 }
 
                 return this.m_ED_EqiupTab_Image;
             }
         }
 
-        public LoopVerticalScrollRect EL_Equips_LoopVerticalScrollRect
+        public LoopVList EL_Equips_LoopVList
         {
             get
             {
@@ -122,13 +122,12 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EL_Equips_LoopVerticalScrollRect == null)
+                if (this.m_EL_Equips_LoopVList == null)
                 {
-                    this.m_EL_Equips_LoopVerticalScrollRect =
-                            UIHelper.FindDeepChild<LoopVerticalScrollRect>(this.uiTransform.gameObject, "Panel/Content/S_EquipList/EL_Equips");
+                    this.m_EL_Equips_LoopVList = UIHelper.FindDeepChild<LoopVList>(this.uiTransform.gameObject, "Panel/Content/EquipList/EL_Equips");
                 }
 
-                return this.m_EL_Equips_LoopVerticalScrollRect;
+                return this.m_EL_Equips_LoopVList;
             }
         }
 
@@ -566,7 +565,7 @@ namespace ET.Client
             this.m_EB_Close_Image = null;
             this.m_ED_EqiupTab_Dropdown = null;
             this.m_ED_EqiupTab_Image = null;
-            this.m_EL_Equips_LoopVerticalScrollRect = null;
+            this.m_EL_Equips_LoopVList = null;
             this.m_es_equipslot_武器?.Dispose();
             this.m_es_equipslot_武器 = null;
             this.m_es_equipslot_头盔?.Dispose();

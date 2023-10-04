@@ -17,6 +17,7 @@ namespace ET
 
 public sealed partial class ItemConfig: Luban.BeanBase
 {
+
     public ItemConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
@@ -39,39 +40,39 @@ public sealed partial class ItemConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public int Id { get; }
     /// <summary>
     /// 名字
     /// </summary>
-    public string Name { get; private set; }
+    public string Name { get; }
     /// <summary>
     /// 描述
     /// </summary>
-    public string Desc { get; private set; }
+    public string Desc { get; }
     /// <summary>
     /// 物品类型
     /// </summary>
-    public ItemType Type { get; private set; }
+    public ItemType Type { get; }
     /// <summary>
     /// 道具等级
     /// </summary>
-    public int Level { get; private set; }
+    public int Level { get; }
     /// <summary>
     /// c图标
     /// </summary>
-    public string Icon { get; private set; }
+    public string Icon { get; }
     /// <summary>
     /// 堆叠限制
     /// </summary>
-    public int StackLimit { get; private set; }
+    public int StackLimit { get; }
     /// <summary>
     /// 购买价格
     /// </summary>
-    public int Price { get; private set; }
+    public int Price { get; }
     /// <summary>
     /// 销售价格
     /// </summary>
-    public int SellPrice { get; private set; }
+    public int SellPrice { get; }
 
     public const int __ID__ = -764023723;
     public override int GetTypeId() => __ID__;

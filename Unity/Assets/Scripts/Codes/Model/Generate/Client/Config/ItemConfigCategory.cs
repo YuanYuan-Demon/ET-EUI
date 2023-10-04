@@ -20,6 +20,7 @@ public partial class ItemConfigCategory: ConfigSingleton<ItemConfigCategory>
     private readonly Dictionary<int, ItemConfig> _dataMap;
     private readonly List<ItemConfig> _dataList;
 
+
     public ItemConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

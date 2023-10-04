@@ -17,7 +17,7 @@ namespace ET.Client
         private RectTransform m_EG_SelectPanel_RectTransform;
         private RectTransform m_EG_Toggles_RectTransform;
         private TMP_InputField m_EInput_RoleName_TMP_InputField;
-        private LoopVerticalScrollRect m_EL_Roles_LoopVerticalScrollRect;
+        private LoopVList mElRolesLoopVList;
         public Transform uiTransform;
 
         public RectTransform EG_SelectPanel_RectTransform
@@ -39,7 +39,7 @@ namespace ET.Client
             }
         }
 
-        public LoopVerticalScrollRect EL_Roles_LoopVerticalScrollRect
+        public LoopVList ElRolesLoopVList
         {
             get
             {
@@ -49,13 +49,13 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EL_Roles_LoopVerticalScrollRect == null)
+                if (this.mElRolesLoopVList == null)
                 {
-                    this.m_EL_Roles_LoopVerticalScrollRect =
-                            UIHelper.FindDeepChild<LoopVerticalScrollRect>(this.uiTransform.gameObject, "EG_SelectPanel/EL_Roles");
+                    this.mElRolesLoopVList =
+                            UIHelper.FindDeepChild<LoopVList>(this.uiTransform.gameObject, "EG_SelectPanel/EL_Roles");
                 }
 
-                return this.m_EL_Roles_LoopVerticalScrollRect;
+                return this.mElRolesLoopVList;
             }
         }
 
@@ -196,7 +196,7 @@ namespace ET.Client
         public void DestroyWidget()
         {
             this.m_EG_SelectPanel_RectTransform = null;
-            this.m_EL_Roles_LoopVerticalScrollRect = null;
+            this.mElRolesLoopVList = null;
             this.m_EB_EnterGame_Button = null;
             this.m_EG_CreatePanel_RectTransform = null;
             this.m_EG_Class_RectTransform = null;

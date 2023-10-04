@@ -30,32 +30,32 @@ namespace ET
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// 所属进程
         /// </summary>
-        public int Process { get; private set; }
+        public int Process { get; }
 
         /// <summary>
         /// 所属区
         /// </summary>
-        public int Zone { get; private set; }
+        public int Zone { get; }
 
         /// <summary>
         /// 类型
         /// </summary>
-        public string SceneType { get; private set; }
+        public string SceneType { get; }
 
         /// <summary>
         /// 名字
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// 外网端口
         /// </summary>
-        public int OuterPort { get; private set; }
+        public int OuterPort { get; }
 
         public static StartSceneConfig DeserializeStartSceneConfig(ByteBuf _buf)
         {

@@ -21,7 +21,7 @@ namespace ET
             Id = _buf.ReadInt();
             Name = _buf.ReadString();
             UnitType = (UnitType)_buf.ReadInt();
-            Class = _buf.ReadString();
+            Class = (RoleClass)_buf.ReadInt();
             Prefab = _buf.ReadString();
             Desc = _buf.ReadString();
             AIType = _buf.ReadString();
@@ -48,119 +48,119 @@ namespace ET
         /// <summary>
         /// id
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// 类型
         /// </summary>
-        public UnitType UnitType { get; private set; }
+        public UnitType UnitType { get; }
 
         /// <summary>
-        /// 子类型
+        /// 职业
         /// </summary>
-        public string Class { get; private set; }
+        public RoleClass Class { get; }
 
         /// <summary>
         /// 模型资源
         /// </summary>
-        public string Prefab { get; private set; }
+        public string Prefab { get; }
 
         /// <summary>
         /// 描述
         /// </summary>
-        public string Desc { get; private set; }
+        public string Desc { get; }
 
         /// <summary>
         /// AI策略
         /// </summary>
-        public string AIType { get; private set; }
+        public string AIType { get; }
 
         /// <summary>
         /// 身高(单位:0.1毫米)
         /// </summary>
-        public long Height { get; private set; }
+        public long Height { get; }
 
         /// <summary>
         /// 体积半径
         /// </summary>
-        public long Radius { get; private set; }
+        public long Radius { get; }
 
         /// <summary>
         /// 速度
         /// </summary>
-        public int Speed { get; private set; }
+        public int Speed { get; }
 
         /// <summary>
         /// 生命
         /// </summary>
-        public long MaxHp { get; private set; }
+        public long MaxHp { get; }
 
         /// <summary>
         /// 法力
         /// </summary>
-        public long MaxMp { get; private set; }
+        public long MaxMp { get; }
 
         /// <summary>
         /// 力量成长
         /// </summary>
-        public long GrowthStr { get; private set; }
+        public long GrowthStr { get; }
 
         /// <summary>
         /// 智力成长
         /// </summary>
-        public long GrowthInt { get; private set; }
+        public long GrowthInt { get; }
 
         /// <summary>
         /// 敏捷成长
         /// </summary>
-        public long GrowthAgi { get; private set; }
+        public long GrowthAgi { get; }
 
         /// <summary>
         /// 力量
         /// </summary>
-        public long STR { get; private set; }
+        public long STR { get; }
 
         /// <summary>
         /// 智力
         /// </summary>
-        public long INT { get; private set; }
+        public long INT { get; }
 
         /// <summary>
         /// 敏捷
         /// </summary>
-        public long DEX { get; private set; }
+        public long DEX { get; }
 
         /// <summary>
         /// 物理攻击
         /// </summary>
-        public long AD { get; private set; }
+        public long AD { get; }
 
         /// <summary>
         /// 法术攻击
         /// </summary>
-        public long AP { get; private set; }
+        public long AP { get; }
 
         /// <summary>
         /// 物理防御
         /// </summary>
-        public long DEF { get; private set; }
+        public long DEF { get; }
 
         /// <summary>
         /// 法术防御
         /// </summary>
-        public long MDEF { get; private set; }
+        public long MDEF { get; }
 
         /// <summary>
         /// 攻击速度
         /// </summary>
-        public long SPD { get; private set; }
+        public long SPD { get; }
 
         /// <summary>
         /// 暴击概率(1/10000)
         /// </summary>
-        public long CRI { get; private set; }
+        public long CRI { get; }
 
         public static UnitConfig DeserializeUnitConfig(ByteBuf _buf)
         {

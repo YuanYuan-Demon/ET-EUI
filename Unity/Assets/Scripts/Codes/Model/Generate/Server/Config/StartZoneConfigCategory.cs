@@ -20,6 +20,7 @@ public partial class StartZoneConfigCategory: ConfigSingleton<StartZoneConfigCat
     private readonly Dictionary<int, StartZoneConfig> _dataMap;
     private readonly List<StartZoneConfig> _dataList;
 
+
     public StartZoneConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

@@ -17,6 +17,7 @@ namespace ET
 
 public sealed partial class PlayerNumericConfig: Luban.BeanBase
 {
+
     public PlayerNumericConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
@@ -36,27 +37,27 @@ public sealed partial class PlayerNumericConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public int Id { get; }
     /// <summary>
     /// 名字
     /// </summary>
-    public string Name { get; private set; }
+    public string Name { get; }
     /// <summary>
     /// 初始基础值
     /// </summary>
-    public long BaseValue { get; private set; }
+    public long BaseValue { get; }
     /// <summary>
     /// 是否用于展示
     /// </summary>
-    public int IsNeedShow { get; private set; }
+    public int IsNeedShow { get; }
     /// <summary>
     /// 是否用于加成点
     /// </summary>
-    public int IsAddPoint { get; private set; }
+    public int IsAddPoint { get; }
     /// <summary>
     /// 是否是百分比
     /// </summary>
-    public int IsPersent { get; private set; }
+    public int IsPersent { get; }
 
     public const int __ID__ = -278520018;
     public override int GetTypeId() => __ID__;

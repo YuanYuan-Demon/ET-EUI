@@ -1,12 +1,26 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UnityEditor.UI
 {
-    static internal class SGMenuOptions
+    internal static class SGMenuOptions
     {
-        #region code from MenuOptions.cs
+        [MenuItem("GameObject/UI/Loop H List", false, 2151)]
+        public static void AddLoopHorizontalScrollRect(MenuCommand menuCommand)
+        {
+            var go = SGDefaultControls.CreateLoopHorizontalScrollRect(GetStandardResources());
+            PlaceUIElementRoot(go, menuCommand);
+        }
+
+        [MenuItem("GameObject/UI/Loop V List", false, 2152)]
+        public static void AddLoopVerticalScrollRect(MenuCommand menuCommand)
+        {
+            var go = SGDefaultControls.CreateLoopVerticalScrollRect(GetStandardResources());
+            PlaceUIElementRoot(go, menuCommand);
+        }
+
+#region code from MenuOptions.cs
+
         private const string kUILayerName = "UI";
 
         private const string kStandardSpritePath = "UI/Skin/UISprite.psd";
@@ -17,9 +31,9 @@ namespace UnityEditor.UI
         private const string kDropdownArrowPath = "UI/Skin/DropdownArrow.psd";
         private const string kMaskPath = "UI/Skin/UIMask.psd";
 
-        static private DefaultControls.Resources s_StandardResources;
+        private static DefaultControls.Resources s_StandardResources;
 
-        static private DefaultControls.Resources GetStandardResources()
+        private static DefaultControls.Resources GetStandardResources()
         {
             if (s_StandardResources.standard == null)
             {
@@ -31,25 +45,31 @@ namespace UnityEditor.UI
                 s_StandardResources.dropdown = AssetDatabase.GetBuiltinExtraResource<Sprite>(kDropdownArrowPath);
                 s_StandardResources.mask = AssetDatabase.GetBuiltinExtraResource<Sprite>(kMaskPath);
             }
+
             return s_StandardResources;
         }
 
         private static void SetPositionVisibleinSceneView(RectTransform canvasRTransform, RectTransform itemTransform)
         {
             // Find the best scene view
-            SceneView sceneView = SceneView.lastActiveSceneView;
+            var sceneView = SceneView.lastActiveSceneView;
             if (sceneView == null && SceneView.sceneViews.Count > 0)
+            {
                 sceneView = SceneView.sceneViews[0] as SceneView;
+            }
 
             // Couldn't find a SceneView. Don't set position.
             if (sceneView == null || sceneView.camera == null)
+            {
                 return;
+            }
 
             // Create world space Plane from canvas position.
             Vector2 localPlanePosition;
-            Camera camera = sceneView.camera;
-            Vector3 position = Vector3.zero;
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRTransform, new Vector2(camera.pixelWidth / 2, camera.pixelHeight / 2), camera, out localPlanePosition))
+            var camera = sceneView.camera;
+            var position = Vector3.zero;
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRTransform, new Vector2(camera.pixelWidth / 2, camera.pixelHeight / 2),
+                    camera, out localPlanePosition))
             {
                 // Adjust for canvas pivot
                 localPlanePosition.x = localPlanePosition.x + canvasRTransform.sizeDelta.x * canvasRTransform.pivot.x;
@@ -63,12 +83,16 @@ namespace UnityEditor.UI
                 position.y = localPlanePosition.y - canvasRTransform.sizeDelta.y * itemTransform.anchorMin.y;
 
                 Vector3 minLocalPosition;
-                minLocalPosition.x = canvasRTransform.sizeDelta.x * (0 - canvasRTransform.pivot.x) + itemTransform.sizeDelta.x * itemTransform.pivot.x;
-                minLocalPosition.y = canvasRTransform.sizeDelta.y * (0 - canvasRTransform.pivot.y) + itemTransform.sizeDelta.y * itemTransform.pivot.y;
+                minLocalPosition.x = canvasRTransform.sizeDelta.x * (0 - canvasRTransform.pivot.x) +
+                        itemTransform.sizeDelta.x * itemTransform.pivot.x;
+                minLocalPosition.y = canvasRTransform.sizeDelta.y * (0 - canvasRTransform.pivot.y) +
+                        itemTransform.sizeDelta.y * itemTransform.pivot.y;
 
                 Vector3 maxLocalPosition;
-                maxLocalPosition.x = canvasRTransform.sizeDelta.x * (1 - canvasRTransform.pivot.x) - itemTransform.sizeDelta.x * itemTransform.pivot.x;
-                maxLocalPosition.y = canvasRTransform.sizeDelta.y * (1 - canvasRTransform.pivot.y) - itemTransform.sizeDelta.y * itemTransform.pivot.y;
+                maxLocalPosition.x = canvasRTransform.sizeDelta.x * (1 - canvasRTransform.pivot.x) -
+                        itemTransform.sizeDelta.x * itemTransform.pivot.x;
+                maxLocalPosition.y = canvasRTransform.sizeDelta.y * (1 - canvasRTransform.pivot.y) -
+                        itemTransform.sizeDelta.y * itemTransform.pivot.y;
 
                 position.x = Mathf.Clamp(position.x, minLocalPosition.x, maxLocalPosition.x);
                 position.y = Mathf.Clamp(position.y, minLocalPosition.y, maxLocalPosition.y);
@@ -81,29 +105,31 @@ namespace UnityEditor.UI
 
         private static void PlaceUIElementRoot(GameObject element, MenuCommand menuCommand)
         {
-            GameObject parent = menuCommand.context as GameObject;
+            var parent = menuCommand.context as GameObject;
             if (parent == null || parent.GetComponentInParent<Canvas>() == null)
             {
                 parent = GetOrCreateCanvasGameObject();
             }
 
-            string uniqueName = GameObjectUtility.GetUniqueNameForSibling(parent.transform, element.name);
+            var uniqueName = GameObjectUtility.GetUniqueNameForSibling(parent.transform, element.name);
             element.name = uniqueName;
             Undo.RegisterCreatedObjectUndo(element, "Create " + element.name);
             Undo.SetTransformParent(element.transform, parent.transform, "Parent " + element.name);
             GameObjectUtility.SetParentAndAlign(element, parent);
             if (parent != menuCommand.context) // not a context click, so center in sceneview
+            {
                 SetPositionVisibleinSceneView(parent.GetComponent<RectTransform>(), element.GetComponent<RectTransform>());
+            }
 
             Selection.activeGameObject = element;
         }
 
-        static public GameObject CreateNewUI()
+        public static GameObject CreateNewUI()
         {
             // Root for the UI
             var root = new GameObject("Canvas");
             root.layer = LayerMask.NameToLayer(kUILayerName);
-            Canvas canvas = root.AddComponent<Canvas>();
+            var canvas = root.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             root.AddComponent<CanvasScaler>();
             root.AddComponent<GraphicRaycaster>();
@@ -115,37 +141,28 @@ namespace UnityEditor.UI
         }
 
         // Helper function that returns a Canvas GameObject; preferably a parent of the selection, or other existing Canvas.
-        static public GameObject GetOrCreateCanvasGameObject()
+        public static GameObject GetOrCreateCanvasGameObject()
         {
-            GameObject selectedGo = Selection.activeGameObject;
+            var selectedGo = Selection.activeGameObject;
 
             // Try to find a gameobject that is the selected GO or one if its parents.
-            Canvas canvas = (selectedGo != null) ? selectedGo.GetComponentInParent<Canvas>() : null;
+            var canvas = selectedGo != null? selectedGo.GetComponentInParent<Canvas>() : null;
             if (canvas != null && canvas.gameObject.activeInHierarchy)
+            {
                 return canvas.gameObject;
+            }
 
             // No canvas in selection or its parents? Then use just any canvas..
-            canvas = Object.FindObjectOfType(typeof(Canvas)) as Canvas;
+            canvas = Object.FindObjectOfType(typeof (Canvas)) as Canvas;
             if (canvas != null && canvas.gameObject.activeInHierarchy)
+            {
                 return canvas.gameObject;
+            }
 
             // No canvas in the scene at all? Then create a new one.
-            return SGMenuOptions.CreateNewUI();
-        }
-        #endregion
-        
-        [MenuItem("GameObject/UI/Loop Horizontal Scroll Rect", false, 2151)]
-        static public void AddLoopHorizontalScrollRect(MenuCommand menuCommand)
-        {
-            GameObject go = SGDefaultControls.CreateLoopHorizontalScrollRect(GetStandardResources());
-            PlaceUIElementRoot(go, menuCommand);
+            return CreateNewUI();
         }
 
-        [MenuItem("GameObject/UI/Loop Vertical Scroll Rect", false, 2152)]
-        static public void AddLoopVerticalScrollRect(MenuCommand menuCommand)
-        {
-            GameObject go = SGDefaultControls.CreateLoopVerticalScrollRect(GetStandardResources());
-            PlaceUIElementRoot(go, menuCommand);
-        }
+#endregion
     }
 }

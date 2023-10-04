@@ -1,58 +1,65 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
-[CustomEditor(typeof(LoopScrollRect), true)]
-public class LoopScrollRectInspector : Editor
+[CustomEditor(typeof (LoopList), true)]
+public class LoopScrollRectInspector: Editor
 {
-    int index = 0;
-    float speed = 1000, time = 1;
-    public override void OnInspectorGUI ()
+    private int index;
+    private float speed = 1000, time = 1;
+
+    public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
         EditorGUILayout.Space();
 
-        LoopScrollRect scroll = (LoopScrollRect)target;
+        var scroll = (LoopList)this.target;
         GUI.enabled = Application.isPlaying;
 
         EditorGUILayout.BeginHorizontal();
-        if(GUILayout.Button("Clear"))
+        if (GUILayout.Button("Clear"))
         {
             scroll.ClearCells();
         }
+
         if (GUILayout.Button("Refresh"))
         {
             scroll.RefreshCells();
         }
-        if(GUILayout.Button("Refill"))
+
+        if (GUILayout.Button("Refill"))
         {
             scroll.RefillCells();
         }
-        if(GUILayout.Button("RefillFromEnd"))
+
+        if (GUILayout.Button("RefillFromEnd"))
         {
             scroll.RefillCellsFromEnd();
         }
+
         EditorGUILayout.EndHorizontal();
 
         EditorGUIUtility.labelWidth = 45;
-        float w = (EditorGUIUtility.currentViewWidth - 100) / 2;
-        index = EditorGUILayout.IntField("Index", index, GUILayout.Width(w));
+        var w = (EditorGUIUtility.currentViewWidth - 100) / 2;
+        this.index = EditorGUILayout.IntField("Index", this.index, GUILayout.Width(w));
         EditorGUILayout.BeginHorizontal();
         EditorGUIUtility.labelWidth = 60;
-        speed = EditorGUILayout.FloatField("    Speed", speed, GUILayout.Width(w+15));
-        if(GUILayout.Button("Scroll With Speed", GUILayout.Width(130)))
+        this.speed = EditorGUILayout.FloatField("    Speed", this.speed, GUILayout.Width(w + 15));
+        if (GUILayout.Button("Scroll With Speed", GUILayout.Width(130)))
         {
-            scroll.SrollToCell(index, speed);
+            scroll.SrollToCell(this.index, this.speed);
         }
+
         EditorGUILayout.EndHorizontal();
-        
+
         EditorGUILayout.BeginHorizontal();
         EditorGUIUtility.labelWidth = 60;
-        time = EditorGUILayout.FloatField("    Time", time, GUILayout.Width(w+15));
-        if(GUILayout.Button("Scroll Within Time", GUILayout.Width(130)))
+        this.time = EditorGUILayout.FloatField("    Time", this.time, GUILayout.Width(w + 15));
+        if (GUILayout.Button("Scroll Within Time", GUILayout.Width(130)))
         {
-            scroll.SrollToCellWithinTime(index, time);
+            scroll.SrollToCellWithinTime(this.index, this.time);
         }
+
         EditorGUILayout.EndHorizontal();
     }
 }

@@ -18,20 +18,20 @@ namespace ET
 
         public TaskActionConfig(ByteBuf _buf)
         {
-            Id = _buf.ReadInt();
-            TaskProcessAction = _buf.ReadInt();
+            TargetType = (TaskTargetType)_buf.ReadInt();
+            ProcessAction = (TaskProgressType)_buf.ReadInt();
             PostInit();
         }
 
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; private set; }
+        public TaskTargetType TargetType { get; }
 
         /// <summary>
         /// 任务进度更新行为
         /// </summary>
-        public int TaskProcessAction { get; private set; }
+        public TaskProgressType ProcessAction { get; }
 
         public static TaskActionConfig DeserializeTaskActionConfig(ByteBuf _buf)
         {
@@ -48,8 +48,8 @@ namespace ET
         public override string ToString()
         {
             return "{ "
-                    + "id:" + Id + ","
-                    + "taskProcessAction:" + TaskProcessAction + ","
+                    + "targetType:" + TargetType + ","
+                    + "processAction:" + ProcessAction + ","
                     + "}";
         }
     }

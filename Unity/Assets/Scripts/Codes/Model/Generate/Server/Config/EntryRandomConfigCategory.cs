@@ -20,6 +20,7 @@ public partial class EntryRandomConfigCategory: ConfigSingleton<EntryRandomConfi
     private readonly Dictionary<int, EntryRandomConfig> _dataMap;
     private readonly List<EntryRandomConfig> _dataList;
 
+
     public EntryRandomConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

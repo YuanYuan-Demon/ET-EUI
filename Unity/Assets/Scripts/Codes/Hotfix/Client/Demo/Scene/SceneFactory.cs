@@ -8,7 +8,7 @@ namespace ET.Client
         {
             await ETTask.CompletedTask;
 
-            Scene clientScene = EntitySceneFactory.CreateScene(zone, SceneType.Client, name, ClientSceneManagerComponent.Instance);
+            var clientScene = EntitySceneFactory.CreateScene(zone, SceneType.Client, name, ClientSceneManagerComponent.Instance);
             clientScene.AddComponent<CurrentScenesComponent>();
             clientScene.AddComponent<ObjectWait>();
             clientScene.AddComponent<PlayerComponent>();
@@ -21,8 +21,7 @@ namespace ET.Client
             clientScene.AddComponent<EquipmentsComponent>();
             //Undone: AddComponent<ForgeComponent>();
             //clientScene.AddComponent<ForgeComponent>();
-            //Undone: AddComponent<TaskComponent>();
-            //clientScene.AddComponent<TaskComponent>();
+            clientScene.AddComponent<CTasksComponent>();
             //Undone: AddComponent<RankComponent>();
             //clientScene.AddComponent<RankComponent>();
             //Undone: AddComponent<ChatComponent>();
@@ -34,7 +33,7 @@ namespace ET.Client
 
         public static Scene CreateCurrentScene(long id, int zone, string name, CurrentScenesComponent currentScenesComponent)
         {
-            Scene currentScene = EntitySceneFactory.CreateScene(id, IdGenerater.Instance.GenerateInstanceId(), zone, SceneType.Current, name,
+            var currentScene = EntitySceneFactory.CreateScene(id, IdGenerater.Instance.GenerateInstanceId(), zone, SceneType.Current, name,
                 currentScenesComponent);
             currentScenesComponent.Scene = currentScene;
 

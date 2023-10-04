@@ -17,6 +17,7 @@ namespace ET
 
 public sealed partial class StartZoneConfig: Luban.BeanBase
 {
+
     public StartZoneConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
@@ -33,15 +34,15 @@ public sealed partial class StartZoneConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public int Id { get; }
     /// <summary>
     /// 数据库地址
     /// </summary>
-    public string DBConnection { get; private set; }
+    public string DBConnection { get; }
     /// <summary>
     /// 数据库名
     /// </summary>
-    public string DBName { get; private set; }
+    public string DBName { get; }
 
     public const int __ID__ = -457316368;
     public override int GetTypeId() => __ID__;

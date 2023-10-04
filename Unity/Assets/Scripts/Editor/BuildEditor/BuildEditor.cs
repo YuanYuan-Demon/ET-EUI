@@ -27,7 +27,7 @@ namespace ET
     public enum BuildType
     {
         Development,
-        Release,
+        Release
     }
 
     public class BuildEditor: EditorWindow
@@ -53,7 +53,7 @@ namespace ET
 #elif UNITY_IOS
 			activePlatform = PlatformType.IOS;
 #elif UNITY_STANDALONE_WIN
-            activePlatform = PlatformType.Windows;
+            this.activePlatform = PlatformType.Windows;
 #elif UNITY_STANDALONE_OSX
 			activePlatform = PlatformType.MacOS;
 #elif UNITY_STANDALONE_LINUX
@@ -61,13 +61,13 @@ namespace ET
 #else
 			activePlatform = PlatformType.None;
 #endif
-            platformType = activePlatform;
+            this.platformType = this.activePlatform;
         }
 
         private void OnGUI()
         {
-            this.platformType = (PlatformType)EditorGUILayout.EnumPopup(platformType);
-            this.clearFolder = EditorGUILayout.Toggle("clean folder? ", clearFolder);
+            this.platformType = (PlatformType)EditorGUILayout.EnumPopup(this.platformType);
+            this.clearFolder = EditorGUILayout.Toggle("clean folder? ", this.clearFolder);
             this.isBuildExe = EditorGUILayout.Toggle("build exe?", this.isBuildExe);
             this.isContainAB = EditorGUILayout.Toggle("contain assetsbundle?", this.isContainAB);
             this.codeOptimization = (CodeOptimization)EditorGUILayout.EnumPopup("CodeOptimization ", this.codeOptimization);
@@ -131,7 +131,7 @@ namespace ET
             {
                 if (Define.EnableCodes)
                 {
-                    throw new("now in ENABLE_CODES mode, do not need Build!");
+                    throw new Exception("now in ENABLE_CODES mode, do not need Build!");
                 }
 
                 BuildAssembliesHelper.BuildModel(this.codeOptimization, this.globalConfig);
@@ -149,7 +149,7 @@ namespace ET
                     throw new Exception("now in ENABLE_CODES mode, do not need Build!");
                 }
 
-                BuildAssembliesHelper.BuildModel(this.codeOptimization, globalConfig);
+                BuildAssembliesHelper.BuildModel(this.codeOptimization, this.globalConfig);
 
                 AfterCompiling();
 
@@ -163,7 +163,7 @@ namespace ET
                     throw new Exception("now in ENABLE_CODES mode, do not need Build!");
                 }
 
-                BuildAssembliesHelper.BuildHotfix(this.codeOptimization, globalConfig);
+                BuildAssembliesHelper.BuildHotfix(this.codeOptimization, this.globalConfig);
 
                 AfterCompiling();
 
@@ -185,7 +185,7 @@ namespace ET
                     ToolsEditor.ExcelExporter(this.globalConfig.CodeMode, this.configFolder);
 
                     // 设置ab包
-                    AssetImporter assetImporter = AssetImporter.GetAtPath($"Assets/Bundles/Config");
+                    var assetImporter = AssetImporter.GetAtPath($"Assets/Bundles/Config");
                     assetImporter.assetBundleName = "Config.unity3d";
                     AssetDatabase.SaveAssets();
                     AssetDatabase.Refresh();
@@ -197,14 +197,17 @@ namespace ET
         }
 
         [MenuItem("ET/Build Tool")]
-        public static void ShowWindow() => GetWindow<BuildEditor>(DockDefine.Types);
+        public static void ShowWindow()
+        {
+            GetWindow<BuildEditor>(DockDefine.Types);
+        }
 
         private static void AfterCompiling()
         {
             Directory.CreateDirectory(BuildAssembliesHelper.CodeDir);
 
             // 设置ab包
-            AssetImporter assetImporter = AssetImporter.GetAtPath("Assets/Bundles/Code");
+            var assetImporter = AssetImporter.GetAtPath("Assets/Bundles/Code");
             assetImporter.assetBundleName = "Code.unity3d";
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -214,7 +217,7 @@ namespace ET
 
         public static void ShowNotification(string tips)
         {
-            EditorWindow game = GetWindow(typeof (EditorWindow).Assembly.GetType("UnityEditor.GameView"));
+            var game = GetWindow(typeof (EditorWindow).Assembly.GetType("UnityEditor.GameView"));
             game?.ShowNotification(new GUIContent($"{tips}"));
         }
     }

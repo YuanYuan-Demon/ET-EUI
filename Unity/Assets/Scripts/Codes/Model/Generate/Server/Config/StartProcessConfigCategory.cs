@@ -20,6 +20,7 @@ public partial class StartProcessConfigCategory: ConfigSingleton<StartProcessCon
     private readonly Dictionary<int, StartProcessConfig> _dataMap;
     private readonly List<StartProcessConfig> _dataList;
 
+
     public StartProcessConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

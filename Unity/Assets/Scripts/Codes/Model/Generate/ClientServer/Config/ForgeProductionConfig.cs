@@ -30,32 +30,32 @@ namespace ET
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; }
 
         /// <summary>
         /// 物品Id
         /// </summary>
-        public int ItemConfigId { get; private set; }
+        public int ItemConfigId { get; }
 
         /// <summary>
         /// 制造时间(秒)
         /// </summary>
-        public int ProductionTime { get; private set; }
+        public int ProductionTime { get; }
 
         /// <summary>
         /// 制造材料
         /// </summary>
-        public int MaterialId { get; private set; }
+        public int MaterialId { get; }
 
         /// <summary>
         /// 制造所需的资源数量
         /// </summary>
-        public int MaterialCount { get; private set; }
+        public int MaterialCount { get; }
 
         /// <summary>
         /// 制造所需等级
         /// </summary>
-        public int NeedLevel { get; private set; }
+        public int NeedLevel { get; }
 
         public static ForgeProductionConfig DeserializeForgeProductionConfig(ByteBuf _buf)
         {

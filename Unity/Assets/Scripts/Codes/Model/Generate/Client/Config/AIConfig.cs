@@ -17,6 +17,7 @@ namespace ET.Client
 
 public sealed partial class AIConfig: Luban.BeanBase
 {
+
     public AIConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
@@ -35,23 +36,23 @@ public sealed partial class AIConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public int Id { get; }
     /// <summary>
     /// 所属ai
     /// </summary>
-    public int AIConfigID { get; private set; }
+    public int AIConfigID { get; }
     /// <summary>
     /// 此ai中的顺序
     /// </summary>
-    public int Order { get; private set; }
+    public int Order { get; }
     /// <summary>
     /// 节点名字
     /// </summary>
-    public string Name { get; private set; }
+    public string Name { get; }
     /// <summary>
     /// 节点参数
     /// </summary>
-    public System.Collections.Generic.List<int> NodeParam { get; private set; }
+    public System.Collections.Generic.List<int> NodeParam { get; }
 
     public const int __ID__ = -294143606;
     public override int GetTypeId() => __ID__;

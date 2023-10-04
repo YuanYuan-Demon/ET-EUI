@@ -20,6 +20,7 @@ public partial class BattleLevelConfigCategory: ConfigSingleton<BattleLevelConfi
     private readonly Dictionary<int, BattleLevelConfig> _dataMap;
     private readonly List<BattleLevelConfig> _dataList;
 
+
     public BattleLevelConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

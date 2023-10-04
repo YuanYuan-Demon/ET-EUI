@@ -5,11 +5,11 @@
     {
         public static void RegisterUIEvent(this DlgMain self)
         {
-            DlgMainViewComponent view = self.View;
+            var view = self.View;
 
             view.EB_Setting_Button.AddListener(self.OnClickSetting);
             view.EB_Bag_Button.AddListener(self.OnClickBag);
-            view.EB_Quest_Button.AddListener(self.OnClickQuest);
+            view.EB_Quest_Button.AddListener(self.OnClickTask);
             view.EB_Equip_Button.AddListener(self.OnClickEquip);
             view.EB_Skill_Button.AddListener(self.OnClickSkill);
             view.EB_Friend_Button.AddListener(self.OnClickFriend);
@@ -30,7 +30,7 @@
 
         private static void OnClickBag(this DlgMain self) => UIComponent.Instance.ShowWindow(WindowID.WindowID_Bag);
 
-        private static void OnClickQuest(this DlgMain self) => UIComponent.Instance.ShowWindow(WindowID.WindowID_Quest);
+        private static void OnClickTask(this DlgMain self) => UIComponent.Instance.ShowWindow(WindowID.WindowID_Task);
 
         private static void OnClickEquip(this DlgMain self) => UIComponent.Instance.ShowWindow(WindowID.WindowID_Equip);
 

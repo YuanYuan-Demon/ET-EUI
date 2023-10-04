@@ -5,21 +5,22 @@ using UnityEngine.UI;
 public class UITool
 {
     [MenuItem("Assets/EUI/去除RaycastTarget")]
-    private static void UncheckRaycastTarget()
+    [MenuItem("GameObject/EUI/去除RaycastTarget", false, -1)]
+    private static void RemoveRaycastTarget()
     {
-        GameObject[] selectedObjs = Selection.GetFiltered<GameObject>(SelectionMode.DeepAssets);
-        foreach (GameObject go in selectedObjs)
+        var selectedObjs = Selection.GetFiltered<GameObject>(SelectionMode.DeepAssets);
+        foreach (var go in selectedObjs)
         {
-            Graphic[] mkgs = go.GetComponentsInChildren<Graphic>();
-            foreach (Graphic mkg in mkgs)
+            var mkgs = go.GetComponentsInChildren<Graphic>();
+            foreach (var mkg in mkgs)
             {
                 mkg.raycastTarget = false;
             }
 
-            Selectable[] selelctObjs = go.GetComponentsInChildren<Selectable>();
-            foreach (Selectable s in selelctObjs)
+            var selelctObjs = go.GetComponentsInChildren<Selectable>();
+            foreach (var s in selelctObjs)
             {
-                Navigation nav = s.navigation;
+                var nav = s.navigation;
                 nav.mode = Navigation.Mode.None;
                 s.navigation = nav;
 
@@ -43,13 +44,13 @@ public class UITool
             //        infd.targetGraphic.raycastTarget = true;
             //}
 
-            LoopScrollRectBase[] loopList = go.GetComponentsInChildren<LoopScrollRectBase>();
-            foreach (LoopScrollRectBase list in loopList)
+            var loopList = go.GetComponentsInChildren<LoopScrollRectBase>();
+            foreach (var list in loopList)
             {
                 list.transform.GetComponentInChildren<Image>().raycastTarget = true;
             }
 
-            Transform mask = go.transform.Find("Mask");
+            var mask = go.transform.Find("Mask");
             if (mask != null && mask.TryGetComponent(out Image image))
             {
                 image.raycastTarget = true;

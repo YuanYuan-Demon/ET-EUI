@@ -17,6 +17,7 @@ namespace ET.Client
 
 public sealed partial class EntryRandomConfig: Luban.BeanBase
 {
+
     public EntryRandomConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
@@ -37,31 +38,31 @@ public sealed partial class EntryRandomConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public int Id { get; }
     /// <summary>
     /// 随机词条最小数量
     /// </summary>
-    public int EntryRandMinCount { get; private set; }
+    public int EntryRandMinCount { get; }
     /// <summary>
     /// 随机词条最大数量
     /// </summary>
-    public int EntryRandMaxCount { get; private set; }
+    public int EntryRandMaxCount { get; }
     /// <summary>
     /// 随机特殊词条最小数量
     /// </summary>
-    public int SpecialEntryRandMinCount { get; private set; }
+    public int SpecialEntryRandMinCount { get; }
     /// <summary>
     /// 随机特殊词条最大数量
     /// </summary>
-    public int SpecialEntryRandMaxCount { get; private set; }
+    public int SpecialEntryRandMaxCount { get; }
     /// <summary>
     /// 随机词条等级
     /// </summary>
-    public int EntryLevel { get; private set; }
+    public int EntryLevel { get; }
     /// <summary>
     /// 随机特殊词条等级
     /// </summary>
-    public int SpecialEntryLevel { get; private set; }
+    public int SpecialEntryLevel { get; }
 
     public const int __ID__ = 2142959447;
     public override int GetTypeId() => __ID__;

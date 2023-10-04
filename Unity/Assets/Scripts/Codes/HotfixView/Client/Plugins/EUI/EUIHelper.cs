@@ -66,12 +66,16 @@ namespace ET.Client
             uiBehaviour.gameObject.SetActive(isVisible);
         }
 
-        public static void SetVisible(this LoopScrollRect loopScrollRect, bool isVisible, int count = 0)
+        public static void SetVisible(this LoopList loopList, bool isVisible, int count = 0)
         {
-            loopScrollRect.gameObject.SetActive(isVisible);
-            loopScrollRect.totalCount = count;
-            //await TimerComponent.Instance.WaitAsync(10);
-            loopScrollRect.RefillCells();
+            loopList.gameObject.SetActive(isVisible);
+            loopList.totalCount = count;
+            Canvas.ForceUpdateCanvases();
+
+            if (isVisible)
+            {
+                loopList.RefillCells();
+            }
         }
 
         public static void SetVisibleWithScale(this Transform transform, bool isVisible)
@@ -115,7 +119,7 @@ namespace ET.Client
 
         public static void SetTogglesInteractable(this ToggleGroup toggleGroup, bool isEnable)
         {
-            Toggle[] toggles = toggleGroup.transform.GetComponentsInChildren<Toggle>();
+            var toggles = toggleGroup.transform.GetComponentsInChildren<Toggle>();
             for (var i = 0; i < toggles.Length; i++)
             {
                 toggles[i].interactable = isEnable;
@@ -124,7 +128,7 @@ namespace ET.Client
 
         public static (int, Toggle) GetSelectedToggle(this ToggleGroup toggleGroup)
         {
-            Toggle[] togglesList = toggleGroup.GetComponentsInChildren<Toggle>();
+            var togglesList = toggleGroup.GetComponentsInChildren<Toggle>();
             for (var i = 0; i < togglesList.Length; i++)
             {
                 if (togglesList[i].isOn)
@@ -139,7 +143,7 @@ namespace ET.Client
 
         public static void SetToggleSelected(this ToggleGroup toggleGroup, int index)
         {
-            Toggle[] togglesList = toggleGroup.GetComponentsInChildren<Toggle>();
+            var togglesList = toggleGroup.GetComponentsInChildren<Toggle>();
             for (var i = 0; i < togglesList.Length; i++)
             {
                 if (i != index)
@@ -165,7 +169,7 @@ namespace ET.Client
                 return;
             }
 
-            foreach (Item item in list)
+            foreach (var item in list)
             {
                 item.Dispose();
             }
@@ -182,7 +186,7 @@ namespace ET.Client
                 return;
             }
 
-            foreach (KeyValuePair<int, Item> item in dictionary)
+            foreach (var item in dictionary)
             {
                 item.Value.Dispose();
             }
@@ -306,10 +310,10 @@ namespace ET.Client
 
         public static void AddListener(this ToggleGroup toggleGroup, UnityAction<int> selectEventHandler)
         {
-            Toggle[] togglesList = toggleGroup.GetComponentsInChildren<Toggle>();
+            var togglesList = toggleGroup.GetComponentsInChildren<Toggle>();
             for (var i = 0; i < togglesList.Length; i++)
             {
-                int index = i;
+                var index = i;
                 togglesList[i].AddListener((isOn) =>
                 {
                     if (isOn)
@@ -343,7 +347,7 @@ namespace ET.Client
             EventTrigger.Entry entry = null;
 
             // 查找是否已经存在要注册的事件
-            foreach (EventTrigger.Entry existingEntry in trigger.triggers)
+            foreach (var existingEntry in trigger.triggers)
             {
                 if (existingEntry.eventID == eventType)
                 {

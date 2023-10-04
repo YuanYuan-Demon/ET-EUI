@@ -17,6 +17,7 @@ namespace ET.Client
 
 public sealed partial class PlayerLevelConfig: Luban.BeanBase
 {
+
     public PlayerLevelConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
@@ -32,11 +33,11 @@ public sealed partial class PlayerLevelConfig: Luban.BeanBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; private set; }
+    public int Id { get; }
     /// <summary>
     /// 所需经验值
     /// </summary>
-    public long NeedExp { get; private set; }
+    public long NeedExp { get; }
 
     public const int __ID__ = 1701428773;
     public override int GetTypeId() => __ID__;

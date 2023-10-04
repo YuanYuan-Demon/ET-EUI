@@ -9,10 +9,10 @@ namespace ET.Client
     {
         private Button m_EB_Confirm_Button;
 
-        private LoopVerticalScrollRect m_EL_Server_LoopVerticalScrollRect;
+        private LoopVList mElServerLoopVList;
         public Transform uiTransform;
 
-        public LoopVerticalScrollRect EL_Server_LoopVerticalScrollRect
+        public LoopVList ElServerLoopVList
         {
             get
             {
@@ -22,13 +22,13 @@ namespace ET.Client
                     return null;
                 }
 
-                if (this.m_EL_Server_LoopVerticalScrollRect == null)
+                if (this.mElServerLoopVList == null)
                 {
-                    this.m_EL_Server_LoopVerticalScrollRect =
-                            UIHelper.FindDeepChild<LoopVerticalScrollRect>(this.uiTransform.gameObject, "Panel/EL_Server");
+                    this.mElServerLoopVList =
+                            UIHelper.FindDeepChild<LoopVList>(this.uiTransform.gameObject, "Panel/EL_Server");
                 }
 
-                return this.m_EL_Server_LoopVerticalScrollRect;
+                return this.mElServerLoopVList;
             }
         }
 
@@ -53,7 +53,7 @@ namespace ET.Client
 
         public void DestroyWidget()
         {
-            this.m_EL_Server_LoopVerticalScrollRect = null;
+            this.mElServerLoopVList = null;
             this.m_EB_Confirm_Button = null;
             this.uiTransform = null;
         }

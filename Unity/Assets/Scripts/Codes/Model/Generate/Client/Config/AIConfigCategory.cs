@@ -20,6 +20,7 @@ public partial class AIConfigCategory: ConfigSingleton<AIConfigCategory>
     private readonly Dictionary<int, AIConfig> _dataMap;
     private readonly List<AIConfig> _dataList;
 
+
     public AIConfigCategory(ByteBuf _buf)
     {
         _dataMap = new();

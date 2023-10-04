@@ -43,6 +43,10 @@ public partial class {{__name}}: ConfigSingleton<{{__name}}>
     private readonly Dictionary<{{declaring_type_name key_type}}, {{declaring_type_name value_type}}> _dataMap;
     private readonly List<{{declaring_type_name value_type}}> _dataList;
 
+    {{~if has_tag __table 'new'~}}
+    public TaskTarget() { }
+    {{~end~}}
+
     public {{__name}}(ByteBuf _buf)
     {
         _dataMap = new();

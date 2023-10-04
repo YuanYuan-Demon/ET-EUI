@@ -1204,6 +1204,83 @@ namespace ET
 
 	}
 
+//============================================  任务系统  ============================================
+	[Message(OuterMessage.NTaskTarget)]
+	[ProtoContract]
+	public partial class NTaskTarget: ProtoObject
+	{
+		[ProtoMember(1)]
+		public TaskTargetType Type { get; set; }
+
+		[ProtoMember(2)]
+		public int Target { get; set; }
+
+		[ProtoMember(3)]
+		public int Count { get; set; }
+
+	}
+
+	[Message(OuterMessage.NTaskInfo)]
+	[ProtoContract]
+	public partial class NTaskInfo: ProtoObject
+	{
+		[ProtoMember(1)]
+		public int ConfigId { get; set; }
+
+		[ProtoMember(2)]
+		public TaskState TaskState { get; set; }
+
+		[ProtoMember(3)]
+		public List<NTaskTarget> Process { get; set; } = new();
+
+	}
+
+	[Message(OuterMessage.M2C_UpdateTaskInfo)]
+	[ProtoContract]
+	public partial class M2C_UpdateTaskInfo: ProtoObject, IActorMessage
+	{
+		[ProtoMember(1)]
+		public NTaskInfo NTaskInfo { get; set; }
+
+	}
+
+	[Message(OuterMessage.M2C_AllTaskInfoList)]
+	[ProtoContract]
+	public partial class M2C_AllTaskInfoList: ProtoObject, IActorMessage
+	{
+		[ProtoMember(1)]
+		public List<NTaskInfo> NTaskInfos { get; set; } = new();
+
+	}
+
+	[ResponseType(nameof(M2C_ReceiveTaskReward))]
+	[Message(OuterMessage.C2M_ReceiveTaskReward)]
+	[ProtoContract]
+	public partial class C2M_ReceiveTaskReward: ProtoObject, IActorLocationRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public int TaskConfigId { get; set; }
+
+	}
+
+	[Message(OuterMessage.M2C_ReceiveTaskReward)]
+	[ProtoContract]
+	public partial class M2C_ReceiveTaskReward: ProtoObject, IActorLocationResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
 // //============================================  排行榜系统  ============================================
 // message RankInfoProto
 // {
@@ -1320,5 +1397,11 @@ namespace ET
 		 public const ushort M2C_EquipItem = 10075;
 		 public const ushort C2M_UnloadEquipItem = 10076;
 		 public const ushort M2C_UnloadEquipItem = 10077;
+		 public const ushort NTaskTarget = 10078;
+		 public const ushort NTaskInfo = 10079;
+		 public const ushort M2C_UpdateTaskInfo = 10080;
+		 public const ushort M2C_AllTaskInfoList = 10081;
+		 public const ushort C2M_ReceiveTaskReward = 10082;
+		 public const ushort M2C_ReceiveTaskReward = 10083;
 	}
 }

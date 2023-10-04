@@ -10,7 +10,7 @@ namespace ET.Client
 		private UnityEngine.UI.Button m_EB_Minilize_Button = null;
 		private UnityEngine.UI.Button m_EB_ChatSetting_Button = null;
 		private UnityEngine.UI.Button m_EB_Lock_Button = null;
-		private UnityEngine.UI.LoopVerticalScrollRect m_EL_ChatMessage_LoopVerticalScrollRect = null;
+		private UnityEngine.UI.LoopVList mElChatMessageLoopVList = null;
 		private UnityEngine.UI.Button m_EB_Send_Button = null;
 		public UnityEngine.UI.Button EB_Minilize_Button
      	{
@@ -63,7 +63,7 @@ namespace ET.Client
      		}
      	}
 
-		public UnityEngine.UI.LoopVerticalScrollRect EL_ChatMessage_LoopVerticalScrollRect
+		public UnityEngine.UI.LoopVList ElChatMessageLoopVList
      	{
      		get
      		{
@@ -72,11 +72,11 @@ namespace ET.Client
      				Log.Error("uiTransform is null.");
      				return null;
      			}
-     			if( this.m_EL_ChatMessage_LoopVerticalScrollRect == null )
+     			if( this.mElChatMessageLoopVList == null )
      			{
-		    		this.m_EL_ChatMessage_LoopVerticalScrollRect = UIHelper.FindDeepChild<UnityEngine.UI.LoopVerticalScrollRect>(this.uiTransform.gameObject,"EL_ChatMessage");
+		    		this.mElChatMessageLoopVList = UIHelper.FindDeepChild<UnityEngine.UI.LoopVList>(this.uiTransform.gameObject,"EL_ChatMessage");
      			}
-     			return this.m_EL_ChatMessage_LoopVerticalScrollRect;
+     			return this.mElChatMessageLoopVList;
      		}
      	}
 
@@ -102,7 +102,7 @@ namespace ET.Client
 			this.m_EB_Minilize_Button = null;
 			this.m_EB_ChatSetting_Button = null;
 			this.m_EB_Lock_Button = null;
-			this.m_EL_ChatMessage_LoopVerticalScrollRect = null;
+			this.mElChatMessageLoopVList = null;
 			this.m_EB_Send_Button = null;
 			this.uiTransform = null;
 		}

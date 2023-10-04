@@ -17,16 +17,28 @@ namespace ET.Client
 
 public sealed partial class TaskConfig: Luban.BeanBase
 {
+
     public TaskConfig(ByteBuf _buf) 
     {
         Id = _buf.ReadInt();
-        TaskName = _buf.ReadString();
-        TaskDesc = _buf.ReadString();
-        TaskActionType = _buf.ReadInt();
-        TaskTargetId = _buf.ReadInt();
-        TaskTargetCount = _buf.ReadInt();
-        TaskBefore = _buf.ReadInt();
+        Name = _buf.ReadString();
+        LimitLevel = _buf.ReadInt();
+        LimitClass = (RoleClass)_buf.ReadInt();
+        PreTask = _buf.ReadInt();
+        PostTask = _buf.ReadInt();
+        Type = (TaskType)_buf.ReadInt();
+        AcceptNpc = _buf.ReadInt();
+        SubmitNpc = _buf.ReadInt();
+        Overview = _buf.ReadString();
+        Dialog = _buf.ReadString();
+        DialogAccept = _buf.ReadString();
+        DialogDeny = _buf.ReadString();
+        DialogInProgress = _buf.ReadString();
+        DialogFinish = _buf.ReadString();
+        {int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);Targets = new System.Collections.Generic.List<TaskTarget>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { TaskTarget _e0;  _e0 = TaskTarget.DeserializeTaskTarget(_buf); Targets.Add(_e0);}}
+        {int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);RewardItems = new System.Collections.Generic.List<TaskReward>(n0);for(var i0 = 0 ; i0 < n0 ; i0++) { TaskReward _e0;  _e0 = TaskReward.DeserializeTaskReward(_buf); RewardItems.Add(_e0);}}
         RewardGold = _buf.ReadInt();
+        RewardExp = _buf.ReadInt();
         PostInit();
     }
 
@@ -35,38 +47,67 @@ public sealed partial class TaskConfig: Luban.BeanBase
         return new TaskConfig(_buf);
     }
 
+    public int Id { get; }
+    public string Name { get; }
     /// <summary>
-    /// Id
+    /// 任务等级
     /// </summary>
-    public int Id { get; private set; }
+    public int LimitLevel { get; }
     /// <summary>
-    /// 任务名字
+    /// 职业限制
     /// </summary>
-    public string TaskName { get; private set; }
+    public RoleClass LimitClass { get; }
     /// <summary>
-    /// 任务描述
+    /// 前置任务
     /// </summary>
-    public string TaskDesc { get; private set; }
+    public int PreTask { get; }
     /// <summary>
-    /// 任务行为类型
+    /// 后置任务
     /// </summary>
-    public int TaskActionType { get; private set; }
+    public int PostTask { get; }
     /// <summary>
-    /// 任务目标Id
+    /// 类型
     /// </summary>
-    public int TaskTargetId { get; private set; }
+    public TaskType Type { get; }
     /// <summary>
-    /// 任务目标数量
+    /// 任务接取NPC
     /// </summary>
-    public int TaskTargetCount { get; private set; }
+    public int AcceptNpc { get; }
     /// <summary>
-    /// 前置任务ID
+    /// 任务提交NPC
     /// </summary>
-    public int TaskBefore { get; private set; }
+    public int SubmitNpc { get; }
     /// <summary>
-    /// 任务奖励金币数量
+    /// 任务概述
     /// </summary>
-    public int RewardGold { get; private set; }
+    public string Overview { get; }
+    /// <summary>
+    /// 任务对话
+    /// </summary>
+    public string Dialog { get; }
+    /// <summary>
+    /// 任务接受对话
+    /// </summary>
+    public string DialogAccept { get; }
+    /// <summary>
+    /// 任务拒绝对话
+    /// </summary>
+    public string DialogDeny { get; }
+    /// <summary>
+    /// 任务未完成对话
+    /// </summary>
+    public string DialogInProgress { get; }
+    /// <summary>
+    /// 任务完成对话
+    /// </summary>
+    public string DialogFinish { get; }
+    /// <summary>
+    /// 任务目标(类型,Id,数量|...)
+    /// </summary>
+    public System.Collections.Generic.List<TaskTarget> Targets { get; }
+    public System.Collections.Generic.List<TaskReward> RewardItems { get; }
+    public int RewardGold { get; }
+    public int RewardExp { get; }
 
     public const int __ID__ = -1794275001;
     public override int GetTypeId() => __ID__;
@@ -80,13 +121,24 @@ public sealed partial class TaskConfig: Luban.BeanBase
     {
         return "{ "
         + "id:" + Id + ","
-        + "taskName:" + TaskName + ","
-        + "taskDesc:" + TaskDesc + ","
-        + "taskActionType:" + TaskActionType + ","
-        + "taskTargetId:" + TaskTargetId + ","
-        + "taskTargetCount:" + TaskTargetCount + ","
-        + "taskBefore:" + TaskBefore + ","
+        + "name:" + Name + ","
+        + "limitLevel:" + LimitLevel + ","
+        + "limitClass:" + LimitClass + ","
+        + "preTask:" + PreTask + ","
+        + "postTask:" + PostTask + ","
+        + "type:" + Type + ","
+        + "acceptNpc:" + AcceptNpc + ","
+        + "submitNpc:" + SubmitNpc + ","
+        + "overview:" + Overview + ","
+        + "dialog:" + Dialog + ","
+        + "dialogAccept:" + DialogAccept + ","
+        + "dialogDeny:" + DialogDeny + ","
+        + "dialogInProgress:" + DialogInProgress + ","
+        + "dialogFinish:" + DialogFinish + ","
+        + "targets:" + Luban.StringUtil.CollectionToString(Targets) + ","
+        + "rewardItems:" + Luban.StringUtil.CollectionToString(RewardItems) + ","
         + "rewardGold:" + RewardGold + ","
+        + "rewardExp:" + RewardExp + ","
         + "}";
     }
 }

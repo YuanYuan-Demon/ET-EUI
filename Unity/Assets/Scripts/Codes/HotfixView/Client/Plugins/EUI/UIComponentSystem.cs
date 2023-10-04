@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ET.Client
@@ -18,9 +17,9 @@ namespace ET.Client
         {
             if (self.StackWindowsQueue.Count > 0)
             {
-                WindowID windowID = self.StackWindowsQueue.Dequeue();
+                var windowID = self.StackWindowsQueue.Dequeue();
                 self.ShowWindow(windowID);
-                UIBaseWindow uiBaseWindow = self.GetUIBaseWindow(windowID);
+                var uiBaseWindow = self.GetUIBaseWindow(windowID);
                 uiBaseWindow.IsInStackQueue = true;
             }
             else
@@ -36,7 +35,7 @@ namespace ET.Client
         /// <param name="id"></param>
         private static void PopNextStackUIBaseWindow(this UIComponent self, WindowID id)
         {
-            UIBaseWindow uiBaseWindow = self.GetUIBaseWindow(id);
+            var uiBaseWindow = self.GetUIBaseWindow(id);
             if (uiBaseWindow != null && !uiBaseWindow.IsDisposed && self.IsPopStackWndStatus && uiBaseWindow.IsInStackQueue)
             {
                 uiBaseWindow.IsInStackQueue = false;
@@ -46,7 +45,7 @@ namespace ET.Client
 
         private static UIBaseWindow ReadyToShowBaseWindow(this UIComponent self, WindowID id, ShowWindowData showData = null)
         {
-            UIBaseWindow baseWindow = self.GetUIBaseWindow(id);
+            var baseWindow = self.GetUIBaseWindow(id);
             // 如果UI不存在开始实例化新的窗口
             if (null == baseWindow)
             {
@@ -69,7 +68,7 @@ namespace ET.Client
             try
             {
                 coroutineLock = await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoadUIBaseWindows, (int)id);
-                UIBaseWindow baseWindow = self.GetUIBaseWindow(id);
+                var baseWindow = self.GetUIBaseWindow(id);
                 if (null == baseWindow)
                 {
                     if (UIPathComponent.Instance.WindowPrefabPath.ContainsKey(id))
@@ -112,22 +111,15 @@ namespace ET.Client
         /// <param name="self"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        private static UIBaseWindow GetUIBaseWindow(this UIComponent self, WindowID id)
-        {
-            if (self.AllWindowsDic.ContainsKey(id))
-            {
-                return self.AllWindowsDic[id];
-            }
-
-            return null;
-        }
+        private static UIBaseWindow GetUIBaseWindow(this UIComponent self, WindowID id) =>
+                self.AllWindowsDic.TryGetValue(id, out var window)? window : null;
 
         /// <summary>
         ///     同步加载UI窗口实例
         /// </summary>
         private static void LoadBaseWindows(this UIComponent self, UIBaseWindow baseWindow)
         {
-            if (!UIPathComponent.Instance.WindowPrefabPath.TryGetValue(baseWindow.WindowID, out string value))
+            if (!UIPathComponent.Instance.WindowPrefabPath.TryGetValue(baseWindow.WindowID, out var value))
             {
                 Log.Error($"{baseWindow.WindowID} uiPath is not Exist!");
                 return;
@@ -154,7 +146,7 @@ namespace ET.Client
         /// </summary>
         private static async ETTask LoadBaseWindowsAsync(this UIComponent self, UIBaseWindow baseWindow)
         {
-            if (!UIPathComponent.Instance.WindowPrefabPath.TryGetValue(baseWindow.WindowID, out string value))
+            if (!UIPathComponent.Instance.WindowPrefabPath.TryGetValue(baseWindow.WindowID, out var value))
             {
                 Log.Error($"{baseWindow.WindowID} is not Exist!");
                 return;
@@ -201,8 +193,8 @@ namespace ET.Client
         /// <returns></returns>
         public static T GetDlgLogic<T>(this UIComponent self, bool isNeedShowState = false) where T : Entity, IUILogic
         {
-            WindowID windowsId = self.GetWindowIdByGeneric<T>();
-            UIBaseWindow baseWindow = self.GetUIBaseWindow(windowsId);
+            var windowsId = self.GetWindowIdByGeneric<T>();
+            var baseWindow = self.GetUIBaseWindow(windowsId);
             if (null == baseWindow)
             {
                 Log.Warning($"{windowsId} is not created!");
@@ -235,7 +227,7 @@ namespace ET.Client
         /// <returns></returns>
         public static WindowID GetWindowIdByGeneric<T>(this UIComponent self) where T : Entity
         {
-            if (UIPathComponent.Instance.WindowTypeIdDict.TryGetValue(typeof (T).Name, out int windowsId))
+            if (UIPathComponent.Instance.WindowTypeIdDict.TryGetValue(typeof (T).Name, out var windowsId))
             {
                 return (WindowID)windowsId;
             }
@@ -251,7 +243,7 @@ namespace ET.Client
         /// <typeparam name="T"></typeparam>
         public static void ShowStackWindow<T>(this UIComponent self) where T : Entity, IUILogic
         {
-            WindowID id = self.GetWindowIdByGeneric<T>();
+            var id = self.GetWindowIdByGeneric<T>();
             self.ShowStackWindow(id);
         }
 
@@ -280,7 +272,7 @@ namespace ET.Client
         /// <OtherParam name="showData"></OtherParam>
         public static void ShowWindow(this UIComponent self, WindowID id, ShowWindowData showData = null)
         {
-            UIBaseWindow baseWindow = self.ReadyToShowBaseWindow(id, showData);
+            var baseWindow = self.ReadyToShowBaseWindow(id, showData);
             if (null != baseWindow)
             {
                 self.RealShowWindow(baseWindow, id, showData);
@@ -295,7 +287,7 @@ namespace ET.Client
         /// <typeparam name="T"></typeparam>
         public static void ShowWindow<T>(this UIComponent self, ShowWindowData showData = null) where T : Entity, IUILogic
         {
-            WindowID windowsId = self.GetWindowIdByGeneric<T>();
+            var windowsId = self.GetWindowIdByGeneric<T>();
             self.ShowWindow(windowsId, showData);
         }
 
@@ -307,7 +299,7 @@ namespace ET.Client
         /// <param name="showData"></param>
         public static async ETTask ShowWindowAsync(this UIComponent self, WindowID id, ShowWindowData showData = null)
         {
-            UIBaseWindow baseWindow = self.GetUIBaseWindow(id);
+            var baseWindow = self.GetUIBaseWindow(id);
             try
             {
                 baseWindow = await self.ShowBaseWindowAsync(id, showData);
@@ -330,7 +322,7 @@ namespace ET.Client
         /// <typeparam name="T"></typeparam>
         public static async ETTask ShowWindowAsync<T>(this UIComponent self, ShowWindowData showData = null) where T : Entity, IUILogic
         {
-            WindowID windowsId = self.GetWindowIdByGeneric<T>();
+            var windowsId = self.GetWindowIdByGeneric<T>();
             await self.ShowWindowAsync(windowsId, showData);
         }
 
@@ -347,7 +339,7 @@ namespace ET.Client
                 return;
             }
 
-            UIBaseWindow baseWindow = self.VisibleWindowsDic[id];
+            var baseWindow = self.VisibleWindowsDic[id];
             if (baseWindow == null || baseWindow.IsDisposed)
             {
                 Log.Error($"UIBaseWindow is null  or isDisposed ,  WindowsID: {id} 失败！");
@@ -369,7 +361,7 @@ namespace ET.Client
         /// <typeparam name="T"></typeparam>
         public static void HideWindow<T>(this UIComponent self) where T : Entity
         {
-            WindowID hideWindowId = self.GetWindowIdByGeneric<T>();
+            var hideWindowId = self.GetWindowIdByGeneric<T>();
             self.HideWindow(hideWindowId);
         }
 
@@ -379,7 +371,7 @@ namespace ET.Client
         /// <OtherParam name="id"></OtherParam>
         public static void UnLoadWindow(this UIComponent self, WindowID id, bool isDispose = true)
         {
-            UIBaseWindow baseWindow = self.GetUIBaseWindow(id);
+            var baseWindow = self.GetUIBaseWindow(id);
             if (null == baseWindow)
             {
                 Log.Error($"UIBaseWindow WindowId {id} is null!!!");
@@ -409,7 +401,7 @@ namespace ET.Client
         /// <typeparam name="T"></typeparam>
         public static void UnLoadWindow<T>(this UIComponent self) where T : Entity, IUILogic
         {
-            WindowID hideWindowId = self.GetWindowIdByGeneric<T>();
+            var hideWindowId = self.GetWindowIdByGeneric<T>();
             self.UnLoadWindow(hideWindowId);
         }
 
@@ -439,7 +431,7 @@ namespace ET.Client
         /// <typeparam name="T"></typeparam>
         public static void CloseWindow<T>(this UIComponent self) where T : Entity, IUILogic
         {
-            WindowID hideWindowId = self.GetWindowIdByGeneric<T>();
+            var hideWindowId = self.GetWindowIdByGeneric<T>();
             self.CloseWindow(hideWindowId);
         }
 
@@ -455,9 +447,9 @@ namespace ET.Client
                 return;
             }
 
-            foreach (KeyValuePair<WindowID, UIBaseWindow> window in self.AllWindowsDic)
+            foreach (var window in self.AllWindowsDic)
             {
-                UIBaseWindow baseWindow = window.Value;
+                var baseWindow = window.Value;
                 if (baseWindow == null || baseWindow.IsDisposed)
                 {
                     continue;
@@ -483,7 +475,7 @@ namespace ET.Client
         {
             self.IsPopStackWndStatus = false;
             self.UIBaseWindowlistCached.Clear();
-            foreach (KeyValuePair<WindowID, UIBaseWindow> window in self.VisibleWindowsDic)
+            foreach (var window in self.VisibleWindowsDic)
             {
                 if (window.Value.windowType == UIWindowType.Fixed && !includeFixed)
                 {

@@ -6,11 +6,12 @@ namespace ClientEditor
     internal class UIEditorController
     {
         [MenuItem("Assets/EUI/SpawnEUICode", false)]
+        [MenuItem("GameObject/SpawnEUICode", false, -2)]
         public static void CreateNewCode()
         {
             // var go = Selection.activeObject as GameObject;
-            GameObject[] selectedObjs = Selection.GetFiltered<GameObject>(SelectionMode.DeepAssets);
-            foreach (GameObject go in selectedObjs)
+            var selectedObjs = Selection.GetFiltered<GameObject>(SelectionMode.DeepAssets);
+            foreach (var go in selectedObjs)
             {
                 UICodeSpawner.SpawnEUICode(go);
             }
@@ -20,15 +21,15 @@ namespace ClientEditor
         public static void NameAllUIPrefab()
         {
             var suffix = ".unity3d";
-            Object[] selectAsset = Selection.GetFiltered<Object>(SelectionMode.DeepAssets);
+            var selectAsset = Selection.GetFiltered<Object>(SelectionMode.DeepAssets);
             for (var i = 0; i < selectAsset.Length; i++)
             {
-                string prefabName = AssetDatabase.GetAssetPath(selectAsset[i]);
+                var prefabName = AssetDatabase.GetAssetPath(selectAsset[i]);
                 //MARKER：判断是否是.prefab
                 if (prefabName.EndsWith(".prefab"))
                 {
                     Debug.Log(prefabName);
-                    AssetImporter importer = AssetImporter.GetAtPath(prefabName);
+                    var importer = AssetImporter.GetAtPath(prefabName);
                     importer.assetBundleName = selectAsset[i].name.ToLower() + suffix;
                 }
             }
@@ -40,11 +41,11 @@ namespace ClientEditor
         [MenuItem("Assets/AssetBundle/ClearABName")]
         public static void ClearABName()
         {
-            Object[] selectAsset = Selection.GetFiltered<Object>(SelectionMode.DeepAssets);
+            var selectAsset = Selection.GetFiltered<Object>(SelectionMode.DeepAssets);
             for (var i = 0; i < selectAsset.Length; i++)
             {
-                string prefabName = AssetDatabase.GetAssetPath(selectAsset[i]);
-                AssetImporter importer = AssetImporter.GetAtPath(prefabName);
+                var prefabName = AssetDatabase.GetAssetPath(selectAsset[i]);
+                var importer = AssetImporter.GetAtPath(prefabName);
                 importer.assetBundleName = string.Empty;
                 Debug.Log(prefabName);
             }
