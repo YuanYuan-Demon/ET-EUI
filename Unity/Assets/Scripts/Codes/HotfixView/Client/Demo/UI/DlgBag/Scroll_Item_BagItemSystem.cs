@@ -1,4 +1,6 @@
-﻿namespace ET.Client
+﻿using UnityEngine;
+
+namespace ET.Client
 {
     [FriendOf(typeof (Scroll_Item_BagItem))]
     [FriendOf(typeof (Item))]
@@ -7,7 +9,7 @@
     {
         public static void Refresh(this Scroll_Item_BagItem self, long id)
         {
-            Item item = self.ClientScene().GetComponent<BagComponent>().GetItemById(id);
+            var item = self.ClientScene().GetComponent<BagComponent>().GetItemById(id);
             self.Refresh(item);
         }
 
@@ -25,21 +27,14 @@
             }
 
             //self.EI_QualityImage.color = item.ItemQualityColor();
-            self.EB_Select_Button.AddListenerWithId(self.OnShowItemEntryPopUpHandler, (long)item.ConfigId);
+            self.EB_Select_Button.AddListenerWithId(self.OnClickItem, item.Id);
         }
 
-        public static void OnShowItemEntryPopUpHandler(this Scroll_Item_BagItem self, long Id)
+        public static void OnClickItem(this Scroll_Item_BagItem self, long itemId)
         {
-            //Item item = self.ClientScene().GetComponent<BagComponent>().GetItemById(Id);
-            //ShowWindowData showData = new()
-            //{
-            //    contextData = new ItemPopUpData()
-            //    {
-            //        Item = item,
-            //        ItemContainerType = ItemContainerType.Bag
-            //    }
-            //};
-            //self.ShowWindow<DlgItemPopUp>(showData);
+            var item = self.ClientScene().GetComponent<BagComponent>().GetItemById(itemId);
+            var showData = new PopItemData() { Item = item, ClickPosition = Input.mousePosition };
+            UIComponent.Instance.ShowWindow<DlgPopItem>(showData);
         }
     }
 }

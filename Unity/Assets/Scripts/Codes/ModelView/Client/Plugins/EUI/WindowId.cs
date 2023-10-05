@@ -22,5 +22,6 @@ namespace ET.Client
         WindowID_Shop,
         WindowID_Register,
         WindowID_Task,
+        WindowID_PopItem,
     }
 }

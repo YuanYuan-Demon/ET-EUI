@@ -9,33 +9,38 @@
 namespace ET
 {
     /// <summary>
-    /// 道具类型
+    ///     道具类型
     /// </summary>
     public enum ItemType
     {
         /// <summary>
-        /// 全部
+        ///     全部
         /// </summary>
+        [Display("全部")]
         All = 0,
 
         /// <summary>
-        /// 装备
+        ///     装备
         /// </summary>
+        [Display("装备")]
         Equip = 1,
 
         /// <summary>
-        /// 消耗品
+        ///     消耗品
         /// </summary>
+        [Display("消耗品")]
         Consumable = 2,
 
         /// <summary>
-        /// 材料
+        ///     材料
         /// </summary>
+        [Display("材料")]
         Material = 3,
 
         /// <summary>
-        /// 坐骑
+        ///     坐骑
         /// </summary>
+        [Display("坐骑")]
         Rider = 4,
     }
 }

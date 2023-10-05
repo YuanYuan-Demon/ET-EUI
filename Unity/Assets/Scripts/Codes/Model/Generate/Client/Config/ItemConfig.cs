@@ -26,6 +26,7 @@ public sealed partial class ItemConfig: Luban.BeanBase
         Name = _buf.ReadString();
         Desc = _buf.ReadString();
         Type = (ItemType)_buf.ReadInt();
+        LimitClass = (RoleClass)_buf.ReadInt();
         Level = _buf.ReadInt();
         Icon = _buf.ReadString();
         StackLimit = _buf.ReadInt();
@@ -55,6 +56,7 @@ public sealed partial class ItemConfig: Luban.BeanBase
     /// 物品类型
     /// </summary>
     public ItemType Type { get; }
+    public RoleClass LimitClass { get; }
     /// <summary>
     /// 道具等级
     /// </summary>
@@ -91,6 +93,7 @@ public sealed partial class ItemConfig: Luban.BeanBase
         + "name:" + Name + ","
         + "desc:" + Desc + ","
         + "type:" + Type + ","
+        + "limitClass:" + LimitClass + ","
         + "level:" + Level + ","
         + "icon:" + Icon + ","
         + "stackLimit:" + StackLimit + ","

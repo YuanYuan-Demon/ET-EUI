@@ -22,6 +22,7 @@ namespace ET
             Name = _buf.ReadString();
             Desc = _buf.ReadString();
             Type = (ItemType)_buf.ReadInt();
+            LimitClass = (RoleClass)_buf.ReadInt();
             Level = _buf.ReadInt();
             Icon = _buf.ReadString();
             StackLimit = _buf.ReadInt();
@@ -49,6 +50,8 @@ namespace ET
         /// 物品类型
         /// </summary>
         public ItemType Type { get; }
+
+        public RoleClass LimitClass { get; }
 
         /// <summary>
         /// 道具等级
@@ -94,6 +97,7 @@ namespace ET
                     + "name:" + Name + ","
                     + "desc:" + Desc + ","
                     + "type:" + Type + ","
+                    + "limitClass:" + LimitClass + ","
                     + "level:" + Level + ","
                     + "icon:" + Icon + ","
                     + "stackLimit:" + StackLimit + ","

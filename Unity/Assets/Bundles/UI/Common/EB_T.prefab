@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4623163364075206138}
   - component: {fileID: 8559442492154682538}
   - component: {fileID: 5772610080186961453}
+  - component: {fileID: 8074719217037136630}
   m_Layer: 5
   m_Name: EB_T
   m_TagString: Untagged
@@ -92,6 +93,26 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8074719217037136630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344118885204063726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: 120
+  m_PreferredHeight: 40
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &2154968972940673689
 GameObject:
   m_ObjectHideFlags: 0
