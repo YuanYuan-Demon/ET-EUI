@@ -17,7 +17,7 @@ namespace ET.Client
         {
             var roleInfosComponent = clientScene.GetComponent<RoleInfosComponent>();
             var accountInfoComponent = clientScene.GetComponent<AccountInfoComponent>();
-            string realmAddress = accountInfoComponent.RealmAddress;
+            var realmAddress = accountInfoComponent.RealmAddress;
 
 #region 连接Realm服务器,获取分配的Gate服务器
 
@@ -26,7 +26,7 @@ namespace ET.Client
             R2C_LoginRealm r2c_LoginRealm;
             try
             {
-                using Session realmSession = await RouterHelper.CreateRouterSession(clientScene, NetworkHelper.ToIPEndPoint(realmAddress));
+                using var realmSession = await RouterHelper.CreateRouterSession(clientScene, NetworkHelper.ToIPEndPoint(realmAddress));
                 r2c_LoginRealm = await realmSession.Call(new C2R_LoginRealm()
                         {
                             RealmToken = accountInfoComponent.RealmToken, AccountId = accountInfoComponent.AccountId,
@@ -50,7 +50,7 @@ namespace ET.Client
 
 #region 连接Gate网关服务器
 
-            Session gateSession = await RouterHelper.CreateRouterSession(clientScene, NetworkHelper.ToIPEndPoint(r2c_LoginRealm.GateAddress));
+            var gateSession = await RouterHelper.CreateRouterSession(clientScene, NetworkHelper.ToIPEndPoint(r2c_LoginRealm.GateAddress));
             clientScene.GetComponent<SessionComponent>().Session = gateSession;
 
             G2C_LoginGameGate g2c_LoginGameGate;
@@ -80,7 +80,7 @@ namespace ET.Client
 #region 角色正式请求进入游戏逻辑服
 
             G2C_EnterGame g2c_EnterGameResponse;
-            ETTask<Wait_SceneChangeFinish> wait = clientScene.GetComponent<ObjectWait>().Wait<Wait_SceneChangeFinish>();
+            var wait = clientScene.GetComponent<ObjectWait>().Wait<Wait_SceneChangeFinish>();
             try
             {
                 g2c_EnterGameResponse = await gateSession.Call(new C2G_EnterGame()) as G2C_EnterGame;
@@ -130,7 +130,7 @@ namespace ET.Client
                 //IPEndPoint realmAddress = routerAddressComponent.GetRealmAddress(account);
                 IPEndPoint accountAddress = new(IPAddress.Parse(ConstValue.AccountHost), ConstValue.AccountPort);
 
-                Session session = await RouterHelper.CreateRouterSession(clientScene, accountAddress);
+                var session = await RouterHelper.CreateRouterSession(clientScene, accountAddress);
                 var response = await session.Call(new C2A_LoginAccount()
                 {
                     AccountName = account, Password = MD5Helper.StringMD5(password), //密码使用加密传输
@@ -175,7 +175,7 @@ namespace ET.Client
                 //IPEndPoint realmAddress = routerAddressComponent.GetRealmAddress(account);
                 IPEndPoint accountAddress = new(IPAddress.Parse(ConstValue.AccountHost), ConstValue.AccountPort);
 
-                using Session session = await RouterHelper.CreateRouterSession(clientScene, accountAddress);
+                using var session = await RouterHelper.CreateRouterSession(clientScene, accountAddress);
                 var response = await session.Call(new C2A_RegisterAccount()
                 {
                     AccountName = account, Password = MD5Helper.StringMD5(password), //密码使用加密传输
@@ -222,7 +222,7 @@ namespace ET.Client
             {
                 //记录服务器列表信息
                 var serverInfoComponent = zoneScene.GetComponent<ServerInfosComponent>();
-                foreach (NServerInfo nServerInfo in response.NServerInfos)
+                foreach (var nServerInfo in response.NServerInfos)
                 {
                     var serverInfo = serverInfoComponent.AddChild<ServerInfo>();
                     serverInfo.FromNServerInfo(nServerInfo);
@@ -314,18 +314,19 @@ namespace ET.Client
         /// <param name="roleName"> 角色名 </param>
         /// <param name="roleClass"></param>
         /// <returns> 状态码 </returns>
-        public static async ETTask<int> CreateRole(Scene zoneScene, string roleName, RoleClass roleClass)
+        public static async ETTask<int> CreateRole(Scene zoneScene, string roleName, int configId)
         {
             A2C_CreateRole response;
             try
             {
+                var config = UnitConfigCategory.Instance.Get(configId);
                 response = await zoneScene.GetSession().Call(new C2A_CreateRole()
                 {
                     AccountId = zoneScene.GetComponent<AccountInfoComponent>().AccountId,
                     Token = zoneScene.GetComponent<AccountInfoComponent>().Token,
                     Name = roleName,
                     ServerId = zoneScene.GetComponent<ServerInfosComponent>().CurServerId,
-                    RoleClass = roleClass,
+                    ConfigId = configId,
                 }) as A2C_CreateRole;
             }
             catch (Exception e)

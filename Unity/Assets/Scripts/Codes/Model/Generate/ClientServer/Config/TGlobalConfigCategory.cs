@@ -60,6 +60,11 @@ namespace ET
         /// </summary>
         public int SessionTimeoutTime => _data.SessionTimeoutTime;
 
+        /// <summary>
+        /// 出生位置
+        /// </summary>
+        public MyFloat3 BornPosition => _data.BornPosition;
+
         public override void Resolve(Dictionary<Type, IConfigSingleton> tables)
         {
             _data.Resolve(tables);

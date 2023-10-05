@@ -2,7 +2,7 @@
 {
     [FriendOf(typeof (EquipmentsComponent))]
     [FriendOf(typeof (EquipInfoComponent))]
-    public static class EquipmentsComponentSystem
+    public static class CEquipmentsComponentSystem
     {
         public static void Clear(this EquipmentsComponent self)
         {
@@ -18,10 +18,7 @@
 
         public class EquipmentsComponentDestrory: DestroySystem<EquipmentsComponent>
         {
-            protected override void Destroy(EquipmentsComponent self)
-            {
-                self.Clear();
-            }
+            protected override void Destroy(EquipmentsComponent self) => self.Clear();
         }
 
 #endregion 生命周期
@@ -30,7 +27,7 @@
 
         public static Item GetItemById(this EquipmentsComponent self, long itemId)
         {
-            if (self.Children.TryGetValue(itemId, out Entity entity))
+            if (self.Children.TryGetValue(itemId, out var entity))
             {
                 return entity as Item;
             }
@@ -38,20 +35,18 @@
             return null;
         }
 
-        public static Item GetItemByPosition(this EquipmentsComponent self, EquipPosition equipPosition)
-        {
-            return self.EquipedItems.TryGetValue(equipPosition, out Item item)? item : null;
-        }
+        public static Item GetItemByPosition(this EquipmentsComponent self, EquipPosition equipPosition) =>
+                self.EquipedItems.TryGetValue(equipPosition, out var item)? item : null;
 
         /// <summary>
-        /// 对应位置处是否有装配Item
+        ///     对应位置处是否有装配Item
         /// </summary>
         /// <param name="self"></param>
         /// <param name="equipPosition"></param>
         /// <returns></returns>
         public static bool IsEquipItemByPosition(this EquipmentsComponent self, EquipPosition equipPosition)
         {
-            self.EquipedItems.TryGetValue(equipPosition, out Item item);
+            self.EquipedItems.TryGetValue(equipPosition, out var item);
             return item != null && !item.IsDisposed;
         }
 
@@ -61,8 +56,8 @@
 
         public static void AddEquipItem(this EquipmentsComponent self, Item item)
         {
-            EquipPosition equipPosition = (EquipPosition)item.GetComponent<EquipInfoComponent>().Config.EquipPosition;
-            if (self.EquipedItems.TryGetValue(equipPosition, out Item equipItem))
+            var equipPosition = item.GetComponent<EquipInfoComponent>().Config.EquipPosition;
+            if (self.EquipedItems.TryGetValue(equipPosition, out var equipItem))
             {
                 Log.Error($"当前位置[{equipPosition}]已装备[{equipItem.Config.Name}][{equipItem.Config.Id}]");
                 return;
@@ -74,7 +69,7 @@
 
         public static bool UnloadEquipItem(this EquipmentsComponent self, Item item)
         {
-            EquipPosition equipPosition = (EquipPosition)item.GetComponent<EquipInfoComponent>().Config.EquipPosition;
+            var equipPosition = item.GetComponent<EquipInfoComponent>().Config.EquipPosition;
             self.EquipedItems.Remove(equipPosition);
             item?.Dispose();
             return true;

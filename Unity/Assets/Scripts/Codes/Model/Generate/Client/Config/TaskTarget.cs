@@ -12,8 +12,10 @@ using System.Collections.Generic;
 using ET.Luban;
 
 
+
 namespace ET.Client
 {
+
 
 public sealed partial class TaskTarget: Luban.BeanBase
 {

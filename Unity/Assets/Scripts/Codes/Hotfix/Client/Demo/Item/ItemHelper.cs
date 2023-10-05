@@ -10,32 +10,29 @@
                     ZoneScene?.GetComponent<BagComponent>()?.Clear();
                     break;
 
-                case ItemContainerType.RoleInfo:
+                case ItemContainerType.Equip:
                     ZoneScene?.GetComponent<EquipmentsComponent>()?.Clear();
                     break;
             }
         }
 
-        public static Item GetItem(Scene ZoneScene, long itemId, ItemContainerType itemContainerType)
+        public static Item GetItem(Scene ZoneScene, long itemId, ItemContainerType itemContainerType) => itemContainerType switch
         {
-            return itemContainerType switch
-            {
-                ItemContainerType.Bag => ZoneScene.GetComponent<BagComponent>().GetItemById(itemId),
-                ItemContainerType.RoleInfo => ZoneScene.GetComponent<EquipmentsComponent>().GetItemById(itemId),
-                _ => null,
-            };
-        }
+            ItemContainerType.Bag => ZoneScene.GetComponent<BagComponent>().GetItemById(itemId),
+            ItemContainerType.Equip => ZoneScene.GetComponent<EquipmentsComponent>().GetItemById(itemId),
+            _ => null,
+        };
 
         public static void AddItem(Scene ZoneScene, ItemInfo itemInfo, ItemContainerType itemContainerType)
         {
-            Item item = ItemFactory.Create(ZoneScene, itemInfo);
+            var item = ItemFactory.Create(ZoneScene, itemInfo);
             switch (itemContainerType)
             {
                 case ItemContainerType.Bag:
                     ZoneScene.GetComponent<BagComponent>().AddItem(item);
                     break;
 
-                case ItemContainerType.RoleInfo:
+                case ItemContainerType.Equip:
                     ZoneScene.GetComponent<EquipmentsComponent>().AddEquipItem(item);
                     break;
             }
@@ -57,14 +54,14 @@
 
         public static void RemoveItemById(Scene ZoneScene, long itemId, ItemContainerType itemContainerType)
         {
-            Item item = GetItem(ZoneScene, itemId, itemContainerType);
+            var item = GetItem(ZoneScene, itemId, itemContainerType);
             switch (itemContainerType)
             {
                 case ItemContainerType.Bag:
                     ZoneScene.GetComponent<BagComponent>().RemoveItem(item);
                     break;
 
-                case ItemContainerType.RoleInfo:
+                case ItemContainerType.Equip:
                     ZoneScene.GetComponent<EquipmentsComponent>().UnloadEquipItem(item);
                     break;
             }
@@ -78,7 +75,7 @@
                     ZoneScene.GetComponent<BagComponent>().RemoveItem(item);
                     break;
 
-                case ItemContainerType.RoleInfo:
+                case ItemContainerType.Equip:
                     ZoneScene.GetComponent<EquipmentsComponent>().UnloadEquipItem(item);
                     break;
             }

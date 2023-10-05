@@ -35,8 +35,11 @@ namespace ET.Client
         {
             self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId = self.DataId;
             self.EI_Bg_Image.color = Color.red;
-            EventSystem.Instance.Publish(self.ClientScene(), new SelectRole { RoleId = self.DataId });
-            EventSystem.Instance.Publish(self.ClientScene(), new SelectRoleClass() { RoleClass = self.RoleInfo.RoleClass });
+            if (self.RoleInfo is not null)
+            {
+                EventSystem.Instance.Publish(self.ClientScene(), new SelectRole { RoleId = self.DataId });
+                EventSystem.Instance.Publish(self.ClientScene(), new SelectRoleClass() { RoleClass = self.RoleInfo.RoleClass });
+            }
         }
     }
 }

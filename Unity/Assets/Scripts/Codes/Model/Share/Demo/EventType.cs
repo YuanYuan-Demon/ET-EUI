@@ -41,6 +41,7 @@
     public struct AfterUnitCreate
     {
         public Unit Unit;
+        public string Prefab;
     }
 
     public struct SelectRole

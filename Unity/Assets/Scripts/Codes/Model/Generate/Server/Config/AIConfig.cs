@@ -12,8 +12,10 @@ using System.Collections.Generic;
 using ET.Luban;
 
 
+
 namespace ET
 {
+
 
 public sealed partial class AIConfig: Luban.BeanBase
 {

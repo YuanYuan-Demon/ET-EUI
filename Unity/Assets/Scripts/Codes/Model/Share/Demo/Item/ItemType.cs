@@ -15,7 +15,7 @@
     /// </summary>
     public enum ItemContainerType
     {
-        Bag,      //背包容器
-        RoleInfo, //游戏角色装配容器
+        Bag,   //背包容器
+        Equip, //游戏角色装配容器
     }
 }

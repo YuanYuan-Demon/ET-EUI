@@ -17,30 +17,30 @@
         }
 
         /// <summary>
-        /// 创建随机词条
+        ///     创建随机词条
         /// </summary>
         /// <param name="self">装备信息组件</param>
         public static void CreateEntry(this EquipInfoComponent self)
         {
-            Item item = self.GetParent<Item>();
+            var item = self.GetParent<Item>();
 
             var equipConfig = EquipConfigCategory.Instance.Get(item.ConfigId);
 
-            EntryRandomConfig entryRandomConfig = EntryRandomConfigCategory.Instance.Get(equipConfig.EntryRandomId);
+            var entryRandomConfig = EntryRandomConfigCategory.Instance.Get(equipConfig.EntryRandomId);
 
-            int quality = item.GetComponent<EquipInfoComponent>().Quality;
+            var quality = item.GetComponent<EquipInfoComponent>().Quality;
             //创建普通词条
-            int entryCount = RandomHelper.RandomInt32(entryRandomConfig.EntryRandMinCount + quality, entryRandomConfig.EntryRandMaxCount + quality);
-            for (int i = 0; i < entryCount; i++)
+            var entryCount = RandomHelper.RandomInt32(entryRandomConfig.EntryRandMinCount + quality, entryRandomConfig.EntryRandMaxCount + quality);
+            for (var i = 0; i < entryCount; i++)
             {
-                EntryConfig entryConfig =
+                var entryConfig =
                         EntryConfigCategory.Instance.GetRandomEntryConfigByLevel((int)EntryType.Common, entryRandomConfig.EntryLevel);
                 if (entryConfig == null)
                 {
                     continue;
                 }
 
-                AttributeEntry attributeEntry = self.AddChild<AttributeEntry>();
+                var attributeEntry = self.AddChild<AttributeEntry>();
                 attributeEntry.EntryType = EntryType.Common;
                 attributeEntry.AttributeType = entryConfig.AttributeType;
                 attributeEntry.AttributeValue = RandomHelper.RandomInt32(entryConfig.AttributeMinValue, entryConfig.AttributeMaxValue + quality);
@@ -50,16 +50,16 @@
 
             //创建特殊词条
             entryCount = RandomHelper.RandomInt32(entryRandomConfig.SpecialEntryRandMinCount, entryRandomConfig.SpecialEntryRandMaxCount);
-            for (int i = 0; i < entryCount; i++)
+            for (var i = 0; i < entryCount; i++)
             {
-                EntryConfig entryConfig =
+                var entryConfig =
                         EntryConfigCategory.Instance.GetRandomEntryConfigByLevel((int)EntryType.Special, entryRandomConfig.SpecialEntryLevel);
                 if (entryConfig == null)
                 {
                     continue;
                 }
 
-                AttributeEntry attributeEntry = self.AddChild<AttributeEntry>();
+                var attributeEntry = self.AddChild<AttributeEntry>();
                 attributeEntry.EntryType = EntryType.Special;
                 attributeEntry.AttributeType = entryConfig.AttributeType;
                 attributeEntry.AttributeValue = RandomHelper.RandomInt32(entryConfig.AttributeMinValue, entryConfig.AttributeMaxValue);
@@ -70,8 +70,8 @@
 
         public static EquipInfoProto ToMessage(this EquipInfoComponent self)
         {
-            EquipInfoProto equipInfoProto = new() { Id = self.Id, Score = self.Score, Quality = self.Quality, };
-            for (int i = 0; i < self.EntryList.Count; i++)
+            EquipInfoProto equipInfoProto = new() { Id = self.Id, Score = self.Score, Quality = self.Quality };
+            for (var i = 0; i < self.EntryList.Count; i++)
             {
                 equipInfoProto.AttributeEntryList.Add(self.EntryList[i].ToMessage());
             }
@@ -81,7 +81,7 @@
 
         public static void RandomQuality(this EquipInfoComponent self)
         {
-            int rate = RandomHelper.RandomInt32(10000);
+            var rate = RandomHelper.RandomInt32(10000);
             switch (rate)
             {
                 case < 4000:

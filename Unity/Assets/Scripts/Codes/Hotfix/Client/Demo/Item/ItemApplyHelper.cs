@@ -15,7 +15,7 @@ namespace ET.Client
         /// <returns></returns>
         public static async ETTask<int> SellBagItem(Scene clientScene, long itemId)
         {
-            Item item = ItemHelper.GetItem(clientScene, itemId, ItemContainerType.Bag);
+            var item = ItemHelper.GetItem(clientScene, itemId, ItemContainerType.Bag);
 
             if (item == null)
             {
@@ -49,7 +49,7 @@ namespace ET.Client
         /// <returns></returns>
         public static async ETTask<int> EquipItem(Scene ZoneScene, long itemId)
         {
-            Item item = ItemHelper.GetItem(ZoneScene, itemId, ItemContainerType.Bag);
+            var item = ItemHelper.GetItem(ZoneScene, itemId, ItemContainerType.Bag);
 
             if (item == null)
             {
@@ -77,9 +77,9 @@ namespace ET.Client
         /// <param name="ZoneScene"></param>
         /// <param name="itemId"></param>
         /// <returns></returns>
-        public static async ETTask<int> UnloadEquipItem(Scene ZoneScene, long itemId)
+        public static async ETTask<int> UnEquipItem(Scene ZoneScene, long itemId)
         {
-            Item item = ItemHelper.GetItem(ZoneScene, itemId, ItemContainerType.RoleInfo);
+            var item = ItemHelper.GetItem(ZoneScene, itemId, ItemContainerType.Equip);
             if (item == null)
             {
                 return ErrorCode.ERR_ItemNotExist;

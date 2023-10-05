@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
 
 namespace ET.Server
 {
@@ -21,15 +20,14 @@ namespace ET.Server
                 Numeric = nc.NumericDic.ToDictionary(pair => pair.Key, pair => pair.Value),
                 NRoleInfo = unit.GetComponent<RoleInfo>().ToNRoleInfo(false),
             };
-
             var moveComponent = unit.GetComponent<MoveComponent>();
             if (moveComponent != null && !moveComponent.IsArrived())
             {
                 unitInfo.MoveInfo = new() { Targets = new() };
                 unitInfo.MoveInfo.Targets.Add(unit.Position);
-                for (int i = moveComponent.N; i < moveComponent.Targets.Count; ++i)
+                for (var i = moveComponent.N; i < moveComponent.Targets.Count; ++i)
                 {
-                    float3 pos = moveComponent.Targets[i];
+                    var pos = moveComponent.Targets[i];
                     unitInfo.MoveInfo.Targets.Add(pos);
                 }
             }

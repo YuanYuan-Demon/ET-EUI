@@ -14,6 +14,7 @@
             self.Level = nRoleInfo.Level;
             self.LastLoginTIme = nRoleInfo.LastLoginTIme;
             self.CreateTime = nRoleInfo.CreateTime;
+            self.ConfigId = nRoleInfo.ConfigId;
         }
 
         public static NRoleInfo ToNRoleInfo(this RoleInfo self, bool isSelf = true)
@@ -28,6 +29,7 @@
                 Status = self.Status,
                 LastLoginTIme = self.LastLoginTIme,
                 CreateTime = self.CreateTime,
+                ConfigId = self.ConfigId,
             };
             if (isSelf)
             {

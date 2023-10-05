@@ -21,18 +21,19 @@ namespace ET
             Id = _buf.ReadInt();
             Name = _buf.ReadString();
             EquipPosition = (EquipPosition)_buf.ReadInt();
-            Role = _buf.ReadString();
-            MaxHp = _buf.ReadInt();
-            MaxMp = _buf.ReadInt();
-            Strength = _buf.ReadInt();
-            Intelligence = _buf.ReadInt();
-            Agility = _buf.ReadInt();
-            AD = _buf.ReadInt();
-            AP = _buf.ReadInt();
-            DEF = _buf.ReadInt();
-            MDEF = _buf.ReadInt();
-            Rate = _buf.ReadInt();
-            CRI = _buf.ReadInt();
+            Role = (RoleClass)_buf.ReadInt();
+            {
+                int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);
+                Attributes = new System.Collections.Generic.Dictionary<NumericType, long>(n0 * 3 / 2);
+                for (var i0 = 0; i0 < n0; i0++)
+                {
+                    NumericType _k0;
+                    _k0 = (NumericType)_buf.ReadInt();
+                    long _v0;
+                    _v0 = _buf.ReadLong();
+                    Attributes.Add(_k0, _v0);
+                }
+            }
             EntryRandomId = _buf.ReadInt();
             PostInit();
         }
@@ -55,62 +56,9 @@ namespace ET
         /// <summary>
         /// 职业
         /// </summary>
-        public string Role { get; }
+        public RoleClass Role { get; }
 
-        /// <summary>
-        /// 生命
-        /// </summary>
-        public int MaxHp { get; }
-
-        /// <summary>
-        /// 法力
-        /// </summary>
-        public int MaxMp { get; }
-
-        /// <summary>
-        /// 力量
-        /// </summary>
-        public int Strength { get; }
-
-        /// <summary>
-        /// 智力
-        /// </summary>
-        public int Intelligence { get; }
-
-        /// <summary>
-        /// 敏捷
-        /// </summary>
-        public int Agility { get; }
-
-        /// <summary>
-        /// 物理攻击
-        /// </summary>
-        public int AD { get; }
-
-        /// <summary>
-        /// 法术攻击
-        /// </summary>
-        public int AP { get; }
-
-        /// <summary>
-        /// 物理防御
-        /// </summary>
-        public int DEF { get; }
-
-        /// <summary>
-        /// 法术防御
-        /// </summary>
-        public int MDEF { get; }
-
-        /// <summary>
-        /// 攻击速度
-        /// </summary>
-        public int Rate { get; }
-
-        /// <summary>
-        /// 暴击概率
-        /// </summary>
-        public int CRI { get; }
+        public System.Collections.Generic.Dictionary<NumericType, long> Attributes { get; }
 
         /// <summary>
         /// 词条随机Id
@@ -136,17 +84,7 @@ namespace ET
                     + "name:" + Name + ","
                     + "equipPosition:" + EquipPosition + ","
                     + "role:" + Role + ","
-                    + "maxHp:" + MaxHp + ","
-                    + "maxMp:" + MaxMp + ","
-                    + "strength:" + Strength + ","
-                    + "intelligence:" + Intelligence + ","
-                    + "agility:" + Agility + ","
-                    + "aD:" + AD + ","
-                    + "aP:" + AP + ","
-                    + "dEF:" + DEF + ","
-                    + "mDEF:" + MDEF + ","
-                    + "rate:" + Rate + ","
-                    + "cRI:" + CRI + ","
+                    + "attributes:" + Luban.StringUtil.CollectionToString(Attributes) + ","
                     + "entryRandomId:" + EntryRandomId + ","
                     + "}";
         }

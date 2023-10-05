@@ -2,7 +2,7 @@ namespace ET.Client.EventType
 {
 #region 装备系统
 
-    public struct EquipItem
+    public struct ChangeEquipItem
     {
         public EquipPosition EquipPosition;
     }

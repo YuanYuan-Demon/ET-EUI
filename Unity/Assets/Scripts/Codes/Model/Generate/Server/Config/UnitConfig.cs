@@ -12,8 +12,10 @@ using System.Collections.Generic;
 using ET.Luban;
 
 
+
 namespace ET
 {
+
 
 public sealed partial class UnitConfig: Luban.BeanBase
 {
@@ -29,21 +31,7 @@ public sealed partial class UnitConfig: Luban.BeanBase
         AIType = _buf.ReadString();
         Height = _buf.ReadLong();
         Radius = _buf.ReadLong();
-        Speed = _buf.ReadInt();
-        MaxHp = _buf.ReadLong();
-        MaxMp = _buf.ReadLong();
-        GrowthStr = _buf.ReadLong();
-        GrowthInt = _buf.ReadLong();
-        GrowthAgi = _buf.ReadLong();
-        STR = _buf.ReadLong();
-        INT = _buf.ReadLong();
-        DEX = _buf.ReadLong();
-        AD = _buf.ReadLong();
-        AP = _buf.ReadLong();
-        DEF = _buf.ReadLong();
-        MDEF = _buf.ReadLong();
-        SPD = _buf.ReadLong();
-        CRI = _buf.ReadLong();
+        {int n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);Attributes = new System.Collections.Generic.Dictionary<NumericType, long>(n0 * 3 / 2);for(var i0 = 0 ; i0 < n0 ; i0++) { NumericType _k0;  _k0 = (NumericType)_buf.ReadInt(); long _v0;  _v0 = _buf.ReadLong();     Attributes.Add(_k0, _v0);}}
         PostInit();
     }
 
@@ -85,66 +73,7 @@ public sealed partial class UnitConfig: Luban.BeanBase
     /// 体积半径
     /// </summary>
     public long Radius { get; }
-    /// <summary>
-    /// 速度
-    /// </summary>
-    public int Speed { get; }
-    /// <summary>
-    /// 生命
-    /// </summary>
-    public long MaxHp { get; }
-    /// <summary>
-    /// 法力
-    /// </summary>
-    public long MaxMp { get; }
-    /// <summary>
-    /// 力量成长
-    /// </summary>
-    public long GrowthStr { get; }
-    /// <summary>
-    /// 智力成长
-    /// </summary>
-    public long GrowthInt { get; }
-    /// <summary>
-    /// 敏捷成长
-    /// </summary>
-    public long GrowthAgi { get; }
-    /// <summary>
-    /// 力量
-    /// </summary>
-    public long STR { get; }
-    /// <summary>
-    /// 智力
-    /// </summary>
-    public long INT { get; }
-    /// <summary>
-    /// 敏捷
-    /// </summary>
-    public long DEX { get; }
-    /// <summary>
-    /// 物理攻击
-    /// </summary>
-    public long AD { get; }
-    /// <summary>
-    /// 法术攻击
-    /// </summary>
-    public long AP { get; }
-    /// <summary>
-    /// 物理防御
-    /// </summary>
-    public long DEF { get; }
-    /// <summary>
-    /// 法术防御
-    /// </summary>
-    public long MDEF { get; }
-    /// <summary>
-    /// 攻击速度
-    /// </summary>
-    public long SPD { get; }
-    /// <summary>
-    /// 暴击概率(1/10000)
-    /// </summary>
-    public long CRI { get; }
+    public System.Collections.Generic.Dictionary<NumericType, long> Attributes { get; }
 
     public const int __ID__ = -568528378;
     public override int GetTypeId() => __ID__;
@@ -166,21 +95,7 @@ public sealed partial class UnitConfig: Luban.BeanBase
         + "aIType:" + AIType + ","
         + "height:" + Height + ","
         + "radius:" + Radius + ","
-        + "speed:" + Speed + ","
-        + "maxHp:" + MaxHp + ","
-        + "maxMp:" + MaxMp + ","
-        + "growthStr:" + GrowthStr + ","
-        + "growthInt:" + GrowthInt + ","
-        + "growthAgi:" + GrowthAgi + ","
-        + "STR:" + STR + ","
-        + "INT:" + INT + ","
-        + "DEX:" + DEX + ","
-        + "AD:" + AD + ","
-        + "AP:" + AP + ","
-        + "DEF:" + DEF + ","
-        + "MDEF:" + MDEF + ","
-        + "SPD:" + SPD + ","
-        + "CRI:" + CRI + ","
+        + "attributes:" + Luban.StringUtil.CollectionToString(Attributes) + ","
         + "}";
     }
 }

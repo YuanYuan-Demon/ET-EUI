@@ -10,15 +10,15 @@ namespace ET.Client
     {
         protected override async ETTask Run(Scene scene, AfterUnitCreate args)
         {
-            Unit unit = args.Unit;
+            var unit = args.Unit;
             //unit.Config
             // Unit View层
             // 这里可以改成异步加载，demo就不搞了
             var bundleUnitGO = ResourcesComponent.Instance.GetAsset($"Unit.unity3d", "Unit") as GameObject;
-            var prefab = bundleUnitGO.Get<GameObject>("Warrior");
+            var prefab = bundleUnitGO.Get<GameObject>(args.Prefab);
 
-            GameObject unitGO = UnityEngine.Object.Instantiate(bundleUnitGO, GlobalComponent.Instance.Unit, true);
-            GameObject modelGO = UnityEngine.Object.Instantiate(prefab, unitGO.transform, true);
+            var unitGO = UnityEngine.Object.Instantiate(bundleUnitGO, GlobalComponent.Instance.Unit, true);
+            var modelGO = UnityEngine.Object.Instantiate(prefab, unitGO.transform, true);
 
             unitGO.transform.position = unit.Position;
             unit.AddComponent<GameObjectComponent>().GameObject = unitGO;

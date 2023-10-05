@@ -39,7 +39,7 @@
 
         public static void SyncAllEquipItems(Unit unit)
         {
-            M2C_AllItemsList m2CAllItemsList = new() { ContainerType = ItemContainerType.RoleInfo };
+            M2C_AllItemsList m2CAllItemsList = new() { ContainerType = ItemContainerType.Equip };
             var ec = unit.GetComponent<EquipmentsComponent>();
             ec ??= unit.AddComponent<EquipmentsComponent>();
             foreach (var item in ec.EquipedItems.Values)

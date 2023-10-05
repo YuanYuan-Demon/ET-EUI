@@ -642,6 +642,9 @@ namespace ET
 		[ProtoMember(9)]
 		public long CreateTime { get; set; }
 
+		[ProtoMember(10)]
+		public int ConfigId { get; set; }
+
 	}
 
 	[ResponseType(nameof(A2C_GetRoles))]
@@ -702,7 +705,7 @@ namespace ET
 		public string Name { get; set; }
 
 		[ProtoMember(5)]
-		public RoleClass RoleClass { get; set; }
+		public int ConfigId { get; set; }
 
 	}
 

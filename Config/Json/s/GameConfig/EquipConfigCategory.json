@@ -3,756 +3,1290 @@
     "id": 1001,
     "name": "铁剑",
     "equip_position": 5,
-    "role": "战士",
-    "max_hp": 120,
-    "max_mp": 0,
-    "strength": 30,
-    "intelligence": 8,
-    "agility": 8,
-    "a_d": 60,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 200,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        120
+      ],
+      [
+        3001,
+        30
+      ],
+      [
+        3004,
+        8
+      ],
+      [
+        3003,
+        8
+      ],
+      [
+        10032,
+        60
+      ],
+      [
+        10152,
+        200
+      ]
+    ],
     "entry_random_id": 1
   },
   {
     "id": 1002,
     "name": "铁盾",
     "equip_position": 6,
-    "role": "战士",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 20,
-    "intelligence": 0,
-    "agility": 0,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 15,
-    "m_d_e_f": 15,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3001,
+        20
+      ],
+      [
+        10112,
+        15
+      ],
+      [
+        10132,
+        15
+      ]
+    ],
     "entry_random_id": 1
   },
   {
     "id": 1003,
     "name": "铁头盔",
     "equip_position": 1,
-    "role": "战士",
-    "max_hp": 50,
-    "max_mp": 0,
-    "strength": 10,
-    "intelligence": 5,
-    "agility": 5,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 10,
-    "m_d_e_f": 10,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        50
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        5
+      ],
+      [
+        3003,
+        5
+      ],
+      [
+        10112,
+        10
+      ],
+      [
+        10132,
+        10
+      ]
+    ],
     "entry_random_id": 1
   },
   {
     "id": 1004,
     "name": "铁胸甲",
     "equip_position": 2,
-    "role": "战士",
-    "max_hp": 50,
-    "max_mp": 0,
-    "strength": 10,
-    "intelligence": 5,
-    "agility": 5,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 10,
-    "m_d_e_f": 10,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        50
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        5
+      ],
+      [
+        3003,
+        5
+      ],
+      [
+        10112,
+        10
+      ],
+      [
+        10132,
+        10
+      ]
+    ],
     "entry_random_id": 1
   },
   {
     "id": 1005,
     "name": "铁肩膀",
     "equip_position": 4,
-    "role": "战士",
-    "max_hp": 80,
-    "max_mp": 80,
-    "strength": 10,
-    "intelligence": 5,
-    "agility": 5,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        80
+      ],
+      [
+        10022,
+        80
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        5
+      ],
+      [
+        3003,
+        5
+      ]
+    ],
     "entry_random_id": 1
   },
   {
     "id": 1006,
     "name": "铁裤",
     "equip_position": 7,
-    "role": "战士",
-    "max_hp": 50,
-    "max_mp": 0,
-    "strength": 10,
-    "intelligence": 5,
-    "agility": 5,
-    "a_d": 30,
-    "a_p": 15,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 100,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        50
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        5
+      ],
+      [
+        3003,
+        5
+      ],
+      [
+        10032,
+        30
+      ],
+      [
+        10042,
+        15
+      ]
+    ],
     "entry_random_id": 1
   },
   {
     "id": 1007,
     "name": "铁靴",
     "equip_position": 3,
-    "role": "战士",
-    "max_hp": 80,
-    "max_mp": 80,
-    "strength": 0,
-    "intelligence": 0,
-    "agility": 0,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 100,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        80
+      ],
+      [
+        10022,
+        80
+      ],
+      [
+        10152,
+        100
+      ]
+    ],
     "entry_random_id": 1
   },
   {
     "id": 2001,
     "name": "桃木法杖",
     "equip_position": 5,
-    "role": "法师",
-    "max_hp": 120,
-    "max_mp": 0,
-    "strength": 8,
-    "intelligence": 30,
-    "agility": 8,
-    "a_d": 0,
-    "a_p": 60,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 200,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        120
+      ],
+      [
+        3001,
+        8
+      ],
+      [
+        3004,
+        30
+      ],
+      [
+        3003,
+        8
+      ],
+      [
+        10042,
+        60
+      ],
+      [
+        10152,
+        200
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 2002,
     "name": "牛皮法典",
     "equip_position": 6,
-    "role": "法师",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 0,
-    "intelligence": 20,
-    "agility": 0,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 15,
-    "m_d_e_f": 15,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3004,
+        20
+      ],
+      [
+        10112,
+        15
+      ],
+      [
+        10132,
+        15
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 2003,
     "name": "布巾",
     "equip_position": 1,
-    "role": "法师",
-    "max_hp": 50,
-    "max_mp": 0,
-    "strength": 5,
-    "intelligence": 10,
-    "agility": 5,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 10,
-    "m_d_e_f": 10,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        50
+      ],
+      [
+        3001,
+        5
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        5
+      ],
+      [
+        10112,
+        10
+      ],
+      [
+        10132,
+        10
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 2004,
     "name": "布衣",
     "equip_position": 2,
-    "role": "法师",
-    "max_hp": 50,
-    "max_mp": 0,
-    "strength": 5,
-    "intelligence": 10,
-    "agility": 5,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 10,
-    "m_d_e_f": 10,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        50
+      ],
+      [
+        3001,
+        5
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        5
+      ],
+      [
+        10112,
+        10
+      ],
+      [
+        10132,
+        10
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 2005,
     "name": "布肩",
     "equip_position": 4,
-    "role": "法师",
-    "max_hp": 80,
-    "max_mp": 80,
-    "strength": 5,
-    "intelligence": 10,
-    "agility": 5,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        80
+      ],
+      [
+        10022,
+        80
+      ],
+      [
+        3001,
+        5
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        5
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 2006,
     "name": "布裤",
     "equip_position": 7,
-    "role": "法师",
-    "max_hp": 50,
-    "max_mp": 0,
-    "strength": 5,
-    "intelligence": 10,
-    "agility": 5,
-    "a_d": 15,
-    "a_p": 30,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 100,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        50
+      ],
+      [
+        3001,
+        5
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        5
+      ],
+      [
+        10032,
+        15
+      ],
+      [
+        10042,
+        30
+      ],
+      [
+        10152,
+        100
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 2007,
     "name": "布靴",
     "equip_position": 3,
-    "role": "法师",
-    "max_hp": 80,
-    "max_mp": 80,
-    "strength": 0,
-    "intelligence": 0,
-    "agility": 0,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 100,
-    "c_r_i": 100,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        80
+      ],
+      [
+        10022,
+        80
+      ],
+      [
+        10192,
+        100
+      ],
+      [
+        10152,
+        100
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 3001,
     "name": "木弓",
     "equip_position": 5,
-    "role": "弓箭手",
-    "max_hp": 120,
-    "max_mp": 0,
-    "strength": 8,
-    "intelligence": 8,
-    "agility": 30,
-    "a_d": 60,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 200,
-    "c_r_i": 200,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        120
+      ],
+      [
+        3001,
+        8
+      ],
+      [
+        3004,
+        8
+      ],
+      [
+        3003,
+        30
+      ],
+      [
+        10032,
+        60
+      ],
+      [
+        10192,
+        200
+      ],
+      [
+        10152,
+        200
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 3002,
     "name": "皮箭袋",
     "equip_position": 6,
-    "role": "弓箭手",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 0,
-    "intelligence": 0,
-    "agility": 20,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 15,
-    "m_d_e_f": 15,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3003,
+        20
+      ],
+      [
+        10112,
+        15
+      ],
+      [
+        10132,
+        15
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 3003,
     "name": "皮帽",
     "equip_position": 1,
-    "role": "弓箭手",
-    "max_hp": 50,
-    "max_mp": 0,
-    "strength": 5,
-    "intelligence": 5,
-    "agility": 10,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 10,
-    "m_d_e_f": 10,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        50
+      ],
+      [
+        3001,
+        5
+      ],
+      [
+        3004,
+        5
+      ],
+      [
+        3003,
+        10
+      ],
+      [
+        10112,
+        10
+      ],
+      [
+        10132,
+        10
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 3004,
     "name": "皮衣",
     "equip_position": 2,
-    "role": "弓箭手",
-    "max_hp": 50,
-    "max_mp": 0,
-    "strength": 5,
-    "intelligence": 5,
-    "agility": 10,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 10,
-    "m_d_e_f": 10,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        50
+      ],
+      [
+        3001,
+        5
+      ],
+      [
+        3004,
+        5
+      ],
+      [
+        3003,
+        10
+      ],
+      [
+        10112,
+        10
+      ],
+      [
+        10132,
+        10
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 3005,
     "name": "皮肩",
     "equip_position": 4,
-    "role": "弓箭手",
-    "max_hp": 80,
-    "max_mp": 80,
-    "strength": 5,
-    "intelligence": 5,
-    "agility": 10,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        80
+      ],
+      [
+        10022,
+        80
+      ],
+      [
+        3001,
+        5
+      ],
+      [
+        3004,
+        5
+      ],
+      [
+        3003,
+        10
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 3006,
     "name": "皮裤",
     "equip_position": 7,
-    "role": "弓箭手",
-    "max_hp": 50,
-    "max_mp": 0,
-    "strength": 5,
-    "intelligence": 5,
-    "agility": 10,
-    "a_d": 30,
-    "a_p": 15,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 100,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        50
+      ],
+      [
+        3001,
+        5
+      ],
+      [
+        3004,
+        5
+      ],
+      [
+        3003,
+        10
+      ],
+      [
+        10032,
+        30
+      ],
+      [
+        10042,
+        15
+      ],
+      [
+        10152,
+        100
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 3007,
     "name": "皮靴",
     "equip_position": 3,
-    "role": "弓箭手",
-    "max_hp": 80,
-    "max_mp": 80,
-    "strength": 0,
-    "intelligence": 0,
-    "agility": 0,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 100,
-    "c_r_i": 100,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        80
+      ],
+      [
+        10022,
+        80
+      ],
+      [
+        10192,
+        100
+      ],
+      [
+        10152,
+        100
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 1011,
     "name": "星辰之剑",
     "equip_position": 5,
-    "role": "战士",
-    "max_hp": 240,
-    "max_mp": 0,
-    "strength": 60,
-    "intelligence": 16,
-    "agility": 16,
-    "a_d": 120,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 300,
-    "c_r_i": 300,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        240
+      ],
+      [
+        3001,
+        60
+      ],
+      [
+        3004,
+        16
+      ],
+      [
+        3003,
+        16
+      ],
+      [
+        10032,
+        120
+      ],
+      [
+        10192,
+        300
+      ],
+      [
+        10152,
+        300
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 1012,
     "name": "星辰护盾",
     "equip_position": 6,
-    "role": "战士",
-    "max_hp": 200,
-    "max_mp": 0,
-    "strength": 40,
-    "intelligence": 0,
-    "agility": 0,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 30,
-    "m_d_e_f": 30,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        200
+      ],
+      [
+        3001,
+        40
+      ],
+      [
+        10112,
+        30
+      ],
+      [
+        10132,
+        30
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 1013,
     "name": "星辰头盔",
     "equip_position": 1,
-    "role": "战士",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 20,
-    "intelligence": 10,
-    "agility": 10,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 20,
-    "m_d_e_f": 20,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3001,
+        20
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        10
+      ],
+      [
+        10112,
+        20
+      ],
+      [
+        10132,
+        20
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 1014,
     "name": "星辰胸甲",
     "equip_position": 2,
-    "role": "战士",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 20,
-    "intelligence": 10,
-    "agility": 10,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 20,
-    "m_d_e_f": 20,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3001,
+        20
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        10
+      ],
+      [
+        10112,
+        20
+      ],
+      [
+        10132,
+        20
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 1015,
     "name": "星辰肩膀",
     "equip_position": 4,
-    "role": "战士",
-    "max_hp": 160,
-    "max_mp": 160,
-    "strength": 20,
-    "intelligence": 10,
-    "agility": 10,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        160
+      ],
+      [
+        10022,
+        160
+      ],
+      [
+        3001,
+        20
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        10
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 1016,
     "name": "星辰裤子",
     "equip_position": 7,
-    "role": "战士",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 20,
-    "intelligence": 10,
-    "agility": 10,
-    "a_d": 60,
-    "a_p": 30,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 200,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3001,
+        20
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        10
+      ],
+      [
+        10032,
+        60
+      ],
+      [
+        10042,
+        30
+      ],
+      [
+        10152,
+        200
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 1017,
     "name": "星辰靴子",
     "equip_position": 3,
-    "role": "战士",
-    "max_hp": 160,
-    "max_mp": 160,
-    "strength": 0,
-    "intelligence": 0,
-    "agility": 0,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 200,
-    "c_r_i": 200,
+    "role": 1,
+    "attributes": [
+      [
+        10002,
+        160
+      ],
+      [
+        10022,
+        160
+      ],
+      [
+        10192,
+        200
+      ],
+      [
+        10152,
+        200
+      ]
+    ],
     "entry_random_id": 2
   },
   {
     "id": 2011,
     "name": "逐日法杖",
     "equip_position": 5,
-    "role": "法师",
-    "max_hp": 240,
-    "max_mp": 0,
-    "strength": 16,
-    "intelligence": 60,
-    "agility": 16,
-    "a_d": 0,
-    "a_p": 120,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 300,
-    "c_r_i": 300,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        240
+      ],
+      [
+        3001,
+        16
+      ],
+      [
+        3004,
+        60
+      ],
+      [
+        10042,
+        120
+      ],
+      [
+        10192,
+        300
+      ],
+      [
+        10152,
+        300
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 2012,
     "name": "逐日法典",
     "equip_position": 6,
-    "role": "法师",
-    "max_hp": 200,
-    "max_mp": 0,
-    "strength": 0,
-    "intelligence": 40,
-    "agility": 0,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 30,
-    "m_d_e_f": 30,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        200
+      ],
+      [
+        3004,
+        40
+      ],
+      [
+        10112,
+        30
+      ],
+      [
+        10192,
+        30
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 2013,
     "name": "逐日头盔",
     "equip_position": 1,
-    "role": "法师",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 10,
-    "intelligence": 20,
-    "agility": 10,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 20,
-    "m_d_e_f": 20,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        20
+      ],
+      [
+        10032,
+        10
+      ],
+      [
+        10112,
+        20
+      ],
+      [
+        10132,
+        20
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 2014,
     "name": "逐日胸甲",
     "equip_position": 2,
-    "role": "法师",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 10,
-    "intelligence": 20,
-    "agility": 10,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 20,
-    "m_d_e_f": 20,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        20
+      ],
+      [
+        3003,
+        10
+      ],
+      [
+        10112,
+        20
+      ],
+      [
+        10132,
+        20
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 2015,
     "name": "逐日肩膀",
     "equip_position": 4,
-    "role": "法师",
-    "max_hp": 160,
-    "max_mp": 160,
-    "strength": 10,
-    "intelligence": 20,
-    "agility": 10,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        160
+      ],
+      [
+        10022,
+        160
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        20
+      ],
+      [
+        3003,
+        10
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 2016,
     "name": "逐日裤子",
     "equip_position": 7,
-    "role": "法师",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 10,
-    "intelligence": 20,
-    "agility": 10,
-    "a_d": 30,
-    "a_p": 60,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 200,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        20
+      ],
+      [
+        3003,
+        10
+      ],
+      [
+        10032,
+        30
+      ],
+      [
+        10042,
+        60
+      ],
+      [
+        10152,
+        200
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 2017,
     "name": "逐日靴子",
     "equip_position": 3,
-    "role": "法师",
-    "max_hp": 160,
-    "max_mp": 160,
-    "strength": 0,
-    "intelligence": 0,
-    "agility": 0,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 200,
-    "c_r_i": 200,
+    "role": 2,
+    "attributes": [
+      [
+        10002,
+        160
+      ],
+      [
+        10022,
+        160
+      ],
+      [
+        10192,
+        200
+      ],
+      [
+        10152,
+        200
+      ]
+    ],
     "entry_random_id": 3
   },
   {
     "id": 3011,
     "name": "伴月长弓",
     "equip_position": 5,
-    "role": "弓箭手",
-    "max_hp": 240,
-    "max_mp": 0,
-    "strength": 16,
-    "intelligence": 16,
-    "agility": 60,
-    "a_d": 120,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 300,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        240
+      ],
+      [
+        3001,
+        16
+      ],
+      [
+        3004,
+        16
+      ],
+      [
+        3003,
+        60
+      ],
+      [
+        10032,
+        120
+      ],
+      [
+        10152,
+        300
+      ]
+    ],
     "entry_random_id": 4
   },
   {
     "id": 3012,
     "name": "伴月箭袋",
     "equip_position": 6,
-    "role": "弓箭手",
-    "max_hp": 200,
-    "max_mp": 0,
-    "strength": 0,
-    "intelligence": 0,
-    "agility": 40,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 30,
-    "m_d_e_f": 30,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        200
+      ],
+      [
+        3003,
+        40
+      ],
+      [
+        10112,
+        30
+      ],
+      [
+        10132,
+        30
+      ]
+    ],
     "entry_random_id": 4
   },
   {
     "id": 3013,
     "name": "伴月头盔",
     "equip_position": 1,
-    "role": "弓箭手",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 10,
-    "intelligence": 10,
-    "agility": 20,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 20,
-    "m_d_e_f": 20,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        20
+      ],
+      [
+        10112,
+        20
+      ],
+      [
+        10132,
+        20
+      ]
+    ],
     "entry_random_id": 4
   },
   {
     "id": 3014,
     "name": "伴月胸甲",
     "equip_position": 2,
-    "role": "弓箭手",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 10,
-    "intelligence": 10,
-    "agility": 20,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 20,
-    "m_d_e_f": 20,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        20
+      ],
+      [
+        10112,
+        20
+      ],
+      [
+        10132,
+        20
+      ]
+    ],
     "entry_random_id": 4
   },
   {
     "id": 3015,
     "name": "伴月肩膀",
     "equip_position": 4,
-    "role": "弓箭手",
-    "max_hp": 160,
-    "max_mp": 160,
-    "strength": 10,
-    "intelligence": 10,
-    "agility": 20,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 0,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        160
+      ],
+      [
+        10022,
+        160
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        20
+      ]
+    ],
     "entry_random_id": 4
   },
   {
     "id": 3016,
     "name": "伴月裤子",
     "equip_position": 7,
-    "role": "弓箭手",
-    "max_hp": 100,
-    "max_mp": 0,
-    "strength": 10,
-    "intelligence": 10,
-    "agility": 20,
-    "a_d": 60,
-    "a_p": 30,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 0,
-    "c_r_i": 200,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        100
+      ],
+      [
+        3001,
+        10
+      ],
+      [
+        3004,
+        10
+      ],
+      [
+        3003,
+        20
+      ],
+      [
+        10032,
+        60
+      ],
+      [
+        10042,
+        30
+      ],
+      [
+        10152,
+        200
+      ]
+    ],
     "entry_random_id": 4
   },
   {
     "id": 3017,
     "name": "伴月靴子",
     "equip_position": 3,
-    "role": "弓箭手",
-    "max_hp": 160,
-    "max_mp": 160,
-    "strength": 0,
-    "intelligence": 0,
-    "agility": 0,
-    "a_d": 0,
-    "a_p": 0,
-    "d_e_f": 0,
-    "m_d_e_f": 0,
-    "rate": 200,
-    "c_r_i": 200,
+    "role": 3,
+    "attributes": [
+      [
+        10002,
+        160
+      ],
+      [
+        10022,
+        160
+      ],
+      [
+        10192,
+        200
+      ],
+      [
+        10152,
+        200
+      ]
+    ],
     "entry_random_id": 4
   }
 ]

@@ -5,8 +5,8 @@
     {
         protected override async ETTask Run(Unit unit, C2M_EquipItem request, M2C_EquipItem response)
         {
-            BagComponent bagComponent = unit.GetComponent<BagComponent>();
-            EquipmentsComponent equipmentsComponent = unit.GetComponent<EquipmentsComponent>();
+            var bagComponent = unit.GetComponent<BagComponent>();
+            var equipmentsComponent = unit.GetComponent<EquipmentsComponent>();
 
             if (!bagComponent.ContainItem(request.ItemUid))
             {
@@ -14,17 +14,17 @@
                 return;
             }
 
-            Item bagItem = bagComponent.GetItemById(request.ItemUid);
-            var equipPosition = (EquipPosition)bagItem.EquipConfig.EquipPosition;
+            var bagItem = bagComponent.GetItemById(request.ItemUid);
+
+            var equipPosition = bagItem.EquipConfig.EquipPosition;
             bagComponent.RemoveItem(bagItem);
 
-            Item equipItem = equipmentsComponent.GetItemByPosition(equipPosition);
-
+            var equipItem = equipmentsComponent.GetItemByPosition(equipPosition);
             if (equipItem != null)
             {
                 if (bagComponent.CanAddItem(equipItem))
                 {
-                    equipItem = equipmentsComponent.UnloadEquipItemByPosition(equipPosition);
+                    equipItem = equipmentsComponent.UnEquipItemByPosition(equipPosition);
                     bagComponent.AddItem(equipItem);
                 }
                 else

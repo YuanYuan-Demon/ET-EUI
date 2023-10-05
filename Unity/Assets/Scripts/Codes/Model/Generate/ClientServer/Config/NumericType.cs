@@ -6,3 +6,247 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+namespace ET
+{
+    public enum NumericType
+    {
+        Max = 10000,
+
+        /// <summary>
+        /// 生命
+        /// </summary>
+        MaxHp = 1000,
+
+        MaxHpBase = 10001,
+
+        MaxHpAdd = 10002,
+
+        MaxHpPct = 10003,
+
+        MaxHpFinalAdd = 10004,
+
+        MaxHpFinalPct = 10005,
+
+        /// <summary>
+        /// 魔法
+        /// </summary>
+        MaxMp = 1002,
+
+        MaxMpBase = 10021,
+
+        MaxMpAdd = 10022,
+
+        MaxMpPct = 10023,
+
+        MaxMpFinalAdd = 10024,
+
+        MaxMpFinalPct = 10025,
+
+        /// <summary>
+        /// 攻击力
+        /// </summary>
+        AD = 1003,
+
+        ADBase = 10031,
+
+        ADAdd = 10032,
+
+        ADPct = 10033,
+
+        ADFinalAdd = 10034,
+
+        ADFinalPct = 10035,
+
+        /// <summary>
+        /// 法力
+        /// </summary>
+        AP = 1004,
+
+        APBase = 10041,
+
+        APAdd = 10042,
+
+        APPct = 10043,
+
+        APFinalAdd = 10044,
+
+        APFinalPct = 10045,
+
+        /// <summary>
+        /// 防御
+        /// </summary>
+        DEF = 1011,
+
+        DEFBase = 10111,
+
+        DEFAdd = 10112,
+
+        DEFPct = 10113,
+
+        DEFFinalAdd = 10114,
+
+        DEFFinalPct = 10115,
+
+        AdditionalAD = 1012,
+
+        /// <summary>
+        /// 魔抗
+        /// </summary>
+        MDEF = 1013,
+
+        MDEFBase = 10131,
+
+        MDEFAdd = 10132,
+
+        MDEFPct = 10133,
+
+        MDEFFinalAdd = 10134,
+
+        MDEFFinalPct = 10135,
+
+        /// <summary>
+        /// 攻速
+        /// </summary>
+        Rate = 1014,
+
+        RateBase = 10141,
+
+        RateAdd = 10142,
+
+        RatePct = 10143,
+
+        RateFinalAdd = 10144,
+
+        RateFinalPct = 10145,
+
+        /// <summary>
+        /// 暴击率
+        /// </summary>
+        Crit = 1015,
+
+        CritBase = 10151,
+
+        CritAdd = 10152,
+
+        CritPct = 10153,
+
+        CritFinalAdd = 10154,
+
+        CritFinalPct = 10155,
+
+        /// <summary>
+        /// 闪避率
+        /// </summary>
+        Dodge = 1017,
+
+        DodgeBase = 10171,
+
+        DodgeAdd = 10172,
+
+        DodgePct = 10173,
+
+        DodgeFinalAdd = 10174,
+
+        DodgeFinalPct = 10175,
+
+        /// <summary>
+        /// 速度
+        /// </summary>
+        Speed = 1019,
+
+        SpeedBase = 10191,
+
+        SpeedAdd = 10192,
+
+        SpeedPct = 10193,
+
+        SpeedFinalAdd = 10194,
+
+        SpeedFinalPct = 10195,
+
+        /// <summary>
+        /// 视野范围
+        /// </summary>
+        AOI = 1020,
+
+        AOIBase = 10201,
+
+        AOIAdd = 10202,
+
+        AOIPct = 10203,
+
+        AOIFinalAdd = 10204,
+
+        AOIFinalPct = 10205,
+
+        Normal = 3000,
+
+        /// <summary>
+        /// 力量
+        /// </summary>
+        STR = 3001,
+
+        /// <summary>
+        /// 耐力
+        /// </summary>
+        STA = 3002,
+
+        /// <summary>
+        /// 敏捷
+        /// </summary>
+        DEX = 3003,
+
+        /// <summary>
+        /// 智力
+        /// </summary>
+        INT = 3004,
+
+        /// <summary>
+        /// 当前生命值
+        /// </summary>
+        Hp = 3005,
+
+        /// <summary>
+        /// 当前法力值
+        /// </summary>
+        Mp = 3006,
+
+        /// <summary>
+        /// 属性点
+        /// </summary>
+        AttributePoints = 3007,
+
+        /// <summary>
+        /// 战力值
+        /// </summary>
+        CombatEffectiveness = 3008,
+
+        Level = 3009,
+
+        Gold = 3010,
+
+        Exp = 3011,
+
+        AdventureStatus = 3012,
+
+        /// <summary>
+        /// 垂死状态
+        /// </summary>
+        DyingState = 3013,
+
+        /// <summary>
+        /// 存活状态  0为死亡 1为活着
+        /// </summary>
+        IsAlive = 3014,
+
+        /// <summary>
+        /// 战斗随机数种子
+        /// </summary>
+        BattleRandomSeed = 3015,
+
+        /// <summary>
+        /// 背包最大负重
+        /// </summary>
+        MaxBagCapacity = 3016,
+    }
+}

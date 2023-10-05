@@ -12,8 +12,10 @@ using System.Collections.Generic;
 using ET.Luban;
 
 
+
 namespace ET.Client
 {
+
 
 public sealed partial class TGlobalConfig: Luban.BeanBase
 {
@@ -27,6 +29,7 @@ public sealed partial class TGlobalConfig: Luban.BeanBase
         AccountHost = _buf.ReadString();
         AccountPort = _buf.ReadInt();
         SessionTimeoutTime = _buf.ReadInt();
+        BornPosition = MyFloat3.DeserializeMyFloat3(_buf);
         PostInit();
     }
 
@@ -63,6 +66,10 @@ public sealed partial class TGlobalConfig: Luban.BeanBase
     /// 连接超时时间
     /// </summary>
     public int SessionTimeoutTime { get; }
+    /// <summary>
+    /// 出生位置
+    /// </summary>
+    public MyFloat3 BornPosition { get; }
 
     public const int __ID__ = 165700409;
     public override int GetTypeId() => __ID__;
@@ -82,6 +89,7 @@ public sealed partial class TGlobalConfig: Luban.BeanBase
         + "AccountHost:" + AccountHost + ","
         + "AccountPort:" + AccountPort + ","
         + "SessionTimeoutTime:" + SessionTimeoutTime + ","
+        + "BornPosition:" + BornPosition + ","
         + "}";
     }
 }

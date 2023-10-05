@@ -7,13 +7,13 @@ namespace ET.Client
         public static Unit Create(Scene currentScene, UnitInfo unitInfo)
         {
             var unitComponent = currentScene.GetComponent<UnitComponent>();
-            Unit unit = unitComponent.Create(unitInfo.UnitId, unitInfo.ConfigId);
+            var unit = unitComponent.Create(unitInfo.UnitId, unitInfo.ConfigId);
             unit.AddComponent<RoleInfo>().FromNRoleInfo(unitInfo.NRoleInfo);
             unit.Position = unitInfo.Position;
             unit.Forward = unitInfo.Forward;
 
             var numericComponent = unit.AddComponent<NumericComponent>();
-            foreach ((NumericType nt, long value)in unitInfo.Numeric)
+            foreach ((var nt, var value)in unitInfo.Numeric)
             {
                 numericComponent.Set(nt, value);
             }
@@ -32,7 +32,8 @@ namespace ET.Client
 
             unit.AddComponent<XunLuoPathComponent>();
 
-            EventSystem.Instance.Publish(unit.DomainScene(), new AfterUnitCreate() { Unit = unit });
+            EventSystem.Instance.Publish(unit.DomainScene(),
+                new AfterUnitCreate() { Unit = unit, Prefab = UnitConfigCategory.Instance.Get(unitInfo.ConfigId).Prefab });
             return unit;
         }
     }

@@ -43,6 +43,11 @@ namespace ET.Client
             itemRole.Refresh(roleInfo);
         }
 
+        /// <summary>
+        ///     选择创建角色
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="cla"></param>
         private static void OnSelectClass(this DlgRoles self, int cla)
         {
             self.index = cla;
@@ -53,7 +58,7 @@ namespace ET.Client
                 toggleTransform.GetChild(0).gameObject.SetActive(i != cla);
                 toggleTransform.GetChild(1).gameObject.SetActive(i == cla);
                 toggleTransform.GetComponent<Toggle>().targetGraphic = toggleTransform.GetComponentInChildren<Image>();
-                EventSystem.Instance.Publish(self.ClientScene(), new SelectRoleClass() { RoleClass = (RoleClass)cla });
+                EventSystem.Instance.Publish(self.ClientScene(), new SelectRoleClass() { RoleClass = (RoleClass)cla + 1 });
             }
         }
 
@@ -123,7 +128,7 @@ namespace ET.Client
 
             try
             {
-                var errorCode = await LoginHelper.CreateRole(self.ClientScene(), roleName, (RoleClass)self.index);
+                var errorCode = await LoginHelper.CreateRole(self.ClientScene(), roleName, self.index + 1);
                 if (errorCode != ErrorCode.ERR_Success)
                 {
                     Log.Error(errorCode.ToString());

@@ -25,6 +25,7 @@ namespace ET
             AccountHost = _buf.ReadString();
             AccountPort = _buf.ReadInt();
             SessionTimeoutTime = _buf.ReadInt();
+            BornPosition = MyFloat3.DeserializeMyFloat3(_buf);
             PostInit();
         }
 
@@ -63,6 +64,11 @@ namespace ET
         /// </summary>
         public int SessionTimeoutTime { get; }
 
+        /// <summary>
+        /// 出生位置
+        /// </summary>
+        public MyFloat3 BornPosition { get; }
+
         public static TGlobalConfig DeserializeTGlobalConfig(ByteBuf _buf)
         {
             return new TGlobalConfig(_buf);
@@ -85,6 +91,7 @@ namespace ET
                     + "AccountHost:" + AccountHost + ","
                     + "AccountPort:" + AccountPort + ","
                     + "SessionTimeoutTime:" + SessionTimeoutTime + ","
+                    + "BornPosition:" + BornPosition + ","
                     + "}";
         }
     }

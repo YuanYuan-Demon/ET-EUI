@@ -57,6 +57,10 @@ public partial class TGlobalConfigCategory: ConfigSingleton<TGlobalConfigCategor
     /// 连接超时时间
     /// </summary>
      public int SessionTimeoutTime => _data.SessionTimeoutTime;
+    /// <summary>
+    /// 出生位置
+    /// </summary>
+     public MyFloat3 BornPosition => _data.BornPosition;
 
     public override void Resolve(Dictionary<Type, IConfigSingleton> tables)
     {

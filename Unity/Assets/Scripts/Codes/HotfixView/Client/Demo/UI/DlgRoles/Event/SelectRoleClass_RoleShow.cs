@@ -7,7 +7,7 @@ namespace ET.Client
     {
         protected override async ETTask Run(Scene scene, SelectRoleClass args)
         {
-            scene.GetComponent<RoleShowComponent>().ShowRole((int)args.RoleClass);
+            scene.GetComponent<RoleShowComponent>().ShowRole((int)args.RoleClass - 1);
             await ETTask.CompletedTask;
         }
     }

@@ -10,24 +10,23 @@ namespace ET.Server
         protected override async ETTask Run(Scene scene, ChangeEquipItem args)
         {
             await ETTask.CompletedTask;
-            EquipInfoComponent equipInfoComponent = args.Item.GetComponent<EquipInfoComponent>();
+            var equipConfig = args.Item.EquipConfig;
 
-            if (equipInfoComponent == null)
+            if (equipConfig == null)
             {
                 return;
             }
 
-            NumericComponent numericComponent = args.Unit.GetComponent<NumericComponent>();
-            foreach (AttributeEntry entry in equipInfoComponent.EntryList)
+            var numericComponent = args.Unit.GetComponent<NumericComponent>();
+            foreach (var (nt, value) in equipConfig.Attributes)
             {
-                NumericType nt = (NumericType)((int)entry.AttributeType * 10 + 2);
                 switch (args.EquipOp)
                 {
                     case EquipOp.Load:
-                        numericComponent[nt] += entry.AttributeValue;
+                        numericComponent[nt] += value;
                         break;
                     case EquipOp.Unload:
-                        numericComponent[nt] -= entry.AttributeValue;
+                        numericComponent[nt] -= value;
                         break;
                 }
             }

@@ -49,8 +49,8 @@ namespace ET.Client
             var rc = self.ClientScene().GetComponent<RoleInfosComponent>();
             var view = self.View;
 
-            view.ET_CharName_Level_Text.text = $"{rc.CurrentRole.Name} Lv.{rc.CurrentRole.Level}"; //角色名称 等级
             var nc = self.GetMyNumericComponent();
+            view.ET_CharName_Level_Text.text = $"{rc.CurrentRole.Name} Lv.{nc.GetAsInt(NumericType.Level).ToString()}"; //角色名称 等级
             view.ES_STR.ET_Value_Text.text = nc.GetAsInt(NumericType.STR).ToString();
             view.ES_INT.ET_Value_Text.text = nc.GetAsInt(NumericType.INT).ToString();
             view.ES_DEX.ET_Value_Text.text = nc.GetAsInt(NumericType.DEX).ToString();
@@ -60,16 +60,16 @@ namespace ET.Client
             view.ES_AP.ET_Value_Text.text = nc.GetAsInt(NumericType.AP).ToString();
             view.ES_DEF.ET_Value_Text.text = nc.GetAsInt(NumericType.DEX).ToString();
             view.ES_MDEF.ET_Value_Text.text = nc.GetAsInt(NumericType.MDEF).ToString();
-            view.ES_SPD.ET_Value_Text.text = nc.GetAsFloat(NumericType.Speed).ToString();
-            view.ES_CRI.ET_Value_Text.text = nc.GetAsFloat(NumericType.CRI).ToString();
+            view.ES_SPD.ET_Value_Text.text = nc.GetAsFloat(NumericType.Rate).ToString();
+            view.ES_CRI.ET_Value_Text.text = nc.GetAsFloat(NumericType.Crit).ToString();
 
             view.ES_HpBar.ET_Desc_TextMeshProUGUI.text = $"{nc[NumericType.Hp].ToString()}/{nc[NumericType.MaxHp].ToString()}";
             view.ES_HpBar.ED_Slider_Slider.maxValue = nc[NumericType.MaxHp];
             view.ES_HpBar.ED_Slider_Slider.value = nc[NumericType.Hp];
 
-            view.ES_MpBar.ET_Desc_TextMeshProUGUI.text = $"{nc[NumericType.MP].ToString()}/{nc[NumericType.MaxMp].ToString()}";
+            view.ES_MpBar.ET_Desc_TextMeshProUGUI.text = $"{nc[NumericType.Mp].ToString()}/{nc[NumericType.MaxMp].ToString()}";
             view.ES_MpBar.ED_Slider_Slider.maxValue = nc[NumericType.MaxMp];
-            view.ES_MpBar.ED_Slider_Slider.value = nc[NumericType.MP];
+            view.ES_MpBar.ED_Slider_Slider.value = nc[NumericType.Mp];
         }
 
         public static void RefreshEquipSlot(this DlgEquip self)
@@ -88,21 +88,17 @@ namespace ET.Client
 
         public static void RefreshEquipList(this DlgEquip self)
         {
-            var eqiups = self.ClientScene().GetComponent<BagComponent>().ItemTypeMap[ItemType.Equip].ToList();
-            self.EquipList = self.EquipPosition switch
-            {
-                EquipPosition.None => eqiups,
-                _ => eqiups.Where(e => e.EquipConfig.EquipPosition == self.EquipPosition).ToList(),
-            };
-            if (self.EquipList?.Count != 0)
-            {
-                self.AddUIScrollItems(ref self.ScrollItemEquipItems, self.EquipList.Count);
-                self.View.EL_Equips_LoopVList.SetVisible(true, self.EquipList.Count);
-            }
-            else
-            {
-                self.View.EL_Equips_LoopVList.SetVisible(true, self.EquipList.Count);
-            }
+            var roleClass = self.GetMyUnit().GetComponent<RoleInfo>().RoleClass;
+            var equips = self.ClientScene().GetComponent<BagComponent>().ItemTypeMap[ItemType.Equip]
+                    .Where(item => item.EquipConfig.Role == roleClass);
+
+            self.EquipList.Clear();
+            self.EquipList.AddRange(self.EquipPosition == EquipPosition.None
+                    ? equips
+                    : equips.Where(e => e.EquipConfig.EquipPosition == self.EquipPosition));
+
+            self.AddUIScrollItems(ref self.ScrollItemEquipItems, self.EquipList.Count);
+            self.View.EL_Equips_LoopVList.SetVisible(true, self.EquipList.Count);
         }
     }
 }

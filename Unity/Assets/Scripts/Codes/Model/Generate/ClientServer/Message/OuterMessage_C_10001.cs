@@ -1,14 +1,11 @@
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.Options;
 using ProtoBuf;
-using Unity.Mathematics;
 
 namespace ET
 {
     [Message(OuterMessage.HttpGetRouterResponse)]
     [ProtoContract]
-    public class HttpGetRouterResponse: ProtoObject
+    public partial class HttpGetRouterResponse: ProtoObject
     {
         [ProtoMember(1)]
         public List<string> Realms { get; set; } = new();
@@ -19,7 +16,7 @@ namespace ET
 
     [Message(OuterMessage.RouterSync)]
     [ProtoContract]
-    public class RouterSync: ProtoObject
+    public partial class RouterSync: ProtoObject
     {
         [ProtoMember(1)]
         public uint ConnectId { get; set; }
@@ -31,7 +28,7 @@ namespace ET
     [ResponseType(nameof (M2C_TestResponse))]
     [Message(OuterMessage.C2M_TestRequest)]
     [ProtoContract]
-    public class C2M_TestRequest: ProtoObject, IActorLocationRequest
+    public partial class C2M_TestRequest: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(2)]
         public string request { get; set; }
@@ -42,7 +39,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_TestResponse)]
     [ProtoContract]
-    public class M2C_TestResponse: ProtoObject, IActorLocationResponse
+    public partial class M2C_TestResponse: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(4)]
         public string response { get; set; }
@@ -60,7 +57,7 @@ namespace ET
     [ResponseType(nameof (Actor_TransferResponse))]
     [Message(OuterMessage.Actor_TransferRequest)]
     [ProtoContract]
-    public class Actor_TransferRequest: ProtoObject, IActorLocationRequest
+    public partial class Actor_TransferRequest: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(2)]
         public int MapIndex { get; set; }
@@ -71,7 +68,7 @@ namespace ET
 
     [Message(OuterMessage.Actor_TransferResponse)]
     [ProtoContract]
-    public class Actor_TransferResponse: ProtoObject, IActorLocationResponse
+    public partial class Actor_TransferResponse: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -86,7 +83,7 @@ namespace ET
     [ResponseType(nameof (G2C_EnterMap))]
     [Message(OuterMessage.C2G_EnterMap)]
     [ProtoContract]
-    public class C2G_EnterMap: ProtoObject, IRequest
+    public partial class C2G_EnterMap: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -94,7 +91,7 @@ namespace ET
 
     [Message(OuterMessage.G2C_EnterMap)]
     [ProtoContract]
-    public class G2C_EnterMap: ProtoObject, IResponse
+    public partial class G2C_EnterMap: ProtoObject, IResponse
     {
         // 自己unitId
         [ProtoMember(4)]
@@ -112,13 +109,13 @@ namespace ET
 
     [Message(OuterMessage.MoveInfo)]
     [ProtoContract]
-    public class MoveInfo: ProtoObject
+    public partial class MoveInfo: ProtoObject
     {
         [ProtoMember(1)]
-        public List<float3> Targets { get; set; } = new();
+        public List<Unity.Mathematics.float3> Targets { get; set; } = new();
 
         [ProtoMember(2)]
-        public quaternion Rotation { get; set; }
+        public Unity.Mathematics.quaternion Rotation { get; set; }
 
         [ProtoMember(3)]
         public int TurnSpeed { get; set; }
@@ -126,7 +123,7 @@ namespace ET
 
     [Message(OuterMessage.UnitInfo)]
     [ProtoContract]
-    public class UnitInfo: ProtoObject
+    public partial class UnitInfo: ProtoObject
     {
         [ProtoMember(1)]
         public long UnitId { get; set; }
@@ -138,12 +135,12 @@ namespace ET
         public UnitType Type { get; set; }
 
         [ProtoMember(4)]
-        public float3 Position { get; set; }
+        public Unity.Mathematics.float3 Position { get; set; }
 
         [ProtoMember(5)]
-        public float3 Forward { get; set; }
+        public Unity.Mathematics.float3 Forward { get; set; }
 
-        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        [MongoDB.Bson.Serialization.Attributes.BsonDictionaryOptions(MongoDB.Bson.Serialization.Options.DictionaryRepresentation.ArrayOfArrays)]
         [ProtoMember(6)]
         public Dictionary<NumericType, long> Numeric { get; set; } = new();
 
@@ -156,7 +153,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_CreateUnits)]
     [ProtoContract]
-    public class M2C_CreateUnits: ProtoObject, IActorMessage
+    public partial class M2C_CreateUnits: ProtoObject, IActorMessage
     {
         [ProtoMember(1)]
         public List<UnitInfo> Units { get; set; } = new();
@@ -164,7 +161,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_CreateMyUnit)]
     [ProtoContract]
-    public class M2C_CreateMyUnit: ProtoObject, IActorMessage
+    public partial class M2C_CreateMyUnit: ProtoObject, IActorMessage
     {
         [ProtoMember(1)]
         public UnitInfo Unit { get; set; }
@@ -172,7 +169,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_StartSceneChange)]
     [ProtoContract]
-    public class M2C_StartSceneChange: ProtoObject, IActorMessage
+    public partial class M2C_StartSceneChange: ProtoObject, IActorMessage
     {
         [ProtoMember(1)]
         public long SceneInstanceId { get; set; }
@@ -183,7 +180,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_RemoveUnits)]
     [ProtoContract]
-    public class M2C_RemoveUnits: ProtoObject, IActorMessage
+    public partial class M2C_RemoveUnits: ProtoObject, IActorMessage
     {
         [ProtoMember(2)]
         public List<long> Units { get; set; } = new();
@@ -191,10 +188,10 @@ namespace ET
 
     [Message(OuterMessage.C2M_PathfindingResult)]
     [ProtoContract]
-    public class C2M_PathfindingResult: ProtoObject, IActorLocationMessage
+    public partial class C2M_PathfindingResult: ProtoObject, IActorLocationMessage
     {
         [ProtoMember(2)]
-        public float3 Position { get; set; }
+        public Unity.Mathematics.float3 Position { get; set; }
 
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -202,7 +199,7 @@ namespace ET
 
     [Message(OuterMessage.C2M_Stop)]
     [ProtoContract]
-    public class C2M_Stop: ProtoObject, IActorLocationMessage
+    public partial class C2M_Stop: ProtoObject, IActorLocationMessage
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -210,21 +207,21 @@ namespace ET
 
     [Message(OuterMessage.M2C_PathfindingResult)]
     [ProtoContract]
-    public class M2C_PathfindingResult: ProtoObject, IActorMessage
+    public partial class M2C_PathfindingResult: ProtoObject, IActorMessage
     {
         [ProtoMember(1)]
         public long Id { get; set; }
 
         [ProtoMember(2)]
-        public float3 Position { get; set; }
+        public Unity.Mathematics.float3 Position { get; set; }
 
         [ProtoMember(3)]
-        public List<float3> Points { get; set; } = new();
+        public List<Unity.Mathematics.float3> Points { get; set; } = new();
     }
 
     [Message(OuterMessage.M2C_Stop)]
     [ProtoContract]
-    public class M2C_Stop: ProtoObject, IActorMessage
+    public partial class M2C_Stop: ProtoObject, IActorMessage
     {
         [ProtoMember(1)]
         public int Error { get; set; }
@@ -233,16 +230,16 @@ namespace ET
         public long Id { get; set; }
 
         [ProtoMember(3)]
-        public float3 Position { get; set; }
+        public Unity.Mathematics.float3 Position { get; set; }
 
         [ProtoMember(4)]
-        public quaternion Rotation { get; set; }
+        public Unity.Mathematics.quaternion Rotation { get; set; }
     }
 
     [ResponseType(nameof (G2C_Ping))]
     [Message(OuterMessage.C2G_Ping)]
     [ProtoContract]
-    public class C2G_Ping: ProtoObject, IRequest
+    public partial class C2G_Ping: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -250,7 +247,7 @@ namespace ET
 
     [Message(OuterMessage.G2C_Ping)]
     [ProtoContract]
-    public class G2C_Ping: ProtoObject, IResponse
+    public partial class G2C_Ping: ProtoObject, IResponse
     {
         [ProtoMember(4)]
         public long Time { get; set; }
@@ -267,14 +264,14 @@ namespace ET
 
     [Message(OuterMessage.G2C_Test)]
     [ProtoContract]
-    public class G2C_Test: ProtoObject, IMessage
+    public partial class G2C_Test: ProtoObject, IMessage
     {
     }
 
     [ResponseType(nameof (M2C_Reload))]
     [Message(OuterMessage.C2M_Reload)]
     [ProtoContract]
-    public class C2M_Reload: ProtoObject, IRequest
+    public partial class C2M_Reload: ProtoObject, IRequest
     {
         [ProtoMember(2)]
         public string Account { get; set; }
@@ -288,7 +285,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_Reload)]
     [ProtoContract]
-    public class M2C_Reload: ProtoObject, IResponse
+    public partial class M2C_Reload: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -303,7 +300,7 @@ namespace ET
     [ResponseType(nameof (R2C_Login))]
     [Message(OuterMessage.C2R_Login)]
     [ProtoContract]
-    public class C2R_Login: ProtoObject, IRequest
+    public partial class C2R_Login: ProtoObject, IRequest
     {
         [ProtoMember(2)]
         public string Account { get; set; }
@@ -317,7 +314,7 @@ namespace ET
 
     [Message(OuterMessage.R2C_Login)]
     [ProtoContract]
-    public class R2C_Login: ProtoObject, IResponse
+    public partial class R2C_Login: ProtoObject, IResponse
     {
         [ProtoMember(4)]
         public string Address { get; set; }
@@ -341,7 +338,7 @@ namespace ET
     [ResponseType(nameof (G2C_LoginGate))]
     [Message(OuterMessage.C2G_LoginGate)]
     [ProtoContract]
-    public class C2G_LoginGate: ProtoObject, IRequest
+    public partial class C2G_LoginGate: ProtoObject, IRequest
     {
         [ProtoMember(2)]
         public long Key { get; set; }
@@ -355,7 +352,7 @@ namespace ET
 
     [Message(OuterMessage.G2C_LoginGate)]
     [ProtoContract]
-    public class G2C_LoginGate: ProtoObject, IResponse
+    public partial class G2C_LoginGate: ProtoObject, IResponse
     {
         [ProtoMember(4)]
         public long PlayerId { get; set; }
@@ -372,7 +369,7 @@ namespace ET
 
     [Message(OuterMessage.G2C_TestHotfixMessage)]
     [ProtoContract]
-    public class G2C_TestHotfixMessage: ProtoObject, IMessage
+    public partial class G2C_TestHotfixMessage: ProtoObject, IMessage
     {
         [ProtoMember(1)]
         public string Info { get; set; }
@@ -381,7 +378,7 @@ namespace ET
     [ResponseType(nameof (M2C_TestRobotCase))]
     [Message(OuterMessage.C2M_TestRobotCase)]
     [ProtoContract]
-    public class C2M_TestRobotCase: ProtoObject, IActorLocationRequest
+    public partial class C2M_TestRobotCase: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(2)]
         public int N { get; set; }
@@ -392,7 +389,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_TestRobotCase)]
     [ProtoContract]
-    public class M2C_TestRobotCase: ProtoObject, IActorLocationResponse
+    public partial class M2C_TestRobotCase: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(4)]
         public int N { get; set; }
@@ -410,7 +407,7 @@ namespace ET
     [ResponseType(nameof (M2C_TransferMap))]
     [Message(OuterMessage.C2M_TransferMap)]
     [ProtoContract]
-    public class C2M_TransferMap: ProtoObject, IActorLocationRequest
+    public partial class C2M_TransferMap: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -418,7 +415,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_TransferMap)]
     [ProtoContract]
-    public class M2C_TransferMap: ProtoObject, IActorLocationResponse
+    public partial class M2C_TransferMap: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -433,7 +430,7 @@ namespace ET
     [ResponseType(nameof (G2C_Benchmark))]
     [Message(OuterMessage.C2G_Benchmark)]
     [ProtoContract]
-    public class C2G_Benchmark: ProtoObject, IRequest
+    public partial class C2G_Benchmark: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -441,7 +438,7 @@ namespace ET
 
     [Message(OuterMessage.G2C_Benchmark)]
     [ProtoContract]
-    public class G2C_Benchmark: ProtoObject, IResponse
+    public partial class G2C_Benchmark: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public int RpcId { get; set; }
@@ -457,7 +454,7 @@ namespace ET
     [ResponseType(nameof (A2C_RegisterAccount))]
     [Message(OuterMessage.C2A_RegisterAccount)]
     [ProtoContract]
-    public class C2A_RegisterAccount: ProtoObject, IRequest
+    public partial class C2A_RegisterAccount: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public string AccountName { get; set; }
@@ -471,7 +468,7 @@ namespace ET
 
     [Message(OuterMessage.A2C_RegisterAccount)]
     [ProtoContract]
-    public class A2C_RegisterAccount: ProtoObject, IResponse
+    public partial class A2C_RegisterAccount: ProtoObject, IResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -486,7 +483,7 @@ namespace ET
     [ResponseType(nameof (A2C_LoginAccount))]
     [Message(OuterMessage.C2A_LoginAccount)]
     [ProtoContract]
-    public class C2A_LoginAccount: ProtoObject, IRequest
+    public partial class C2A_LoginAccount: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public string AccountName { get; set; }
@@ -500,7 +497,7 @@ namespace ET
 
     [Message(OuterMessage.A2C_LoginAccount)]
     [ProtoContract]
-    public class A2C_LoginAccount: ProtoObject, IResponse
+    public partial class A2C_LoginAccount: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public string Token { get; set; }
@@ -520,7 +517,7 @@ namespace ET
 
     [Message(OuterMessage.A2C_Disconnect)]
     [ProtoContract]
-    public class A2C_Disconnect: ProtoObject, IMessage
+    public partial class A2C_Disconnect: ProtoObject, IMessage
     {
         [ProtoMember(1)]
         public int Error { get; set; }
@@ -529,7 +526,7 @@ namespace ET
     //============================================  服务器选择流程  ============================================
     [Message(OuterMessage.NServerInfo)]
     [ProtoContract]
-    public class NServerInfo: ProtoObject
+    public partial class NServerInfo: ProtoObject
     {
         [ProtoMember(1)]
         public int Id { get; set; }
@@ -544,7 +541,7 @@ namespace ET
     [ResponseType(nameof (A2C_GetServerInfos))]
     [Message(OuterMessage.C2A_GetServerInfos)]
     [ProtoContract]
-    public class C2A_GetServerInfos: ProtoObject, IRequest
+    public partial class C2A_GetServerInfos: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public string Token { get; set; }
@@ -558,7 +555,7 @@ namespace ET
 
     [Message(OuterMessage.A2C_GetServerInfos)]
     [ProtoContract]
-    public class A2C_GetServerInfos: ProtoObject, IResponse
+    public partial class A2C_GetServerInfos: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public List<NServerInfo> NServerInfos { get; set; } = new();
@@ -576,7 +573,7 @@ namespace ET
     //============================================  角色创建/选择流程  ============================================
     [Message(OuterMessage.NRoleInfo)]
     [ProtoContract]
-    public class NRoleInfo: ProtoObject
+    public partial class NRoleInfo: ProtoObject
     {
         [ProtoMember(1)]
         public long RoleId { get; set; }
@@ -604,12 +601,15 @@ namespace ET
 
         [ProtoMember(9)]
         public long CreateTime { get; set; }
+
+        [ProtoMember(10)]
+        public int ConfigId { get; set; }
     }
 
     [ResponseType(nameof (A2C_GetRoles))]
     [Message(OuterMessage.C2A_GetRoles)]
     [ProtoContract]
-    public class C2A_GetRoles: ProtoObject, IRequest
+    public partial class C2A_GetRoles: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public string Token { get; set; }
@@ -626,7 +626,7 @@ namespace ET
 
     [Message(OuterMessage.A2C_GetRoles)]
     [ProtoContract]
-    public class A2C_GetRoles: ProtoObject, IResponse
+    public partial class A2C_GetRoles: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public List<NRoleInfo> NRoleInfos { get; set; } = new();
@@ -644,7 +644,7 @@ namespace ET
     [ResponseType(nameof (A2C_CreateRole))]
     [Message(OuterMessage.C2A_CreateRole)]
     [ProtoContract]
-    public class C2A_CreateRole: ProtoObject, IRequest
+    public partial class C2A_CreateRole: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public string Token { get; set; }
@@ -659,7 +659,7 @@ namespace ET
         public string Name { get; set; }
 
         [ProtoMember(5)]
-        public RoleClass RoleClass { get; set; }
+        public int ConfigId { get; set; }
 
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -667,7 +667,7 @@ namespace ET
 
     [Message(OuterMessage.A2C_CreateRole)]
     [ProtoContract]
-    public class A2C_CreateRole: ProtoObject, IResponse
+    public partial class A2C_CreateRole: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public NRoleInfo NRoleInfo { get; set; }
@@ -685,7 +685,7 @@ namespace ET
     [ResponseType(nameof (A2C_DelteRole))]
     [Message(OuterMessage.C2A_DelteRole)]
     [ProtoContract]
-    public class C2A_DelteRole: ProtoObject, IRequest
+    public partial class C2A_DelteRole: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public string Token { get; set; }
@@ -705,7 +705,7 @@ namespace ET
 
     [Message(OuterMessage.A2C_DelteRole)]
     [ProtoContract]
-    public class A2C_DelteRole: ProtoObject, IResponse
+    public partial class A2C_DelteRole: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public long RoleId { get; set; }
@@ -724,7 +724,7 @@ namespace ET
     [ResponseType(nameof (A2C_GetRealmKey))]
     [Message(OuterMessage.C2A_GetRealmKey)]
     [ProtoContract]
-    public class C2A_GetRealmKey: ProtoObject, IRequest
+    public partial class C2A_GetRealmKey: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public string Token { get; set; }
@@ -741,7 +741,7 @@ namespace ET
 
     [Message(OuterMessage.A2C_GetRealmKey)]
     [ProtoContract]
-    public class A2C_GetRealmKey: ProtoObject, IResponse
+    public partial class A2C_GetRealmKey: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public string RealmToken { get; set; }
@@ -762,7 +762,7 @@ namespace ET
     [ResponseType(nameof (R2C_LoginRealm))]
     [Message(OuterMessage.C2R_LoginRealm)]
     [ProtoContract]
-    public class C2R_LoginRealm: ProtoObject, IRequest
+    public partial class C2R_LoginRealm: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public string RealmToken { get; set; }
@@ -776,7 +776,7 @@ namespace ET
 
     [Message(OuterMessage.R2C_LoginRealm)]
     [ProtoContract]
-    public class R2C_LoginRealm: ProtoObject, IResponse
+    public partial class R2C_LoginRealm: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public string GateSessionToken { get; set; }
@@ -797,7 +797,7 @@ namespace ET
     [ResponseType(nameof (G2C_LoginGameGate))]
     [Message(OuterMessage.C2G_LoginGameGate)]
     [ProtoContract]
-    public class C2G_LoginGameGate: ProtoObject, IRequest
+    public partial class C2G_LoginGameGate: ProtoObject, IRequest
     {
         [ProtoMember(1)]
         public string Key { get; set; }
@@ -814,7 +814,7 @@ namespace ET
 
     [Message(OuterMessage.G2C_LoginGameGate)]
     [ProtoContract]
-    public class G2C_LoginGameGate: ProtoObject, IResponse
+    public partial class G2C_LoginGameGate: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public long PlayerId { get; set; }
@@ -832,7 +832,7 @@ namespace ET
     [ResponseType(nameof (G2C_EnterGame))]
     [Message(OuterMessage.C2G_EnterGame)]
     [ProtoContract]
-    public class C2G_EnterGame: ProtoObject, IRequest
+    public partial class C2G_EnterGame: ProtoObject, IRequest
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -840,7 +840,7 @@ namespace ET
 
     [Message(OuterMessage.G2C_EnterGame)]
     [ProtoContract]
-    public class G2C_EnterGame: ProtoObject, IResponse
+    public partial class G2C_EnterGame: ProtoObject, IResponse
     {
         [ProtoMember(1)]
         public long UnitId { get; set; }
@@ -858,13 +858,13 @@ namespace ET
     //============================================  移动同步  ============================================
     [Message(OuterMessage.C2M_JoyStop)]
     [ProtoContract]
-    public class C2M_JoyStop: ProtoObject, IActorLocationMessage
+    public partial class C2M_JoyStop: ProtoObject, IActorLocationMessage
     {
         [ProtoMember(1)]
-        public float3 Position { get; set; }
+        public Unity.Mathematics.float3 Position { get; set; }
 
         [ProtoMember(2)]
-        public float3 Forward { get; set; }
+        public Unity.Mathematics.float3 Forward { get; set; }
 
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -873,7 +873,7 @@ namespace ET
     //============================================  数值系统  ============================================
     [Message(OuterMessage.M2C_NoticeUnitNumeric)]
     [ProtoContract]
-    public class M2C_NoticeUnitNumeric: ProtoObject, IActorMessage
+    public partial class M2C_NoticeUnitNumeric: ProtoObject, IActorMessage
     {
         [ProtoMember(1)]
         public long UnitId { get; set; }
@@ -889,7 +889,7 @@ namespace ET
     [ResponseType(nameof (M2C_AddAttributePoints))]
     [Message(OuterMessage.C2M_AddAttributePoints)]
     [ProtoContract]
-    public class C2M_AddAttributePoints: ProtoObject, IActorLocationRequest
+    public partial class C2M_AddAttributePoints: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(1)]
         public List<NumericType> NumericTypes { get; set; } = new();
@@ -903,7 +903,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_AddAttributePoints)]
     [ProtoContract]
-    public class M2C_AddAttributePoints: ProtoObject, IActorLocationResponse
+    public partial class M2C_AddAttributePoints: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -918,7 +918,7 @@ namespace ET
     [ResponseType(nameof (M2C_UpRoleLevel))]
     [Message(OuterMessage.C2M_UpRoleLevel)]
     [ProtoContract]
-    public class C2M_UpRoleLevel: ProtoObject, IActorLocationRequest
+    public partial class C2M_UpRoleLevel: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -926,7 +926,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_UpRoleLevel)]
     [ProtoContract]
-    public class M2C_UpRoleLevel: ProtoObject, IActorLocationResponse
+    public partial class M2C_UpRoleLevel: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -941,7 +941,7 @@ namespace ET
     //============================================  道具系统  ============================================
     [Message(OuterMessage.ItemInfo)]
     [ProtoContract]
-    public class ItemInfo: ProtoObject
+    public partial class ItemInfo: ProtoObject
     {
         [ProtoMember(1)]
         public long ItemUid { get; set; }
@@ -958,7 +958,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_AllItemsList)]
     [ProtoContract]
-    public class M2C_AllItemsList: ProtoObject, IActorMessage
+    public partial class M2C_AllItemsList: ProtoObject, IActorMessage
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -972,7 +972,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_ItemUpdateOpInfo)]
     [ProtoContract]
-    public class M2C_ItemUpdateOpInfo: ProtoObject, IActorMessage
+    public partial class M2C_ItemUpdateOpInfo: ProtoObject, IActorMessage
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -990,7 +990,7 @@ namespace ET
     [ResponseType(nameof (M2C_SellItem))]
     [Message(OuterMessage.C2M_SellItem)]
     [ProtoContract]
-    public class C2M_SellItem: ProtoObject, IActorLocationRequest
+    public partial class C2M_SellItem: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(2)]
         public long ItemUid { get; set; }
@@ -1004,7 +1004,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_SellItem)]
     [ProtoContract]
-    public class M2C_SellItem: ProtoObject, IActorLocationResponse
+    public partial class M2C_SellItem: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -1020,7 +1020,7 @@ namespace ET
     [ResponseType(nameof (M2C_BuyItem))]
     [Message(OuterMessage.C2M_BuyItem)]
     [ProtoContract]
-    public class C2M_BuyItem: ProtoObject, IActorLocationRequest
+    public partial class C2M_BuyItem: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(2)]
         public int ConfigId { get; set; }
@@ -1034,7 +1034,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_BuyItem)]
     [ProtoContract]
-    public class M2C_BuyItem: ProtoObject, IActorLocationResponse
+    public partial class M2C_BuyItem: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -1049,7 +1049,7 @@ namespace ET
     //============================================  装备系统  ============================================
     [Message(OuterMessage.AttributeEntryProto)]
     [ProtoContract]
-    public class AttributeEntryProto: ProtoObject
+    public partial class AttributeEntryProto: ProtoObject
     {
         [ProtoMember(1)]
         public long Id { get; set; }
@@ -1066,7 +1066,7 @@ namespace ET
 
     [Message(OuterMessage.EquipInfoProto)]
     [ProtoContract]
-    public class EquipInfoProto: ProtoObject
+    public partial class EquipInfoProto: ProtoObject
     {
         [ProtoMember(1)]
         public long Id { get; set; }
@@ -1084,7 +1084,7 @@ namespace ET
     [ResponseType(nameof (M2C_EquipItem))]
     [Message(OuterMessage.C2M_EquipItem)]
     [ProtoContract]
-    public class C2M_EquipItem: ProtoObject, IActorLocationRequest
+    public partial class C2M_EquipItem: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(1)]
         public long ItemUid { get; set; }
@@ -1095,7 +1095,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_EquipItem)]
     [ProtoContract]
-    public class M2C_EquipItem: ProtoObject, IActorLocationResponse
+    public partial class M2C_EquipItem: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -1110,7 +1110,7 @@ namespace ET
     [ResponseType(nameof (M2C_UnloadEquipItem))]
     [Message(OuterMessage.C2M_UnloadEquipItem)]
     [ProtoContract]
-    public class C2M_UnloadEquipItem: ProtoObject, IActorLocationRequest
+    public partial class C2M_UnloadEquipItem: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(1)]
         public EquipPosition EquipPosition { get; set; }
@@ -1121,7 +1121,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_UnloadEquipItem)]
     [ProtoContract]
-    public class M2C_UnloadEquipItem: ProtoObject, IActorLocationResponse
+    public partial class M2C_UnloadEquipItem: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }
@@ -1150,7 +1150,7 @@ namespace ET
 
     [Message(OuterMessage.NTaskInfo)]
     [ProtoContract]
-    public class NTaskInfo: ProtoObject
+    public partial class NTaskInfo: ProtoObject
     {
         [ProtoMember(1)]
         public int ConfigId { get; set; }
@@ -1164,7 +1164,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_UpdateTaskInfo)]
     [ProtoContract]
-    public class M2C_UpdateTaskInfo: ProtoObject, IActorMessage
+    public partial class M2C_UpdateTaskInfo: ProtoObject, IActorMessage
     {
         [ProtoMember(1)]
         public NTaskInfo NTaskInfo { get; set; }
@@ -1172,7 +1172,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_AllTaskInfoList)]
     [ProtoContract]
-    public class M2C_AllTaskInfoList: ProtoObject, IActorMessage
+    public partial class M2C_AllTaskInfoList: ProtoObject, IActorMessage
     {
         [ProtoMember(1)]
         public List<NTaskInfo> NTaskInfos { get; set; } = new();
@@ -1181,7 +1181,7 @@ namespace ET
     [ResponseType(nameof (M2C_ReceiveTaskReward))]
     [Message(OuterMessage.C2M_ReceiveTaskReward)]
     [ProtoContract]
-    public class C2M_ReceiveTaskReward: ProtoObject, IActorLocationRequest
+    public partial class C2M_ReceiveTaskReward: ProtoObject, IActorLocationRequest
     {
         [ProtoMember(1)]
         public int TaskConfigId { get; set; }
@@ -1192,7 +1192,7 @@ namespace ET
 
     [Message(OuterMessage.M2C_ReceiveTaskReward)]
     [ProtoContract]
-    public class M2C_ReceiveTaskReward: ProtoObject, IActorLocationResponse
+    public partial class M2C_ReceiveTaskReward: ProtoObject, IActorLocationResponse
     {
         [ProtoMember(90)]
         public int RpcId { get; set; }

@@ -4,6 +4,7 @@ namespace ET.Server
 {
     [FriendOf(typeof (Item))]
     [FriendOf(typeof (BagComponent))]
+    [FriendOfAttribute(typeof (RoleInfo))]
     public static class BagComponentSystem
     {
         public static void Clear(this BagComponent self)
@@ -22,7 +23,7 @@ namespace ET.Server
 
         public static Item GetItemById(this BagComponent self, long itemId)
         {
-            self.AllItemsDict.TryGetValue(itemId, out Item item);
+            self.AllItemsDict.TryGetValue(itemId, out var item);
             return item;
         }
 
@@ -32,17 +33,14 @@ namespace ET.Server
 
         public class BagComponentDestroySystem: DestroySystem<BagComponent>
         {
-            protected override void Destroy(BagComponent self)
-            {
-                self.Clear();
-            }
+            protected override void Destroy(BagComponent self) => self.Clear();
         }
 
         public class BagComponentDeserializeSystem: DeserializeSystem<BagComponent>
         {
             protected override void Deserialize(BagComponent self)
             {
-                foreach (Entity entity in self.Children.Values)
+                foreach (var entity in self.Children.Values)
                 {
                     self.AddContainer(entity as Item);
                 }
@@ -56,19 +54,28 @@ namespace ET.Server
         public static bool AddItemByConfigId(this BagComponent self, int configId, int count = 1, bool isSync = true)
         {
             if (count <= 0)
+            {
                 return false;
+            }
+
             if (!self.CanAddItem(configId, count))
+            {
                 return false;
+            }
 
             //如果已经存在该物品
-            if (self.ItemsMap.TryGetValue(configId, out Item item))
+            if (self.ItemsMap.TryGetValue(configId, out var item))
             {
                 item.Count += count;
                 if (isSync)
+                {
                     ItemUpdateNoticeHelper.SyncUpdateItem(self.GetParent<Unit>(), item, ItemOp.Update, ItemContainerType.Bag);
+                }
             }
             else //如果不存在该物品
+            {
                 self.AddNewItem(configId, count, isSync);
+            }
 
             return true;
         }
@@ -78,7 +85,7 @@ namespace ET.Server
             var itemConfig = ItemConfigCategory.Instance.Get(configId);
             if (itemConfig.StackLimit > 1)
             {
-                Item newItem = ItemFactory.CreateItem(self, configId);
+                var newItem = ItemFactory.CreateItem(self, configId);
                 if (!self.AddItem(newItem, count, isSync))
                 {
                     Log.Error("添加物品失败！");
@@ -87,9 +94,9 @@ namespace ET.Server
             }
             else
             {
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
-                    Item newItem = ItemFactory.CreateItem(self, configId);
+                    var newItem = ItemFactory.CreateItem(self, configId);
                     if (!self.AddItem(newItem, 1, isSync))
                     {
                         Log.Error("添加物品失败！");
@@ -100,7 +107,7 @@ namespace ET.Server
         }
 
         /// <summary>
-        /// 将道具添加到背包中
+        ///     将道具添加到背包中
         /// </summary>
         /// <param name="self"></param>
         /// <param name="item"></param>
@@ -133,19 +140,27 @@ namespace ET.Server
 
             item.Count += count;
             if (isSync)
+            {
                 ItemUpdateNoticeHelper.SyncUpdateItem(self.GetParent<Unit>(), item, ItemOp.Add, ItemContainerType.Bag);
+            }
+
             return true;
         }
 
         private static bool AddContainer(this BagComponent self, Item item)
         {
             if (self.ContainItem(item.Id))
+            {
                 return false;
+            }
 
             self.AllItemsDict.Add(item.Id, item);
-            self.ItemTypeMap.Add((ItemType)item.Config.Type, item);
+            self.ItemTypeMap.Add(item.Config.Type, item);
             if (item.CanStack)
+            {
                 self.ItemsMap.Add(item.ConfigId, item);
+            }
+
             return true;
         }
 
@@ -164,10 +179,8 @@ namespace ET.Server
                         Log.Error("item count is not enough!");
                         return false;
                     }
-                    else
-                    {
-                        item.Count -= count;
-                    }
+
+                    item.Count -= count;
                 }
                 else
                 {
@@ -177,17 +190,15 @@ namespace ET.Server
                 ItemUpdateNoticeHelper.SyncUpdateItem(self.GetParent<Unit>(), item, ItemOp.Remove, ItemContainerType.Bag);
                 return true;
             }
-            else
-            {
-                Log.Error("item is not in bag!");
-                return false;
-            }
+
+            Log.Error("item is not in bag!");
+            return false;
         }
 
         private static void RemoveContainer(this BagComponent self, Item item)
         {
             self.AllItemsDict.Remove(item.Id);
-            self.ItemTypeMap.Remove((ItemType)item.Config.Type, item);
+            self.ItemTypeMap.Remove(item.Config.Type, item);
         }
 
 #endregion 删除道具
@@ -195,20 +206,21 @@ namespace ET.Server
 #region 查询
 
         /// <summary>
-        /// 是否达到最大负载
+        ///     是否达到最大负载
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static bool IsMaxLoad(this BagComponent self, int count = 1)
-        {
-            return self.AllItemsDict.Count + count > self.GetParent<Unit>().GetComponent<NumericComponent>()[NumericType.MaxBagCapacity];
-        }
+        public static bool IsMaxLoad(this BagComponent self, int count = 1) => self.AllItemsDict.Count + count >
+                self.GetParent<Unit>().GetComponent<NumericComponent>()[NumericType.MaxBagCapacity];
 
         public static bool CanAddItem(this BagComponent self, int configId, int count = 1)
         {
             var config = ItemConfigCategory.Instance.Get(configId);
             if (config == null)
+            {
                 return false;
+            }
+
             //如果是可堆叠的
             if (config.StackLimit > 1)
             {
@@ -284,7 +296,7 @@ namespace ET.Server
 
         public static bool ContainItem(this BagComponent self, long itemId)
         {
-            self.AllItemsDict.TryGetValue(itemId, out Item item);
+            self.AllItemsDict.TryGetValue(itemId, out var item);
             return item != null && !item.IsDisposed;
         }
 
