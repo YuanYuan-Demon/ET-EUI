@@ -1,3 +1,5 @@
+using Unity.Mathematics;
+
 namespace ET.Client.EventType
 {
 #region 装备系统
@@ -21,4 +23,18 @@ namespace ET.Client.EventType
     }
 
 #endregion 任务系统
+
+#region 聊天系统
+
+    public struct UpdateChat
+    {
+    }
+
+    public struct ClickChatLink
+    {
+        public float3 ClickPoint;
+        public string LinkInfo;
+    }
+
+#endregion 聊天系统
 }

@@ -6,7 +6,7 @@ namespace ET.Server
     {
         public static async ETTask<Scene> Create(Entity parent, string name, SceneType sceneType)
         {
-            long instanceId = IdGenerater.Instance.GenerateInstanceId();
+            var instanceId = IdGenerater.Instance.GenerateInstanceId();
             return await CreateServerScene(parent, instanceId, instanceId, parent.DomainZone(), name, sceneType);
         }
 
@@ -14,7 +14,7 @@ namespace ET.Server
         StartSceneConfig startSceneConfig = null)
         {
             await ETTask.CompletedTask;
-            Scene scene = EntitySceneFactory.CreateScene(id, instanceId, zone, sceneType, name, parent);
+            var scene = EntitySceneFactory.CreateScene(id, instanceId, zone, sceneType, name, parent);
 
             scene.AddComponent<MailBoxComponent, MailboxType>(MailboxType.UnOrderMessageDispatcher);
 
@@ -87,10 +87,10 @@ namespace ET.Server
                 //    await scene.AddComponent<RankInfosComponent>().LoadRankInfo();
                 //    break;
 
-                //Undone:Chat服务器
-                //case SceneType.Chat:
-                //    scene.AddComponent<ChatInfoUnitsComponent>();
-                //break;
+                case SceneType.Chat:
+                    scene.AddComponent<ChatInfoUnitsComponent>();
+                    scene.AddComponent<ChatComponent>();
+                    break;
             }
 
             return scene;

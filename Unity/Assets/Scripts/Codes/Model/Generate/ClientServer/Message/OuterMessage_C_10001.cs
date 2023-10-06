@@ -1224,24 +1224,67 @@ namespace ET
     // 	string Message = 92;
     // 	repeated RankInfoProto RankInfoProtoList = 1;
     // }
-    // //============================================  聊天系统  ============================================
-    // //ResponseType Chat2C_SendChatInfo
-    // message C2Chat_SendChatInfo // IActorChatInfoRequest
-    // {
-    // 	int32 RpcId         = 90;
-    // 	string ChatMessage  = 1;
-    // }
-    // message Chat2C_SendChatInfo // IActorChatInfoResponse
-    // {
-    // 	int32 RpcId    = 90;
-    // 	int32 Error    = 91;
-    // 	string Message = 92;
-    // }
-    // message Chat2C_NoticeChatInfo // IActorMessage
-    // {
-    // 	string Name = 1;
-    // 	string ChatMessage = 2;
-    // }
+    //============================================  聊天系统  ============================================
+    [Message(OuterMessage.NChatMessage)]
+    [ProtoContract]
+    public partial class NChatMessage: ProtoObject
+    {
+        [ProtoMember(1)]
+        public ChatChannel Channel { get; set; }
+
+        [ProtoMember(2)]
+        public long fromID { get; set; }
+
+        [ProtoMember(3)]
+        public string fromName { get; set; }
+
+        [ProtoMember(4)]
+        public long toID { get; set; }
+
+        [ProtoMember(5)]
+        public string toName { get; set; }
+
+        [ProtoMember(6)]
+        public string message { get; set; }
+
+        [ProtoMember(7)]
+        public long time { get; set; }
+    }
+
+    [ResponseType(nameof (Chat2C_SendChatInfo))]
+    [Message(OuterMessage.C2Chat_SendChatInfo)]
+    [ProtoContract]
+    public partial class C2Chat_SendChatInfo: ProtoObject, IActorChatInfoRequest
+    {
+        [ProtoMember(1)]
+        public NChatMessage NChatMessage { get; set; }
+
+        [ProtoMember(90)]
+        public int RpcId { get; set; }
+    }
+
+    [Message(OuterMessage.Chat2C_SendChatInfo)]
+    [ProtoContract]
+    public partial class Chat2C_SendChatInfo: ProtoObject, IActorChatInfoResponse
+    {
+        [ProtoMember(90)]
+        public int RpcId { get; set; }
+
+        [ProtoMember(91)]
+        public int Error { get; set; }
+
+        [ProtoMember(92)]
+        public string Message { get; set; }
+    }
+
+    [Message(OuterMessage.Chat2C_NoticeChatInfo)]
+    [ProtoContract]
+    public partial class Chat2C_NoticeChatInfo: ProtoObject, IActorMessage
+    {
+        [ProtoMember(1)]
+        public NChatMessage NChatMessage { get; set; }
+    }
+
     public static class OuterMessage
     {
         public const ushort HttpGetRouterResponse = 10002;
@@ -1326,5 +1369,9 @@ namespace ET
         public const ushort M2C_AllTaskInfoList = 10081;
         public const ushort C2M_ReceiveTaskReward = 10082;
         public const ushort M2C_ReceiveTaskReward = 10083;
+        public const ushort NChatMessage = 10084;
+        public const ushort C2Chat_SendChatInfo = 10085;
+        public const ushort Chat2C_SendChatInfo = 10086;
+        public const ushort Chat2C_NoticeChatInfo = 10087;
     }
 }

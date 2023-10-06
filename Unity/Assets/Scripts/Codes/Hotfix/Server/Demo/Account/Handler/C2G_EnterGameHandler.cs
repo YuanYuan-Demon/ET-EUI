@@ -7,22 +7,23 @@ namespace ET.Server
     [FriendOf(typeof (RoleInfo))]
     public class C2G_EnterGameHandler: AMRpcHandler<C2G_EnterGame, G2C_EnterGame>
     {
-        //private static async ETTask<long> EnterWorldChatServer(Unit unit)
-        //{
-        //    StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(unit.DomainZone(), "Chat");
-        //    Chat2G_EnterChat response = await MessageHelper.CallActor(startSceneConfig.InstanceId, new G2Chat_EnterChat()
-        //    {
-        //        UnitId = unit.Id,
-        //        Name = unit.GetComponent<RoleInfo>().Name,
-        //        GateSessionActorId = unit.GetComponent<UnitGateComponent>().GateSessionActorId
-        //    }) as Chat2G_EnterChat;
+        private static async ETTask<long> EnterWorldChatServer(Unit unit)
+        {
+            var startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(unit.DomainZone(), "Chat");
+            var response = await MessageHelper.CallActor(startSceneConfig.InstanceId,
+                new G2Chat_EnterChat()
+                {
+                    UnitId = unit.Id,
+                    Name = unit.GetComponent<RoleInfo>().Name,
+                    GateSessionActorId = unit.GetComponent<UnitGateComponent>().GateSessionActorId,
+                }) as Chat2G_EnterChat;
 
-        //    return response.ChatInfoUnitInstanceId;
-        //}
+            return response.ChatInfoUnitInstanceId;
+        }
 
         protected override async ETTask Run(Session session, C2G_EnterGame request, G2C_EnterGame response)
         {
-            Scene scene = session.DomainScene();
+            var scene = session.DomainScene();
 
 #region 校验
 
@@ -51,7 +52,7 @@ namespace ET.Server
 
 #endregion 校验
 
-            long instanceId = session.InstanceId;
+            var instanceId = session.InstanceId;
             using (session.AddComponent<SessionLoginComponent>())
             using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginGate, player.AccountId))
             {
@@ -73,11 +74,9 @@ namespace ET.Server
                 {
                     try
                     {
-                        IActorResponse reqEnter = await MessageHelper.CallLocationActor(player.UnitId, new G2M_RequestEnterGameStatus());
+                        var reqEnter = await MessageHelper.CallLocationActor(player.UnitId, new G2M_RequestEnterGameStatus());
                         if (reqEnter.Error == ErrorCode.ERR_Success)
-                        {
                             return;
-                        }
 
                         Log.Error($"二次登陆失败: {reqEnter.Error} | {reqEnter.Message}");
                         response.Error = reqEnter.Error;
@@ -103,12 +102,11 @@ namespace ET.Server
                     //gateMapComponent.Scene = await SceneFactory.Create(gateMapComponent, "GateMap", SceneType.Map);
 
                     //从数据库或缓存中加载出Unit实体及其相关组件
-                    (bool isNewPlayer, Unit unit) = await UnitCacheHelper.LoadUnit(player);
+                    var (isNewPlayer, unit) = await UnitCacheHelper.LoadUnit(player);
                     unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
                     //unit.AddComponent<UnitGateComponent, long>(player.InstanceId);
 
-                    //undone:登录聊天服
-                    //player.ChatInfoInstanceId = await EnterWorldChatServer(unit);
+                    player.ChatInfoInstanceId = await EnterWorldChatServer(unit);
 
                     //玩家Unit上线后的初始化操作
                     await UnitHelper.InitUnit(unit, isNewPlayer);
@@ -120,8 +118,8 @@ namespace ET.Server
                     //unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
 
                     //将游戏对象传送至游戏逻辑服
-                    long unitId = unit.Id;
-                    StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(session.DomainZone(), "MainCity");
+                    var unitId = unit.Id;
+                    var startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(session.DomainZone(), "MainCity");
                     await TransferHelper.Transfer(unit, startSceneConfig.InstanceId, startSceneConfig.Name);
 
                     player.UnitId = unitId;

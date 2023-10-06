@@ -6,8 +6,6 @@ namespace ET.Client
     {
         public static async ETTask<Scene> CreateClientScene(int zone, string name)
         {
-            await ETTask.CompletedTask;
-
             var clientScene = EntitySceneFactory.CreateScene(zone, SceneType.Client, name, ClientSceneManagerComponent.Instance);
             clientScene.AddComponent<CurrentScenesComponent>();
             clientScene.AddComponent<ObjectWait>();
@@ -24,10 +22,9 @@ namespace ET.Client
             clientScene.AddComponent<CTasksComponent>();
             //Undone: AddComponent<RankComponent>();
             //clientScene.AddComponent<RankComponent>();
-            //Undone: AddComponent<ChatComponent>();
-            //clientScene.AddComponent<ChatComponent>();
+            clientScene.AddComponent<CChatComponent>();
 
-            EventSystem.Instance.Publish(clientScene, new AfterCreateClientScene());
+            await EventSystem.Instance.PublishAsync(clientScene, new AfterCreateClientScene());
             return clientScene;
         }
 

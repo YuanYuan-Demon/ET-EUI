@@ -684,27 +684,37 @@ message M2C_ReceiveTaskReward // IActorLocationResponse
 // }
 
 
-// //============================================  聊天系统  ============================================
+//============================================  聊天系统  ============================================
 
-// //ResponseType Chat2C_SendChatInfo
-// message C2Chat_SendChatInfo // IActorChatInfoRequest
-// {
-// 	int32 RpcId         = 90;
+message NChatMessage
+{
+	ChatChannel Channel = 1;
+	int64 fromID = 2;
+	string fromName = 3;
+	int64 toID = 4;
+	string toName = 5;
+	string message = 6;
+	int64 time = 7;
+}
 
-// 	string ChatMessage  = 1;
-// }
+//ResponseType Chat2C_SendChatInfo
+message C2Chat_SendChatInfo // IActorChatInfoRequest
+{
+	int32 RpcId         = 90;
+
+	NChatMessage NChatMessage = 1;
+}
 
 
-// message Chat2C_SendChatInfo // IActorChatInfoResponse
-// {
-// 	int32 RpcId    = 90;
-// 	int32 Error    = 91;
-// 	string Message = 92;
-// }
+message Chat2C_SendChatInfo // IActorChatInfoResponse
+{
+	int32 RpcId    = 90;
+	int32 Error    = 91;
+	string Message = 92;
+}
 
 
-// message Chat2C_NoticeChatInfo // IActorMessage
-// {
-// 	string Name = 1;
-// 	string ChatMessage = 2;
-// }
+message Chat2C_NoticeChatInfo // IActorMessage
+{
+	NChatMessage NChatMessage = 1;
+}

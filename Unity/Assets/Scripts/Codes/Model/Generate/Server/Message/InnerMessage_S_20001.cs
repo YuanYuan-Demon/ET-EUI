@@ -700,33 +700,69 @@ namespace ET
 // 	int32 RpcId = 90;
 // 	RankInfo RankInfo = 1;
 // }
-// //============================================  聊天系统  ============================================
-// //ResponseType Chat2G_EnterChat
-// message G2Chat_EnterChat // IActorRequest
-// {
-//     int32 RpcId = 90;
-// 	string Name  = 1;
-// 	int64 UnitId = 2;
-// 	int64 GateSessionActorId = 3;
-// }
-// message Chat2G_EnterChat // IActorResponse
-// {
-//     int32 RpcId = 90;
-//     int32 Error = 91;
-//     string Message = 92;
-// 	int64 ChatInfoUnitInstanceId = 1;
-// }
-// //ResponseType Chat2G_RequestExitChat
-// message G2Chat_RequestExitChat // IActorRequest
-// {
-//     int32 RpcId = 90;
-// }
-// message Chat2G_RequestExitChat // IActorResponse
-// {
-//     int32 RpcId = 90;
-//     int32 Error = 91;
-//     string Message = 92;
-// }
+//============================================  聊天系统  ============================================
+	[ResponseType(nameof(Chat2G_EnterChat))]
+	[Message(InnerMessage.G2Chat_EnterChat)]
+	[ProtoContract]
+	public partial class G2Chat_EnterChat: ProtoObject, IActorRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public string Name { get; set; }
+
+		[ProtoMember(2)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(3)]
+		public long GateSessionActorId { get; set; }
+
+	}
+
+	[Message(InnerMessage.Chat2G_EnterChat)]
+	[ProtoContract]
+	public partial class Chat2G_EnterChat: ProtoObject, IActorResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public long ChatInfoUnitInstanceId { get; set; }
+
+	}
+
+	[ResponseType(nameof(Chat2G_RequestExitChat))]
+	[Message(InnerMessage.G2Chat_RequestExitChat)]
+	[ProtoContract]
+	public partial class G2Chat_RequestExitChat: ProtoObject, IActorRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(InnerMessage.Chat2G_RequestExitChat)]
+	[ProtoContract]
+	public partial class Chat2G_RequestExitChat: ProtoObject, IActorResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
 	public static class InnerMessage
 	{
 		 public const ushort ObjectQueryRequest = 20002;
@@ -774,5 +810,9 @@ namespace ET
 		 public const ushort UnitCache2Other_GetUnit = 20044;
 		 public const ushort Other2UnitCache_DeleteUnit = 20045;
 		 public const ushort UnitCache2Other_DeleteUnit = 20046;
+		 public const ushort G2Chat_EnterChat = 20047;
+		 public const ushort Chat2G_EnterChat = 20048;
+		 public const ushort G2Chat_RequestExitChat = 20049;
+		 public const ushort Chat2G_RequestExitChat = 20050;
 	}
 }

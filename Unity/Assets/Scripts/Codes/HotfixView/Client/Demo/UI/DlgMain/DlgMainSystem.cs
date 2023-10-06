@@ -18,9 +18,14 @@
             view.EB_Shop_Button.AddListener(self.OnClickShop);
 
             view.ES_Joystick.RegisterUIEvent();
+            self.View.ES_Chat.Init();
         }
 
-        public static void ShowWindow(this DlgMain self, ShowWindowData contextData = null) => self.View.ES_Joystick.OnShow();
+        public static void ShowWindow(this DlgMain self, ShowWindowData contextData = null)
+        {
+            self.View.ES_Joystick.OnShow();
+            self.View.ES_Chat.ShowPanel(true);
+        }
 
         public static void HideWindow(this DlgMain self) => self.View.ES_Joystick.OnHide();
 

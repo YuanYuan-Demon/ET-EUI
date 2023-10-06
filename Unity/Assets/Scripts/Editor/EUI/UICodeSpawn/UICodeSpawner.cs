@@ -22,28 +22,32 @@ public partial class UICodeSpawner
 
     private static List<string> WidgetInterfaceList;
 
-    static UICodeSpawner() => WidgetInterfaceList = new List<string>
+    static UICodeSpawner()
     {
-        "Button",
-        "Text",
-        "TMPro.TextMeshProUGUI",
-        "TMPro.TMP_InputField",
-        "Input",
-        "InputField",
-        "Scrollbar",
-        "ToggleGroup",
-        "Toggle",
-        "Dropdown",
-        "Slider",
-        "ScrollRect",
-        "Image",
-        "RawImage",
-        "Canvas",
-        "UIWarpContent",
-        "LoopVList",
-        "LoopHList",
-        "UnityEngine.EventSystems.EventTrigger"
-    };
+        WidgetInterfaceList = new()
+        {
+            "Button",
+            "Text",
+            "TMPro.TextMeshProUGUI",
+            "TMPro.TMP_InputField",
+            "TMPro.TMP_Dropdown",
+            "Input",
+            "InputField",
+            "Scrollbar",
+            "ToggleGroup",
+            "Toggle",
+            "Dropdown",
+            "Slider",
+            "ScrollRect",
+            "Image",
+            "RawImage",
+            "Canvas",
+            "UIWarpContent",
+            "LoopVList",
+            "LoopHList",
+            "UnityEngine.EventSystems.EventTrigger",
+        };
+    }
 
     private static void SpawnCodeForDlg(GameObject gameObject)
     {
@@ -51,9 +55,7 @@ public partial class UICodeSpawner
         var strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName;
 
         if (!Directory.Exists(strFilePath))
-        {
             Directory.CreateDirectory(strFilePath);
-        }
 
         strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName + "/" + strDlgName + "System.cs";
         if (File.Exists(strFilePath))
@@ -118,9 +120,7 @@ public partial class UICodeSpawner
 
         var originWindowIdContent = File.ReadAllText(strFilePath);
         if (originWindowIdContent.Contains(strDlgName.Substring(3)))
-        {
             return;
-        }
 
         var windowIdEndIndex = GetWindowIdEndIndex(originWindowIdContent);
         originWindowIdContent = originWindowIdContent.Insert(windowIdEndIndex, "\tWindowID_" + strDlgName[3..] + ",\n\t");
@@ -133,9 +133,7 @@ public partial class UICodeSpawner
         var strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName + "/Event";
 
         if (!Directory.Exists(strFilePath))
-        {
             Directory.CreateDirectory(strFilePath);
-        }
 
         strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UI/" + strDlgName + "/Event/" + strDlgName + "EventHandler.cs";
         if (File.Exists(strFilePath))
@@ -212,9 +210,7 @@ public partial class UICodeSpawner
         var strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Demo/UI/" + strDlgName;
 
         if (!Directory.Exists(strFilePath))
-        {
             Directory.CreateDirectory(strFilePath);
-        }
 
         strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Demo/UI/" + strDlgName + "/" + strDlgName + ".cs";
         if (File.Exists(strFilePath))
@@ -248,9 +244,7 @@ public partial class UICodeSpawner
     private static void SpawnCodeForDlgBehaviour(GameObject gameObject)
     {
         if (null == gameObject)
-        {
             return;
-        }
 
         var strDlgName = gameObject.name;
         var strDlgComponentName = gameObject.name + "ViewComponent";
@@ -258,9 +252,7 @@ public partial class UICodeSpawner
         var strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UIBehaviour/" + strDlgName;
 
         if (!Directory.Exists(strFilePath))
-        {
             Directory.CreateDirectory(strFilePath);
-        }
 
         strFilePath = Application.dataPath + "/Scripts/Codes/HotfixView/Client/Demo/UIBehaviour/" + strDlgName + "/" + strDlgComponentName +
                 "System.cs";
@@ -300,18 +292,14 @@ public partial class UICodeSpawner
     private static void SpawnCodeForDlgComponentBehaviour(GameObject gameObject)
     {
         if (null == gameObject)
-        {
             return;
-        }
 
         var strDlgName = gameObject.name;
         var strDlgComponentName = gameObject.name + "ViewComponent";
 
         var strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Demo/UIBehaviour/" + strDlgName;
         if (!Directory.Exists(strFilePath))
-        {
             Directory.CreateDirectory(strFilePath);
-        }
 
         strFilePath = Application.dataPath + "/Scripts/Codes/ModelView/Client/Demo/UIBehaviour/" + strDlgName + "/" + strDlgComponentName + ".cs";
         StreamWriter sw = new(strFilePath, false, Encoding.UTF8);
@@ -423,7 +411,7 @@ public partial class UICodeSpawner
     public static void SpawnDlgCode(GameObject gameObject)
     {
         Path2WidgetCachedDict?.Clear();
-        Path2WidgetCachedDict = new Dictionary<string, List<Component>>();
+        Path2WidgetCachedDict = new();
 
         FindAllWidgets(gameObject.transform, "");
 
@@ -446,9 +434,7 @@ public partial class UICodeSpawner
         for (var i = 0; i < matchCollection.Count; i++)
         {
             if (matchCollection[i].Index > match.Index)
-            {
                 return matchCollection[i].Index;
-            }
         }
 
         return -1;
@@ -461,9 +447,7 @@ public partial class UICodeSpawner
         CreateDlgWidgetDisposeCode(ref strBuilder);
         strBuilder.AppendFormat("\t\t\tthis.uiTransform = null;\r\n");
         if (isScrollItem)
-        {
             strBuilder.AppendLine("\t\t\tthis.DataId = 0;");
-        }
 
         strBuilder.AppendLine("\t\t}\n");
     }
@@ -593,9 +577,7 @@ public partial class UICodeSpawner
     public static void FindAllWidgets(Transform trans, string strPath)
     {
         if (null == trans)
-        {
             return;
-        }
 
         for (var nIndex = 0; nIndex < trans.childCount; ++nIndex)
         {
@@ -615,9 +597,7 @@ public partial class UICodeSpawner
                 {
                     var component = child.GetComponent(uiComponent);
                     if (null == component)
-                    {
                         continue;
-                    }
 
                     if (Path2WidgetCachedDict.ContainsKey(child.name))
                     {

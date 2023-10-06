@@ -27,13 +27,12 @@ namespace ET.Client
             }
 
             //self.EI_QualityImage.color = item.ItemQualityColor();
-            self.EB_Select_Button.AddListenerWithId(self.OnClickItem, item.Id);
+            self.EB_Select_Button.AddListener(() => self.OnClickItem(item.Config));
         }
 
-        public static void OnClickItem(this Scroll_Item_BagItem self, long itemId)
+        private static void OnClickItem(this Scroll_Item_BagItem self, ItemConfig itemConfig)
         {
-            var item = self.ClientScene().GetComponent<BagComponent>().GetItemById(itemId);
-            var showData = new PopItemData() { Item = item, ClickPosition = Input.mousePosition };
+            var showData = new PopItemData() { ItemConfig = itemConfig, ClickPosition = Input.mousePosition };
             UIComponent.Instance.ShowWindow<DlgPopItem>(showData);
         }
     }

@@ -13,6 +13,7 @@ namespace ET.Client
     public class PopItemData: ShowWindowData
     {
         public Vector3 ClickPosition;
-        public Item Item;
+        public ItemConfig ItemConfig;
+        public bool ShowButtons = true;
     }
 }
