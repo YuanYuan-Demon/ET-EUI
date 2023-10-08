@@ -7,19 +7,19 @@
     {
         public static void SyncAddItem(Unit unit, Item item, ItemContainerType containerType)
         {
-            var message = new M2C_ItemUpdateOpInfo { ContainerType = containerType, ItemInfo = item.ToMessage(), Op = ItemOp.Add };
+            var message = new M2C_ItemUpdateOpInfo { ContainerType = containerType, NItem = item.ToMessage(), Op = ItemOp.Add };
             MessageHelper.SendToClient(unit, message);
         }
 
         public static void SyncRemoveItem(Unit unit, Item item, ItemContainerType containerType)
         {
-            var message = new M2C_ItemUpdateOpInfo { ContainerType = containerType, ItemInfo = item.ToMessage(false), Op = ItemOp.Remove };
+            var message = new M2C_ItemUpdateOpInfo { ContainerType = containerType, NItem = item.ToMessage(false), Op = ItemOp.Remove };
             MessageHelper.SendToClient(unit, message);
         }
 
         public static void SyncUpdateItem(Unit unit, Item item, ItemOp itemOp, ItemContainerType containerType)
         {
-            var message = new M2C_ItemUpdateOpInfo { ContainerType = containerType, ItemInfo = item.ToMessage(itemOp == ItemOp.Add), Op = itemOp };
+            var message = new M2C_ItemUpdateOpInfo { ContainerType = containerType, NItem = item.ToMessage(itemOp == ItemOp.Add), Op = itemOp };
             MessageHelper.SendToClient(unit, message);
         }
 
@@ -31,7 +31,7 @@
 
             foreach (var item in bagComponent.AllItemsDict.Values)
             {
-                message.ItemInfoList.Add(item.ToMessage());
+                message.NItems.Add(item.ToMessage());
             }
 
             MessageHelper.SendToClient(unit, message);
@@ -44,7 +44,7 @@
             ec ??= unit.AddComponent<EquipmentsComponent>();
             foreach (var item in ec.EquipedItems.Values)
             {
-                m2CAllItemsList.ItemInfoList.Add(item.ToMessage());
+                m2CAllItemsList.NItems.Add(item.ToMessage());
             }
 
             MessageHelper.SendToClient(unit, m2CAllItemsList);

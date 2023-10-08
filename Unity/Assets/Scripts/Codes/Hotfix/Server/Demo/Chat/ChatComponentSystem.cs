@@ -19,8 +19,7 @@ namespace ET.Server
             if (chatMessage.Parent != self)
                 self.AddChild(chatMessage);
 
-            if (chatMessage.Channel == ChatChannel.Private)
-                self.PrivateTarget.Enqueue(chatMessage.ToId);
+            
 
             self.AllMessages[chatMessage.Channel].Enqueue(chatMessage);
             self.AllMessages[ChatChannel.All].Enqueue(chatMessage);

@@ -96,6 +96,14 @@
     "outer_port": 0
   },
   {
+    "id": 13,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "Friend",
+    "name": "Friend",
+    "outer_port": 0
+  },
+  {
     "id": 200,
     "process": 1,
     "zone": 2,

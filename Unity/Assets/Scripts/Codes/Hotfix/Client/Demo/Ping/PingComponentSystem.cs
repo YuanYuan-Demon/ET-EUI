@@ -5,36 +5,29 @@ namespace ET.Client
     [ObjectSystem]
     public class PingComponentAwakeSystem: AwakeSystem<PingComponent>
     {
-        protected override void Awake(PingComponent self)
-        {
-            PingAsync(self).Coroutine();
-        }
+        protected override void Awake(PingComponent self) => PingAsync(self).Coroutine();
 
         private static async ETTask PingAsync(PingComponent self)
         {
-            Session session = self.GetParent<Session>();
-            long instanceId = self.InstanceId;
-            
+            var session = self.GetParent<Session>();
+            var instanceId = self.InstanceId;
+
             while (true)
             {
                 if (self.InstanceId != instanceId)
-                {
                     return;
-                }
 
-                long time1 = TimeHelper.ClientNow();
+                var time1 = TimeHelper.ClientNow();
                 try
                 {
-                    G2C_Ping response = await session.Call(new C2G_Ping()) as G2C_Ping;
+                    var response = await session.Call(new C2G_Ping()) as G2C_Ping;
 
                     if (self.InstanceId != instanceId)
-                    {
                         return;
-                    }
 
-                    long time2 = TimeHelper.ClientNow();
+                    var time2 = TimeHelper.ClientNow();
                     self.Ping = time2 - time1;
-                    
+
                     TimeInfo.Instance.ServerMinusClientTime = response.Time + (time2 - time1) / 2 - time2;
 
                     await TimerComponent.Instance.WaitAsync(2000);
@@ -56,9 +49,6 @@ namespace ET.Client
     [ObjectSystem]
     public class PingComponentDestroySystem: DestroySystem<PingComponent>
     {
-        protected override void Destroy(PingComponent self)
-        {
-            self.Ping = default;
-        }
+        protected override void Destroy(PingComponent self) => self.Ping = default;
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ET.Client
 {
@@ -8,7 +7,6 @@ namespace ET.Client
     {
         protected override void Awake(RedDotComponent self)
         {
-           
         }
     }
 
@@ -21,6 +19,7 @@ namespace ET.Client
             {
                 List.Dispose();
             }
+
             self.RedDotNodeParentsDict.Clear();
             self.ToParentDict.Clear();
             self.RedDotNodeRetainCount.Clear();
@@ -30,7 +29,7 @@ namespace ET.Client
         }
     }
 
-    [FriendOf(typeof(RedDotComponent))]
+    [FriendOf(typeof (RedDotComponent))]
     public static class RedDotComponentSystem
     {
         public static void AddRedDotNode(this RedDotComponent self, string parent, string target, bool isNeedShowNum)
@@ -40,7 +39,7 @@ namespace ET.Client
                 Log.Error($"target is null");
                 return;
             }
-            
+
             if (string.IsNullOrEmpty(parent))
             {
                 Log.Error($"parent is null");
@@ -55,27 +54,19 @@ namespace ET.Client
 
             self.ToParentDict.Add(target, parent);
 
-            if ( !self.RedDotNodeRetainCount.ContainsKey(target) )
-            {
+            if (!self.RedDotNodeRetainCount.ContainsKey(target))
                 self.RedDotNodeRetainCount.Add(target, 0);
-            }
 
             if (!self.RedDotNodeNeedShowSet.Contains(parent) && isNeedShowNum)
-            {
                 self.RedDotNodeNeedShowSet.Add(parent);
-            } 
-            
-            if (!self.RetainViewCount.ContainsKey(target))
-            {
-                self.RetainViewCount.Add(target, 0);
-            }
-            
-            if (!self.RedDotNodeRetainCount.ContainsKey(parent))
-            {
-                self.RedDotNodeRetainCount.Add(parent, 0);
-            }
 
-            if (self.RedDotNodeParentsDict.TryGetValue(parent, out ListComponent<string> list))
+            if (!self.RetainViewCount.ContainsKey(target))
+                self.RetainViewCount.Add(target, 0);
+
+            if (!self.RedDotNodeRetainCount.ContainsKey(parent))
+                self.RedDotNodeRetainCount.Add(parent, 0);
+
+            if (self.RedDotNodeParentsDict.TryGetValue(parent, out var list))
             {
                 list.Add(target);
                 return;
@@ -86,17 +77,15 @@ namespace ET.Client
             self.RedDotNodeParentsDict.Add(parent, listComponent);
         }
 
-        public static void  RemoveRedDotNode(this RedDotComponent self, string target)
+        public static void RemoveRedDotNode(this RedDotComponent self, string target)
         {
-            if (!self.ToParentDict.TryGetValue(target, out string parent))
-            {
-                return ;
-            }
+            if (!self.ToParentDict.TryGetValue(target, out var parent))
+                return;
 
             if (!self.IsLeafNode(target))
             {
                 Log.Error("can not remove parent node!");
-                return ;
+                return;
             }
 
             self.UpdateLogicNodeRetainCount(target, false);
@@ -104,19 +93,20 @@ namespace ET.Client
             if (!string.IsNullOrEmpty(parent))
             {
                 self.RedDotNodeParentsDict[parent].Remove(target);
-                if ( self.RedDotNodeParentsDict[parent].Count <= 0 )
+                if (self.RedDotNodeParentsDict[parent].Count <= 0)
                 {
                     self.RedDotNodeParentsDict[parent].Dispose();
                     self.RedDotNodeParentsDict.Remove(parent);
                     self.RedDotNodeNeedShowSet.Remove(parent);
                 }
             }
+
             self.RedDotNodeRetainCount.Remove(target);
         }
 
         public static void AddRedDotView(this RedDotComponent self, string target, RedDotMonoView monoView)
         {
-            if (!self.RedDotNodeRetainCount.TryGetValue(target, out int retainCount))
+            if (!self.RedDotNodeRetainCount.TryGetValue(target, out var retainCount))
             {
                 Log.Error("redDot Node never added :" + target);
                 return;
@@ -125,36 +115,27 @@ namespace ET.Client
             self.RedDotMonoViewDict[target] = monoView;
 
             if (retainCount == 0)
-            {
                 return;
-            }
             monoView.Show(self.GetORedDotGameObjectFromPool());
         }
-        
+
         public static void RemoveRedDotView(this RedDotComponent self, string target, out RedDotMonoView monoView)
         {
             if (self.RedDotMonoViewDict.TryGetValue(target, out monoView))
-            {
                 self.RedDotMonoViewDict.Remove(target);
-            }
 
             if (monoView == null || !monoView.isRedDotActive)
-            {
                 return;
-            }
             self.RecycleRedDotGameObject(monoView.Recovery());
         }
-        
-        public static bool IsLeafNode(this RedDotComponent self, string target)
-        {
-            return !self.RedDotNodeParentsDict.ContainsKey(target);
-        }
+
+        public static bool IsLeafNode(this RedDotComponent self, string target) => !self.RedDotNodeParentsDict.ContainsKey(target);
 
         public static bool HideRedDotNode(this RedDotComponent self, string target)
         {
             if (!self.IsLeafNode(target))
             {
-                Log.Error("can not hide parent node!"+target);
+                Log.Error("can not hide parent node!" + target);
                 return false;
             }
 
@@ -173,7 +154,7 @@ namespace ET.Client
             self.UpdateLogicNodeRetainCount(target);
             return true;
         }
-        
+
         private static void UpdateLogicNodeRetainCount(this RedDotComponent self, string target, bool isRaiseRetainCount = true)
         {
             if (!self.RedDotNodeRetainCount.ContainsKey(target))
@@ -181,7 +162,7 @@ namespace ET.Client
                 Log.Error($"redDot logic node {target} is not exist!");
                 return;
             }
-            
+
             if (!self.IsLeafNode(target))
             {
                 Log.Error($"redDot logic node {target} is not leaf node!");
@@ -210,51 +191,39 @@ namespace ET.Client
                     Log.Error($"redDot logic node {target} is not show status, RetainCount is {self.RedDotNodeRetainCount[target]}");
                     return;
                 }
+
                 self.RedDotNodeRetainCount[target] += -1;
             }
-            
-            int curr = self.RedDotNodeRetainCount[target];
 
-            if ( curr < 0 || curr > 1 )
+            var curr = self.RedDotNodeRetainCount[target];
+
+            if (curr < 0 || curr > 1)
             {
                 Log.Error("count is error, redDot node is logic error!");
                 return;
             }
-            
-            if (self.RedDotMonoViewDict.TryGetValue(target, out RedDotMonoView redDotMonoView))
+
+            if (self.RedDotMonoViewDict.TryGetValue(target, out var redDotMonoView))
             {
                 if (isRaiseRetainCount)
-                {
                     redDotMonoView.Show(self.GetORedDotGameObjectFromPool());
-                }
                 else
-                {
                     self.RecycleRedDotGameObject(redDotMonoView.Recovery());
-                }
             }
-            bool isParentExist = self.ToParentDict.TryGetValue(target, out string parent);
+
+            var isParentExist = self.ToParentDict.TryGetValue(target, out var parent);
             while (isParentExist)
             {
-                self.RedDotNodeRetainCount[parent] += isRaiseRetainCount ?  1 : -1;
-                
-                if (self.RedDotNodeRetainCount[parent] >= 1 && isRaiseRetainCount )
-                {
+                self.RedDotNodeRetainCount[parent] += isRaiseRetainCount? 1 : -1;
+
+                if (self.RedDotNodeRetainCount[parent] >= 1 && isRaiseRetainCount)
                     if (self.RedDotMonoViewDict.TryGetValue(parent, out redDotMonoView))
-                    {
                         if (!redDotMonoView.isRedDotActive)
-                        {
                             redDotMonoView.Show(self.GetORedDotGameObjectFromPool());
-                        }
-                    }
-                }
-                
-                if (self.RedDotNodeRetainCount[parent] == 0 && !isRaiseRetainCount )
-                {
+
+                if (self.RedDotNodeRetainCount[parent] == 0 && !isRaiseRetainCount)
                     if (self.RedDotMonoViewDict.TryGetValue(parent, out redDotMonoView))
-                    {
                         self.RecycleRedDotGameObject(redDotMonoView.Recovery());
-                    }
-                }
                 isParentExist = self.ToParentDict.TryGetValue(parent, out parent);
             }
         }
@@ -266,48 +235,37 @@ namespace ET.Client
                 Log.Error("can not refresh parent node view count");
                 return;
             }
-            
-            self.RedDotMonoViewDict.TryGetValue(target, out RedDotMonoView redDotMonoView);
+
+            self.RedDotMonoViewDict.TryGetValue(target, out var redDotMonoView);
 
             self.RetainViewCount[target] = Count;
 
             if (self.RedDotNodeNeedShowSet.Contains(target) && redDotMonoView != null)
-            {
                 redDotMonoView.RefreshRedDotCount(self.RetainViewCount[target]);
-            }
-            
-            bool isParentExist = self.ToParentDict.TryGetValue(target, out string parent);
+
+            var isParentExist = self.ToParentDict.TryGetValue(target, out var parent);
 
             while (isParentExist)
             {
                 var viewCount = 0;
-                
+
                 foreach (var childNode in self.RedDotNodeParentsDict[parent])
                 {
                     viewCount += self.RetainViewCount[childNode];
                 }
 
                 self.RetainViewCount[parent] = viewCount;
-                
+
                 if (self.RedDotMonoViewDict.TryGetValue(parent, out redDotMonoView))
-                {
                     if (self.RedDotNodeNeedShowSet.Contains(parent))
-                    {
                         redDotMonoView.RefreshRedDotCount(self.RetainViewCount[parent]);
-                    }
-                }
                 isParentExist = self.ToParentDict.TryGetValue(parent, out parent);
             }
         }
-        
-        public static GameObject GetORedDotGameObjectFromPool(this RedDotComponent self)
-        {
-            return GameObjectPoolHelper.GetObjectFromPool("RedDot",true,5);
-        }
+
+        public static GameObject GetORedDotGameObjectFromPool(this RedDotComponent self) => GameObjectPoolHelper.GetObjectFromPool("RedDot", true, 5);
 
         public static void RecycleRedDotGameObject(this RedDotComponent self, GameObject go)
-        {
-            GameObjectPoolHelper.ReturnTransformToPool(go.transform);
-        }
+            => GameObjectPoolHelper.ReturnTransformToPool(go.transform);
     }
 }

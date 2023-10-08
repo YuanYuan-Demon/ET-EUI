@@ -7,15 +7,11 @@
         {
             long ptr;
             if (self.Navmeshs.TryGetValue(name, out ptr))
-            {
                 return ptr;
-            }
 
-            byte[] buffer = EventSystem.Instance.Invoke<NavmeshComponent.RecastFileLoader, byte[]>(new() { Name = name });
+            var buffer = EventSystem.Instance.Invoke<NavmeshComponent.RecastFileLoader, byte[]>(new() { Name = name });
             if (buffer.Length == 0)
-            {
                 throw new($"no nav data: {name}");
-            }
 
             ptr = Recast.RecastLoadLong(name.GetHashCode(), buffer, buffer.Length);
             self.Navmeshs[name] = ptr;

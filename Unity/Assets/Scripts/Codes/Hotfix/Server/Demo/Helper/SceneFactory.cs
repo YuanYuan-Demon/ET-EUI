@@ -88,8 +88,12 @@ namespace ET.Server
                 //    break;
 
                 case SceneType.Chat:
-                    scene.AddComponent<ChatInfoUnitsComponent>();
+                    scene.AddComponent<ChatUnitComponent>();
                     scene.AddComponent<ChatComponent>();
+                    break;
+
+                case SceneType.Friend:
+                    scene.AddComponent<FriendUnitComponent>();
                     break;
             }
 

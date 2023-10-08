@@ -3,20 +3,16 @@
     [FriendOf(typeof (Item))]
     public static class ItemSystem
     {
-        public static ItemInfo ToMessage(this Item self, bool isAllInfo = true)
+        public static NItem ToMessage(this Item self, bool isAllInfo = true)
         {
-            var itemInfo = new ItemInfo { ItemUid = self.Id, ItemConfigId = self.ConfigId, Count = self.Count };
+            var itemInfo = new NItem { ItemUid = self.Id, ItemConfigId = self.ConfigId, Count = self.Count };
 
             if (!isAllInfo)
-            {
                 return itemInfo;
-            }
 
             var equipInfoComponent = self.GetComponent<EquipInfoComponent>();
             if (equipInfoComponent != null)
-            {
                 itemInfo.EquipInfo = equipInfoComponent.ToMessage();
-            }
 
             return itemInfo;
         }

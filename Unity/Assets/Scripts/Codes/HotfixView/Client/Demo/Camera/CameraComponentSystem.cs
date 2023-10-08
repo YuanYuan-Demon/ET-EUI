@@ -65,7 +65,7 @@ namespace ET.Client
             self.MainCamera.transform.rotation = targetRotation;
         }
 
-        #region 生命周期
+#region 生命周期
 
         [ObjectSystem]
         public class CameraComponentAwakeSystem: AwakeSystem<CameraComponent>
@@ -79,27 +79,20 @@ namespace ET.Client
             protected override void Update(CameraComponent self)
             {
                 if (Input.GetMouseButtonDown(1))
-                {
                     if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-                    {
                         self.IsEnableRotate = true;
-                    }
-                }
 
                 if (Input.GetMouseButtonUp(1))
-                {
                     self.IsEnableRotate = false;
-                }
 
                 if (self.IsEnableRotate)
-                {
                     self.RotateCameraView();
-                }
 
-                self.ScrollCameraView();
+                if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+                    self.ScrollCameraView();
             }
         }
 
-        #endregion
+#endregion
     }
 }

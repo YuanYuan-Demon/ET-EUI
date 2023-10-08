@@ -54,6 +54,10 @@
         public RoleClass RoleClass;
     }
 
+    public struct ShowCreateRolePanel
+    {
+    }
+
 #endregion
 
 #region 商店

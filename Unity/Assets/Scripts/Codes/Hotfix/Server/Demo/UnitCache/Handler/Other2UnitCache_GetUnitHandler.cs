@@ -9,17 +9,17 @@ namespace ET.Server
     {
         protected override async ETTask Run(Scene scene, Other2UnitCache_GetUnit request, UnitCache2Other_GetUnit response)
         {
-            UnitCacheComponent unitCacheComponent = scene.GetComponent<UnitCacheComponent>();
-            Dictionary<string, Entity> dictionary = ObjectPool.Instance.Fetch(typeof (Dictionary<string, Entity>)) as Dictionary<string, Entity>;
+            var unitCacheComponent = scene.GetComponent<UnitCacheComponent>();
+            var dictionary = ObjectPool.Instance.Fetch(typeof (Dictionary<string, Entity>)) as Dictionary<string, Entity>;
             try
             {
                 //若未填写组件名,默认获取所有需要缓存的实体
                 if (request.ComponentNames.Count == 0)
                 {
-                    dictionary.Add(nameof (Unit), null);
-                    foreach (var key in unitCacheComponent.UnitCacheNames)
+                    dictionary.Add(typeof (Unit).FullName!, null);
+                    foreach (var type in unitCacheComponent.NeedCacheTypes)
                     {
-                        dictionary.Add(key, null);
+                        dictionary.Add(type.FullName!, null);
                     }
                 }
                 //根据请求的组件列表获取缓存
@@ -31,12 +31,12 @@ namespace ET.Server
                     }
                 }
 
-                foreach (var name in dictionary.Keys.ToArray())
+                foreach (var typeName in dictionary.Keys.ToArray())
                 {
-                    Entity entity = await unitCacheComponent.Get(request.UnitId, name);
-                    dictionary[name] = entity;
-                    response.ComponentNames.Add(name);
-                    response.Entities.Add(entity);
+                    var entity = await unitCacheComponent.Get(request.UnitId, typeName.ToType());
+                    dictionary[typeName] = entity;
+                    response.ComponentNames.Add(typeName);
+                    response.Entities.Add(MongoHelper.Serialize(entity));
                 }
             }
             finally

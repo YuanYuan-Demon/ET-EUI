@@ -2,17 +2,17 @@
 {
     public static class ItemFactory
     {
-        public static Item Create(Scene self, ItemInfo itemInfo)
+        public static Item Create(Scene self, NItem nItem)
         {
-            Item item = self.AddChild<Item, int>(itemInfo.ItemConfigId);
-            item.FromMessage(itemInfo);
+            var item = self.AddChild<Item, int>(nItem.ItemConfigId);
+            item.FromMessage(nItem);
             return item;
         }
 
-        public static Item Create(this BagComponent self, ItemInfo itemInfo)
+        public static Item Create(this BagComponent self, NItem nItem)
         {
-            Item item = self.AddChild<Item, int>(itemInfo.ItemConfigId);
-            item.FromMessage(itemInfo);
+            var item = self.AddChild<Item, int>(nItem.ItemConfigId);
+            item.FromMessage(nItem);
             return item;
         }
     }

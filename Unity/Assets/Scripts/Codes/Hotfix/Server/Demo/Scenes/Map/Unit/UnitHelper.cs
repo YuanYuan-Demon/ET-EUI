@@ -7,10 +7,10 @@ namespace ET.Server
     [FriendOf(typeof (NumericComponent))]
     public static class UnitHelper
     {
-        public static UnitInfo ToNUnit(this Unit unit)
+        public static NUnit ToNUnit(this Unit unit)
         {
             var nc = unit.GetComponent<NumericComponent>();
-            UnitInfo unitInfo = new()
+            NUnit nUnit = new()
             {
                 UnitId = unit.Id,
                 ConfigId = unit.ConfigId,
@@ -23,16 +23,16 @@ namespace ET.Server
             var moveComponent = unit.GetComponent<MoveComponent>();
             if (moveComponent != null && !moveComponent.IsArrived())
             {
-                unitInfo.MoveInfo = new() { Targets = new() };
-                unitInfo.MoveInfo.Targets.Add(unit.Position);
+                nUnit.MoveInfo = new() { Targets = new() };
+                nUnit.MoveInfo.Targets.Add(unit.Position);
                 for (var i = moveComponent.N; i < moveComponent.Targets.Count; ++i)
                 {
                     var pos = moveComponent.Targets[i];
-                    unitInfo.MoveInfo.Targets.Add(pos);
+                    nUnit.MoveInfo.Targets.Add(pos);
                 }
             }
 
-            return unitInfo;
+            return nUnit;
         }
 
         // 获取看见unit的玩家，主要用于广播

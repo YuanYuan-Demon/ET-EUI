@@ -7,7 +7,7 @@ namespace ET.Server
     {
         protected override async ETTask Run(Session session, C2A_LoginAccount request, A2C_LoginAccount response)
         {
-            Scene scene = session.DomainScene();
+            var scene = session.DomainScene();
 
 #region 校验
 
@@ -47,8 +47,7 @@ namespace ET.Server
             {
                 using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginAccount, request.AccountName.Trim().GetHashCode()))
                 {
-                    var accountResult = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                            .Query<Account>(d => d.AccountName.Equals(request.AccountName.Trim()));
+                    var accountResult = await session.QueryDB<Account>(d => d.AccountName.Equals(request.AccountName.Trim()));
                     Account account = null;
                     //数据库中存在  --> 登录
                     if (accountResult?.Count > 0)
@@ -83,8 +82,8 @@ namespace ET.Server
                     }
 
                     //通知登录中心
-                    long loginCenterInstanceId = StartSceneConfigCategory.Instance.LoginCenterConfig.InstanceId;
-                    L2A_LoginAccountResponse loginAccountResponse = await MessageHelper.CallActor(loginCenterInstanceId,
+                    var loginCenterInstanceId = StartSceneConfigCategory.Instance.LoginCenterConfig.InstanceId;
+                    var loginAccountResponse = await MessageHelper.CallActor(loginCenterInstanceId,
                         new A2L_LoginAccountRequest() { AccountId = account.Id }) as L2A_LoginAccountResponse;
                     if (loginAccountResponse?.Error != ErrorCode.ERR_Success)
                     {
@@ -96,8 +95,8 @@ namespace ET.Server
                     }
 
                     //获取当前帐号登陆情况并强制下线
-                    long accountSessionInstanceId = scene.GetComponent<AccountSessionsComponent>().Get(account.Id);
-                    Session otherSession = Root.Instance.Get(accountSessionInstanceId) as Session;
+                    var accountSessionInstanceId = scene.GetComponent<AccountSessionsComponent>().Get(account.Id);
+                    var otherSession = Root.Instance.Get(accountSessionInstanceId) as Session;
                     otherSession?.Send(new A2C_Disconnect() { Error = 0 });
                     otherSession?.Disconnect();
                     //账号服务器添加记录
@@ -107,7 +106,7 @@ namespace ET.Server
                     session.AddComponent<AccountCheckOutTimeComponent, long>(account.Id);
 
                     //发放登陆令牌
-                    string token = TimeHelper.ServerNow() + RandomHelper.RandomInt32(int.MinValue, int.MinValue).ToString();
+                    var token = TimeHelper.ServerNow() + RandomHelper.RandomInt32(int.MinValue, int.MinValue).ToString();
                     //scene.GetComponent<TokenComponent>().Remove(account.Id);
                     scene.GetComponent<TokenComponent>().AddOrModify(account.Id, token);
 

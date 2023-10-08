@@ -658,7 +658,7 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(4)]
-		public List<Entity> Entities { get; set; } = new();
+		public List<byte[]> Entities { get; set; } = new();
 
 		[ProtoMember(5)]
 		public List<string> ComponentNames { get; set; } = new();
@@ -738,19 +738,116 @@ namespace ET
 
 	}
 
-	[ResponseType(nameof(Chat2G_RequestExitChat))]
-	[Message(InnerMessage.G2Chat_RequestExitChat)]
+	[ResponseType(nameof(Chat2G_ExitChat))]
+	[Message(InnerMessage.G2Chat_ExitChat)]
 	[ProtoContract]
-	public partial class G2Chat_RequestExitChat: ProtoObject, IActorRequest
+	public partial class G2Chat_ExitChat: ProtoObject, IActorRequest
 	{
 		[ProtoMember(90)]
 		public int RpcId { get; set; }
 
 	}
 
-	[Message(InnerMessage.Chat2G_RequestExitChat)]
+	[Message(InnerMessage.Chat2G_ExitChat)]
 	[ProtoContract]
-	public partial class Chat2G_RequestExitChat: ProtoObject, IActorResponse
+	public partial class Chat2G_ExitChat: ProtoObject, IActorResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
+//============================================  好友系统  ============================================
+	[ResponseType(nameof(F2G_EnterFriend))]
+	[Message(InnerMessage.G2F_EnterFriend)]
+	[ProtoContract]
+	public partial class G2F_EnterFriend: ProtoObject, IActorRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public string Name { get; set; }
+
+		[ProtoMember(2)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(3)]
+		public long GateSessionActorId { get; set; }
+
+	}
+
+	[Message(InnerMessage.F2G_EnterFriend)]
+	[ProtoContract]
+	public partial class F2G_EnterFriend: ProtoObject, IActorResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public long FriendUnitInstanceId { get; set; }
+
+	}
+
+	[ResponseType(nameof(F2G_ExitFriend))]
+	[Message(InnerMessage.G2F_ExitFriend)]
+	[ProtoContract]
+	public partial class G2F_ExitFriend: ProtoObject, IActorRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(InnerMessage.F2G_ExitFriend)]
+	[ProtoContract]
+	public partial class F2G_ExitFriend: ProtoObject, IActorResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
+	[ResponseType(nameof(G2F_Online))]
+	[Message(InnerMessage.F2G_Online)]
+	[ProtoContract]
+	public partial class F2G_Online: ProtoObject, IActorRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public long UnitId { get; set; }
+
+	}
+
+	[Message(InnerMessage.G2F_Online)]
+	[ProtoContract]
+	public partial class G2F_Online: ProtoObject, IActorResponse
 	{
 		[ProtoMember(90)]
 		public int RpcId { get; set; }
@@ -812,7 +909,13 @@ namespace ET
 		 public const ushort UnitCache2Other_DeleteUnit = 20046;
 		 public const ushort G2Chat_EnterChat = 20047;
 		 public const ushort Chat2G_EnterChat = 20048;
-		 public const ushort G2Chat_RequestExitChat = 20049;
-		 public const ushort Chat2G_RequestExitChat = 20050;
+		 public const ushort G2Chat_ExitChat = 20049;
+		 public const ushort Chat2G_ExitChat = 20050;
+		 public const ushort G2F_EnterFriend = 20051;
+		 public const ushort F2G_EnterFriend = 20052;
+		 public const ushort G2F_ExitFriend = 20053;
+		 public const ushort F2G_ExitFriend = 20054;
+		 public const ushort F2G_Online = 20055;
+		 public const ushort G2F_Online = 20056;
 	}
 }

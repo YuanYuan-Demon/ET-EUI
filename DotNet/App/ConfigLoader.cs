@@ -1,41 +1,40 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using ET.Luban;
 
 namespace ET.Server
 {
     [Invoke]
-    public class GetAllConfigBytes: AInvokeHandler<ConfigComponent.GetAllConfigBytes, Dictionary<Type, byte[]>>
+    public class GetAllConfigBytes: AInvokeHandler<ConfigComponent.GetAllConfigBytes, Dictionary<Type, ByteBuf>>
     {
-        public override Dictionary<Type, byte[]> Handle(ConfigComponent.GetAllConfigBytes args)
+        public override Dictionary<Type, ByteBuf> Handle(ConfigComponent.GetAllConfigBytes args)
         {
-            Dictionary<Type, byte[]> output = new Dictionary<Type, byte[]>();
-            List<string> startConfigs = new List<string>()
+            var output = new Dictionary<Type, ByteBuf>();
+            var startConfigs = new List<string>()
             {
-                "StartMachineConfigCategory", 
-                "StartProcessConfigCategory", 
-                "StartSceneConfigCategory", 
-                "StartZoneConfigCategory",
+                "StartMachineConfigCategory", "StartProcessConfigCategory", "StartSceneConfigCategory", "StartZoneConfigCategory",
             };
-            HashSet<Type> configTypes = EventSystem.Instance.GetTypes(typeof (ConfigAttribute));
+            var configTypes = EventSystem.Instance.GetTypes(typeof (ConfigAttribute));
             foreach (Type configType in configTypes)
             {
                 string configFilePath;
                 if (startConfigs.Contains(configType.Name))
                 {
-                    configFilePath = $"../Config/Excel/s/{Options.Instance.StartConfig}/{configType.Name}.bytes";    
+                    configFilePath = $"../Config/Bytes/s/{Options.Instance.StartConfig}/{configType.Name}.bytes";
                 }
                 else
                 {
-                    configFilePath = $"../Config/Excel/s/{configType.Name}.bytes";
+                    configFilePath = $"../Config/Bytes/s/GameConfig/{configType.Name}.bytes";
                 }
-                output[configType] = File.ReadAllBytes(configFilePath);
+
+                output[configType] = new(File.ReadAllBytes(configFilePath));
             }
 
             return output;
         }
     }
-    
+
     [Invoke]
     public class GetOneConfigBytes: AInvokeHandler<ConfigComponent.GetOneConfigBytes, byte[]>
     {

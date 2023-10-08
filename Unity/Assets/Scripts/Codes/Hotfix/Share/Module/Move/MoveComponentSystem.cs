@@ -13,14 +13,10 @@ namespace ET
         public static bool ChangeSpeed(this MoveComponent self, float speed)
         {
             if (self.IsArrived())
-            {
                 return false;
-            }
 
             if (speed < 0.0001)
-            {
                 return false;
-            }
 
             var unit = self.GetParent<Unit>();
 
@@ -29,10 +25,8 @@ namespace ET
             self.MoveForward(false);
 
             path.Add(unit.Position); // 第一个是Unit的pos
-            for (int i = self.N; i < self.Targets.Count; ++i)
-            {
+            for (var i = self.N; i < self.Targets.Count; ++i)
                 path.Add(self.Targets[i]);
-            }
 
             self.MoveToAsync(path, speed).Coroutine();
             return true;
@@ -43,7 +37,7 @@ namespace ET
         {
             self.Stop(false);
 
-            foreach (float3 v in target)
+            foreach (var v in target)
             {
                 self.Targets.Add(v);
             }
@@ -57,12 +51,10 @@ namespace ET
 
             self.StartMove();
 
-            bool moveRet = await self.tcs;
+            var moveRet = await self.tcs;
 
             if (moveRet)
-            {
                 EventSystem.Instance.Publish(self.DomainScene(), new MoveStop() { Unit = self.GetParent<Unit>() });
-            }
 
             return moveRet;
         }
@@ -72,32 +64,28 @@ namespace ET
         {
             var unit = self.GetParent<Unit>();
 
-            long timeNow = TimeHelper.ClientNow();
-            long moveTime = timeNow - self.StartTime;
+            var timeNow = TimeHelper.ClientNow();
+            var moveTime = timeNow - self.StartTime;
 
             while (true)
             {
                 if (moveTime <= 0)
-                {
                     return;
-                }
 
                 // 计算位置插值
                 if (moveTime >= self.NeedTime)
                 {
                     unit.Position = self.NextTarget;
                     if (self.TurnTime > 0)
-                    {
                         unit.Rotation = self.To;
-                    }
                 }
                 else
                 {
                     // 计算位置插值
-                    float amount = moveTime * 1f / self.NeedTime;
+                    var amount = moveTime * 1f / self.NeedTime;
                     if (amount > 0)
                     {
-                        float3 newPos = math.lerp(self.StartPos, self.NextTarget, amount);
+                        var newPos = math.lerp(self.StartPos, self.NextTarget, amount);
                         unit.Position = newPos;
                     }
 
@@ -106,11 +94,9 @@ namespace ET
                     {
                         amount = moveTime * 1f / self.TurnTime;
                         if (amount > 1)
-                        {
                             amount = 1f;
-                        }
 
-                        quaternion q = math.slerp(self.From, self.To, amount);
+                        var q = math.slerp(self.From, self.To, amount);
                         unit.Rotation = q;
                     }
                 }
@@ -119,9 +105,7 @@ namespace ET
 
                 // 表示这个点还没走完，等下一帧再来
                 if (moveTime < 0)
-                {
                     return;
-                }
 
                 // 到这里说明这个点已经走完
 
@@ -155,8 +139,8 @@ namespace ET
             ++self.N;
 
             // 时间计算用服务端的位置, 但是移动要用客户端的位置来插值
-            float3 v = self.GetFaceV();
-            float distance = math.length(v);
+            var v = self.GetFaceV();
+            var distance = math.length(v);
 
             // 插值的起始点要以unit的真实位置来算
             self.StartPos = unit.Position;
@@ -168,34 +152,26 @@ namespace ET
             if (self.TurnTime > 0)
             {
                 // 要用unit的位置
-                float3 faceV = self.GetFaceV();
+                var faceV = self.GetFaceV();
                 if (math.lengthsq(faceV) < 0.0001f)
-                {
                     return;
-                }
 
                 self.From = unit.Rotation;
 
                 if (self.IsTurnHorizontal)
-                {
                     faceV.y = 0;
-                }
 
                 if (Math.Abs(faceV.x) > 0.01 || Math.Abs(faceV.z) > 0.01)
-                {
                     self.To = quaternion.LookRotation(faceV, math.up());
-                }
 
                 return;
             }
 
             if (self.TurnTime == 0) // turn time == 0 立即转向
             {
-                float3 faceV = self.GetFaceV();
+                var faceV = self.GetFaceV();
                 if (self.IsTurnHorizontal)
-                {
                     faceV.y = 0;
-                }
 
                 if (Math.Abs(faceV.x) > 0.01 || Math.Abs(faceV.z) > 0.01)
                 {
@@ -218,9 +194,7 @@ namespace ET
         public static void Stop(this MoveComponent self, bool ret)
         {
             if (self.Targets.Count > 0)
-            {
                 self.MoveForward(ret);
-            }
 
             self.MoveFinish(ret);
         }
@@ -232,9 +206,7 @@ namespace ET
         private static void MoveFinish(this MoveComponent self, bool ret)
         {
             if (self.StartTime == 0)
-            {
                 return;
-            }
 
             self.StartTime = 0;
             self.StartPos = float3.zero;
@@ -249,7 +221,7 @@ namespace ET
 
             if (self.tcs != null)
             {
-                ETTask<bool> tcs = self.tcs;
+                var tcs = self.tcs;
                 self.tcs = null;
                 tcs.SetResult(ret);
             }

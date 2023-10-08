@@ -10,9 +10,7 @@ namespace ET.Server
         {
             var session = self.GetChild<Session>(channelId);
             if (session == null)
-            {
                 return;
-            }
 
             session.LastRecvTime = TimeHelper.ClientFrameTime();
 
@@ -26,9 +24,7 @@ namespace ET.Server
         {
             var session = self.GetChild<Session>(channelId);
             if (session == null)
-            {
                 return;
-            }
 
             session.Error = error;
             session.Dispose();
@@ -37,14 +33,14 @@ namespace ET.Server
         // 这个channelId是由CreateAcceptChannelId生成的
         private static void OnAccept(this NetInnerComponent self, long channelId, IPEndPoint ipEndPoint)
         {
-            Session session = self.AddChildWithId<Session, int>(channelId, self.ServiceId);
+            var session = self.AddChildWithId<Session, int>(channelId, self.ServiceId);
             session.RemoteAddress = ipEndPoint;
             //session.AddComponent<SessionIdleCheckerComponent, int, int, int>(NetThreadComponent.checkInteral, NetThreadComponent.recvMaxIdleTime, NetThreadComponent.sendMaxIdleTime);
         }
 
         private static Session CreateInner(this NetInnerComponent self, long channelId, IPEndPoint ipEndPoint)
         {
-            Session session = self.AddChildWithId<Session, int>(channelId, self.ServiceId);
+            var session = self.AddChildWithId<Session, int>(channelId, self.ServiceId);
             session.RemoteAddress = ipEndPoint;
             NetServices.Instance.CreateChannel(self.ServiceId, channelId, ipEndPoint);
 
@@ -59,11 +55,9 @@ namespace ET.Server
         {
             var session = self.GetChild<Session>(channelId);
             if (session != null)
-            {
                 return session;
-            }
 
-            IPEndPoint ipEndPoint = StartProcessConfigCategory.Instance.Get((int)channelId).InnerIPPort;
+            var ipEndPoint = StartProcessConfigCategory.Instance.Get((int)channelId).InnerIPPort;
             session = self.CreateInner(channelId, ipEndPoint);
             return session;
         }

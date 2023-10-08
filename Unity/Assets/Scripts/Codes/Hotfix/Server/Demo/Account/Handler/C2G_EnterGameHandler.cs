@@ -21,6 +21,20 @@ namespace ET.Server
             return response.ChatInfoUnitInstanceId;
         }
 
+        private static async ETTask<long> EnterFriendServer(Unit unit)
+        {
+            var startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(unit.DomainZone(), "Friend");
+            var response = await MessageHelper.CallActor(startSceneConfig.InstanceId,
+                new G2F_EnterFriend()
+                {
+                    UnitId = unit.Id,
+                    Name = unit.GetComponent<RoleInfo>().Name,
+                    GateSessionActorId = unit.GetComponent<UnitGateComponent>().GateSessionActorId,
+                }) as F2G_EnterFriend;
+
+            return response.FriendUnitInstanceId;
+        }
+
         protected override async ETTask Run(Session session, C2G_EnterGame request, G2C_EnterGame response)
         {
             var scene = session.DomainScene();
@@ -104,9 +118,10 @@ namespace ET.Server
                     //从数据库或缓存中加载出Unit实体及其相关组件
                     var (isNewPlayer, unit) = await UnitCacheHelper.LoadUnit(player);
                     unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
-                    //unit.AddComponent<UnitGateComponent, long>(player.InstanceId);
+                    // unit.AddComponent<UnitGateComponent, long>(player.InstanceId);
 
-                    player.ChatInfoInstanceId = await EnterWorldChatServer(unit);
+                    player.ChatUnitInstanceId = await EnterWorldChatServer(unit);
+                    player.FriendUnitInstanceId = await EnterFriendServer(unit);
 
                     //玩家Unit上线后的初始化操作
                     await UnitHelper.InitUnit(unit, isNewPlayer);

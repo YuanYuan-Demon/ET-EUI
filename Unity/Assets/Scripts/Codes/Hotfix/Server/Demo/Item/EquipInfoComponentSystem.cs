@@ -8,9 +8,7 @@
         public static void GenerateEntries(this EquipInfoComponent self)
         {
             if (self.IsInited)
-            {
                 return;
-            }
 
             self.IsInited = true;
             self.CreateEntry();
@@ -36,9 +34,7 @@
                 var entryConfig =
                         EntryConfigCategory.Instance.GetRandomEntryConfigByLevel((int)EntryType.Common, entryRandomConfig.EntryLevel);
                 if (entryConfig == null)
-                {
                     continue;
-                }
 
                 var attributeEntry = self.AddChild<AttributeEntry>();
                 attributeEntry.EntryType = EntryType.Common;
@@ -55,9 +51,7 @@
                 var entryConfig =
                         EntryConfigCategory.Instance.GetRandomEntryConfigByLevel((int)EntryType.Special, entryRandomConfig.SpecialEntryLevel);
                 if (entryConfig == null)
-                {
                     continue;
-                }
 
                 var attributeEntry = self.AddChild<AttributeEntry>();
                 attributeEntry.EntryType = EntryType.Special;
@@ -68,15 +62,13 @@
             }
         }
 
-        public static EquipInfoProto ToMessage(this EquipInfoComponent self)
+        public static NEquipInfo ToMessage(this EquipInfoComponent self)
         {
-            EquipInfoProto equipInfoProto = new() { Id = self.Id, Score = self.Score, Quality = self.Quality };
+            NEquipInfo nEquipInfo = new() { Id = self.Id, Score = self.Score, Quality = self.Quality };
             for (var i = 0; i < self.EntryList.Count; i++)
-            {
-                equipInfoProto.AttributeEntryList.Add(self.EntryList[i].ToMessage());
-            }
+                nEquipInfo.AttributeEntrys.Add(self.EntryList[i].ToMessage());
 
-            return equipInfoProto;
+            return nEquipInfo;
         }
 
         public static void RandomQuality(this EquipInfoComponent self)

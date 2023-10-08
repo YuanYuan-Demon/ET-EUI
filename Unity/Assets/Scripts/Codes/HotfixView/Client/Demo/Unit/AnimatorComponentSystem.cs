@@ -11,27 +11,21 @@ namespace ET.Client
             var animator = self.GetParent<Unit>().GetComponent<GameObjectComponent>().GameObject.GetComponentInChildren<Animator>();
 
             if (animator == null)
-            {
                 return;
-            }
 
             if (animator.runtimeAnimatorController == null)
-            {
                 return;
-            }
 
             if (animator.runtimeAnimatorController.animationClips == null)
-            {
                 return;
-            }
 
             self.Animator = animator;
-            foreach (AnimationClip animationClip in animator.runtimeAnimatorController.animationClips)
+            foreach (var animationClip in animator.runtimeAnimatorController.animationClips)
             {
                 self.animationClips[animationClip.name] = animationClip;
             }
 
-            foreach (AnimatorControllerParameter animatorControllerParameter in animator.parameters)
+            foreach (var animatorControllerParameter in animator.parameters)
             {
                 self.Parameter.Add(animatorControllerParameter.name);
             }
@@ -40,14 +34,10 @@ namespace ET.Client
         public static void Update(this AnimatorComponent self)
         {
             if (self.isStop)
-            {
                 return;
-            }
 
             if (self.MotionType == MotionType.None)
-            {
                 return;
-            }
 
             try
             {
@@ -68,11 +58,9 @@ namespace ET.Client
         {
             AnimationClip animationClip;
             if (!self.animationClips.TryGetValue(motionType.ToString(), out animationClip))
-            {
                 throw new($"找不到该动作: {motionType}");
-            }
 
-            float motionSpeed = animationClip.length / time;
+            var motionSpeed = animationClip.length / time;
             if (motionSpeed < 0.01f || motionSpeed > 1000f)
             {
                 Log.Error($"motionSpeed数值异常, {motionSpeed}, 此动作跳过");
@@ -86,9 +74,7 @@ namespace ET.Client
         public static void Play(this AnimatorComponent self, MotionType motionType, float motionSpeed = 1f)
         {
             if (!self.HasParameter(motionType.ToString()))
-            {
                 return;
-            }
 
             self.MotionType = motionType;
             self.MontionSpeed = motionSpeed;
@@ -98,9 +84,7 @@ namespace ET.Client
         {
             AnimationClip animationClip;
             if (!self.animationClips.TryGetValue(motionType.ToString(), out animationClip))
-            {
                 throw new($"找不到该动作: {motionType}");
-            }
 
             return animationClip.length;
         }
@@ -108,16 +92,12 @@ namespace ET.Client
         public static void PauseAnimator(this AnimatorComponent self)
         {
             if (self.isStop)
-            {
                 return;
-            }
 
             self.isStop = true;
 
             if (self.Animator == null)
-            {
                 return;
-            }
 
             self.stopSpeed = self.Animator.speed;
             self.Animator.speed = 0;
@@ -126,16 +106,12 @@ namespace ET.Client
         public static void RunAnimator(this AnimatorComponent self)
         {
             if (!self.isStop)
-            {
                 return;
-            }
 
             self.isStop = false;
 
             if (self.Animator == null)
-            {
                 return;
-            }
 
             self.Animator.speed = self.stopSpeed;
         }
@@ -143,9 +119,7 @@ namespace ET.Client
         public static void SetBoolValue(this AnimatorComponent self, string name, bool state)
         {
             if (!self.HasParameter(name))
-            {
                 return;
-            }
 
             self.Animator.SetBool(name, state);
         }
@@ -153,9 +127,7 @@ namespace ET.Client
         public static void SetFloatValue(this AnimatorComponent self, string name, float state)
         {
             if (!self.HasParameter(name))
-            {
                 return;
-            }
 
             self.Animator.SetFloat(name, state);
         }
@@ -163,9 +135,7 @@ namespace ET.Client
         public static void SetIntValue(this AnimatorComponent self, string name, int value)
         {
             if (!self.HasParameter(name))
-            {
                 return;
-            }
 
             self.Animator.SetInteger(name, value);
         }
@@ -173,9 +143,7 @@ namespace ET.Client
         public static void SetTrigger(this AnimatorComponent self, string name)
         {
             if (!self.HasParameter(name))
-            {
                 return;
-            }
 
             self.Animator.SetTrigger(name);
         }

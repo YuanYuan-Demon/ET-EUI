@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ET.Client
 {
     [FriendOfAttribute(typeof (RoleInfo))]
-    [FriendOfAttribute(typeof (RoleInfosComponent))]
+    [FriendOfAttribute(typeof (CRoleInfosComponent))]
     [FriendOfAttribute(typeof (Scroll_Item_RoleInfo))]
     public static class Scroll_Item_RoleInfoSystem
     {
@@ -16,7 +16,7 @@ namespace ET.Client
                 self.EI_Avator_Image.overrideSprite = IconHelper.LoadIconSprite("UI_Icons", "Add");
                 self.EI_Bg_Image.color = Color.cyan;
                 self.ET_Info_TextMeshProUGUI.text = "创建新角色";
-                self.EB_Select_Button.AddListener(() => self.GetParent<DlgRoles>().ShowSelectPanel(false));
+                self.EB_Select_Button.AddListener(() => EventSystem.Instance.Publish(self.DomainScene(), new ShowCreateRolePanel()));
             }
             else
             {
@@ -33,7 +33,7 @@ namespace ET.Client
 
         public static void OnSelect(this Scroll_Item_RoleInfo self)
         {
-            self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId = self.DataId;
+            self.ClientScene().GetComponent<CRoleInfosComponent>().CurRoleId = self.DataId;
             self.EI_Bg_Image.color = Color.red;
             if (self.RoleInfo is not null)
             {

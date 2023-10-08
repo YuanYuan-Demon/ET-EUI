@@ -6,19 +6,29 @@
         {
             var root = CreateUIElementRoot("Loop H List", new(200, 200));
 
-            var content = CreateUIObject("Content", root);
+            var viewport = CreateUIObject("Viewport", root);
+            var viewRect = viewport.GetComponent<RectTransform>();
+            viewRect.anchorMax = Vector2.one;
+            viewRect.anchorMin = Vector2.zero;
+            viewRect.sizeDelta = Vector2.zero;
+            viewRect.pivot = Vector2.one * 0.5f;
 
+            viewport.AddComponent<RectMask2D>();
+            var bg = viewport.AddComponent<Image>();
+            bg.color = new(1, 1, 1, 0);
+
+            var content = CreateUIObject("Content", viewport);
             var contentRT = content.GetComponent<RectTransform>();
-            contentRT.anchorMin = new(0, 0.5f);
-            contentRT.anchorMax = new(0, 0.5f);
-            contentRT.sizeDelta = new(0, 200);
+            contentRT.anchorMin = Vector2.zero;
+            contentRT.anchorMax = Vector2.up;
+            contentRT.sizeDelta = Vector2.zero;
             contentRT.pivot = new(0, 0.5f);
 
             // Setup UI components.
 
             var list = root.AddComponent<LoopHList>();
             list.content = contentRT;
-            list.viewport = null;
+            list.viewport = viewRect;
             list.horizontalScrollbar = null;
             list.verticalScrollbar = null;
             list.horizontal = true;
@@ -48,9 +58,9 @@
                 layoutGroup.childForceExpandHeight = true;
             }
 
-            // var sizeFitter = content.AddComponent<ContentSizeFitter>();
-            // sizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-            // sizeFitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
+            var sizeFitter = content.AddComponent<ContentSizeFitter>();
+            sizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            sizeFitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
 
             return root;
         }
@@ -59,19 +69,29 @@
         {
             var root = CreateUIElementRoot("Loop V List", new(200, 200));
 
-            var content = CreateUIObject("Content", root);
+            var viewport = CreateUIObject("Viewport", root);
+            var viewRect = viewport.GetComponent<RectTransform>();
+            viewRect.anchorMax = Vector2.one;
+            viewRect.anchorMin = Vector2.zero;
+            viewRect.sizeDelta = Vector2.zero;
+            viewRect.pivot = Vector2.one * 0.5f;
 
+            viewport.AddComponent<RectMask2D>();
+            var bg = viewport.AddComponent<Image>();
+            bg.color = new(1, 1, 1, 0);
+
+            var content = CreateUIObject("Content", viewport);
             var contentRT = content.GetComponent<RectTransform>();
-            contentRT.anchorMin = new(0.5f, 1);
-            contentRT.anchorMax = new(0.5f, 1);
-            contentRT.sizeDelta = new(200, 0);
+            contentRT.anchorMin = Vector2.up;
+            contentRT.anchorMax = Vector2.one;
+            contentRT.sizeDelta = Vector2.zero;
             contentRT.pivot = new(0.5f, 1);
 
             // Setup UI components.
 
             var scrollRect = root.AddComponent<LoopVList>();
             scrollRect.content = contentRT;
-            scrollRect.viewport = null;
+            scrollRect.viewport = viewRect;
             scrollRect.horizontalScrollbar = null;
             scrollRect.verticalScrollbar = null;
             scrollRect.horizontal = false;
@@ -81,8 +101,6 @@
             scrollRect.horizontalScrollbarSpacing = 0;
             scrollRect.verticalScrollbarSpacing = 0;
             scrollRect.scrollSensitivity = 20;
-
-            root.AddComponent<RectMask2D>();
 
             if (isGridLayout)
             {
@@ -101,9 +119,9 @@
                 layoutGroup.childForceExpandHeight = false;
             }
 
-            // var sizeFitter = content.AddComponent<ContentSizeFitter>();
-            // sizeFitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
-            // sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            var sizeFitter = content.AddComponent<ContentSizeFitter>();
+            sizeFitter.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+            sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
             return root;
         }
@@ -168,9 +186,7 @@
         private static void SetParentAndAlign(GameObject child, GameObject parent)
         {
             if (parent == null)
-            {
                 return;
-            }
 
             child.transform.SetParent(parent.transform, false);
             SetLayerRecursively(child, parent.layer);
@@ -181,9 +197,7 @@
             go.layer = layer;
             var t = go.transform;
             for (var i = 0; i < t.childCount; i++)
-            {
                 SetLayerRecursively(t.GetChild(i).gameObject, layer);
-            }
         }
 
 #endregion

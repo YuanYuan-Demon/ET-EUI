@@ -63,7 +63,9 @@ namespace ET.Client
             {
                 self.AllMessages = new();
                 foreach (var e in Enum.GetValues(typeof (ChatChannel)))
+                {
                     self.AllMessages[(ChatChannel)e] = new(100);
+                }
             }
         }
 
@@ -74,7 +76,9 @@ namespace ET.Client
                 foreach (var messages in self.AllMessages.Values)
                 {
                     foreach (var message in messages)
+                    {
                         message?.Dispose();
+                    }
 
                     messages.Clear();
                 }

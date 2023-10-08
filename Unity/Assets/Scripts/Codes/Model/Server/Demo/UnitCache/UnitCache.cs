@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace ET.Server
@@ -6,11 +7,11 @@ namespace ET.Server
     public class UnitCache: Entity, IAwake, IDestroy
     {
         /// <summary>
-        /// <para> Key: UnitId </para>
-        /// <para> Value: Component </para>
+        ///     <para> Key: UnitId </para>
+        ///     <para> Value: Component </para>
         /// </summary>
         public Dictionary<long, Entity> CacheComponents = new();
 
-        public string EntityName;
+        public Type ComponentType;
     }
 }

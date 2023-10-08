@@ -4,22 +4,20 @@
     [FriendOf(typeof (EquipInfoComponent))]
     public static class EquipInfoComponentSystem
     {
-        public static void FromMessage(this EquipInfoComponent self, EquipInfoProto equipInfoProto)
+        public static void FromMessage(this EquipInfoComponent self, NEquipInfo nEquipInfo)
         {
-            self.Score = equipInfoProto.Score;
-            self.Quality = equipInfoProto.Quality;
+            self.Score = nEquipInfo.Score;
+            self.Quality = nEquipInfo.Quality;
 
-            for (int i = 0; i < self.EntryList.Count; i++)
-            {
+            for (var i = 0; i < self.EntryList.Count; i++)
                 self.EntryList[i]?.Dispose();
-            }
 
             self.EntryList.Clear();
 
-            for (int i = 0; i < equipInfoProto.AttributeEntryList.Count; i++)
+            for (var i = 0; i < nEquipInfo.AttributeEntrys.Count; i++)
             {
-                AttributeEntry attributeEntry = self.AddChild<AttributeEntry>();
-                attributeEntry.FromMessage(equipInfoProto.AttributeEntryList[i]);
+                var attributeEntry = self.AddChild<AttributeEntry>();
+                attributeEntry.FromMessage(nEquipInfo.AttributeEntrys[i]);
                 self.EntryList.Add(attributeEntry);
             }
 
@@ -34,10 +32,8 @@
             {
                 self.IsInited = false;
                 self.Score = 0;
-                for (int i = 0; i < self.EntryList.Count; i++)
-                {
+                for (var i = 0; i < self.EntryList.Count; i++)
                     self.EntryList[i]?.Dispose();
-                }
 
                 self.EntryList.Clear();
             }

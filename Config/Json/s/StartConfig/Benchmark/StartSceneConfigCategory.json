@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "process": 1,
+    "zone": 1,
+    "scene_type": "BenchmarkServer",
+    "name": "BenchmarkServer",
+    "outer_port": 30001
+  },
+  {
+    "id": 2,
+    "process": 2,
+    "zone": 1,
+    "scene_type": "BenchmarkClient",
+    "name": "BenchmarkClient1",
+    "outer_port": 30002
+  },
+  {
+    "id": 3,
+    "process": 3,
+    "zone": 1,
+    "scene_type": "BenchmarkClient",
+    "name": "BenchmarkClient2",
+    "outer_port": 30003
+  }
+]

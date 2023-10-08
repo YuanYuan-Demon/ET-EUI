@@ -11,7 +11,7 @@ namespace ET.Client
 
             var currentScenesComponent = clientScene.GetComponent<CurrentScenesComponent>();
             currentScenesComponent.Scene?.Dispose(); // 删除之前的CurrentScene，创建新的
-            Scene currentScene = SceneFactory.CreateCurrentScene(sceneInstanceId, clientScene.Zone, sceneName, currentScenesComponent);
+            var currentScene = SceneFactory.CreateCurrentScene(sceneInstanceId, clientScene.Zone, sceneName, currentScenesComponent);
             var unitComponent = currentScene.AddComponent<UnitComponent>();
 
             // 可以订阅这个事件中创建Loading界面
@@ -19,10 +19,10 @@ namespace ET.Client
 
             // 等待CreateMyUnit的消息
             var waitCreateMyUnit = await clientScene.GetComponent<ObjectWait>().Wait<Wait_CreateMyUnit>();
-            M2C_CreateMyUnit m2CCreateMyUnit = waitCreateMyUnit.Message;
+            var m2CCreateMyUnit = waitCreateMyUnit.Message;
             clientScene.GetComponent<PlayerComponent>().MyId = m2CCreateMyUnit.Unit.UnitId;
 
-            Unit unit = UnitFactory.Create(currentScene, m2CCreateMyUnit.Unit);
+            var unit = UnitFactory.Create(currentScene, m2CCreateMyUnit.Unit);
             unitComponent.MyUnit = unit;
 
             clientScene.RemoveComponent<AIComponent>();

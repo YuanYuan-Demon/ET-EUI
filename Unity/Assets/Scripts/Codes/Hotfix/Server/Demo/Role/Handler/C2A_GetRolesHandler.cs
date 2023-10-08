@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-
-namespace ET.Server
+﻿namespace ET.Server
 {
-    [FriendOf(typeof (ET.RoleInfo))]
+    [FriendOf(typeof (RoleInfo))]
     [MessageHandler(SceneType.Account)]
     public class C2A_GetRolesHandler: AMRpcHandler<C2A_GetRoles, A2C_GetRoles>
     {
         protected override async ETTask Run(Session session, C2A_GetRoles request, A2C_GetRoles response)
         {
-            Scene scene = session.DomainScene();
+            var scene = session.DomainScene();
 
 #region 校验
 
@@ -21,7 +19,7 @@ namespace ET.Server
             }
 
             //令牌校验
-            string token = scene.GetComponent<TokenComponent>().Get(request.AccountId);
+            var token = scene.GetComponent<TokenComponent>().Get(request.AccountId);
             ;
 
             if (token is null || token != request.Token)
@@ -40,11 +38,10 @@ namespace ET.Server
                 //获取角色信息
                 using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.GetRoles, request.AccountId))
                 {
-                    List<RoleInfo> roleInfos = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                            .Query<RoleInfo>(r =>
-                                    r.AccountId == request.AccountId && r.ServerId == request.ServerId && r.Status == ((int)RoleInfoStatus.Normal));
+                    var roleInfos = await session.QueryDB<RoleInfo>(r
+                            => r.AccountId == request.AccountId && r.ServerId == request.ServerId && r.Status == (int)RoleInfoStatus.Normal);
                     //发送响应
-                    foreach (RoleInfo roleInfo in roleInfos)
+                    foreach (var roleInfo in roleInfos)
                     {
                         response.NRoleInfos.Add(roleInfo.ToNRoleInfo());
                     }

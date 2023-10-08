@@ -55,9 +55,7 @@ namespace ET.Client
             }
 
             if (!baseWindow.IsPreLoad)
-            {
                 self.LoadBaseWindows(baseWindow);
-            }
 
             return baseWindow;
         }
@@ -70,19 +68,15 @@ namespace ET.Client
                 coroutineLock = await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoadUIBaseWindows, (int)id);
                 var baseWindow = self.GetUIBaseWindow(id);
                 if (null == baseWindow)
-                {
                     if (UIPathComponent.Instance.WindowPrefabPath.ContainsKey(id))
                     {
                         baseWindow = self.AddChild<UIBaseWindow>();
                         baseWindow.WindowID = id;
                         await self.LoadBaseWindowsAsync(baseWindow);
                     }
-                }
 
                 if (!baseWindow.IsPreLoad)
-                {
                     await self.LoadBaseWindowsAsync(baseWindow);
-                }
 
                 return baseWindow;
             }
@@ -208,13 +202,11 @@ namespace ET.Client
             }
 
             if (isNeedShowState)
-            {
                 if (!self.IsWindowVisible(windowsId))
                 {
                     Log.Warning($"{windowsId} is need show state!");
                     return null;
                 }
-            }
 
             return baseWindow.GetComponent<T>();
         }
@@ -228,9 +220,7 @@ namespace ET.Client
         public static WindowID GetWindowIdByGeneric<T>(this UIComponent self) where T : Entity
         {
             if (UIPathComponent.Instance.WindowTypeIdDict.TryGetValue(typeof (T).Name, out var windowsId))
-            {
                 return (WindowID)windowsId;
-            }
 
             Log.Error($"{typeof (T).FullName} is not have any windowId!");
             return WindowID.WindowID_Invaild;
@@ -257,9 +247,7 @@ namespace ET.Client
             self.StackWindowsQueue.Enqueue(id);
 
             if (self.IsPopStackWndStatus)
-            {
                 return;
-            }
 
             self.IsPopStackWndStatus = true;
             self.PopStackUIBaseWindow();
@@ -274,9 +262,7 @@ namespace ET.Client
         {
             var baseWindow = self.ReadyToShowBaseWindow(id, showData);
             if (null != baseWindow)
-            {
                 self.RealShowWindow(baseWindow, id, showData);
-            }
         }
 
         /// <summary>
@@ -304,9 +290,7 @@ namespace ET.Client
             {
                 baseWindow = await self.ShowBaseWindowAsync(id, showData);
                 if (null != baseWindow)
-                {
                     self.RealShowWindow(baseWindow, id, showData);
-                }
             }
             catch (Exception e)
             {
@@ -415,9 +399,7 @@ namespace ET.Client
         public static void CloseWindow(this UIComponent self, WindowID windowId)
         {
             if (!self.VisibleWindowsDic.ContainsKey(windowId))
-            {
                 return;
-            }
 
             self.HideWindow(windowId);
             self.UnLoadWindow(windowId);
@@ -443,17 +425,13 @@ namespace ET.Client
         {
             self.IsPopStackWndStatus = false;
             if (self.AllWindowsDic == null)
-            {
                 return;
-            }
 
             foreach (var window in self.AllWindowsDic)
             {
                 var baseWindow = window.Value;
                 if (baseWindow == null || baseWindow.IsDisposed)
-                {
                     continue;
-                }
 
                 self.HideWindow(baseWindow.WindowID);
                 self.UnLoadWindow(baseWindow.WindowID, false);
@@ -478,14 +456,10 @@ namespace ET.Client
             foreach (var window in self.VisibleWindowsDic)
             {
                 if (window.Value.windowType == UIWindowType.Fixed && !includeFixed)
-                {
                     continue;
-                }
 
                 if (window.Value.IsDisposed)
-                {
                     continue;
-                }
 
                 self.UIBaseWindowlistCached.Add(window.Key);
                 window.Value.UIPrefabGameObject?.SetActive(false);
@@ -493,12 +467,8 @@ namespace ET.Client
             }
 
             if (self.UIBaseWindowlistCached.Count > 0)
-            {
                 for (var i = 0; i < self.UIBaseWindowlistCached.Count; i++)
-                {
                     self.VisibleWindowsDic.Remove(self.UIBaseWindowlistCached[i]);
-                }
-            }
 
             self.StackWindowsQueue.Clear();
         }

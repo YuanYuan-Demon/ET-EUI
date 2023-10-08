@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using ET.EventType;
 
 namespace ET
 {
-    [FriendOf(typeof(NumericWatcherComponent))]
+    [FriendOf(typeof (NumericWatcherComponent))]
     public static class NumericWatcherComponentSystem
     {
         [ObjectSystem]
-        public class NumericWatcherComponentAwakeSystem : AwakeSystem<NumericWatcherComponent>
+        public class NumericWatcherComponentAwakeSystem: AwakeSystem<NumericWatcherComponent>
         {
             protected override void Awake(NumericWatcherComponent self)
             {
@@ -16,53 +17,43 @@ namespace ET
             }
         }
 
-
-        public class NumericWatcherComponentLoadSystem : LoadSystem<NumericWatcherComponent>
+        public class NumericWatcherComponentLoadSystem: LoadSystem<NumericWatcherComponent>
         {
-            protected override void Load(NumericWatcherComponent self)
-            {
-                self.Init();
-            }
+            protected override void Load(NumericWatcherComponent self) => self.Init();
         }
 
         private static void Init(this NumericWatcherComponent self)
         {
-            self.allWatchers = new ();
+            self.allWatchers = new();
 
-            HashSet<Type> types = EventSystem.Instance.GetTypes(typeof(NumericWatcherAttribute));
-            foreach (Type type in types)
+            var types = EventSystem.Instance.GetTypes(typeof (NumericWatcherAttribute));
+            foreach (var type in types)
             {
-                object[] attrs = type.GetCustomAttributes(typeof(NumericWatcherAttribute), false);
+                var attrs = type.GetCustomAttributes(typeof (NumericWatcherAttribute), false);
 
-                foreach (object attr in attrs)
+                foreach (var attr in attrs)
                 {
-                    NumericWatcherAttribute numericWatcherAttribute = (NumericWatcherAttribute)attr;
-                    INumericWatcher obj = (INumericWatcher)Activator.CreateInstance(type);
-                    NumericWatcherInfo numericWatcherInfo = new NumericWatcherInfo(numericWatcherAttribute.SceneType, obj);
+                    var numericWatcherAttribute = (NumericWatcherAttribute)attr;
+                    var obj = (INumericWatcher)Activator.CreateInstance(type);
+                    var numericWatcherInfo = new NumericWatcherInfo(numericWatcherAttribute.SceneType, obj);
                     if (!self.allWatchers.ContainsKey(numericWatcherAttribute.NumericType))
-                    {
-                        self.allWatchers.Add(numericWatcherAttribute.NumericType, new List<NumericWatcherInfo>());
-                    }
+                        self.allWatchers.Add(numericWatcherAttribute.NumericType, new());
                     self.allWatchers[numericWatcherAttribute.NumericType].Add(numericWatcherInfo);
                 }
             }
         }
 
-        public static void Run(this NumericWatcherComponent self, Unit unit, EventType.NumbericChange args)
+        public static void Run(this NumericWatcherComponent self, Unit unit, NumbericChange args)
         {
             List<NumericWatcherInfo> list;
             if (!self.allWatchers.TryGetValue(args.NumericType, out list))
-            {
                 return;
-            }
 
-            SceneType unitDomainSceneType = unit.DomainScene().SceneType;
-            foreach (NumericWatcherInfo numericWatcher in list)
+            var unitDomainSceneType = unit.DomainScene().SceneType;
+            foreach (var numericWatcher in list)
             {
                 if (numericWatcher.SceneType != unitDomainSceneType)
-                {
                     continue;
-                }
                 numericWatcher.INumericWatcher.Run(unit, args);
             }
         }
@@ -80,12 +71,11 @@ namespace ET
         }
     }
 
-
     /// <summary>
-    /// 监视数值变化组件,分发监听
+    ///     监视数值变化组件,分发监听
     /// </summary>
-    [ComponentOf(typeof(Scene))]
-    public class NumericWatcherComponent : Entity, IAwake, ILoad
+    [ComponentOf(typeof (Scene))]
+    public class NumericWatcherComponent: Entity, IAwake, ILoad
     {
         public static NumericWatcherComponent Instance { get; set; }
 

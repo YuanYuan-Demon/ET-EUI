@@ -12,7 +12,7 @@
             self.AccountId = nRoleInfo.AccountId;
             self.RoleClass = nRoleInfo.RoleClass;
             self.Level = nRoleInfo.Level;
-            self.LastLoginTIme = nRoleInfo.LastLoginTIme;
+            self.LastLoginTime = nRoleInfo.LastLoginTIme;
             self.CreateTime = nRoleInfo.CreateTime;
             self.ConfigId = nRoleInfo.ConfigId;
         }
@@ -27,7 +27,7 @@
                 Level = self.Level,
                 RoleClass = self.RoleClass,
                 Status = self.Status,
-                LastLoginTIme = self.LastLoginTIme,
+                LastLoginTIme = self.LastLoginTime,
                 CreateTime = self.CreateTime,
                 ConfigId = self.ConfigId,
             };

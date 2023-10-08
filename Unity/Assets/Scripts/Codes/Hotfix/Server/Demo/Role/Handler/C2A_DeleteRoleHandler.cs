@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ET.Server
+﻿namespace ET.Server
 {
     [FriendOf(typeof (RoleInfo))]
     [MessageHandler(SceneType.Account)]
@@ -8,7 +6,7 @@ namespace ET.Server
     {
         protected override async ETTask Run(Session session, C2A_DelteRole request, A2C_DelteRole response)
         {
-            Scene scene = session.DomainScene();
+            var scene = session.DomainScene();
 
 #region 校验
 
@@ -21,7 +19,7 @@ namespace ET.Server
             }
 
             //令牌校验
-            string token = scene.GetComponent<TokenComponent>().Get(request.AccountId);
+            var token = scene.GetComponent<TokenComponent>().Get(request.AccountId);
             ;
 
             if (token is null || token != request.Token)
@@ -40,8 +38,7 @@ namespace ET.Server
                 //删除角色
                 using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.DeleteRole, request.AccountId))
                 {
-                    List<RoleInfo> roleInfos = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                            .Query<RoleInfo>(r => r.Id == request.RoleId && r.ServerId == request.ServerId);
+                    var roleInfos = await session.QueryDB<RoleInfo>(r => r.Id == request.RoleId && r.ServerId == request.ServerId);
                     if (roleInfos?.Count < 0)
                     {
                         response.Error = ErrorCode.ERR_RoleNotExist;
@@ -49,7 +46,9 @@ namespace ET.Server
                     }
 
                     //保存数据库
-                    roleInfos[0].Status = RoleInfoStatus.Freeze;
+                    roleInfos[0].Status = RoleInfoStatus.Delete;
+                    roleInfos[0].AddOrUpdateUnitCache();
+                    //Undone: 测试将更改提交到缓存服
                     await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(roleInfos[0]);
                     //发送响应
                     response.RoleId = roleInfos[0].Id;

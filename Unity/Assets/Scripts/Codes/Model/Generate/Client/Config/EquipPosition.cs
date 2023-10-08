@@ -9,7 +9,7 @@
 
 
 
-namespace ET.Client
+namespace ET
 { 
     /// <summary>
     /// 装备位置

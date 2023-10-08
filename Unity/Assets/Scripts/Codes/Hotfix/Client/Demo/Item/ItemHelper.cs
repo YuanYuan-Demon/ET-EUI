@@ -23,9 +23,9 @@
             _ => null,
         };
 
-        public static void AddItem(Scene ZoneScene, ItemInfo itemInfo, ItemContainerType itemContainerType)
+        public static void AddItem(Scene ZoneScene, NItem nItem, ItemContainerType itemContainerType)
         {
-            var item = ItemFactory.Create(ZoneScene, itemInfo);
+            var item = ItemFactory.Create(ZoneScene, nItem);
             switch (itemContainerType)
             {
                 case ItemContainerType.Bag:
@@ -38,12 +38,12 @@
             }
         }
 
-        public static void UpdateItem(Scene ZoneScene, ItemInfo itemInfo, ItemContainerType itemContainerType)
+        public static void UpdateItem(Scene ZoneScene, NItem nItem, ItemContainerType itemContainerType)
         {
             switch (itemContainerType)
             {
                 case ItemContainerType.Bag:
-                    ZoneScene.GetComponent<BagComponent>().UpdateItem(itemInfo);
+                    ZoneScene.GetComponent<BagComponent>().UpdateItem(nItem);
                     break;
 
                 default:

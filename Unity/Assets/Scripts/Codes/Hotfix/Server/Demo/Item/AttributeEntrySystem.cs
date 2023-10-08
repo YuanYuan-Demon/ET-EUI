@@ -3,13 +3,10 @@
     [FriendOf(typeof (AttributeEntry))]
     public static class AttributeEntrySystem
     {
-        public static AttributeEntryProto ToMessage(this AttributeEntry self)
+        public static NAttributeEntry ToMessage(this AttributeEntry self) => new()
         {
-            return new AttributeEntryProto
-            {
-                Id = self.Id, AttributeName = self.AttributeType, AttributeValue = self.AttributeValue, EntryType = self.EntryType
-            };
-        }
+            Id = self.Id, AttributeName = self.AttributeType, AttributeValue = self.AttributeValue, EntryType = self.EntryType,
+        };
 
 #region 生命周期
 

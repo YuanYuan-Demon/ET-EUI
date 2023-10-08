@@ -332,7 +332,7 @@ message UnitCache2Other_GetUnit // IActorResponse
 	int32 Error = 91;
 	string Message = 92;
 
-	repeated Entity Entities = 4;
+	repeated bytes Entities = 4;
 	repeated string ComponentNames = 5;
 }
 
@@ -386,15 +386,68 @@ message Chat2G_EnterChat // IActorResponse
 	int64 ChatInfoUnitInstanceId = 1;
 }
 
-//ResponseType Chat2G_RequestExitChat
-message G2Chat_RequestExitChat // IActorRequest
+//ResponseType Chat2G_ExitChat
+message G2Chat_ExitChat // IActorRequest
 {
     int32 RpcId = 90;
 }
 
-message Chat2G_RequestExitChat // IActorResponse
+message Chat2G_ExitChat // IActorResponse
 {
     int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+}
+
+//============================================  好友系统  ============================================
+
+//ResponseType F2G_EnterFriend
+message G2F_EnterFriend // IActorRequest
+{
+    int32 RpcId = 90;
+
+	string Name  = 1;
+	int64 UnitId = 2;
+	int64 GateSessionActorId = 3;
+	
+}
+
+message F2G_EnterFriend // IActorResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+	
+	int64 FriendUnitInstanceId = 1;
+}
+
+//ResponseType F2G_ExitFriend
+message G2F_ExitFriend // IActorRequest
+{
+    int32 RpcId = 90;
+}
+
+message F2G_ExitFriend // IActorResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+}
+
+
+//ResponseType G2F_Online
+message F2G_Online	// IActorRequest
+{
+	int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+
+	int64 UnitId = 1;
+}
+
+message G2F_Online	// IActorResponse
+{
+	int32 RpcId = 90;
     int32 Error = 91;
     string Message = 92;
 }

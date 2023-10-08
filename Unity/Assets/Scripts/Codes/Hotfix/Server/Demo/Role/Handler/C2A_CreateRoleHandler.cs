@@ -47,8 +47,7 @@
                 using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.CreateRole, request.AccountId))
                 {
                     //角色名查重
-                    var roleInfos = await DBManagerComponent.Instance.GetZoneDB(session.DomainZone())
-                            .Query<RoleInfo>(r => r.Name == request.Name && r.ServerId == request.ServerId);
+                    var roleInfos = await session.QueryDB<RoleInfo>(r => r.ServerId == request.ServerId && r.Name == request.Name);
                     if (roleInfos?.Count > 0)
                     {
                         response.Error = ErrorCode.ERR_RoleNameSame;
@@ -65,9 +64,10 @@
                     roleInfo.CreateTime = TimeHelper.ServerNow();
                     roleInfo.Level = 1;
                     roleInfo.RoleClass = config.Class;
-                    roleInfo.LastLoginTIme = 0;
+                    roleInfo.LastLoginTime = 0;
                     roleInfo.ConfigId = request.ConfigId;
                     await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(roleInfo);
+                    roleInfo.AddOrUpdateUnitCache();
                     //发送响应
                     response.NRoleInfo = roleInfo.ToNRoleInfo();
                     roleInfo?.Dispose();

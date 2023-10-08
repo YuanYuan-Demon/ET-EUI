@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace ET.Client
 {
     [FriendOf(typeof (DlgRoles))]
-    [FriendOf(typeof (RoleInfosComponent))]
+    [FriendOf(typeof (CRoleInfosComponent))]
     [FriendOf(typeof (RoleInfo))]
     public static class DlgRolesSystem
     {
@@ -30,7 +30,7 @@ namespace ET.Client
         public static void Refresh(this DlgRoles self)
         {
             //在最后添加一个创建角色按钮
-            self.RoleInfos = self.ClientScene().GetComponent<RoleInfosComponent>().RoleInfos;
+            self.RoleInfos = self.ClientScene().GetComponent<CRoleInfosComponent>().RoleInfos;
             var count = self.RoleInfos.Count + 1;
             self.AddUIScrollItems(ref self.ScrollItemRoleInfos, count);
             self.View.ElRolesLoopVList.SetVisible(true, count);
@@ -68,18 +68,14 @@ namespace ET.Client
             self.View.EG_CreatePanel_RectTransform.gameObject.SetActive(!showSelect);
             self.View.EB_Back_Button.gameObject.SetActive(!showSelect);
             if (showSelect)
-            {
                 self.ScrollItemRoleInfos[0].OnSelect();
-            }
             else
-            {
                 self.OnSelectClass(0);
-            }
         }
 
         private static async void OnClickEnter(this DlgRoles self)
         {
-            var isSelect = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId != 0;
+            var isSelect = self.ClientScene().GetComponent<CRoleInfosComponent>().CurRoleId != 0;
             if (!isSelect)
             {
                 UIComponent.Instance.ShowErrorBox("请先选择角色");
@@ -152,7 +148,7 @@ namespace ET.Client
         /// <param name="self"> </param>
         private static async void OnClickDeleteRole(this DlgRoles self)
         {
-            var roleId = self.ClientScene().GetComponent<RoleInfosComponent>().CurRoleId;
+            var roleId = self.ClientScene().GetComponent<CRoleInfosComponent>().CurRoleId;
             if (roleId == 0)
             {
                 UIComponent.Instance.ShowErrorBox("请选择需要删除的角色");

@@ -7,9 +7,7 @@ namespace ET.Client
         public static void ShowRole(this RoleShowComponent self, int index)
         {
             for (var i = 0; i < 3; i++)
-            {
                 self.Transform.GetChild(i).gameObject.SetActive(i == index);
-            }
         }
 
 #region 生命周期

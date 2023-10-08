@@ -6,6 +6,5 @@ namespace ET.Server
     public class ChatComponent: Entity, IAwake
     {
         public Dictionary<ChatChannel, Queue<ChatMessage>> AllMessages;
-        public Queue<long> PrivateTarget;
     }
 }

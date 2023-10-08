@@ -8,10 +8,8 @@
             await ETTask.CompletedTask;
             ItemHelper.Clear(session.ClientScene(), message.ContainerType);
 
-            for (int i = 0; i < message.ItemInfoList.Count; i++)
-            {
-                ItemHelper.AddItem(session.ClientScene(), message.ItemInfoList[i], message.ContainerType);
-            }
+            for (var i = 0; i < message.NItems.Count; i++)
+                ItemHelper.AddItem(session.ClientScene(), message.NItems[i], message.ContainerType);
         }
     }
 }

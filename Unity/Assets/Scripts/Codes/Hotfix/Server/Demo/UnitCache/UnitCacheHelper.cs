@@ -2,6 +2,7 @@ using MongoDB.Bson;
 
 namespace ET.Server
 {
+    [FriendOfAttribute(typeof (RoleInfo))]
     public static class UnitCacheHelper
     {
         public static async ETTask<(bool, Unit)> LoadUnit(Player player)
@@ -14,8 +15,11 @@ namespace ET.Server
             if (isNewUnit)
             {
                 //创建新角色Unit
-                var roleInfos = await DBManagerComponent.Instance.GetZoneDB(player.DomainZone()).Query<RoleInfo>(r => r.Id == player.UnitId);
-                unit = UnitFactory.CreatePlayer(gateMapComponent.Scene, player.Id, UnitType.Player, roleInfos[0]);
+                var roleInfo = await GetUnitComponentCache<RoleInfo>(player.UnitId);
+                roleInfo.Online = true;
+                roleInfo.LastLoginTime = TimeHelper.ServerNow();
+
+                unit = UnitFactory.CreatePlayer(gateMapComponent.Scene, player.Id, UnitType.Player, roleInfo);
 
                 AddOrUpdateUnitAllCache(unit);
             }
@@ -30,14 +34,12 @@ namespace ET.Server
         public static void AddOrUpdateUnitAllCache(Unit unit)
         {
             var message = new Other2UnitCache_AddOrUpdateUnit() { UnitId = unit.Id };
-            message.EntityTypes.Add(typeof (Unit).FullName);
+            message.EntityTypes.Add(nameof (Unit));
             message.EntityBytes.Add(MongoHelper.Serialize(unit));
             foreach (var (type, entity) in unit.Components)
             {
                 if (!typeof (IUnitCache).IsAssignableFrom(type))
-                {
                     continue;
-                }
 
                 message.EntityTypes.Add(type.FullName);
                 message.EntityBytes.Add(MongoHelper.Serialize(entity));
@@ -84,23 +86,23 @@ namespace ET.Server
             var message = new Other2UnitCache_GetUnit() { UnitId = unitId };
             var response = await MessageHelper.CallActor(instanceId, message) as UnitCache2Other_GetUnit;
             if (response.Error != ErrorCode.ERR_Success || response.Entities.Count <= 0)
-            {
                 return null;
-            }
 
             //获取Unit
-            var index = response.ComponentNames.IndexOf(nameof (Unit));
-            if (response.Entities[index] is Unit unit)
+            var index = response.ComponentNames.IndexOf(typeof (Unit).FullName);
+            if (MongoHelper.Deserialize<Unit>(response.Entities[index]) is { } unit)
             {
                 scene.AddChild(unit);
 
                 //添加Unit身上的组件
-                foreach (var entity in response.Entities)
+                for (var i = 0; i < response.Entities.Count; i++)
                 {
-                    if (entity is null || entity is Unit)
-                    {
+                    var type = response.ComponentNames[i].ToType();
+                    if (type == typeof (Unit))
                         continue;
-                    }
+                    var entity = (Entity)MongoHelper.Deserialize(type, response.Entities[i]);
+                    if (entity is null or Unit)
+                        continue;
 
                     unit.AddComponent(entity);
                 }
@@ -120,13 +122,11 @@ namespace ET.Server
         public static async ETTask<T> GetUnitComponentCache<T>(long unitId) where T : Entity, IUnitCache
         {
             var message = new Other2UnitCache_GetUnit() { UnitId = unitId };
-            message.ComponentNames.Add(typeof (T).Name);
+            message.ComponentNames.Add(typeof (T).FullName);
             var instanceId = StartSceneConfigCategory.Instance.GetUnitCacheConfig(unitId).InstanceId;
             var cacheResponse = await MessageHelper.CallActor(instanceId, message) as UnitCache2Other_GetUnit;
             if (cacheResponse.Error == ErrorCode.ERR_Success && cacheResponse.Entities.Count > 0)
-            {
                 return cacheResponse.Entities[0] as T;
-            }
 
             return null;
         }

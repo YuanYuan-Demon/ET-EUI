@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace ET.Client
 {
     [FriendOfAttribute(typeof (ChatMessage))]
     public static class ChatHelper
     {
-        public static async Task<int> SendMessage(Scene ZoneScene, string message, ChatChannel channel, long targetId)
+        public static async ETTask<int> SendMessage(Scene ZoneScene, string message, ChatChannel channel, long targetId)
         {
             if (string.IsNullOrEmpty(message))
                 return ErrorCode.ERR_ChatMessageEmpty;
 
-            Chat2C_SendChatInfo response;
+            IResponse response;
             try
             {
                 response = await ZoneScene.Call(new C2Chat_SendChatInfo()
                 {
                     NChatMessage = new() { message = message, fromID = ZoneScene.GetMyUnit().Id, toID = targetId, Channel = channel },
-                }) as Chat2C_SendChatInfo;
+                });
             }
             catch (Exception e)
             {

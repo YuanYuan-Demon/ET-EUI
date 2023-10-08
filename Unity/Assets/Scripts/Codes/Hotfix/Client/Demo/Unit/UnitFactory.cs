@@ -4,36 +4,34 @@ namespace ET.Client
 {
     public static class UnitFactory
     {
-        public static Unit Create(Scene currentScene, UnitInfo unitInfo)
+        public static Unit Create(Scene currentScene, NUnit nUnit)
         {
             var unitComponent = currentScene.GetComponent<UnitComponent>();
-            var unit = unitComponent.Create(unitInfo.UnitId, unitInfo.ConfigId);
-            unit.AddComponent<RoleInfo>().FromNRoleInfo(unitInfo.NRoleInfo);
-            unit.Position = unitInfo.Position;
-            unit.Forward = unitInfo.Forward;
+            var unit = unitComponent.Create(nUnit.UnitId, nUnit.ConfigId);
+            unit.AddComponent<RoleInfo>().FromNRoleInfo(nUnit.NRoleInfo);
+            unit.Position = nUnit.Position;
+            unit.Forward = nUnit.Forward;
 
             var numericComponent = unit.AddComponent<NumericComponent>();
-            foreach ((var nt, var value)in unitInfo.Numeric)
+            foreach (var (nt, value)in nUnit.Numeric)
             {
                 numericComponent.Set(nt, value);
             }
 
             unit.AddComponent<MoveComponent>();
-            if (unitInfo.MoveInfo != null)
-            {
-                if (unitInfo.MoveInfo.Targets.Count > 0)
+            if (nUnit.MoveInfo != null)
+                if (nUnit.MoveInfo.Targets.Count > 0)
                 {
-                    unitInfo.MoveInfo.Targets[0] = unit.Position;
-                    unit.MoveToAsync(unitInfo.MoveInfo.Targets).Coroutine();
+                    nUnit.MoveInfo.Targets[0] = unit.Position;
+                    unit.MoveToAsync(nUnit.MoveInfo.Targets).Coroutine();
                 }
-            }
 
             unit.AddComponent<ObjectWait>();
 
             unit.AddComponent<XunLuoPathComponent>();
 
             EventSystem.Instance.Publish(unit.DomainScene(),
-                new AfterUnitCreate() { Unit = unit, Prefab = UnitConfigCategory.Instance.Get(unitInfo.ConfigId).Prefab });
+                new AfterUnitCreate() { Unit = unit, Prefab = UnitConfigCategory.Instance.Get(nUnit.ConfigId).Prefab });
             return unit;
         }
     }

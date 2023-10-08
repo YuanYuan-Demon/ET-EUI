@@ -8,15 +8,15 @@
             switch (message.Op)
             {
                 case ItemOp.Add:
-                    ItemHelper.AddItem(session.ClientScene(), message.ItemInfo, message.ContainerType);
+                    ItemHelper.AddItem(session.ClientScene(), message.NItem, message.ContainerType);
                     break;
 
                 case ItemOp.Update:
-                    ItemHelper.UpdateItem(session.ClientScene(), message.ItemInfo, message.ContainerType);
+                    ItemHelper.UpdateItem(session.ClientScene(), message.NItem, message.ContainerType);
                     break;
 
                 case ItemOp.Remove:
-                    ItemHelper.RemoveItemById(session.ClientScene(), message.ItemInfo.ItemUid, message.ContainerType);
+                    ItemHelper.RemoveItemById(session.ClientScene(), message.NItem.ItemUid, message.ContainerType);
                     break;
             }
 

@@ -10,10 +10,8 @@ namespace ET.Server
         {
             protected override void Awake(BenchmarkClientComponent self)
             {
-                for (int i = 0; i < 50; ++i)
-                {
+                for (var i = 0; i < 50; ++i)
                     self.Start().Coroutine();
-                }
             }
         }
 
@@ -21,26 +19,24 @@ namespace ET.Server
         {
             await TimerComponent.Instance.WaitAsync(1000);
 
-            Scene scene = await SceneFactory.CreateServerScene(self, IdGenerater.Instance.GenerateId(), IdGenerater.Instance.GenerateInstanceId(),
+            var scene = await SceneFactory.CreateServerScene(self, IdGenerater.Instance.GenerateId(), IdGenerater.Instance.GenerateInstanceId(),
                 self.DomainZone(), "bechmark", SceneType.Benchmark);
-            
-            NetClientComponent netClientComponent = scene.AddComponent<NetClientComponent, AddressFamily>(AddressFamily.InterNetwork);
 
-            using Session session = netClientComponent.Create(StartSceneConfigCategory.Instance.BenchmarkServer.OuterIPPort);
-            List<ETTask> list = new List<ETTask>(100000);
+            var netClientComponent = scene.AddComponent<NetClientComponent, AddressFamily>(AddressFamily.InterNetwork);
+
+            using var session = netClientComponent.Create(StartSceneConfigCategory.Instance.BenchmarkServer.OuterIPPort);
+            var list = new List<ETTask>(100000);
 
             async ETTask Call(Session s)
             {
                 await s.Call(new C2G_Benchmark());
             }
-            
-            for (int j = 0; j < 100000000; ++j)
+
+            for (var j = 0; j < 100000000; ++j)
             {
                 list.Clear();
-                for (int i = 0; i < list.Capacity; ++i)
-                {
+                for (var i = 0; i < list.Capacity; ++i)
                     list.Add(Call(session));
-                }
                 await ETTaskHelper.WaitAll(list);
             }
         }

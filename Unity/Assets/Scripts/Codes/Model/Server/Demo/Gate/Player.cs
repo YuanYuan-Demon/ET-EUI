@@ -14,6 +14,7 @@
         public long UnitId { get; set; }
         public PlayerState PlayerState { get; set; }
         public Session ClientSession { get; set; }
-        public long ChatInfoInstanceId { get; set; }
+        public long ChatUnitInstanceId { get; set; }
+        public long FriendUnitInstanceId { get; set; }
     }
 }

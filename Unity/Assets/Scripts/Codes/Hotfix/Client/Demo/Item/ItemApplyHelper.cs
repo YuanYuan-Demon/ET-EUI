@@ -18,15 +18,12 @@ namespace ET.Client
             var item = ItemHelper.GetItem(clientScene, itemId, ItemContainerType.Bag);
 
             if (item == null)
-            {
                 return ErrorCode.ERR_ItemNotExist;
-            }
 
             M2C_SellItem m2cSellItem;
             try
             {
-                m2cSellItem = await clientScene.GetComponent<SessionComponent>().Session
-                        .Call(new C2M_SellItem() { ItemUid = itemId }) as M2C_SellItem;
+                m2cSellItem = await clientScene.Call(new C2M_SellItem() { ItemUid = itemId }) as M2C_SellItem;
             }
             catch (Exception e)
             {
@@ -52,9 +49,7 @@ namespace ET.Client
             var item = ItemHelper.GetItem(ZoneScene, itemId, ItemContainerType.Bag);
 
             if (item == null)
-            {
                 return ErrorCode.ERR_ItemNotExist;
-            }
 
             M2C_EquipItem m2CEquipItem = null;
 
@@ -81,16 +76,16 @@ namespace ET.Client
         {
             var item = ItemHelper.GetItem(ZoneScene, itemId, ItemContainerType.Equip);
             if (item == null)
-            {
                 return ErrorCode.ERR_ItemNotExist;
-            }
 
             M2C_UnloadEquipItem response = null;
 
             try
             {
-                response = await ZoneScene.GetComponent<SessionComponent>().Session.Call(
-                            new C2M_UnloadEquipItem() { EquipPosition = item.GetComponent<EquipInfoComponent>().Config.EquipPosition })
+                response = await ZoneScene.Call(new C2M_UnloadEquipItem()
+                        {
+                            EquipPosition = item.GetComponent<EquipInfoComponent>().Config.EquipPosition,
+                        })
                         as M2C_UnloadEquipItem;
             }
             catch (Exception e)

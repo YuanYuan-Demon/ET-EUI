@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace ET
 {
     /// <summary>
-    /// 消息分发组件
+    ///     消息分发组件
     /// </summary>
-    [FriendOf(typeof(MessageDispatcherComponent))]
+    [FriendOf(typeof (MessageDispatcherComponent))]
     public static class MessageDispatcherComponentHelper
     {
         [ObjectSystem]
@@ -22,10 +22,7 @@ namespace ET
         [ObjectSystem]
         public class MessageDispatcherComponentLoadSystem: LoadSystem<MessageDispatcherComponent>
         {
-            protected override void Load(MessageDispatcherComponent self)
-            {
-                self.Load();
-            }
+            protected override void Load(MessageDispatcherComponent self) => self.Load();
         }
 
         [ObjectSystem]
@@ -42,33 +39,33 @@ namespace ET
         {
             self.Handlers.Clear();
 
-            HashSet<Type> types = EventSystem.Instance.GetTypes(typeof (MessageHandlerAttribute));
+            var types = EventSystem.Instance.GetTypes(typeof (MessageHandlerAttribute));
 
-            foreach (Type type in types)
+            foreach (var type in types)
             {
-                IMHandler iMHandler = Activator.CreateInstance(type) as IMHandler;
+                var iMHandler = Activator.CreateInstance(type) as IMHandler;
                 if (iMHandler == null)
                 {
                     Log.Error($"message handle {type.Name} 需要继承 IMHandler");
                     continue;
                 }
 
-                object[] attrs = type.GetCustomAttributes(typeof(MessageHandlerAttribute), false);
-                
-                foreach (object attr in attrs)
+                var attrs = type.GetCustomAttributes(typeof (MessageHandlerAttribute), false);
+
+                foreach (var attr in attrs)
                 {
-                    MessageHandlerAttribute messageHandlerAttribute = attr as MessageHandlerAttribute;
-                    
-                    Type messageType = iMHandler.GetMessageType();
-                    
-                    ushort opcode = NetServices.Instance.GetOpcode(messageType);
+                    var messageHandlerAttribute = attr as MessageHandlerAttribute;
+
+                    var messageType = iMHandler.GetMessageType();
+
+                    var opcode = NetServices.Instance.GetOpcode(messageType);
                     if (opcode == 0)
                     {
                         Log.Error($"消息opcode为0: {messageType.Name}");
                         continue;
                     }
 
-                    MessageDispatcherInfo messageDispatcherInfo = new (messageHandlerAttribute.SceneType, iMHandler);
+                    MessageDispatcherInfo messageDispatcherInfo = new(messageHandlerAttribute.SceneType, iMHandler);
                     self.RegisterHandler(opcode, messageDispatcherInfo);
                 }
             }
@@ -77,9 +74,7 @@ namespace ET
         private static void RegisterHandler(this MessageDispatcherComponent self, ushort opcode, MessageDispatcherInfo handler)
         {
             if (!self.Handlers.ContainsKey(opcode))
-            {
-                self.Handlers.Add(opcode, new List<MessageDispatcherInfo>());
-            }
+                self.Handlers.Add(opcode, new());
 
             self.Handlers[opcode].Add(handler);
         }
@@ -87,21 +82,19 @@ namespace ET
         public static void Handle(this MessageDispatcherComponent self, Session session, object message)
         {
             List<MessageDispatcherInfo> actions;
-            ushort opcode = NetServices.Instance.GetOpcode(message.GetType());
+            var opcode = NetServices.Instance.GetOpcode(message.GetType());
             if (!self.Handlers.TryGetValue(opcode, out actions))
             {
                 Log.Error($"消息没有处理: {opcode} {message}");
                 return;
             }
 
-            SceneType sceneType = session.DomainScene().SceneType;
-            foreach (MessageDispatcherInfo ev in actions)
+            var sceneType = session.DomainScene().SceneType;
+            foreach (var ev in actions)
             {
                 if (ev.SceneType != sceneType)
-                {
                     continue;
-                }
-                
+
                 try
                 {
                     ev.IMHandler.Handle(session, message);

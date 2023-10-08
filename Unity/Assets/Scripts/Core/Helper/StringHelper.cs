@@ -7,6 +7,8 @@ namespace ET
 {
     public static class StringHelper
     {
+        public static Type ToType(this string str) => EventSystem.Instance.GetType(str);
+
         public static IEnumerable<byte> ToBytes(this string str)
         {
             var byteArray = Encoding.Default.GetBytes(str);
@@ -43,10 +45,7 @@ namespace ET
             return hexAsBytes;
         }
 
-        public static string Fmt(this string text, params object[] args)
-        {
-            return string.Format(text, args);
-        }
+        public static string Fmt(this string text, params object[] args) => string.Format(text, args);
 
         public static string ListToString<T>(this List<T> list)
         {

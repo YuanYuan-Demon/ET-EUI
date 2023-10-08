@@ -1,8 +1,11 @@
-﻿namespace ET
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace ET
 {
     public enum RoleInfoStatus
     {
         Normal,
+        Delete,
         Freeze,
     }
 
@@ -13,12 +16,16 @@
         public long AccountId;
         public int ConfigId;
         public long CreateTime;
-        public long LastLoginTIme;
+        public long LastLoginTime;
         public int Level;
         public string Name;
         public RoleClass RoleClass;
         public int ServerId;
         public RoleInfoStatus Status;
+
+        [BsonIgnore]
+        public bool Online;
+
         public UnitConfig UnitConfig => UnitConfigCategory.Instance.Get(this.ConfigId);
     }
 }

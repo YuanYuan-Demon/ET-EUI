@@ -13,7 +13,7 @@ using ET.Luban;
 
 
 
-namespace ET.Client
+namespace ET
 {
 
 

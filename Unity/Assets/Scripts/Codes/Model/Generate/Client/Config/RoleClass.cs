@@ -9,7 +9,7 @@
 
 
 
-namespace ET.Client
+namespace ET
 { 
     public enum RoleClass
     {

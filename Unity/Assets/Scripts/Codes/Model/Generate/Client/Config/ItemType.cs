@@ -9,7 +9,7 @@
 
 
 
-namespace ET.Client
+namespace ET
 { 
     /// <summary>
     /// 道具类型

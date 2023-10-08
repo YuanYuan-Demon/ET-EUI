@@ -3,7 +3,7 @@
     [FriendOf(typeof (Player))]
     public static class PlayerSystem
     {
-        #region 生命周期
+#region 生命周期
 
         public class PlayerAwakeSystem: AwakeSystem<Player, long, long>
         {
@@ -20,12 +20,12 @@
             {
                 self.AccountId = 0;
                 self.UnitId = 0;
-                self.ChatInfoInstanceId = 0;
+                self.ChatUnitInstanceId = 0;
                 self.PlayerState = PlayerState.Disconnect;
                 self.ClientSession?.Dispose();
             }
         }
 
-        #endregion 生命周期
+#endregion 生命周期
     }
 }

@@ -21,9 +21,7 @@
         public static void Add(this UnitComponent self, Unit unit)
         {
             if (unit.Parent != self)
-            {
                 self.AddChild(unit);
-            }
         }
 
         public static Unit Create(this UnitComponent self, int configId) => self.Create(IdGenerater.Instance.GenerateId(), configId);
@@ -35,6 +33,8 @@
             var unit = self.GetChild<Unit>(id);
             return unit;
         }
+
+        public static bool Contains(this UnitComponent self, long id) => self.Children.ContainsKey(id);
 
         public static void Remove(this UnitComponent self, long id)
         {

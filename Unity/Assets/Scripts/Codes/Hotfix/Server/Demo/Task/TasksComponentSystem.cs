@@ -38,9 +38,7 @@ namespace ET.Server
                     self.TaskInfos.Add(taskInfo.Config.Id, taskInfo);
 
                     if (taskInfo.TaskState < TaskState.Finished)
-                    {
                         self.CurrentTaskSet.Add(taskInfo.Config.Id, taskInfo.Config);
-                    }
                 }
             }
         }
@@ -56,9 +54,7 @@ namespace ET.Server
         private static void Init(this TasksComponent self)
         {
             if (self.TaskInfos.Count == 0)
-            {
                 self.UpdateAfterTaskInfo(0, false);
-            }
         }
 
         /// <summary>
@@ -91,14 +87,10 @@ namespace ET.Server
         public static void AddTaskInfo(this TasksComponent self, TaskConfig task, bool isNoticeClient = true)
         {
             if (!self.TaskInfos.TryGetValue(task.Id, out var taskInfo))
-            {
                 taskInfo = self.AddNewTask(task);
-            }
 
             if (isNoticeClient)
-            {
                 TaskNoticeHelper.SyncTaskInfo(self.GetParent<Unit>(), taskInfo);
-            }
         }
 
         /// <summary>
@@ -114,9 +106,7 @@ namespace ET.Server
             foreach (var process in taskInfo.Process)
             {
                 if (process.Type == TaskTargetType.UpLevel)
-                {
                     process.Count = self.GetParent<Unit>().GetComponent<NumericComponent>().GetAsInt(NumericType.Level);
-                }
             }
 
             return taskInfo;
@@ -138,16 +128,12 @@ namespace ET.Server
             foreach (var configId in self.CurrentTaskSet.Keys)
             {
                 if (!self.TaskInfos.TryGetValue(configId, out var taskInfo))
-                {
                     continue;
-                }
 
                 foreach (var process in taskInfo.Process)
                 {
                     if (process.Type == taskTargetType && process.Target == targetId)
-                    {
                         self.UpdateTaskInfo(taskInfo, process, count);
-                    }
                 }
             }
         }
@@ -165,9 +151,7 @@ namespace ET.Server
             UpdateProcess(process, count);
             taskInfo.TryCompleteTask();
             if (isNoticeClient)
-            {
                 TaskNoticeHelper.SyncTaskInfo(self.GetParent<Unit>(), taskInfo);
-            }
         }
 
         /// <summary>
@@ -223,31 +207,21 @@ namespace ET.Server
         public static int CanSubmitTask(this TasksComponent self, int taskConfigId)
         {
             if (!TaskConfigCategory.Instance.Contain(taskConfigId))
-            {
                 return ErrorCode.ERR_NoTaskExist;
-            }
 
             self.TaskInfos.TryGetValue(taskConfigId, out var taskInfo);
 
             if (taskInfo == null || taskInfo.IsDisposed)
-            {
                 return ErrorCode.ERR_NoTaskInfoExist;
-            }
 
             if (!self.IsPreTaskFinished(taskConfigId))
-            {
                 return ErrorCode.ERR_BeforeTaskNoOver;
-            }
 
             if (taskInfo.IsTaskState(TaskState.Finished))
-            {
                 return ErrorCode.ERR_TaskFinished;
-            }
 
             if (!taskInfo.IsTaskState(TaskState.Completed))
-            {
                 return ErrorCode.ERR_TaskNoCompleted;
-            }
 
             return ErrorCode.ERR_Success;
         }
@@ -263,14 +237,10 @@ namespace ET.Server
             var config = TaskConfigCategory.Instance.Get(taskConfigId);
 
             if (config.PreTask == 0)
-            {
                 return true;
-            }
 
             if (!self.TaskInfos.TryGetValue(config.PreTask, out var beforeTaskInfo))
-            {
                 return false;
-            }
 
             return beforeTaskInfo.IsTaskState(TaskState.Finished);
         }

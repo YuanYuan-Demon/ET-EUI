@@ -1,5 +1,3 @@
-using System;
-
 namespace ET.Server
 {
     [ActorMessageHandler(SceneType.UnitCache)]
@@ -9,11 +7,11 @@ namespace ET.Server
         UnitCache2Other_AddOrUpdateUnit response)
         {
             var unitCacheCompnent = scene.GetComponent<UnitCacheComponent>();
-            using (ListComponent<Entity> entityList = ListComponent<Entity>.Create())
+            using (var entityList = ListComponent<Entity>.Create())
             {
-                for (int i = 0; i < request.EntityTypes.Count; i++)
+                for (var i = 0; i < request.EntityTypes.Count; i++)
                 {
-                    Type type = EventSystem.Instance.GetType(request.EntityTypes[i]);
+                    var type = EventSystem.Instance.GetType(request.EntityTypes[i]);
                     var entity = MongoHelper.Deserialize(type, request.EntityBytes[i]) as Entity;
                     entityList.Add(entity);
                 }

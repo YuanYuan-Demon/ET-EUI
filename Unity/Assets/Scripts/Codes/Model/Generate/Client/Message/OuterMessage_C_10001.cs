@@ -130,9 +130,9 @@ namespace ET
 
 	}
 
-	[Message(OuterMessage.UnitInfo)]
+	[Message(OuterMessage.NUnit)]
 	[ProtoContract]
-	public partial class UnitInfo: ProtoObject
+	public partial class NUnit: ProtoObject
 	{
 		[ProtoMember(1)]
 		public long UnitId { get; set; }
@@ -165,7 +165,7 @@ namespace ET
 	public partial class M2C_CreateUnits: ProtoObject, IActorMessage
 	{
 		[ProtoMember(1)]
-		public List<UnitInfo> Units { get; set; } = new();
+		public List<NUnit> Units { get; set; } = new();
 
 	}
 
@@ -174,7 +174,7 @@ namespace ET
 	public partial class M2C_CreateMyUnit: ProtoObject, IActorMessage
 	{
 		[ProtoMember(1)]
-		public UnitInfo Unit { get; set; }
+		public NUnit Unit { get; set; }
 
 	}
 
@@ -1000,9 +1000,9 @@ namespace ET
 	}
 
 //============================================  道具系统  ============================================
-	[Message(OuterMessage.ItemInfo)]
+	[Message(OuterMessage.NItem)]
 	[ProtoContract]
-	public partial class ItemInfo: ProtoObject
+	public partial class NItem: ProtoObject
 	{
 		[ProtoMember(1)]
 		public long ItemUid { get; set; }
@@ -1014,7 +1014,7 @@ namespace ET
 		public int Count { get; set; }
 
 		[ProtoMember(4)]
-		public EquipInfoProto EquipInfo { get; set; }
+		public NEquipInfo EquipInfo { get; set; }
 
 	}
 
@@ -1026,7 +1026,7 @@ namespace ET
 		public int RpcId { get; set; }
 
 		[ProtoMember(1)]
-		public List<ItemInfo> ItemInfoList { get; set; } = new();
+		public List<NItem> NItems { get; set; } = new();
 
 		[ProtoMember(2)]
 		public ItemContainerType ContainerType { get; set; }
@@ -1041,7 +1041,7 @@ namespace ET
 		public int RpcId { get; set; }
 
 		[ProtoMember(1)]
-		public ItemInfo ItemInfo { get; set; }
+		public NItem NItem { get; set; }
 
 		[ProtoMember(2)]
 		public ItemOp Op { get; set; }
@@ -1115,9 +1115,9 @@ namespace ET
 	}
 
 //============================================  装备系统  ============================================
-	[Message(OuterMessage.AttributeEntryProto)]
+	[Message(OuterMessage.NAttributeEntry)]
 	[ProtoContract]
-	public partial class AttributeEntryProto: ProtoObject
+	public partial class NAttributeEntry: ProtoObject
 	{
 		[ProtoMember(1)]
 		public long Id { get; set; }
@@ -1133,9 +1133,9 @@ namespace ET
 
 	}
 
-	[Message(OuterMessage.EquipInfoProto)]
+	[Message(OuterMessage.NEquipInfo)]
 	[ProtoContract]
-	public partial class EquipInfoProto: ProtoObject
+	public partial class NEquipInfo: ProtoObject
 	{
 		[ProtoMember(1)]
 		public long Id { get; set; }
@@ -1147,7 +1147,7 @@ namespace ET
 		public int Quality { get; set; }
 
 		[ProtoMember(4)]
-		public List<AttributeEntryProto> AttributeEntryList { get; set; } = new();
+		public List<NAttributeEntry> AttributeEntrys { get; set; } = new();
 
 	}
 
@@ -1335,7 +1335,7 @@ namespace ET
 	[ResponseType(nameof(Chat2C_SendChatInfo))]
 	[Message(OuterMessage.C2Chat_SendChatInfo)]
 	[ProtoContract]
-	public partial class C2Chat_SendChatInfo: ProtoObject, IActorChatInfoRequest
+	public partial class C2Chat_SendChatInfo: ProtoObject, IActorChatRequest
 	{
 		[ProtoMember(90)]
 		public int RpcId { get; set; }
@@ -1347,7 +1347,7 @@ namespace ET
 
 	[Message(OuterMessage.Chat2C_SendChatInfo)]
 	[ProtoContract]
-	public partial class Chat2C_SendChatInfo: ProtoObject, IActorChatInfoResponse
+	public partial class Chat2C_SendChatInfo: ProtoObject, IActorChatResponse
 	{
 		[ProtoMember(90)]
 		public int RpcId { get; set; }
@@ -1369,6 +1369,108 @@ namespace ET
 
 	}
 
+//============================================  好友系统  ============================================
+	[Message(OuterMessage.NFriend)]
+	[ProtoContract]
+	public partial class NFriend: ProtoObject
+	{
+		[ProtoMember(1)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(2)]
+		public string Name { get; set; }
+
+		[ProtoMember(3)]
+		public RoleClass RoleClass { get; set; }
+
+		[ProtoMember(4)]
+		public int Level { get; set; }
+
+		[ProtoMember(5)]
+		public long LastLoginTime { get; set; }
+
+		[ProtoMember(6)]
+		public bool Online { get; set; }
+
+	}
+
+	[ResponseType(nameof(F2C_AddFriend))]
+	[Message(OuterMessage.C2F_AddFriend)]
+	[ProtoContract]
+	public partial class C2F_AddFriend: ProtoObject, IActorFriendRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public long UnitId { get; set; }
+
+	}
+
+	[Message(OuterMessage.F2C_AddFriend)]
+	[ProtoContract]
+	public partial class F2C_AddFriend: ProtoObject, IActorFriendResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
+	[Message(OuterMessage.F2C_SendFriendApply)]
+	[ProtoContract]
+	public partial class F2C_SendFriendApply: ProtoObject, IActorFriendMessage
+	{
+		[ProtoMember(1)]
+		public NFriend NFriend { get; set; }
+
+	}
+
+	[ResponseType(nameof(F2C_HandleFriendApply))]
+	[Message(OuterMessage.C2F_HandleFriendApply)]
+	[ProtoContract]
+	public partial class C2F_HandleFriendApply: ProtoObject, IActorFriendRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(2)]
+		public bool Accept { get; set; }
+
+	}
+
+	[Message(OuterMessage.F2C_HandleFriendApply)]
+	[ProtoContract]
+	public partial class F2C_HandleFriendApply: ProtoObject, IActorFriendResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
+	[Message(OuterMessage.F2C_NoticeAddFriend)]
+	[ProtoContract]
+	public partial class F2C_NoticeAddFriend: ProtoObject, IActorFriendMessage
+	{
+		[ProtoMember(1)]
+		public NFriend NFriend { get; set; }
+
+	}
+
 	public static class OuterMessage
 	{
 		 public const ushort HttpGetRouterResponse = 10002;
@@ -1380,7 +1482,7 @@ namespace ET
 		 public const ushort C2G_EnterMap = 10008;
 		 public const ushort G2C_EnterMap = 10009;
 		 public const ushort MoveInfo = 10010;
-		 public const ushort UnitInfo = 10011;
+		 public const ushort NUnit = 10011;
 		 public const ushort M2C_CreateUnits = 10012;
 		 public const ushort M2C_CreateMyUnit = 10013;
 		 public const ushort M2C_StartSceneChange = 10014;
@@ -1434,15 +1536,15 @@ namespace ET
 		 public const ushort M2C_AddAttributePoints = 10062;
 		 public const ushort C2M_UpRoleLevel = 10063;
 		 public const ushort M2C_UpRoleLevel = 10064;
-		 public const ushort ItemInfo = 10065;
+		 public const ushort NItem = 10065;
 		 public const ushort M2C_AllItemsList = 10066;
 		 public const ushort M2C_ItemUpdateOpInfo = 10067;
 		 public const ushort C2M_SellItem = 10068;
 		 public const ushort M2C_SellItem = 10069;
 		 public const ushort C2M_BuyItem = 10070;
 		 public const ushort M2C_BuyItem = 10071;
-		 public const ushort AttributeEntryProto = 10072;
-		 public const ushort EquipInfoProto = 10073;
+		 public const ushort NAttributeEntry = 10072;
+		 public const ushort NEquipInfo = 10073;
 		 public const ushort C2M_EquipItem = 10074;
 		 public const ushort M2C_EquipItem = 10075;
 		 public const ushort C2M_UnloadEquipItem = 10076;
@@ -1457,5 +1559,12 @@ namespace ET
 		 public const ushort C2Chat_SendChatInfo = 10085;
 		 public const ushort Chat2C_SendChatInfo = 10086;
 		 public const ushort Chat2C_NoticeChatInfo = 10087;
+		 public const ushort NFriend = 10088;
+		 public const ushort C2F_AddFriend = 10089;
+		 public const ushort F2C_AddFriend = 10090;
+		 public const ushort F2C_SendFriendApply = 10091;
+		 public const ushort C2F_HandleFriendApply = 10092;
+		 public const ushort F2C_HandleFriendApply = 10093;
+		 public const ushort F2C_NoticeAddFriend = 10094;
 	}
 }

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using ET.Luban;
 
 
-namespace ET.Client
+namespace ET
 {
 [Config]
 public partial class EntryRandomConfigCategory: ConfigSingleton<EntryRandomConfigCategory>

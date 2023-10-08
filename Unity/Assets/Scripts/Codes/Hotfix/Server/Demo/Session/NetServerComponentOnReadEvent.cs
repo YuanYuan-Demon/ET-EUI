@@ -38,32 +38,65 @@
 
 #region Chat服务器
 
-                case IActorChatInfoRequest request:
+                case IActorChatRequest request:
                 {
-                    var player = Root.Instance.Get(session.GetComponent<SessionPlayerComponent>().PlayerInstanceId) as Player;
-                    if (player is null || player.IsDisposed || player.ChatInfoInstanceId == 0)
+                    if (Root.Instance.Get(session.GetComponent<SessionPlayerComponent>().PlayerInstanceId) is not Player player
+                        || player.IsDisposed
+                        || player.ChatUnitInstanceId == 0)
                         break;
 
                     var rpcId = request.RpcId; // 这里要保存客户端的rpcId
                     var instanceId = session.InstanceId;
-                    IResponse respon = await ActorMessageSenderComponent.Instance.Call(player.ChatInfoInstanceId, request);
+                    IResponse respon = await ActorMessageSenderComponent.Instance.Call(player.ChatUnitInstanceId, request);
                     respon.RpcId = rpcId;
                     // session可能已经断开了，所以这里需要判断
                     if (session.InstanceId == instanceId)
                         session.Send(respon);
                     break;
                 }
-                case IActorChatInfoMessage actorChatInfoMessage:
+                case IActorChatMessage actorChatInfoMessage:
                 {
-                    var player = Root.Instance.Get(session.GetComponent<SessionPlayerComponent>().PlayerInstanceId) as Player;
-                    if (player is null || player.IsDisposed || player.ChatInfoInstanceId == 0)
+                    if (Root.Instance.Get(session.GetComponent<SessionPlayerComponent>().PlayerInstanceId) is not Player player
+                        || player.IsDisposed
+                        || player.ChatUnitInstanceId == 0)
                         break;
 
-                    ActorMessageSenderComponent.Instance.Send(player.ChatInfoInstanceId, actorChatInfoMessage);
+                    ActorMessageSenderComponent.Instance.Send(player.ChatUnitInstanceId, actorChatInfoMessage);
                     break;
                 }
 
 #endregion Chat服务器
+
+#region 好友服务器
+
+                case IActorFriendRequest request:
+                {
+                    if (Root.Instance.Get(session.GetComponent<SessionPlayerComponent>().PlayerInstanceId) is not Player player
+                        || player.IsDisposed
+                        || player.ChatUnitInstanceId == 0)
+                        break;
+
+                    var rpcId = request.RpcId; // 这里要保存客户端的rpcId
+                    var instanceId = session.InstanceId;
+                    IResponse respon = await ActorMessageSenderComponent.Instance.Call(player.FriendUnitInstanceId, request);
+                    respon.RpcId = rpcId;
+                    // session可能已经断开了，所以这里需要判断
+                    if (session.InstanceId == instanceId)
+                        session.Send(respon);
+                    break;
+                }
+                case IActorFriendMessage friendMessage:
+                {
+                    if (Root.Instance.Get(session.GetComponent<SessionPlayerComponent>().PlayerInstanceId) is not Player player
+                        || player.IsDisposed
+                        || player.FriendUnitInstanceId == 0)
+                        break;
+
+                    ActorMessageSenderComponent.Instance.Send(player.FriendUnitInstanceId, friendMessage);
+                    break;
+                }
+
+#endregion
 
                 case IActorRequest actorRequest: // 分发IActorRequest消息，目前没有用到，需要的自己添加
                 {

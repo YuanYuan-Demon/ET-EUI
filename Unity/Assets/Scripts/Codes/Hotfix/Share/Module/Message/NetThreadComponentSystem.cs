@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 
 namespace ET
 {
-    [FriendOf(typeof(NetThreadComponent))]
+    [FriendOf(typeof (NetThreadComponent))]
     public static class NetThreadComponentSystem
     {
         [ObjectSystem]
@@ -14,20 +13,17 @@ namespace ET
                 NetThreadComponent.Instance = self;
 
                 // 网络线程
-                self.thread = new Thread(self.NetThreadUpdate);
+                self.thread = new(self.NetThreadUpdate);
                 self.thread.Start();
             }
         }
-        
+
         [ObjectSystem]
         public class LateUpdateSystem: LateUpdateSystem<NetThreadComponent>
         {
-            protected override void LateUpdate(NetThreadComponent self)
-            {
-                self.MainThreadUpdate();
-            }
+            protected override void LateUpdate(NetThreadComponent self) => self.MainThreadUpdate();
         }
-        
+
         [ObjectSystem]
         public class DestroySystem: DestroySystem<NetThreadComponent>
         {
@@ -40,10 +36,7 @@ namespace ET
         }
 
         // 主线程Update
-        private static void MainThreadUpdate(this NetThreadComponent self)
-        {
-            NetServices.Instance.UpdateInMainThread();
-        }
+        private static void MainThreadUpdate(this NetThreadComponent self) => NetServices.Instance.UpdateInMainThread();
 
         // 网络线程Update
         private static void NetThreadUpdate(this NetThreadComponent self)

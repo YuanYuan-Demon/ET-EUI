@@ -13,7 +13,7 @@ namespace ET.Client
 
             clientScene.AddComponent<AccountInfoComponent>();
             clientScene.AddComponent<ServerInfosComponent>();
-            clientScene.AddComponent<RoleInfosComponent>();
+            clientScene.AddComponent<CRoleInfosComponent>();
 
             clientScene.AddComponent<BagComponent>();
             clientScene.AddComponent<EquipmentsComponent>();
@@ -23,6 +23,7 @@ namespace ET.Client
             //Undone: AddComponent<RankComponent>();
             //clientScene.AddComponent<RankComponent>();
             clientScene.AddComponent<CChatComponent>();
+            clientScene.AddComponent<CFriendComponent>();
 
             await EventSystem.Instance.PublishAsync(clientScene, new AfterCreateClientScene());
             return clientScene;

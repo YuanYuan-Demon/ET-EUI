@@ -2,18 +2,14 @@
 
 namespace ET.Client
 {
-    
     [ObjectSystem]
-    public class UIBaseWindowAwakeSystem : AwakeSystem<UIBaseWindow>
+    public class UIBaseWindowAwakeSystem: AwakeSystem<UIBaseWindow>
     {
-        protected override void Awake(UIBaseWindow self)
-        {
-            self.IsInStackQueue = false;
-        }
+        protected override void Awake(UIBaseWindow self) => self.IsInStackQueue = false;
     }
-    
+
     [ObjectSystem]
-    public class UIBaseWindowDestroySystem : DestroySystem<UIBaseWindow>
+    public class UIBaseWindowDestroySystem: DestroySystem<UIBaseWindow>
     {
         protected override void Destroy(UIBaseWindow self)
         {
@@ -21,28 +17,28 @@ namespace ET.Client
             self.IsInStackQueue = false;
             if (self.UIPrefabGameObject != null)
             {
-                GameObject.Destroy(self.UIPrefabGameObject);
+                UnityEngine.Object.Destroy(self.UIPrefabGameObject);
                 self.UIPrefabGameObject = null;
             }
         }
     }
-    
-    
-    
-    public  static class UIBaseWindowSystem  
+
+    public static class UIBaseWindowSystem
     {
         public static void SetRoot(this UIBaseWindow self, Transform rootTransform)
         {
-            if(self.uiTransform == null)
+            if (self.uiTransform == null)
             {
                 Log.Error($"uibaseWindows {self.WindowID} uiTransform is null!!!");
                 return;
             }
-            if(rootTransform == null)
+
+            if (rootTransform == null)
             {
                 Log.Error($"uibaseWindows {self.WindowID} rootTransform is null!!!");
                 return;
             }
+
             self.uiTransform.SetParent(rootTransform, false);
             self.uiTransform.transform.localScale = Vector3.one;
         }

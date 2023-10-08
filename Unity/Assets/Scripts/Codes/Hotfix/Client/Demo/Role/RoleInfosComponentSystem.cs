@@ -2,18 +2,18 @@
 
 namespace ET.Client
 {
-    [FriendOfAttribute(typeof (RoleInfosComponent))]
+    [FriendOfAttribute(typeof (CRoleInfosComponent))]
     public static class RoleInfosComponentSystem
     {
-        public static void AddRange(this RoleInfosComponent self, IEnumerable<NRoleInfo> nRoleInfos)
+        public static void AddRange(this CRoleInfosComponent self, IEnumerable<NRoleInfo> nRoleInfos)
         {
-            foreach (NRoleInfo nRoleInfo in nRoleInfos)
+            foreach (var nRoleInfo in nRoleInfos)
             {
                 self.Add(nRoleInfo);
             }
         }
 
-        public static RoleInfo Add(this RoleInfosComponent self, NRoleInfo nRoleInfo)
+        public static RoleInfo Add(this CRoleInfosComponent self, NRoleInfo nRoleInfo)
         {
             var roleInfo = self.AddChild<RoleInfo>();
             roleInfo.FromNRoleInfo(nRoleInfo);
@@ -21,14 +21,14 @@ namespace ET.Client
             return roleInfo;
         }
 
-        public static void Remove(this RoleInfosComponent self, long roleId)
+        public static void Remove(this CRoleInfosComponent self, long roleId)
         {
             int index = self.RoleInfos.FindIndex(r => r.Id == roleId);
             self.RoleInfos[index].Dispose();
             self.RoleInfos.RemoveAt(index);
         }
 
-        public static void Clear(this RoleInfosComponent self)
+        public static void Clear(this CRoleInfosComponent self)
         {
             foreach (RoleInfo roleInfo in self.RoleInfos)
             {
@@ -42,9 +42,9 @@ namespace ET.Client
 
 #region 生命周期
 
-        public class RoleInfosComponentDestroySystem: DestroySystem<RoleInfosComponent>
+        public class RoleInfosComponentDestroySystem: DestroySystem<CRoleInfosComponent>
         {
-            protected override void Destroy(RoleInfosComponent self) => self.Clear();
+            protected override void Destroy(CRoleInfosComponent self) => self.Clear();
         }
 
 #endregion 生命周期

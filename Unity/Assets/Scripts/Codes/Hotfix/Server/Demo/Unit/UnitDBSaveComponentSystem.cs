@@ -2,40 +2,44 @@ using System;
 
 namespace ET.Server
 {
-    [FriendOf(typeof (ET.UnitDBSaveComponent))]
+    [FriendOf(typeof (UnitDBSaveComponent))]
     public static class UnitDBSaveComponentSystem
     {
-        public static void AddChange(this UnitDBSaveComponent self, Type type)
+#region 生命周期
+
+        public class UnitDBSaveComponentAwakeSystem: AwakeSystem<UnitDBSaveComponent>
         {
-            if (!self.EntityChangeTypes.Contains(type))
-                self.EntityChangeTypes.Add(type);
+            protected override void Awake(UnitDBSaveComponent self) =>
+                    //开启定时器任务,自动保存数据
+                    self.Timer = TimerComponent.Instance.NewRepeatedTimer(10 * TimeHelper.Second, TimerInvokeType.UnitDBSave, self);
         }
 
-        public static void SaveChange(this UnitDBSaveComponent self)
+        public class UnitDBSaveComponentDestroySystem: DestroySystem<UnitDBSaveComponent>
         {
-            if (self.EntityChangeTypes.Count <= 0)
-                return;
-            Unit unit = self.GetParent<Unit>();
-            Other2UnitCache_AddOrUpdateUnit request = new();
-            request.UnitId = unit.Id;
-            request.EntityTypes.Add(unit.GetType().FullName);
-            request.EntityBytes.Add(MongoHelper.Serialize(unit));
-            foreach (var type in self.EntityChangeTypes)
+            protected override void Destroy(UnitDBSaveComponent self) => TimerComponent.Instance.Remove(ref self.Timer);
+        }
+
+        public class UnitAddComponentSystem: AddComponentSystem<Unit>
+        {
+            protected override void AddComponent(Unit self, Entity component)
             {
-                var component = unit.GetComponent(type);
-                if (component is null || component.IsDisposed)
-                    continue;
-                Log.Debug($"开始保存变化的Component数据: [{type.Name}]");
-                request.EntityTypes.Add(type.FullName);
-                request.EntityBytes.Add(MongoHelper.Serialize(component));
+                if (component is IUnitCache)
+                    self.GetComponent<UnitDBSaveComponent>()?.AddChange(component.GetType());
             }
-
-            self.EntityChangeTypes.Clear();
-            var unitCacheSeverId = StartSceneConfigCategory.Instance.GetUnitCacheConfig(unit.Id).InstanceId;
-            MessageHelper.CallActor(unitCacheSeverId, request).Coroutine();
         }
 
-        #region 定时任务
+        public class UnitGetComponentSystem: GetComponentSystem<Unit>
+        {
+            protected override void GetComponent(Unit self, Entity component)
+            {
+                if (component is IUnitCache)
+                    self.GetComponent<UnitDBSaveComponent>()?.AddChange(component.GetType());
+            }
+        }
+
+#endregion 生命周期
+
+#region 定时任务
 
         [Invoke(TimerInvokeType.UnitDBSave)]
         public class UnitDBSaveTimer: ATimer<UnitDBSaveComponent>
@@ -48,7 +52,7 @@ namespace ET.Server
                         return;
                     if (self.DomainScene() is null)
                         return;
-                    self?.SaveChange();
+                    self.SaveChange();
                 }
                 catch (Exception e)
                 {
@@ -57,45 +61,32 @@ namespace ET.Server
             }
         }
 
-        #endregion 定时任务
+#endregion 定时任务
 
-        #region 生命周期
+        public static void AddChange(this UnitDBSaveComponent self, Type type) => self.ChangedComponents.Add(type);
 
-        public class UnitDBSaveComponentAwakeSystem: AwakeSystem<UnitDBSaveComponent>
+        public static void SaveChange(this UnitDBSaveComponent self)
         {
-            protected override void Awake(UnitDBSaveComponent self)
+            if (self.ChangedComponents.Count <= 0)
+                return;
+            var unit = self.GetParent<Unit>();
+            Other2UnitCache_AddOrUpdateUnit request = new();
+            request.UnitId = unit.Id;
+            request.EntityTypes.Add(unit.GetType().FullName);
+            request.EntityBytes.Add(MongoHelper.Serialize(unit));
+            foreach (var type in self.ChangedComponents)
             {
-                //开启定时器任务,自动保存数据
-                self.Timer = TimerComponent.Instance.NewRepeatedTimer(10 * TimeHelper.Second, TimerInvokeType.UnitDBSave, self);
+                var component = unit.GetComponent(type);
+                if (component is null || component.IsDisposed)
+                    continue;
+                Log.Debug($"开始保存变化的Component数据: [{type.Name}]");
+                request.EntityTypes.Add(type.FullName);
+                request.EntityBytes.Add(MongoHelper.Serialize(component));
             }
-        }
 
-        public class UnitDBSaveComponentDestroySystem: DestroySystem<UnitDBSaveComponent>
-        {
-            protected override void Destroy(UnitDBSaveComponent self)
-            {
-                TimerComponent.Instance.Remove(ref self.Timer);
-            }
-        }
-
-        #endregion 生命周期
-    }
-
-    public class UnitAddComponentSystem: AddComponentSystem<Unit>
-    {
-        protected override void AddComponent(Unit self, Entity component)
-        {
-            if (component is IUnitCache)
-                self.GetComponent<UnitDBSaveComponent>()?.AddChange(component.GetType());
-        }
-    }
-
-    public class UnitGetComponentSystem: GetComponentSystem<Unit>
-    {
-        protected override void GetComponent(Unit self, Entity component)
-        {
-            if (component is IUnitCache)
-                self.GetComponent<UnitDBSaveComponent>()?.AddChange(component.GetType());
+            self.ChangedComponents.Clear();
+            var unitCacheSeverId = StartSceneConfigCategory.Instance.GetUnitCacheConfig(unit.Id).InstanceId;
+            MessageHelper.CallActor(unitCacheSeverId, request).Coroutine();
         }
     }
 }

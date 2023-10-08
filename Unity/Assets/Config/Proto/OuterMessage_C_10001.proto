@@ -64,7 +64,7 @@ message MoveInfo
 	int32 TurnSpeed = 3;
 }
 
-message UnitInfo
+message NUnit
 {
 	int64 UnitId = 1;
 	int32 ConfigId = 2;
@@ -78,12 +78,12 @@ message UnitInfo
 
 message M2C_CreateUnits // IActorMessage
 {
-	repeated UnitInfo Units = 1;
+	repeated NUnit Units = 1;
 }
 
 message M2C_CreateMyUnit // IActorMessage
 {
-	UnitInfo Unit = 1;
+	NUnit Unit = 1;
 }
 
 message M2C_StartSceneChange // IActorMessage
@@ -507,19 +507,19 @@ message M2C_UpRoleLevel // IActorLocationResponse
 
 //============================================  道具系统  ============================================
 
-message ItemInfo
+message NItem
 {
 	int64 ItemUid      = 1;
 	int32 ItemConfigId = 2;
 	int32 Count = 3;
-	EquipInfoProto EquipInfo = 4;
+	NEquipInfo EquipInfo = 4;
 }
 
 message M2C_AllItemsList // IActorMessage
 {
 	int32 RpcId = 90;
 
-	repeated ItemInfo ItemInfoList = 1;
+	repeated NItem NItems = 1;
 	ItemContainerType ContainerType = 2;
 }
 
@@ -527,7 +527,7 @@ message M2C_ItemUpdateOpInfo // IActorMessage
 {
 	int32 RpcId = 90;
 
-	ItemInfo ItemInfo = 1;
+	NItem NItem = 1;
 	ItemOp Op = 2;
 	ItemContainerType ContainerType = 3;
 }
@@ -569,7 +569,7 @@ message M2C_BuyItem // IActorLocationResponse
 
 //============================================  装备系统  ============================================
 
-message AttributeEntryProto
+message NAttributeEntry
 {
 	int64 Id = 1;
 	EntryType EntryType = 2;
@@ -578,12 +578,12 @@ message AttributeEntryProto
 }
 
 
-message EquipInfoProto
+message NEquipInfo
 {
 	int64 Id    = 1;
 	int32 Score = 2;
 	int32 Quality = 3;
-	repeated AttributeEntryProto AttributeEntryList = 4;
+	repeated NAttributeEntry AttributeEntrys = 4;
 }
 
 //ResponseType M2C_EquipItem
@@ -698,7 +698,7 @@ message NChatMessage
 }
 
 //ResponseType Chat2C_SendChatInfo
-message C2Chat_SendChatInfo // IActorChatInfoRequest
+message C2Chat_SendChatInfo // IActorChatRequest
 {
 	int32 RpcId         = 90;
 
@@ -706,7 +706,7 @@ message C2Chat_SendChatInfo // IActorChatInfoRequest
 }
 
 
-message Chat2C_SendChatInfo // IActorChatInfoResponse
+message Chat2C_SendChatInfo // IActorChatResponse
 {
 	int32 RpcId    = 90;
 	int32 Error    = 91;
@@ -717,4 +717,58 @@ message Chat2C_SendChatInfo // IActorChatInfoResponse
 message Chat2C_NoticeChatInfo // IActorMessage
 {
 	NChatMessage NChatMessage = 1;
+}
+
+//============================================  好友系统  ============================================
+
+message NFriend
+{
+	int64 UnitId = 1;
+	string Name = 2;
+	RoleClass RoleClass = 3;
+	int32 Level = 4;
+	int64 LastLoginTime = 5;
+	bool Online = 6;
+}
+
+//ResponseType F2C_AddFriend
+message C2F_AddFriend // IActorFriendRequest
+{
+	int32 RpcId         = 90;
+
+	int64 UnitId = 1;
+}
+
+message F2C_AddFriend // IActorFriendResponse
+{
+	int32 RpcId    = 90;
+	int32 Error    = 91;
+	string Message = 92;
+}
+
+message F2C_SendFriendApply // IActorFriendMessage
+{
+	NFriend NFriend = 1;
+}
+
+
+//ResponseType F2C_HandleFriendApply
+message C2F_HandleFriendApply // IActorFriendRequest
+{
+	int32 RpcId         = 90;
+
+	int64 UnitId = 1;
+	bool Accept = 2;
+}
+
+message F2C_HandleFriendApply // IActorFriendResponse
+{
+	int32 RpcId    = 90;
+	int32 Error    = 91;
+	string Message = 92;
+}
+
+message F2C_NoticeAddFriend	//	IActorFriendMessage
+{
+	NFriend NFriend = 1;
 }

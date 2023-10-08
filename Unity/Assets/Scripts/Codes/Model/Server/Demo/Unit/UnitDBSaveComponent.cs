@@ -6,7 +6,7 @@ namespace ET
     [ComponentOf(typeof (Unit))]
     public class UnitDBSaveComponent: Entity, IAwake, IDestroy
     {
-        public HashSet<Type> EntityChangeTypes = new HashSet<Type>();
+        public HashSet<Type> ChangedComponents = new();
         public long Timer = 0;
     }
 }

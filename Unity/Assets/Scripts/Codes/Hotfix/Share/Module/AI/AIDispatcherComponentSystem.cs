@@ -2,7 +2,7 @@ using System;
 
 namespace ET
 {
-    [FriendOf(typeof(AIDispatcherComponent))]
+    [FriendOf(typeof (AIDispatcherComponent))]
     public static class AIDispatcherComponentSystem
     {
         [ObjectSystem]
@@ -18,10 +18,7 @@ namespace ET
         [ObjectSystem]
         public class AIDispatcherComponentLoadSystem: LoadSystem<AIDispatcherComponent>
         {
-            protected override void Load(AIDispatcherComponent self)
-            {
-                self.Load();
-            }
+            protected override void Load(AIDispatcherComponent self) => self.Load();
         }
 
         [ObjectSystem]
@@ -33,20 +30,21 @@ namespace ET
                 AIDispatcherComponent.Instance = null;
             }
         }
-        
+
         private static void Load(this AIDispatcherComponent self)
         {
             self.AIHandlers.Clear();
-            
+
             var types = EventSystem.Instance.GetTypes(typeof (AIHandlerAttribute));
-            foreach (Type type in types)
+            foreach (var type in types)
             {
-                AAIHandler aaiHandler = Activator.CreateInstance(type) as AAIHandler;
+                var aaiHandler = Activator.CreateInstance(type) as AAIHandler;
                 if (aaiHandler == null)
                 {
                     Log.Error($"robot ai is not AAIHandler: {type.Name}");
                     continue;
                 }
+
                 self.AIHandlers.Add(type.Name, aaiHandler);
             }
         }

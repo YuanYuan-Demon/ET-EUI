@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "machine_id": 1,
+    "inner_port": 20101
+  },
+  {
+    "id": 2,
+    "machine_id": 1,
+    "inner_port": 20102
+  },
+  {
+    "id": 3,
+    "machine_id": 1,
+    "inner_port": 20103
+  }
+]

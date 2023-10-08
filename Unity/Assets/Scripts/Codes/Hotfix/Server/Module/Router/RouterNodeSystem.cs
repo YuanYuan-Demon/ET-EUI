@@ -1,6 +1,6 @@
 ﻿namespace ET.Server
 {
-    [FriendOf(typeof(RouterNode))]
+    [FriendOf(typeof (RouterNode))]
     public static class RouterNodeSystem
     {
         [ObjectSystem]
@@ -8,7 +8,7 @@
         {
             protected override void Awake(RouterNode self)
             {
-                long timeNow = TimeHelper.ServerNow();
+                var timeNow = TimeHelper.ServerNow();
                 self.LastRecvInnerTime = timeNow;
                 self.LastRecvOuterTime = timeNow;
                 self.OuterIpEndPoint = null;
@@ -35,14 +35,12 @@
                 self.SyncCount = 0;
             }
         }
-        
+
         public static bool CheckOuterCount(this RouterNode self, long timeNow)
         {
             if (self.LastCheckTime == 0)
-            {
                 self.LastCheckTime = timeNow;
-            }
-            
+
             if (timeNow - self.LastCheckTime > 1000)
             {
                 //Log.Debug($"router recv packet per second: {self.LimitCountPerSecond}");
@@ -51,9 +49,7 @@
             }
 
             if (++self.LimitCountPerSecond > 1000)
-            {
                 return false;
-            }
 
             return true;
         }

@@ -5,7 +5,7 @@ namespace ET.Client
 {
     [FriendOf(typeof (DlgEquip))]
     [FriendOf(typeof (BagComponent))]
-    [FriendOf(typeof (RoleInfosComponent))]
+    [FriendOf(typeof (CRoleInfosComponent))]
     [FriendOf(typeof (RoleInfo))]
     [FriendOf(typeof (EquipmentsComponent))]
     public static class DlgEquipSystem
@@ -46,7 +46,7 @@ namespace ET.Client
 
         public static void RefreshRoleInfo(this DlgEquip self)
         {
-            var rc = self.ClientScene().GetComponent<RoleInfosComponent>();
+            var rc = self.ClientScene().GetComponent<CRoleInfosComponent>();
             var view = self.View;
 
             var nc = self.GetMyNumericComponent();
