@@ -66,7 +66,7 @@
                     roleInfo.RoleClass = config.Class;
                     roleInfo.LastLoginTime = 0;
                     roleInfo.ConfigId = request.ConfigId;
-                    await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(roleInfo);
+                    // await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(roleInfo);
                     roleInfo.AddOrUpdateUnitCache();
                     //发送响应
                     response.NRoleInfo = roleInfo.ToNRoleInfo();

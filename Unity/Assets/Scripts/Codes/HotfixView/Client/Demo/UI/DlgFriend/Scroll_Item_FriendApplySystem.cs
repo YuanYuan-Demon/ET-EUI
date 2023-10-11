@@ -9,9 +9,10 @@ namespace ET.Client
     {
         public static void Init(this Scroll_Item_FriendApply self, FriendInfo friendInfo)
         {
-            self.EB_Agree_Button.SetVisible(true);
-            self.EB_Refuse_Button.SetVisible(true);
-            self.ET_Result_TextMeshProUGUI.SetVisible(false);
+            var isApply = friendInfo.IsApply;
+            self.EB_Agree_Button.SetVisible(isApply);
+            self.EB_Refuse_Button.SetVisible(isApply);
+            self.ET_Result_TextMeshProUGUI.SetVisible(!isApply);
             self.EB_Agree_Button.AddListener(() => self.OnHandleApply(friendInfo.Id, true).Coroutine());
             self.EB_Refuse_Button.AddListener(() => self.OnHandleApply(friendInfo.Id, false).Coroutine());
             self.Refresh(friendInfo);
@@ -28,7 +29,7 @@ namespace ET.Client
         {
             try
             {
-                var errorCode = await FriendHelper.SendMessage(self.ClientScene(), unitId, result);
+                var errorCode = await FriendHelper.SendAgreeFriend(self.ClientScene(), unitId, result);
                 if (errorCode != ErrorCode.ERR_Success)
                     Log.Error(errorCode.ToString());
             }

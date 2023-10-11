@@ -15,15 +15,16 @@
             }
 
             //向其他玩家转发聊天信息
-            var chatUnitComponent = chatUnit.DomainScene().GetComponent<ChatUnitComponent>();
-            foreach (var otherUnit in chatUnitComponent.ChatUnits.Values)
+            ChatUnitComponent chatUnitComponent = chatUnit.DomainScene().GetComponent<ChatUnitComponent>();
+            request.NChatMessage.fromName = chatUnit.Name;
+            foreach (ChatUnit otherUnit in chatUnitComponent.ChatUnits.Values)
             {
                 MessageHelper.SendActor(otherUnit.GateSessionActorId,
                     new Chat2C_NoticeChatInfo() { NChatMessage = request.NChatMessage });
             }
 
             //将信息存储至服务器中
-            var cmc = chatUnit.DomainScene().GetComponent<ChatComponent>();
+            ChatComponent cmc = chatUnit.DomainScene().GetComponent<ChatComponent>();
             cmc.AddMessage(request.NChatMessage);
             await ETTask.CompletedTask;
         }

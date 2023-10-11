@@ -39,7 +39,7 @@
                 using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.GetRoles, request.AccountId))
                 {
                     var roleInfos = await session.QueryDB<RoleInfo>(r
-                            => r.AccountId == request.AccountId && r.ServerId == request.ServerId && r.Status == (int)RoleInfoStatus.Normal);
+                            => r.AccountId == request.AccountId && r.ServerId == request.ServerId && r.Status == RoleInfoStatus.Normal);
                     //发送响应
                     foreach (var roleInfo in roleInfos)
                     {

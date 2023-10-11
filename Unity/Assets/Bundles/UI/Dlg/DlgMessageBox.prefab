@@ -987,9 +987,9 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 0
-    m_Bottom: 0
+    m_Bottom: 10
   m_ChildAlignment: 1
-  m_Spacing: 0
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -1104,10 +1104,10 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 10
-    m_Bottom: 10
+    m_Top: 0
+    m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 10
+  m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1131,7 +1131,7 @@ MonoBehaviour:
   m_MinWidth: -1
   m_MinHeight: -1
   m_PreferredWidth: -1
-  m_PreferredHeight: 90
+  m_PreferredHeight: 60
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -1147,6 +1147,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: EB_Cancel
       objectReference: {fileID: 0}
+    - target: {fileID: 536490302344581429, guid: 5b2e63e799ebfa142b516a9bd7144321,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bb9457db0167e5448985f15a3033291b,
+        type: 3}
     - target: {fileID: 2154968972940673689, guid: 5b2e63e799ebfa142b516a9bd7144321,
         type: 3}
       propertyPath: m_Name
@@ -1160,7 +1166,7 @@ PrefabInstance:
     - target: {fileID: 2154968972940673691, guid: 5b2e63e799ebfa142b516a9bd7144321,
         type: 3}
       propertyPath: m_fontSize
-      value: 49.25
+      value: 42.25
       objectReference: {fileID: 0}
     - target: {fileID: 4623163364075206138, guid: 5b2e63e799ebfa142b516a9bd7144321,
         type: 3}
@@ -1301,7 +1307,7 @@ PrefabInstance:
     - target: {fileID: 2154968972940673691, guid: 5b2e63e799ebfa142b516a9bd7144321,
         type: 3}
       propertyPath: m_fontSize
-      value: 49.25
+      value: 42.25
       objectReference: {fileID: 0}
     - target: {fileID: 4623163364075206138, guid: 5b2e63e799ebfa142b516a9bd7144321,
         type: 3}

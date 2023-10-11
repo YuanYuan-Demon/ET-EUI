@@ -19,12 +19,14 @@ namespace ET
         public long LastLoginTime;
         public int Level;
         public string Name;
-        public RoleClass RoleClass;
-        public int ServerId;
-        public RoleInfoStatus Status;
 
         [BsonIgnore]
         public bool Online;
+
+        public RoleClass RoleClass;
+        public int ServerId;
+
+        public RoleInfoStatus Status;
 
         public UnitConfig UnitConfig => UnitConfigCategory.Instance.Get(this.ConfigId);
     }

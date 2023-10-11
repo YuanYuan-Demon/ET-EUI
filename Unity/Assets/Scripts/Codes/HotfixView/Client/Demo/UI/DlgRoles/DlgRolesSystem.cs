@@ -15,7 +15,7 @@ namespace ET.Client
             self.View.EB_Create_Button.AddListener(self.OnClickCreateRole);
             //self.View.EB_DeleteRoleButton.AddListener(() => self.OnClickDeleteRole());
             self.View.EB_EnterGame_Button.AddListener(self.OnClickEnter);
-            self.View.ElRolesLoopVList.AddItemRefreshListener(self.OnRoleListRefreshHandler);
+            self.View.EL_Roles_LoopVList.AddItemRefreshListener(self.OnRoleListRefreshHandler);
             ;
             self.View.EB_Back_Button.AddListener(() => self.ShowSelectPanel());
             self.View.EG_Toggles_RectTransform.GetComponent<ToggleGroup>().AddListener(self.OnSelectClass);
@@ -33,7 +33,7 @@ namespace ET.Client
             self.RoleInfos = self.ClientScene().GetComponent<CRoleInfosComponent>().RoleInfos;
             var count = self.RoleInfos.Count + 1;
             self.AddUIScrollItems(ref self.ScrollItemRoleInfos, count);
-            self.View.ElRolesLoopVList.SetVisible(true, count);
+            self.View.EL_Roles_LoopVList.SetVisible(true, count);
         }
 
         private static void OnRoleListRefreshHandler(this DlgRoles self, Transform transform, int index)

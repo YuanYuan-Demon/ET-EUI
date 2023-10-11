@@ -23,5 +23,6 @@ namespace ET.Client
         WindowID_Register,
         WindowID_Task,
         WindowID_PopItem,
+        WindowID_PopAddFriend,
     }
 }

@@ -60,14 +60,14 @@ namespace ET
 
         public static void BuildHotfix(CodeOptimization codeOptimization, GlobalConfig globalConfig)
         {
-            string[] logicFiles = Directory.GetFiles(Define.BuildOutputDir, "Hotfix_*");
-            foreach (string file in logicFiles)
+            var logicFiles = Directory.GetFiles(Define.BuildOutputDir, "Hotfix_*");
+            foreach (var file in logicFiles)
             {
                 File.Delete(file);
             }
 
-            int random = RandomHelper.RandomInt32(100000000, 999999999);
-            string logicFile = $"Hotfix_{random}";
+            var random = RandomHelper.RandomInt32(100000000, 999999999);
+            var logicFile = $"Hotfix_{random}";
 
             List<string> codes;
             switch (globalConfig.CodeMode)
@@ -114,23 +114,19 @@ namespace ET
         string[] additionalReferences, CodeOptimization codeOptimization, CodeMode codeMode = CodeMode.Client)
         {
             if (!Directory.Exists(Define.BuildOutputDir))
-            {
                 Directory.CreateDirectory(Define.BuildOutputDir);
-            }
 
             var scripts = new List<string>();
-            for (int i = 0; i < CodeDirectorys.Count; i++)
+            for (var i = 0; i < CodeDirectorys.Count; i++)
             {
                 DirectoryInfo dti = new(CodeDirectorys[i]);
                 var fileInfos = dti.GetFiles("*.cs", SearchOption.AllDirectories);
-                for (int j = 0; j < fileInfos.Length; j++)
-                {
+                for (var j = 0; j < fileInfos.Length; j++)
                     scripts.Add(fileInfos[j].FullName);
-                }
             }
 
-            string dllPath = Path.Combine(Define.BuildOutputDir, $"{assemblyName}.dll");
-            string pdbPath = Path.Combine(Define.BuildOutputDir, $"{assemblyName}.pdb");
+            var dllPath = Path.Combine(Define.BuildOutputDir, $"{assemblyName}.dll");
+            var pdbPath = Path.Combine(Define.BuildOutputDir, $"{assemblyName}.pdb");
             File.Delete(dllPath);
             File.Delete(pdbPath);
 
@@ -139,19 +135,16 @@ namespace ET
             AssemblyBuilder assemblyBuilder = new(dllPath, scripts.ToArray());
 
             if (codeMode == CodeMode.Client)
-            {
                 assemblyBuilder.excludeReferences = new[]
                 {
                     "DnsClient.dll", "MongoDB.Driver.Core.dll", "MongoDB.Driver.dll", "MongoDB.Driver.Legacy.dll",
-                    "MongoDB.Libmongocrypt.dll", "SharpCompress.dll", "System.Buffers.dll", "System.Runtime.CompilerServices.Unsafe.dll",
-                    "System.Text.Encoding.CodePages.dll",
-                };
-            }
+                    "MongoDB.Libmongocrypt.dll", "SharpCompress.dll", "System.Buffers.dll", "System.Text.Encoding.CodePages.dll",
+                }; //"System.Runtime.CompilerServices.Unsafe.dll",
 
             //启用UnSafe
             assemblyBuilder.compilerOptions.AllowUnsafeCode = true;
 
-            BuildTargetGroup buildTargetGroup = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
+            var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
 
             assemblyBuilder.compilerOptions.CodeOptimization = codeOptimization;
             assemblyBuilder.compilerOptions.ApiCompatibilityLevel = PlayerSettings.GetApiCompatibilityLevel(buildTargetGroup);
@@ -173,28 +166,24 @@ namespace ET
 
             assemblyBuilder.buildFinished += (assemblyPath, compilerMessages) =>
             {
-                int errorCount = compilerMessages.Count(m => m.type == CompilerMessageType.Error);
-                int warningCount = compilerMessages.Count(m => m.type == CompilerMessageType.Warning);
+                var errorCount = compilerMessages.Count(m => m.type == CompilerMessageType.Error);
+                var warningCount = compilerMessages.Count(m => m.type == CompilerMessageType.Warning);
 
                 Debug.LogFormat("Warnings: {0} - Errors: {1}", warningCount, errorCount);
 
                 if (warningCount > 0)
-                {
                     Debug.LogFormat("有{0}个Warning!!!", warningCount);
-                }
 
                 if (errorCount > 0)
-                {
-                    for (int i = 0; i < compilerMessages.Length; i++)
+                    for (var i = 0; i < compilerMessages.Length; i++)
                     {
                         if (compilerMessages[i].type == CompilerMessageType.Error)
                         {
-                            string filename = Path.GetFullPath(compilerMessages[i].file);
+                            var filename = Path.GetFullPath(compilerMessages[i].file);
                             Debug.LogError(
                                 $"{compilerMessages[i].message} (at <a href=\"file:///{filename}/\" line=\"{compilerMessages[i].line}\">{Path.GetFileName(filename)}</a>)");
                         }
                     }
-                }
             };
 
             //开始构建

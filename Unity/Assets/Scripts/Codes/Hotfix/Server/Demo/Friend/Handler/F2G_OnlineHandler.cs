@@ -1,4 +1,4 @@
-﻿namespace ET.Server.Handler
+﻿namespace ET.Server
 {
     [ActorMessageHandler(SceneType.Gate)]
     public class F2G_OnlineHandler: AMActorRpcHandler<Scene, F2G_Online, G2F_Online>

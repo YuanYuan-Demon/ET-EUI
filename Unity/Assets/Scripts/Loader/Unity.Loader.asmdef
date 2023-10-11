@@ -5,8 +5,7 @@
         "Unity.ThirdParty",
         "Unity.Core",
       "HybridCLR.Runtime",
-      "Unity.TextMeshPro",
-      "Sirenix.OdinInspector.Modules.UnityMathematics"
+      "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -78,7 +78,7 @@ namespace ET.Server
                         account.Password = request.Password;
                         account.CreateTime = TimeHelper.ServerNow();
                         account.AccountType = (int)AccountType.General;
-                        await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(account);
+                        await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).SaveAsync(account);
                     }
 
                     //通知登录中心

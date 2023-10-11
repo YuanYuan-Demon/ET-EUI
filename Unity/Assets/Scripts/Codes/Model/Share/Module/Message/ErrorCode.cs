@@ -1,5 +1,6 @@
 namespace ET
 {
+    [UniqueId]
     public static class ErrorCode
     {
         public const int ERR_Success = 0;
@@ -103,5 +104,8 @@ namespace ET
         public const int ERR_GoldNotEnough = 200047;
         public const int ERR_BagFull = 200048;
         public const int ERR_BuyItemError = 200049;
+
+        public const int ERR_Friend_Id_Name_IsNull = 200050;
+        public const int ERR_Friend_Role_NoExist = 200051;
     }
 }

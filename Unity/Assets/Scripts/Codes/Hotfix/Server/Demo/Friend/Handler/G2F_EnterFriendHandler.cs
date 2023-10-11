@@ -8,20 +8,25 @@
         {
             var fuc = scene.GetComponent<FriendUnitComponent>();
 
-            var friendUnit = fuc.Get(request.UnitId);
+            var friendUnit = await fuc.Get(request.UnitId);
 
-            //若已存在重新赋值
-            if (friendUnit is { IsDisposed: false })
+            if (friendUnit?.IsDisposed == false)
             {
+                //若已存在重新赋值
                 friendUnit.Name = request.Name;
                 friendUnit.GateSessionActorId = request.GateSessionActorId;
                 response.FriendUnitInstanceId = friendUnit.InstanceId;
-                return;
+                fuc.Add(friendUnit);
+            }
+            else
+            {
+                //新建FriendUnit映射
+                friendUnit = fuc.Create(request.UnitId, request.GateSessionActorId, request.Name);
+                response.FriendUnitInstanceId = friendUnit.InstanceId;
             }
 
-            //新建ChatInfo映射
-            friendUnit = fuc.Create(request.UnitId, request.GateSessionActorId, request.Name);
-            response.FriendUnitInstanceId = friendUnit.InstanceId;
+            friendUnit.Online = true;
+            friendUnit.SyncAllFriendInfo();
 
             await ETTask.CompletedTask;
         }

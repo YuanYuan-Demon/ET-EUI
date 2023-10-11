@@ -6,5 +6,6 @@ namespace ET.Server
     public class FriendUnitComponent: Entity, IAwake, IDestroy
     {
         public Dictionary<long, FriendUnit> FriendUnits = new();
+        public Dictionary<string, long> NameToId = new();
     }
 }

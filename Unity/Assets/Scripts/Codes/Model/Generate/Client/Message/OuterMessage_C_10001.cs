@@ -1392,6 +1392,9 @@ namespace ET
 		[ProtoMember(6)]
 		public bool Online { get; set; }
 
+		[ProtoMember(7)]
+		public bool IsApply { get; set; }
+
 	}
 
 	[ResponseType(nameof(F2C_AddFriend))]
@@ -1404,6 +1407,9 @@ namespace ET
 
 		[ProtoMember(1)]
 		public long UnitId { get; set; }
+
+		[ProtoMember(2)]
+		public string Name { get; set; }
 
 	}
 
@@ -1419,15 +1425,6 @@ namespace ET
 
 		[ProtoMember(92)]
 		public string Message { get; set; }
-
-	}
-
-	[Message(OuterMessage.F2C_SendFriendApply)]
-	[ProtoContract]
-	public partial class F2C_SendFriendApply: ProtoObject, IActorFriendMessage
-	{
-		[ProtoMember(1)]
-		public NFriend NFriend { get; set; }
 
 	}
 
@@ -1462,12 +1459,55 @@ namespace ET
 
 	}
 
-	[Message(OuterMessage.F2C_NoticeAddFriend)]
+	[ResponseType(nameof(F2C_DeleteFriend))]
+	[Message(OuterMessage.C2F_DeleteFriend)]
 	[ProtoContract]
-	public partial class F2C_NoticeAddFriend: ProtoObject, IActorFriendMessage
+	public partial class C2F_DeleteFriend: ProtoObject, IActorFriendRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public long UnitId { get; set; }
+
+	}
+
+	[Message(OuterMessage.F2C_DeleteFriend)]
+	[ProtoContract]
+	public partial class F2C_DeleteFriend: ProtoObject, IActorFriendResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
+	[Message(OuterMessage.F2C_NoticeFriendInfo)]
+	[ProtoContract]
+	public partial class F2C_NoticeFriendInfo: ProtoObject, IActorFriendMessage
 	{
 		[ProtoMember(1)]
 		public NFriend NFriend { get; set; }
+
+		[ProtoMember(2)]
+		public FriendUpdateType Type { get; set; }
+
+	}
+
+	[Message(OuterMessage.F2C_AllNoticeFriendInfo)]
+	[ProtoContract]
+	public partial class F2C_AllNoticeFriendInfo: ProtoObject, IActorFriendMessage
+	{
+		[ProtoMember(1)]
+		public List<NFriend> NFriends { get; set; } = new();
+
+		[ProtoMember(2)]
+		public List<NFriend> NApplys { get; set; } = new();
 
 	}
 
@@ -1562,9 +1602,11 @@ namespace ET
 		 public const ushort NFriend = 10088;
 		 public const ushort C2F_AddFriend = 10089;
 		 public const ushort F2C_AddFriend = 10090;
-		 public const ushort F2C_SendFriendApply = 10091;
-		 public const ushort C2F_HandleFriendApply = 10092;
-		 public const ushort F2C_HandleFriendApply = 10093;
-		 public const ushort F2C_NoticeAddFriend = 10094;
+		 public const ushort C2F_HandleFriendApply = 10091;
+		 public const ushort F2C_HandleFriendApply = 10092;
+		 public const ushort C2F_DeleteFriend = 10093;
+		 public const ushort F2C_DeleteFriend = 10094;
+		 public const ushort F2C_NoticeFriendInfo = 10095;
+		 public const ushort F2C_AllNoticeFriendInfo = 10096;
 	}
 }

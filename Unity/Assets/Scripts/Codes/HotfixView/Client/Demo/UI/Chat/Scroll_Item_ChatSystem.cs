@@ -9,7 +9,6 @@ namespace ET.Client
     {
         public static void Init(this Scroll_Item_Chat self, ChatMessage message)
         {
-            Scroll_Item_Chat.MessageColor ??= Resources.Load<ColorData>("ColorData");
             self.TextLink.OnClickLink = OnClickChatLink;
             self.ET_Message.SetText(self.FormatMessage(message));
         }
@@ -17,7 +16,7 @@ namespace ET.Client
         private static string FormatMessage(this Scroll_Item_Chat self, ChatMessage message)
         {
             var sb = new StringBuilder();
-            sb.Append($"<color=#{Scroll_Item_Chat.MessageColor.Colors[(int)message.Channel].ToHtmlColor()}>")
+            sb.Append($"<color=#{Scroll_Item_Chat.MessageColor[message.Channel]}>")
                     .Append($"[{message.Channel.GetDisplayName()}]");
             if (message.Channel != ChatChannel.System)
                 sb.Append($"{self.FormatFromPlayer(message)}{message.Message}");

@@ -13,21 +13,25 @@ namespace ET
 { 
     public enum RoleClass
     {
+        [Display("")]
         None = 0,
         
         /// <summary>
         /// 战士
         /// </summary>
+        [Display("战士")]
         Warrior = 1,
         
         /// <summary>
         /// 法师
         /// </summary>
+        [Display("法师")]
         Wizard = 2,
         
         /// <summary>
         /// 弓箭手
         /// </summary>
+        [Display("弓箭手")]
         Archer = 3,
         
     }

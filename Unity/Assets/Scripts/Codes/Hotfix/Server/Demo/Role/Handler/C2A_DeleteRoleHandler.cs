@@ -48,8 +48,7 @@
                     //保存数据库
                     roleInfos[0].Status = RoleInfoStatus.Delete;
                     roleInfos[0].AddOrUpdateUnitCache();
-                    //Undone: 测试将更改提交到缓存服
-                    await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(roleInfos[0]);
+                    // await DBManagerComponent.Instance.GetZoneDB(session.DomainZone()).Save(roleInfos[0]);
                     //发送响应
                     response.RoleId = roleInfos[0].Id;
                 }

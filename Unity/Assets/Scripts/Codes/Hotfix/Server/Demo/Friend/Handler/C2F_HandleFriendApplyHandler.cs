@@ -1,4 +1,4 @@
-﻿namespace ET.Server.Handler
+﻿namespace ET.Server
 {
     [ActorMessageHandler(SceneType.Friend)]
     [FriendOfAttribute(typeof (FriendUnit))]
@@ -8,13 +8,13 @@
         {
             if (request.Accept)
             {
-                var friend = unit.GetParent<FriendUnitComponent>().Get(request.UnitId);
+                var friend = await unit.GetParent<FriendUnitComponent>().Get(request.UnitId);
                 unit.AddFriend(request.UnitId).Coroutine();
                 friend.AddFriend(unit.Id).Coroutine();
             }
             else
             {
-                unit.RemoveApply(request.UnitId);
+                unit.DeleteApply(request.UnitId);
             }
 
             await ETTask.CompletedTask;

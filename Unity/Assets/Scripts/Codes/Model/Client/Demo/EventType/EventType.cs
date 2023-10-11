@@ -36,15 +36,15 @@ namespace ET.Client.EventType
         public string LinkInfo;
     }
 
+    public struct PrivateChat
+    {
+        public long TargetId;
+        public string TargetName;
+    }
+
 #endregion 聊天系统
 
 #region 好友系统
-
-    public enum FriendUpdateType
-    {
-        ApplyUpdate,
-        FriendUpdate,
-    }
 
     public struct FriendUpdate
     {

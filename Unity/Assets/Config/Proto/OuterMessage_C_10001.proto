@@ -729,6 +729,7 @@ message NFriend
 	int32 Level = 4;
 	int64 LastLoginTime = 5;
 	bool Online = 6;
+	bool IsApply = 7;
 }
 
 //ResponseType F2C_AddFriend
@@ -737,6 +738,7 @@ message C2F_AddFriend // IActorFriendRequest
 	int32 RpcId         = 90;
 
 	int64 UnitId = 1;
+	string Name = 2;
 }
 
 message F2C_AddFriend // IActorFriendResponse
@@ -745,12 +747,6 @@ message F2C_AddFriend // IActorFriendResponse
 	int32 Error    = 91;
 	string Message = 92;
 }
-
-message F2C_SendFriendApply // IActorFriendMessage
-{
-	NFriend NFriend = 1;
-}
-
 
 //ResponseType F2C_HandleFriendApply
 message C2F_HandleFriendApply // IActorFriendRequest
@@ -768,7 +764,30 @@ message F2C_HandleFriendApply // IActorFriendResponse
 	string Message = 92;
 }
 
-message F2C_NoticeAddFriend	//	IActorFriendMessage
+//ResponseType F2C_DeleteFriend
+message C2F_DeleteFriend // IActorFriendRequest
+{
+	int32 RpcId         = 90;
+
+	int64 UnitId = 1;
+}
+
+message F2C_DeleteFriend // IActorFriendResponse
+{
+	int32 RpcId    = 90;
+	int32 Error    = 91;
+	string Message = 92;
+}
+
+
+message F2C_NoticeFriendInfo	//	IActorFriendMessage
 {
 	NFriend NFriend = 1;
+	FriendUpdateType Type = 2;
+}
+
+message F2C_AllNoticeFriendInfo // IActorFriendMessage
+{
+	repeated NFriend NFriends = 1;
+	repeated NFriend NApplys = 2;
 }

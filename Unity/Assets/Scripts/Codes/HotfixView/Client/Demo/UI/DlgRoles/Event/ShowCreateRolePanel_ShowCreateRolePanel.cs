@@ -7,7 +7,7 @@ namespace ET.Client
     {
         protected override async ETTask Run(Scene scene, ShowCreateRolePanel args)
         {
-            UIComponent.Instance.GetParent<DlgRoles>().ShowSelectPanel(false);
+            UIComponent.Instance.GetDlgLogic<DlgRoles>().ShowSelectPanel(false);
             await ETTask.CompletedTask;
         }
     }

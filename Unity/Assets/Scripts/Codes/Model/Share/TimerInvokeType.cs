@@ -20,5 +20,8 @@
         public const int UnitDBSave = 206;
 
         public const int JoyMoveTimer = 207;
+
+        public const int FriendUnitSave = 208;
+        public const int FriendUnitExit = 209;
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace ET.Client
 {
-    [FriendOf(typeof (ShowWindowData))]
     [FriendOf(typeof (UIPathComponent))]
     [FriendOf(typeof (UIBaseWindow))]
     [FriendOf(typeof (UIComponent))]

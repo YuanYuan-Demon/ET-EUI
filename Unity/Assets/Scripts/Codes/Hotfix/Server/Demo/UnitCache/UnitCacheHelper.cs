@@ -34,7 +34,7 @@ namespace ET.Server
         public static void AddOrUpdateUnitAllCache(Unit unit)
         {
             var message = new Other2UnitCache_AddOrUpdateUnit() { UnitId = unit.Id };
-            message.EntityTypes.Add(nameof (Unit));
+            message.EntityTypes.Add(typeof (Unit).FullName);
             message.EntityBytes.Add(MongoHelper.Serialize(unit));
             foreach (var (type, entity) in unit.Components)
             {
@@ -90,6 +90,8 @@ namespace ET.Server
 
             //获取Unit
             var index = response.ComponentNames.IndexOf(typeof (Unit).FullName);
+            if (response.Entities[index] is null)
+                return null;
             if (MongoHelper.Deserialize<Unit>(response.Entities[index]) is { } unit)
             {
                 scene.AddChild(unit);
@@ -126,7 +128,7 @@ namespace ET.Server
             var instanceId = StartSceneConfigCategory.Instance.GetUnitCacheConfig(unitId).InstanceId;
             var cacheResponse = await MessageHelper.CallActor(instanceId, message) as UnitCache2Other_GetUnit;
             if (cacheResponse.Error == ErrorCode.ERR_Success && cacheResponse.Entities.Count > 0)
-                return cacheResponse.Entities[0] as T;
+                return MongoHelper.Deserialize<T>(cacheResponse.Entities[0]);
 
             return null;
         }

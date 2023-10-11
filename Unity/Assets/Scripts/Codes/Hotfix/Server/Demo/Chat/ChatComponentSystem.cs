@@ -9,7 +9,7 @@ namespace ET.Server
     {
         public static void AddMessage(this ChatComponent self, NChatMessage nMessage)
         {
-            var chatMessage = self.AddChild<ChatMessage>();
+            ChatMessage chatMessage = self.AddChild<ChatMessage>();
             chatMessage.FromNChatMessage(nMessage);
             self.AddMessage(chatMessage);
         }
@@ -17,9 +17,9 @@ namespace ET.Server
         public static void AddMessage(this ChatComponent self, ChatMessage chatMessage)
         {
             if (chatMessage.Parent != self)
+            {
                 self.AddChild(chatMessage);
-
-            
+            }
 
             self.AllMessages[chatMessage.Channel].Enqueue(chatMessage);
             self.AllMessages[ChatChannel.All].Enqueue(chatMessage);
@@ -32,11 +32,14 @@ namespace ET.Server
             protected override void Awake(ChatComponent self)
             {
                 self.AllMessages = new();
-                foreach (var e in Enum.GetValues(typeof (ChatChannel)))
+                foreach (object e in Enum.GetValues(typeof (ChatChannel)))
                 {
-                    var channel = (ChatChannel)e;
+                    ChatChannel channel = (ChatChannel)e;
                     if (channel == ChatChannel.System)
+                    {
                         continue;
+                    }
+
                     self.AllMessages[(ChatChannel)e] = new(100);
                 }
             }

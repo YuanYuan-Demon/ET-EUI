@@ -5,7 +5,7 @@ namespace ET.Client
     [FriendOfAttribute(typeof (ChatMessage))]
     public static class FriendHelper
     {
-        public static async ETTask<int> SendMessage(Scene ZoneScene, long unitId, bool result)
+        public static async ETTask<int> SendAgreeFriend(Scene ZoneScene, long unitId, bool result)
         {
             IResponse response;
             try

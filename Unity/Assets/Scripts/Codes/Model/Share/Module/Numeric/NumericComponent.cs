@@ -10,12 +10,12 @@ namespace ET
     {
         public static void Update(this NumericComponent self, NumericType numericType, bool isPublicEvent)
         {
-            int final = (int)numericType / 10;
-            int bas = final * 10 + 1;
-            int add = final * 10 + 2;
-            int pct = final * 10 + 3;
-            int finalAdd = final * 10 + 4;
-            int finalPct = final * 10 + 5;
+            var final = (int)numericType / 10;
+            var bas = final * 10 + 1;
+            var add = final * 10 + 2;
+            var pct = final * 10 + 3;
+            var finalAdd = final * 10 + 4;
+            var finalPct = final * 10 + 5;
 
             // 一个数值可能会多种情况影响，比如速度,加个buff可能增加速度绝对值100，也有些buff增加10%速度，所以一个值可以由5个值进行控制其最终结果
             // final = (((base + add) * (100 + pct) / 100) + finalAdd) * (100 + finalPct) / 100;
@@ -54,11 +54,9 @@ namespace ET
 
         public static void Insert(this NumericComponent self, NumericType numericType, long value, bool isPublicEvent = true)
         {
-            long oldValue = self.GetByKey(numericType);
+            var oldValue = self.GetByKey(numericType);
             if (oldValue == value)
-            {
                 return;
-            }
 
             self.NumericDic[numericType] = value;
 
@@ -69,11 +67,9 @@ namespace ET
             }
 
             if (isPublicEvent)
-            {
                 EventSystem.Instance.Publish(self.DomainScene(),
                     new NumbericChange() { Unit = self.GetParent<Unit>(), New = value, Old = oldValue, NumericType = numericType },
                     true);
-            }
         }
 
 #endregion Set
@@ -113,7 +109,7 @@ namespace ET
     [ComponentOf(typeof (Unit))]
     public class NumericComponent: Entity, IAwake, ITransfer, IUnitCache
     {
-        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfDocuments)]
         public Dictionary<NumericType, long> NumericDic = new();
 
         public long this[NumericType numericType]

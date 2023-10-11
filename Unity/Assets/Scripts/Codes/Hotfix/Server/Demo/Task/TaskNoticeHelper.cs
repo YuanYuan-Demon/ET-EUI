@@ -1,6 +1,9 @@
-﻿namespace ET.Server
+﻿using System.Linq;
+
+namespace ET.Server
 {
     [FriendOf(typeof (TasksComponent))]
+    [FriendOfAttribute(typeof (TaskInfo))]
     public static class TaskNoticeHelper
     {
         public static void SyncTaskInfo(Unit unit, TaskInfo taskInfo)
@@ -15,7 +18,7 @@
             tc ??= unit.AddComponent<TasksComponent>();
             var m2CAllTaskInfoList = new M2C_AllTaskInfoList();
 
-            foreach (var taskInfo in tc.TaskInfos.Values)
+            foreach (var taskInfo in tc.TaskInfos.Values.Where(taskInfo => taskInfo.TaskState < TaskState.Finished))
             {
                 m2CAllTaskInfoList.NTaskInfos.Add(taskInfo.ToNTaskInfo());
             }

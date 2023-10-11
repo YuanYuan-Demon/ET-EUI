@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +10,7 @@ namespace ET.Server
     {
         protected override async ETTask Run(Scene scene, Other2UnitCache_GetUnit request, UnitCache2Other_GetUnit response)
         {
-            var unitCacheComponent = scene.GetComponent<UnitCacheComponent>();
+            UnitCacheComponent unitCacheComponent = scene.GetComponent<UnitCacheComponent>();
             var dictionary = ObjectPool.Instance.Fetch(typeof (Dictionary<string, Entity>)) as Dictionary<string, Entity>;
             try
             {
@@ -17,7 +18,7 @@ namespace ET.Server
                 if (request.ComponentNames.Count == 0)
                 {
                     dictionary.Add(typeof (Unit).FullName!, null);
-                    foreach (var type in unitCacheComponent.NeedCacheTypes)
+                    foreach (Type type in unitCacheComponent.NeedCacheTypes)
                     {
                         dictionary.Add(type.FullName!, null);
                     }
@@ -25,18 +26,20 @@ namespace ET.Server
                 //根据请求的组件列表获取缓存
                 else
                 {
-                    foreach (var name in request.ComponentNames)
+                    foreach (string name in request.ComponentNames)
                     {
                         dictionary.Add(name, null);
                     }
                 }
 
-                foreach (var typeName in dictionary.Keys.ToArray())
+                foreach (string typeName in dictionary.Keys.ToArray())
                 {
-                    var entity = await unitCacheComponent.Get(request.UnitId, typeName.ToType());
+                    Entity entity = await unitCacheComponent.Get(request.UnitId, typeName.ToType());
                     dictionary[typeName] = entity;
                     response.ComponentNames.Add(typeName);
-                    response.Entities.Add(MongoHelper.Serialize(entity));
+                    response.Entities.Add(entity is not null
+                            ? MongoHelper.Serialize(entity)
+                            : null);
                 }
             }
             finally

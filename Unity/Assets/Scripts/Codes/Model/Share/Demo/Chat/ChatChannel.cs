@@ -9,21 +9,21 @@ namespace ET
         All = short.MaxValue,
 
         [Display("本地")]
-        Local = 1,
+        Local = 1 << 0,
 
         [Display("世界")]
-        World = 2,
+        World = 1 << 1,
 
         [Display("队伍")]
-        Team = 4,
+        Team = 1 << 2,
 
         [Display("公会")]
-        Guild = 8,
+        Guild = 1 << 3,
 
         [Display("私聊")]
-        Private = 16,
+        Private = 1 << 4,
 
         [Display("系统")]
-        System = 32,
+        System = 1 << 5,
     }
 }

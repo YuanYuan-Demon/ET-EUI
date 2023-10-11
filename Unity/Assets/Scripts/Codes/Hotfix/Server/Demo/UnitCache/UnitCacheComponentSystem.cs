@@ -6,6 +6,56 @@ namespace ET.Server
     [FriendOf(typeof (UnitCacheComponent))]
     public static class UnitCacheComponentSystem
     {
+        public static async ETTask AddOrUpdate(this UnitCacheComponent self, long unitId, ListComponent<Entity> entityList)
+        {
+            //using ListComponent<Entity> newList = ListComponent<Entity>.Create();
+            foreach (var entity in entityList)
+            {
+                var type = entity.GetType();
+                if (!self.UnitCaches.TryGetValue(type, out var unitCache))
+                {
+                    unitCache = self.AddChild<UnitCache>();
+                    unitCache.ComponentType = type;
+                    self.UnitCaches[type] = unitCache;
+                }
+
+                unitCache.AddOrUpdate(entity);
+                //newList.Add(entity);
+            }
+
+            //if (newList.Level > 0)
+            //{
+            //await DBManagerComponent.Instance.GetZoneDB(self.DomainZone()).Save(unitId, newList);
+            //}
+            await DBManagerComponent.Instance.GetZoneDB(self.DomainZone()).SaveAsync(unitId, entityList);
+        }
+
+        public static void Delete(this UnitCacheComponent self, long unitId)
+        {
+            foreach (var cache in self.UnitCaches.Values)
+            {
+                cache.Delete(unitId);
+            }
+        }
+
+        public static async ETTask<Entity> Get(this UnitCacheComponent self, long unitId, Type type)
+        {
+            if (!self.UnitCaches.TryGetValue(type, out var unitCache))
+            {
+                unitCache = self.AddChild<UnitCache>();
+                unitCache.ComponentType = type;
+                self.UnitCaches[type] = unitCache;
+            }
+
+            return await unitCache.Get(unitId);
+        }
+
+        public static async ETTask<Entity> Get(this UnitCacheComponent self, long unitId, string type)
+        {
+            var entity = await self.Get(unitId, type.ToType());
+            return entity;
+        }
+
 #region 生命周期
 
         [FriendOf(typeof (UnitCache))]
@@ -45,55 +95,5 @@ namespace ET.Server
         }
 
 #endregion 生命周期
-
-        public static async ETTask AddOrUpdate(this UnitCacheComponent self, long unitId, ListComponent<Entity> entityList)
-        {
-            //using ListComponent<Entity> newList = ListComponent<Entity>.Create();
-            foreach (var entity in entityList)
-            {
-                var type = entity.GetType();
-                if (!self.UnitCaches.TryGetValue(type, out var unitCache))
-                {
-                    unitCache = self.AddChild<UnitCache>();
-                    unitCache.ComponentType = type;
-                    self.UnitCaches[type] = unitCache;
-                }
-
-                unitCache.AddOrUpdate(entity);
-                //newList.Add(entity);
-            }
-
-            //if (newList.Level > 0)
-            //{
-            //await DBManagerComponent.Instance.GetZoneDB(self.DomainZone()).Save(unitId, newList);
-            //}
-            await DBManagerComponent.Instance.GetZoneDB(self.DomainZone()).Save(unitId, entityList);
-        }
-
-        public static void Delete(this UnitCacheComponent self, long unitId)
-        {
-            foreach (var cache in self.UnitCaches.Values)
-            {
-                cache.Delete(unitId);
-            }
-        }
-
-        public static async ETTask<Entity> Get(this UnitCacheComponent self, long unitId, Type type)
-        {
-            if (!self.UnitCaches.TryGetValue(type, out var unitCache))
-            {
-                unitCache = self.AddChild<UnitCache>();
-                unitCache.ComponentType = type;
-                self.UnitCaches[type] = unitCache;
-            }
-
-            return await unitCache.Get(unitId);
-        }
-
-        public static async ETTask<Entity> Get(this UnitCacheComponent self, long unitId, string type)
-        {
-            var entity = await self.Get(unitId, type.ToType());
-            return entity;
-        }
     }
 }

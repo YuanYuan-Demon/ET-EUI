@@ -1,3 +1,5 @@
+using System;
+
 namespace ET.Client
 {
     public enum MessageBoxType
@@ -11,6 +13,8 @@ namespace ET.Client
     public class DlgMessageBox: Entity, IAwake, IUILogic
     {
         public MessageBoxData MessageBoxData;
+        public Action OnNo;
+        public Action OnYes;
         public DlgMessageBoxViewComponent View => this.GetComponent<DlgMessageBoxViewComponent>();
     }
 
